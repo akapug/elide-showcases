@@ -1,11 +1,12 @@
 const array = [];
 const characterCodeCache = [];
 
-export default function leven(first, second) {
+export default function leven(first, second, options) {
 	if (first === second) {
 		return 0;
 	}
 
+	const maxDistance = options?.maxDistance;
 	const swap = first;
 
 	// Swapping the strings if `a` is longer than `b` so we know which one is the
@@ -17,6 +18,11 @@ export default function leven(first, second) {
 
 	let firstLength = first.length;
 	let secondLength = second.length;
+
+	// Early termination: if difference in length exceeds max distance
+	if (maxDistance !== undefined && secondLength - firstLength > maxDistance) {
+		return maxDistance;
+	}
 
 	// Performing suffix trimming:
 	// We can linearly drop suffix common to both strings since they
@@ -40,7 +46,9 @@ export default function leven(first, second) {
 	secondLength -= start;
 
 	if (firstLength === 0) {
-		return secondLength;
+		return maxDistance !== undefined && secondLength > maxDistance
+			? maxDistance
+			: secondLength;
 	}
 
 	let bCharacterCode;
@@ -68,7 +76,21 @@ export default function leven(first, second) {
 				? (temporary2 > result ? result + 1 : temporary2)
 				: (temporary2 > temporary ? temporary + 1 : temporary2);
 		}
+
+		// Early termination: if all values in current row exceed maxDistance
+		if (maxDistance !== undefined) {
+			let rowMinimum = result;
+			for (index = 0; index < firstLength; index++) {
+				if (array[index] < rowMinimum) {
+					rowMinimum = array[index];
+				}
+			}
+
+			if (rowMinimum > maxDistance) {
+				return maxDistance;
+			}
+		}
 	}
 
-	return result;
+	return maxDistance !== undefined && result > maxDistance ? maxDistance : result;
 }

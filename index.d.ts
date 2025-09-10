@@ -1,5 +1,30 @@
+export interface Options {
+	/**
+	Maximum Levenshtein distance to calculate.
+
+	If the actual distance exceeds this value, the function will return the maximum distance instead of the actual distance. This can significantly improve performance when you only care about matches within a certain threshold.
+
+	@example
+	```
+	import leven from 'leven';
+
+	leven('abcdef', '123456', {maxDistance: 3});
+	//=> 3
+
+	leven('cat', 'cow', {maxDistance: 5});
+	//=> 2
+	```
+	*/
+	readonly maxDistance?: number;
+}
+
 /**
-Measure the difference between two strings.
+Measure the difference between two strings using the Levenshtein distance algorithm.
+
+@param first - First string.
+@param second - Second string.
+@param options - Options.
+@returns Distance between `first` and `second`. If `maxDistance` is provided and the actual distance exceeds it, returns `maxDistance`.
 
 @example
 ```
@@ -9,4 +34,4 @@ leven('cat', 'cow');
 //=> 2
 ```
 */
-export default function leven(first: string, second: string): number;
+export default function leven(first: string, second: string, options?: Options): number;
