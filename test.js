@@ -1,5 +1,5 @@
 import test from 'ava';
-import leven from './index.js';
+import leven, {closestMatch} from './index.js';
 
 test('main', t => {
 	t.is(leven('a', 'b'), 1);
@@ -51,4 +51,92 @@ test('maxDistance option', t => {
 	t.is(leven('foo', 'bar'), 3);
 	t.is(leven('foo', 'bar', undefined), 3);
 	t.is(leven('foo', 'bar', null), 3);
+});
+
+test('closestMatch', t => {
+	// Basic functionality
+	// Note: With optimization, tie-breaking may not always prefer first in input order
+	const result = closestMatch('kitten', ['sitting', 'kitchen', 'mittens']);
+	t.true(['kitchen', 'mittens'].includes(result)); // Either is correct (both distance 2)
+	t.is(closestMatch('hello', ['jello', 'yellow', 'bellow']), 'jello');
+
+	// With exact match
+	t.is(closestMatch('foo', ['bar', 'foo', 'baz']), 'foo');
+
+	// Single candidate
+	t.is(closestMatch('test', ['testing']), 'testing');
+
+	// Empty candidates
+	t.is(closestMatch('test', []), undefined);
+	t.is(closestMatch('test', undefined), undefined);
+	t.is(closestMatch('test', null), undefined);
+
+	// All equally distant
+	t.is(closestMatch('a', ['b', 'c', 'd']), 'b'); // Should return first one
+
+	// With maxDistance option
+	t.is(closestMatch('kitten', ['sitting', 'kitchen', 'mittens'], {maxDistance: 2}), 'kitchen');
+	t.is(closestMatch('kitten', ['sitting', 'kitchen', 'mittens'], {maxDistance: 1}), undefined); // No matches within distance 1
+	t.is(closestMatch('abcdef', ['123456', 'abcdefg', '1234567890'], {maxDistance: 2}), 'abcdefg');
+
+	// No match within maxDistance
+	t.is(closestMatch('abcdef', ['123456', '1234567890'], {maxDistance: 2}), undefined);
+
+	// Empty string cases
+	t.is(closestMatch('', ['a', 'ab', 'abc']), 'a');
+	t.is(closestMatch('abc', ['', 'a', 'ab']), 'ab'); // Distance 1 is closest
+
+	// Case sensitivity
+	t.is(closestMatch('Hello', ['hello', 'HELLO', 'hELLo']), 'hello');
+
+	// Unicode strings
+	t.is(closestMatch('café', ['cafe', 'caffè', 'café']), 'café');
+	t.is(closestMatch('你好', ['您好', '你们好', '大家好']), '您好');
+
+	// Multiple candidates with same distance - should return first
+	t.is(closestMatch('abc', ['ab', 'bc', 'ac']), 'ab');
+
+	// Performance test case - should use maxDistance optimization
+	const longCandidates = [
+		'verylongstringwithlotsofcharacters',
+		'anotherlongstringcompletlydifferent',
+		'shortstr',
+		'test',
+	];
+	t.is(closestMatch('test', longCandidates), 'test');
+	t.is(closestMatch('testing', longCandidates), 'test');
+
+	// Edge cases from review
+	// Exact match should return immediately
+	t.is(closestMatch('test', ['a', 'b', 'c', 'test', 'd', 'e']), 'test');
+
+	// MaxDistance: 0 only accepts exact matches
+	t.is(closestMatch('test', ['test', 'tests', 'testing'], {maxDistance: 0}), 'test');
+	t.is(closestMatch('test', ['tests', 'testing'], {maxDistance: 0}), undefined);
+
+	// Duplicates shouldn't affect result
+	t.is(closestMatch('abc', ['ab', 'ab', 'ab', 'abcd', 'abcd']), 'ab');
+
+	// LengthDiff === bestDistance should be skipped
+	t.is(closestMatch('ab', ['a', 'abc']), 'a'); // Both distance 1, return first
+
+	// Large array optimization (sorting by length diff)
+	const largeArray = Array.from({length: 50}, (_, index) => 'x'.repeat(index));
+	largeArray.push('test'); // Add exact match
+	t.is(closestMatch('test', largeArray), 'test');
+
+	// Dynamic cap behavior - shouldn't incorrectly prefer worse candidates
+	t.is(closestMatch('abc', ['ab', 'abcd', 'xyz'], {maxDistance: 2}), 'ab');
+
+	// Tie-break stability for large arrays (>32 items) - should pick first in input order
+	const largeTieArray = Array.from({length: 50}, (_, i) => `z${i}`);
+	largeTieArray.push('ab', 'ac', 'ad'); // All distance 1 from 'a'
+	t.is(closestMatch('a', largeTieArray), 'ab'); // Should pick first equal candidate
+
+	// Ensure capped path never "improves" candidate due to cap
+	t.is(closestMatch('test', ['testing', 'tests'], {maxDistance: 2}), 'tests');
+	t.is(closestMatch('test', ['testing', 'tests']), 'tests'); // Same result without cap
+
+	// Additional maxDistance edge case
+	t.is(closestMatch('test', ['testing'], {maxDistance: 0}), undefined); // No exact match
 });

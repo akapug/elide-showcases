@@ -19,11 +19,6 @@ export default function leven(first, second, options) {
 	let firstLength = first.length;
 	let secondLength = second.length;
 
-	// Early termination: if difference in length exceeds max distance
-	if (maxDistance !== undefined && secondLength - firstLength > maxDistance) {
-		return maxDistance;
-	}
-
 	// Performing suffix trimming:
 	// We can linearly drop suffix common to both strings since they
 	// don't increase distance at all
@@ -44,6 +39,11 @@ export default function leven(first, second, options) {
 
 	firstLength -= start;
 	secondLength -= start;
+
+	// Early termination after trimming: if difference in length exceeds max distance
+	if (maxDistance !== undefined && secondLength - firstLength > maxDistance) {
+		return maxDistance;
+	}
 
 	if (firstLength === 0) {
 		return maxDistance !== undefined && secondLength > maxDistance
@@ -92,5 +92,84 @@ export default function leven(first, second, options) {
 		}
 	}
 
+	// Bound arrays to avoid retaining large previous sizes
+	array.length = firstLength;
+	characterCodeCache.length = firstLength;
+
 	return maxDistance !== undefined && result > maxDistance ? maxDistance : result;
+}
+
+export function closestMatch(target, candidates, options) {
+	if (!Array.isArray(candidates) || candidates.length === 0) {
+		return undefined;
+	}
+
+	const userMax = options?.maxDistance;
+	const targetLength = target.length;
+
+	// Exact match fast-path
+	for (const candidate of candidates) {
+		if (candidate === target) {
+			return candidate;
+		}
+	}
+
+	if (userMax === 0) {
+		return undefined;
+	}
+
+	let best;
+	let bestDist = Number.POSITIVE_INFINITY;
+	const seen = new Set();
+
+	for (const candidate of candidates) {
+		if (seen.has(candidate)) {
+			continue;
+		}
+
+		seen.add(candidate);
+
+		const lengthDiff = Math.abs(candidate.length - targetLength);
+		if (lengthDiff >= bestDist) {
+			continue;
+		}
+
+		if (userMax !== undefined && lengthDiff > userMax) {
+			continue;
+		}
+
+		const cap = Number.isFinite(bestDist)
+			? (userMax === undefined ? bestDist : Math.min(bestDist, userMax))
+			: userMax;
+
+		const distance = cap === undefined
+			? leven(target, candidate)
+			: leven(target, candidate, {maxDistance: cap});
+
+		// Skip candidates that exceed the user's maximum distance
+		if (userMax !== undefined && distance > userMax) {
+			continue;
+		}
+
+		// If we got a capped result that equals the cap, we need the actual distance
+		// for accurate comparison, but only if the cap was due to userMax
+		let actualD = distance;
+		if (cap !== undefined && distance === cap && cap === userMax) {
+			actualD = leven(target, candidate);
+		}
+
+		if (actualD < bestDist) {
+			bestDist = actualD;
+			best = candidate;
+			if (bestDist === 0) {
+				break;
+			}
+		}
+	}
+
+	if (userMax !== undefined && bestDist > userMax) {
+		return undefined;
+	}
+
+	return best;
 }

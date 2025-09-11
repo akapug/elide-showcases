@@ -35,3 +35,24 @@ leven('cat', 'cow');
 ```
 */
 export default function leven(first: string, second: string, options?: Options): number;
+
+/**
+Find the closest matching string from an array of candidates.
+
+@param target - The string to find matches for.
+@param candidates - Array of candidate strings to search through.
+@param options - Options.
+@returns The closest matching string from candidates, or `undefined` if no candidates are provided or if no match is found within `maxDistance`.
+
+@example
+```
+import {closestMatch} from 'leven';
+
+closestMatch('kitten', ['sitting', 'kitchen', 'mittens']);
+//=> 'kitchen'
+
+closestMatch('hello', ['jello', 'yellow', 'bellow'], {maxDistance: 2});
+//=> 'jello'
+```
+*/
+export function closestMatch(target: string, candidates: readonly string[], options?: Options): string | undefined;
