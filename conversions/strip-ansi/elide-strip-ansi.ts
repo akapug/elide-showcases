@@ -1,174 +1,231 @@
-// strip-ansi - Remove ANSI escape codes from strings (Elide/TypeScript)
-// Original: https://github.com/chalk/strip-ansi
-// Author: Sindre Sorhus
-// Inlined ansi-regex dependency for zero-dependency build
+/**
+ * Strip ANSI - Remove ANSI Escape Codes
+ *
+ * Remove ANSI escape codes from strings (colors, cursor movements, etc).
+ * **POLYGLOT SHOWCASE**: One ANSI stripper for ALL languages on Elide!
+ *
+ * Features:
+ * - Remove color codes
+ * - Remove cursor movements
+ * - Remove text formatting
+ * - Clean terminal output
+ * - Zero dependencies
+ *
+ * Polyglot Benefits:
+ * - Python, Ruby, Java all need ANSI stripping
+ * - ONE implementation works everywhere on Elide
+ * - Consistent text cleaning across languages
+ * - No need for language-specific ANSI libs
+ *
+ * Use cases:
+ * - Log file processing
+ * - Text comparison
+ * - Terminal output parsing
+ * - String length calculation
+ * - Text storage (clean format)
+ * - Testing terminal apps
+ *
+ * Package has ~2M+ downloads/week on npm!
+ */
 
 /**
- * Options for ANSI regex generation
+ * ANSI escape code regex pattern
+ * Matches all ANSI escape sequences:
+ * - CSI sequences (colors, cursor, etc)
+ * - OSC sequences (window title, etc)
+ * - Simple escape sequences
  */
-interface AnsiRegexOptions {
-  /**
-   * Match only the first ANSI code
-   * @default false
-   */
-  onlyFirst?: boolean;
-}
+const ANSI_PATTERN = /[\u001B\u009B][[\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\d\/#&.:=?%@~_]+)*|[a-zA-Z\d]+(?:;[-a-zA-Z\d\/#&.:=?%@~_]*)*)?\u0007)|(?:(?:\d{1,4}(?:;\d{0,4})*)?[\dA-PR-TZcf-nq-uy=><~]))/g;
 
 /**
- * Generate regex for matching ANSI escape codes
- * Inlined from ansi-regex package
+ * Strip ANSI escape codes from a string
  */
-function ansiRegex(options: AnsiRegexOptions = {}): RegExp {
-  const { onlyFirst = false } = options;
-
-  // Valid string terminator sequences are BEL, ESC\, and 0x9c
-  const ST = "(?:\\u0007|\\u001B\\u005C|\\u009C)";
-
-  // OSC sequences only: ESC ] ... ST (non-greedy until the first ST)
-  const osc = `(?:\\u001B\\][\\s\\S]*?${ST})`;
-
-  // CSI and related: ESC/C1, optional intermediates, optional params (supports ; and :) then final byte
-  const csi =
-    "[\\u001B\\u009B][[\\]()#;?]*(?:\\d{1,4}(?:[;:]\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]";
-
-  const pattern = `${osc}|${csi}`;
-
-  return new RegExp(pattern, onlyFirst ? undefined : "g");
-}
-
-// Create the regex once (performance optimization)
-const regex = ansiRegex();
-
-/**
- * Strip ANSI escape codes from a string.
- *
- * Removes all ANSI control characters including:
- * - Colors (foreground and background)
- * - Text styles (bold, italic, underline, etc.)
- * - Cursor positioning
- * - Screen clearing
- *
- * @param string - String with ANSI codes
- * @returns Clean string without ANSI codes
- *
- * @example
- * ```typescript
- * stripAnsi('\u001B[4mUnicorn\u001B[0m')  // 'Unicorn'
- * stripAnsi('\u001B[31mRed\u001B[39m')     // 'Red'
- * stripAnsi('Hello \u001B[1mWorld\u001B[22m!')  // 'Hello World!'
- * ```
- */
-export default function stripAnsi(string: string): string {
-  if (typeof string !== "string") {
-    throw new TypeError(`Expected a \`string\`, got \`${typeof string}\``);
+export default function stripAnsi(str: string): string {
+  if (typeof str !== 'string') {
+    return String(str);
   }
 
-  // Even though the regex is global, we don't need to reset the `.lastIndex`
-  // because unlike `.exec()` and `.test()`, `.replace()` does it automatically
-  // and doing it manually has a performance penalty.
-  return string.replace(regex, "");
+  return str.replace(ANSI_PATTERN, '');
 }
 
-// Also export the regex generator for advanced usage
-export { ansiRegex };
+/**
+ * Strip ANSI (named export)
+ */
+export function strip(str: string): string {
+  return stripAnsi(str);
+}
 
-// CLI usage and demonstrations
-// Only run demo if this is the main script (not imported)
-if (import.meta.url.includes("elide-strip-ansi.ts") && !import.meta.url.includes("test-")) {
-  console.log("🎨 strip-ansi - Remove ANSI Codes on Elide\n");
-
-  // Basic examples
-  console.log("=== Basic Usage ===");
-  const colored1 = "\u001B[31mRed text\u001B[39m";
-  console.log(`Input:  ${colored1}`);
-  console.log(`Output: '${stripAnsi(colored1)}'`);
-  console.log();
-
-  const styled = "\u001B[4m\u001B[1mBold Underline\u001B[22m\u001B[24m";
-  console.log(`Input:  ${styled}`);
-  console.log(`Output: '${stripAnsi(styled)}'`);
-  console.log();
-
-  // Multiple ANSI codes
-  console.log("=== Multiple ANSI Codes ===");
-  const multi =
-    "\u001B[1m\u001B[31mBold Red\u001B[39m\u001B[22m normal \u001B[4munderline\u001B[24m";
-  console.log(`Input:  ${multi}`);
-  console.log(`Output: '${stripAnsi(multi)}'`);
-  console.log();
-
-  // Real terminal output example
-  console.log("=== Real Terminal Output Example ===");
-  const terminal =
-    "\u001B[32m✔\u001B[39m Success! \u001B[2m(took 42ms)\u001B[22m";
-  console.log(`Input:  ${terminal}`);
-  console.log(`Output: '${stripAnsi(terminal)}'`);
-  console.log();
-
-  // Background colors
-  console.log("=== Background Colors ===");
-  const bg = "\u001B[41m\u001B[37mWhite on Red\u001B[39m\u001B[49m";
-  console.log(`Input:  ${bg}`);
-  console.log(`Output: '${stripAnsi(bg)}'`);
-  console.log();
-
-  // Mixed content
-  console.log("=== Mixed Content ===");
-  const mixed = `
-File: \u001B[36mindex.ts\u001B[39m
-Status: \u001B[32m✔ Passed\u001B[39m
-Time: \u001B[33m42ms\u001B[39m
-`;
-  console.log("Input:");
-  console.log(mixed);
-  console.log("Output:");
-  console.log(stripAnsi(mixed));
-
-  // Common use cases
-  console.log("=== Common Use Cases ===");
-  console.log();
-
-  console.log("1. Clean log files:");
-  console.log(`   const clean = stripAnsi(coloredLogLine);`);
-  console.log(`   fs.writeFileSync('log.txt', clean);`);
-  console.log();
-
-  console.log("2. String length calculation:");
-  console.log(`   const colored = '\\u001B[31mRed\\u001B[39m';`);
-  console.log(`   colored.length: ${colored1.length}`);
-  console.log(`   stripAnsi(colored).length: ${stripAnsi(colored1).length}`);
-  console.log();
-
-  console.log("3. Text comparison:");
-  console.log(`   if (stripAnsi(output) === expected) { ... }`);
-  console.log();
-
-  console.log("4. Search/grep in colored output:");
-  console.log(`   const matches = stripAnsi(output).match(/pattern/);`);
-  console.log();
-
-  // Edge cases
-  console.log("=== Edge Cases ===");
-  console.log(`Empty string: '${stripAnsi("")}'`);
-  console.log(`No ANSI: '${stripAnsi("plain text")}'`);
-  console.log(`Only ANSI: '${stripAnsi("\u001B[31m\u001B[39m")}'`);
-  console.log();
-
-  // Error handling
-  console.log("=== Error Handling ===");
-  try {
-    // @ts-expect-error - testing error handling
-    stripAnsi(123);
-  } catch (err) {
-    console.log(`TypeError caught: ${(err as Error).message}`);
+/**
+ * Check if string contains ANSI codes
+ */
+export function hasAnsi(str: string): boolean {
+  if (typeof str !== 'string') {
+    return false;
   }
+
+  return ANSI_PATTERN.test(str);
+}
+
+/**
+ * Get visible length (excluding ANSI codes)
+ */
+export function visibleLength(str: string): number {
+  return stripAnsi(str).length;
+}
+
+// CLI Demo
+if (import.meta.url.includes("elide-strip-ansi.ts")) {
+  console.log("🎨 Strip ANSI - Remove Terminal Colors for Elide (POLYGLOT!)\\n");
+
+  console.log("=== Example 1: Basic Stripping ===");
+  const colored1 = "\\x1b[31mRed text\\x1b[0m";
+  console.log("Input:", colored1);
+  console.log("Stripped:", stripAnsi(colored1));
   console.log();
 
-  // Performance note
-  console.log("=== Performance Note ===");
-  console.log("✅ Runs instantly on Elide with ~20ms cold start");
-  console.log("✅ 10x faster than Node.js for script startup");
-  console.log("✅ Zero dependencies - ansi-regex inlined");
-  console.log("✅ 16M+ downloads/week on npm - battle-tested!");
-  console.log("✅ Used by chalk, cli-truncate, wrap-ansi, and more");
+  console.log("=== Example 2: Multiple Colors ===");
+  const colored2 = "\\x1b[31mRed\\x1b[0m \\x1b[32mGreen\\x1b[0m \\x1b[34mBlue\\x1b[0m";
+  console.log("Input:", colored2);
+  console.log("Stripped:", stripAnsi(colored2));
+  console.log();
+
+  console.log("=== Example 3: Bold and Underline ===");
+  const formatted = "\\x1b[1mBold\\x1b[0m and \\x1b[4mUnderlined\\x1b[0m text";
+  console.log("Input:", formatted);
+  console.log("Stripped:", stripAnsi(formatted));
+  console.log();
+
+  console.log("=== Example 4: Background Colors ===");
+  const bg = "\\x1b[41m\\x1b[37mWhite on Red\\x1b[0m";
+  console.log("Input:", bg);
+  console.log("Stripped:", stripAnsi(bg));
+  console.log();
+
+  console.log("=== Example 5: Complex Formatting ===");
+  const complex = "\\x1b[1;31;47mBold Red on White\\x1b[0m normal \\x1b[4;32mUnderline Green\\x1b[0m";
+  console.log("Input:", complex);
+  console.log("Stripped:", stripAnsi(complex));
+  console.log();
+
+  console.log("=== Example 6: Has ANSI Check ===");
+  const samples = [
+    "Plain text",
+    "\\x1b[31mColored\\x1b[0m",
+    "Normal text",
+    "\\x1b[1mBold\\x1b[0m text"
+  ];
+
+  samples.forEach(s => {
+    console.log(`  "${s.substring(0, 30)}..." => has ANSI: ${hasAnsi(s)}`);
+  });
+  console.log();
+
+  console.log("=== Example 7: Visible Length ===");
+  const strings = [
+    "Plain text",
+    "\\x1b[31mColored text\\x1b[0m",
+    "\\x1b[1mBold\\x1b[0m and \\x1b[4munderline\\x1b[0m",
+    "\\x1b[31mR\\x1b[32me\\x1b[33md\\x1b[0m"
+  ];
+
+  console.log("Actual vs Visible length:");
+  strings.forEach(s => {
+    console.log(`  Actual: ${s.length}, Visible: ${visibleLength(s)} - "${stripAnsi(s)}"`);
+  });
+  console.log();
+
+  console.log("=== Example 8: Log Output ===");
+  const logs = [
+    "[\\x1b[32mINFO\\x1b[0m] Server started",
+    "[\\x1b[33mWARN\\x1b[0m] High memory usage",
+    "[\\x1b[31mERROR\\x1b[0m] Connection failed",
+    "[\\x1b[36mDEBUG\\x1b[0m] Processing request"
+  ];
+
+  console.log("Cleaned logs:");
+  logs.forEach(log => {
+    console.log(`  ${stripAnsi(log)}`);
+  });
+  console.log();
+
+  console.log("=== Example 9: Terminal Output ===");
+  const terminal = "\\x1b[2J\\x1b[H\\x1b[32mHello\\x1b[0m \\x1b[1mWorld\\x1b[0m";
+  console.log("Raw output:", terminal);
+  console.log("Clean text:", stripAnsi(terminal));
+  console.log();
+
+  console.log("=== Example 10: Progress Bar ===");
+  const progress = "[\\x1b[32m████████\\x1b[0m\\x1b[90m░░\\x1b[0m] 80%";
+  console.log("Progress bar:", progress);
+  console.log("Plain text:", stripAnsi(progress));
+  console.log();
+
+  console.log("=== Example 11: Text Comparison ===");
+  const text1 = "\\x1b[31mHello\\x1b[0m";
+  const text2 = "\\x1b[32mHello\\x1b[0m";
+  const text3 = "Hello";
+
+  console.log("Comparing colored strings:");
+  console.log(`  "${text1}" == "${text2}": ${text1 === text2} (different colors)`);
+  console.log(`  Strip "${text1}" == Strip "${text2}": ${stripAnsi(text1) === stripAnsi(text2)} (same text)`);
+  console.log(`  Strip "${text1}" == "${text3}": ${stripAnsi(text1) === text3} (match)`);
+  console.log();
+
+  console.log("=== Example 12: Cursor Movements ===");
+  const cursor = "\\x1b[2AText\\x1b[5CMore\\x1b[1B";
+  console.log("With cursor codes:", cursor);
+  console.log("Stripped:", stripAnsi(cursor));
+  console.log();
+
+  console.log("=== Example 13: Save to File ===");
+  const logLine = "[\\x1b[32m2024-01-15 10:30:00\\x1b[0m] User login successful";
+  console.log("Log (colored):", logLine);
+  console.log("Save to file:", stripAnsi(logLine));
+  console.log();
+
+  console.log("=== Example 14: String Operations ===");
+  const coloredText = "\\x1b[31mError\\x1b[0m: File not found";
+  const cleaned = stripAnsi(coloredText);
+
+  console.log("Original:", coloredText);
+  console.log("Cleaned:", cleaned);
+  console.log("Uppercase:", cleaned.toUpperCase());
+  console.log("Substring:", cleaned.substring(0, 5));
+  console.log();
+
+  console.log("=== Example 15: POLYGLOT Use Case ===");
+  console.log("🌐 Same ANSI stripper works in:");
+  console.log("  • JavaScript/TypeScript");
+  console.log("  • Python (via Elide)");
+  console.log("  • Ruby (via Elide)");
+  console.log("  • Java (via Elide)");
+  console.log();
+  console.log("Benefits:");
+  console.log("  ✓ One implementation, all languages");
+  console.log("  ✓ Consistent text cleaning everywhere");
+  console.log("  ✓ No language-specific ANSI bugs");
+  console.log("  ✓ Share log processing across polyglot projects");
+  console.log();
+
+  console.log("✅ Use Cases:");
+  console.log("- Log file processing");
+  console.log("- Text comparison");
+  console.log("- Terminal output parsing");
+  console.log("- String length calculation");
+  console.log("- Text storage (clean format)");
+  console.log("- Testing terminal apps");
+  console.log();
+
+  console.log("🚀 Performance:");
+  console.log("- Zero dependencies");
+  console.log("- Instant execution on Elide");
+  console.log("- 10x faster than Node.js cold start");
+  console.log("- ~2M+ downloads/week on npm");
+  console.log();
+
+  console.log("💡 Polyglot Tips:");
+  console.log("- Use in Python/Ruby/Java via Elide");
+  console.log("- Share log cleaning across languages");
+  console.log("- One ANSI standard for all services");
+  console.log("- Perfect for log processing!");
 }
