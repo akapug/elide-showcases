@@ -1,360 +1,361 @@
-// MS (Milliseconds) - Converted to Elide/TypeScript
-// Original: https://github.com/vercel/ms
-// Author: Vercel
-// Zero dependencies - pure TypeScript!
+/**
+ * MS - Milliseconds Converter
+ *
+ * Convert between time durations and human-readable strings.
+ * **POLYGLOT SHOWCASE**: One ms converter for ALL languages on Elide!
+ *
+ * Features:
+ * - Parse time strings to milliseconds ("2h" -> 7200000)
+ * - Format milliseconds to strings (7200000 -> "2h")
+ * - Support multiple time units (years, days, hours, minutes, seconds, ms)
+ * - Long and short format output
+ * - Zero dependencies
+ *
+ * Polyglot Benefits:
+ * - Python, Ruby, Java all need time duration parsing
+ * - ONE implementation works everywhere on Elide
+ * - Consistent time handling across languages
+ * - No need for language-specific time libs
+ *
+ * Use cases:
+ * - Configuration timeouts
+ * - API rate limiting
+ * - Cache expiration
+ * - Scheduling delays
+ * - Log timestamps
+ * - Performance metrics
+ *
+ * Package has ~40M+ downloads/week on npm!
+ */
 
-const s = 1000;
-const m = s * 60;
-const h = m * 60;
-const d = h * 24;
-const w = d * 7;
-const y = d * 365.25;
-const mo = y / 12;
+const SECOND = 1000;
+const MINUTE = SECOND * 60;
+const HOUR = MINUTE * 60;
+const DAY = HOUR * 24;
+const WEEK = DAY * 7;
+const YEAR = DAY * 365.25;
 
-type Years = "years" | "year" | "yrs" | "yr" | "y";
-type Months = "months" | "month" | "mo";
-type Weeks = "weeks" | "week" | "w";
-type Days = "days" | "day" | "d";
-type Hours = "hours" | "hour" | "hrs" | "hr" | "h";
-type Minutes = "minutes" | "minute" | "mins" | "min" | "m";
-type Seconds = "seconds" | "second" | "secs" | "sec" | "s";
-type Milliseconds =
-  | "milliseconds"
-  | "millisecond"
-  | "msecs"
-  | "msec"
-  | "ms";
-type Unit =
-  | Years
-  | Months
-  | Weeks
-  | Days
-  | Hours
-  | Minutes
-  | Seconds
-  | Milliseconds;
-
-type UnitAnyCase = Capitalize<Unit> | Uppercase<Unit> | Unit;
-
-export type StringValue =
-  | `${number}`
-  | `${number}${UnitAnyCase}`
-  | `${number} ${UnitAnyCase}`;
-
-interface Options {
-  /**
-   * Set to `true` to use verbose formatting. Defaults to `false`.
-   */
+interface MSOptions {
   long?: boolean;
 }
 
 /**
- * Parse or format the given value.
- *
- * @param value - The string or number to convert
- * @param options - Options for the conversion
- * @throws Error if `value` is not a non-empty string or a number
- *
- * @example
- * ```typescript
- * ms('2h')          // 7200000
- * ms('1d')          // 86400000
- * ms(86400000)      // '1d'
- * ms(60000, { long: true })  // '1 minute'
- * ```
+ * Parse a time string to milliseconds
  */
-export function ms(value: StringValue, options?: Options): number;
-export function ms(value: number, options?: Options): string;
-export function ms(
-  value: StringValue | number,
-  options?: Options
-): number | string {
-  if (typeof value === "string") {
-    return parse(value);
-  } else if (typeof value === "number") {
-    return format(value, options);
-  }
-  throw new Error(
-    `Value provided to ms() must be a string or number. value=${JSON.stringify(value)}`
-  );
-}
-
-/**
- * Parse the given string and return milliseconds.
- *
- * @param str - A string to parse to milliseconds
- * @returns The parsed value in milliseconds, or `NaN` if the string can't be parsed
- *
- * @example
- * ```typescript
- * parse('2h')      // 7200000
- * parse('1d')      // 86400000
- * parse('10s')     // 10000
- * parse('2.5h')    // 9000000
- * parse('invalid') // NaN
- * ```
- */
-export function parse(str: string): number {
-  if (typeof str !== "string" || str.length === 0 || str.length > 100) {
-    throw new Error(
-      `Value provided to ms.parse() must be a string with length between 1 and 99. value=${JSON.stringify(str)}`
-    );
-  }
-  const match =
-    /^(?<value>-?\d*\.?\d+) *(?<unit>milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|months?|mo|years?|yrs?|y)?$/i.exec(
-      str
-    );
-
-  if (!match?.groups) {
-    return NaN;
+function parse(str: string): number | null {
+  if (typeof str !== 'string' || str.length === 0 || str.length > 100) {
+    return null;
   }
 
-  const { value, unit = "ms" } = match.groups as {
-    value: string;
-    unit: string | undefined;
-  };
+  const match = /^(-?(?:\d+)?\.?\d+)\s*(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(str);
 
-  const n = parseFloat(value);
-  const matchUnit = unit.toLowerCase() as Lowercase<Unit>;
+  if (!match) {
+    return null;
+  }
 
-  switch (matchUnit) {
-    case "years":
-    case "year":
-    case "yrs":
-    case "yr":
-    case "y":
-      return n * y;
-    case "months":
-    case "month":
-    case "mo":
-      return n * mo;
-    case "weeks":
-    case "week":
-    case "w":
-      return n * w;
-    case "days":
-    case "day":
-    case "d":
-      return n * d;
-    case "hours":
-    case "hour":
-    case "hrs":
-    case "hr":
-    case "h":
-      return n * h;
-    case "minutes":
-    case "minute":
-    case "mins":
-    case "min":
-    case "m":
-      return n * m;
-    case "seconds":
-    case "second":
-    case "secs":
-    case "sec":
-    case "s":
-      return n * s;
-    case "milliseconds":
-    case "millisecond":
-    case "msecs":
-    case "msec":
-    case "ms":
+  const n = parseFloat(match[1]);
+  const type = (match[2] || 'ms').toLowerCase();
+
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * YEAR;
+    case 'weeks':
+    case 'week':
+    case 'w':
+      return n * WEEK;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * DAY;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * HOUR;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * MINUTE;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * SECOND;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
       return n;
     default:
-      matchUnit satisfies never;
-      throw new Error(
-        `Unknown unit "${matchUnit}" provided to ms.parse(). value=${JSON.stringify(str)}`
-      );
+      return null;
   }
 }
 
 /**
- * Parse the given StringValue and return milliseconds.
- *
- * @param value - A typesafe StringValue to parse to milliseconds
- * @returns The parsed value in milliseconds, or `NaN` if the string can't be parsed
+ * Format milliseconds to a string
  */
-export function parseStrict(value: StringValue): number {
-  return parse(value);
+function format(ms: number, options: MSOptions = {}): string {
+  const { long = false } = options;
+
+  const absMs = Math.abs(ms);
+
+  if (absMs >= DAY) {
+    return plural(ms, absMs, DAY, 'day', long);
+  }
+  if (absMs >= HOUR) {
+    return plural(ms, absMs, HOUR, 'hour', long);
+  }
+  if (absMs >= MINUTE) {
+    return plural(ms, absMs, MINUTE, 'minute', long);
+  }
+  if (absMs >= SECOND) {
+    return plural(ms, absMs, SECOND, 'second', long);
+  }
+
+  return `${ms}${long ? ' ms' : 'ms'}`;
 }
 
 /**
- * Short format for `ms`.
+ * Pluralize a time unit
  */
-function fmtShort(ms: number): StringValue {
-  const msAbs = Math.abs(ms);
-  if (msAbs >= y) {
-    return `${Math.round(ms / y)}y`;
+function plural(ms: number, absMs: number, n: number, name: string, long: boolean): string {
+  const isPlural = absMs >= n * 1.5;
+
+  if (long) {
+    return `${Math.round(ms / n)} ${name}${isPlural ? 's' : ''}`;
   }
-  if (msAbs >= mo) {
-    return `${Math.round(ms / mo)}mo`;
-  }
-  if (msAbs >= w) {
-    return `${Math.round(ms / w)}w`;
-  }
-  if (msAbs >= d) {
-    return `${Math.round(ms / d)}d`;
-  }
-  if (msAbs >= h) {
-    return `${Math.round(ms / h)}h`;
-  }
-  if (msAbs >= m) {
-    return `${Math.round(ms / m)}m`;
-  }
-  if (msAbs >= s) {
-    return `${Math.round(ms / s)}s`;
-  }
-  return `${ms}ms`;
+
+  return `${Math.round(ms / n)}${name[0]}`;
 }
 
 /**
- * Long format for `ms`.
+ * Convert time string to milliseconds (main export)
  */
-function fmtLong(ms: number): StringValue {
-  const msAbs = Math.abs(ms);
-  if (msAbs >= y) {
-    return plural(ms, msAbs, y, "year");
+export default function ms(value: string | number, options?: MSOptions): number | string | null {
+  if (typeof value === 'string') {
+    return parse(value);
   }
-  if (msAbs >= mo) {
-    return plural(ms, msAbs, mo, "month");
+
+  if (typeof value === 'number' && isFinite(value)) {
+    return format(value, options);
   }
-  if (msAbs >= w) {
-    return plural(ms, msAbs, w, "week");
-  }
-  if (msAbs >= d) {
-    return plural(ms, msAbs, d, "day");
-  }
-  if (msAbs >= h) {
-    return plural(ms, msAbs, h, "hour");
-  }
-  if (msAbs >= m) {
-    return plural(ms, msAbs, m, "minute");
-  }
-  if (msAbs >= s) {
-    return plural(ms, msAbs, s, "second");
-  }
-  return `${ms} ms`;
+
+  return null;
 }
 
-/**
- * Format the given integer as a string.
- *
- * @param ms - milliseconds
- * @param options - Options for the conversion
- * @returns The formatted string
- *
- * @example
- * ```typescript
- * format(60000)                    // '1m'
- * format(60000, { long: true })   // '1 minute'
- * format(86400000)                 // '1d'
- * format(3600000, { long: true })  // '1 hour'
- * ```
- */
-export function format(ms: number, options?: Options): string {
-  if (typeof ms !== "number" || !Number.isFinite(ms)) {
-    throw new Error("Value provided to ms.format() must be of type number.");
-  }
-
-  return options?.long ? fmtLong(ms) : fmtShort(ms);
-}
-
-/**
- * Pluralization helper.
- */
-function plural(
-  ms: number,
-  msAbs: number,
-  n: number,
-  name: string
-): StringValue {
-  const isPlural = msAbs >= n * 1.5;
-  return `${Math.round(ms / n)} ${name}${isPlural ? "s" : ""}` as StringValue;
-}
-
-// CLI usage and demonstrations
+// CLI Demo
 if (import.meta.url.includes("elide-ms.ts")) {
-  console.log("⏱️  MS - Millisecond Converter on Elide\n");
+  console.log("⏱️  MS - Milliseconds Converter for Elide (POLYGLOT!)\\n");
 
-  // Parsing examples
-  console.log("=== Parsing Time Strings ===");
-  console.log(`ms('2h')        = ${ms("2h")} ms`);
-  console.log(`ms('1d')        = ${ms("1d")} ms`);
-  console.log(`ms('10s')       = ${ms("10s")} ms`);
-  console.log(`ms('2.5h')      = ${ms("2.5h")} ms`);
-  console.log(`ms('1w')        = ${ms("1w")} ms`);
-  console.log(`ms('1y')        = ${ms("1y")} ms`);
-  console.log(`ms('100ms')     = ${ms("100ms")} ms`);
+  console.log("=== Example 1: Parse Time Strings ===");
+  const parseExamples = [
+    '2 days',
+    '1d',
+    '10h',
+    '2.5 hrs',
+    '2h',
+    '1m',
+    '5s',
+    '1y',
+    '100ms'
+  ];
+
+  parseExamples.forEach(str => {
+    console.log(`  "${str}" => ${ms(str)}ms`);
+  });
   console.log();
 
-  // Formatting examples
-  console.log("=== Formatting Milliseconds (Short) ===");
-  console.log(`ms(60000)       = '${ms(60000)}'`);
-  console.log(`ms(7200000)     = '${ms(7200000)}'`);
-  console.log(`ms(86400000)    = '${ms(86400000)}'`);
-  console.log(`ms(604800000)   = '${ms(604800000)}'`);
-  console.log(`ms(31557600000) = '${ms(31557600000)}'`);
+  console.log("=== Example 2: Format Milliseconds (Short) ===");
+  const formatExamples = [
+    60000,
+    2 * 60000,
+    5 * 60000,
+    10 * 60000,
+    60 * 60000,
+    2 * 60 * 60000,
+    24 * 60 * 60000,
+    2 * 24 * 60 * 60000,
+    7 * 24 * 60 * 60000
+  ];
+
+  formatExamples.forEach(n => {
+    console.log(`  ${n}ms => "${ms(n)}"`);
+  });
   console.log();
 
-  // Long format
-  console.log("=== Formatting Milliseconds (Long) ===");
-  console.log(`ms(60000, { long: true })       = '${ms(60000, { long: true })}'`);
-  console.log(
-    `ms(7200000, { long: true })     = '${ms(7200000, { long: true })}'`
-  );
-  console.log(
-    `ms(86400000, { long: true })    = '${ms(86400000, { long: true })}'`
-  );
-  console.log(
-    `ms(604800000, { long: true })   = '${ms(604800000, { long: true })}'`
-  );
-  console.log(
-    `ms(31557600000, { long: true }) = '${ms(31557600000, { long: true })}'`
-  );
+  console.log("=== Example 3: Format Milliseconds (Long) ===");
+  formatExamples.forEach(n => {
+    console.log(`  ${n}ms => "${ms(n, { long: true })}"`);
+  });
   console.log();
 
-  // All supported units
-  console.log("=== All Supported Units ===");
-  console.log("Milliseconds: ms, msec, msecs, millisecond, milliseconds");
-  console.log("Seconds:      s, sec, secs, second, seconds");
-  console.log("Minutes:      m, min, mins, minute, minutes");
-  console.log("Hours:        h, hr, hrs, hour, hours");
-  console.log("Days:         d, day, days");
-  console.log("Weeks:        w, week, weeks");
-  console.log("Months:       mo, month, months");
-  console.log("Years:        y, yr, yrs, year, years");
+  console.log("=== Example 4: Common Durations ===");
+  const durations = {
+    '1 second': '1s',
+    '1 minute': '1m',
+    '1 hour': '1h',
+    '1 day': '1d',
+    '1 week': '1w',
+    '1 year': '1y'
+  };
+
+  Object.entries(durations).forEach(([name, str]) => {
+    const msValue = ms(str);
+    console.log(`  ${name}: ${str} = ${msValue}ms`);
+  });
   console.log();
 
-  // Real-world examples
-  console.log("=== Real-World Use Cases ===");
+  console.log("=== Example 5: Timeout Configuration ===");
+  const timeouts = {
+    'API timeout': '30s',
+    'Cache TTL': '5m',
+    'Session expiry': '1h',
+    'Token lifetime': '24h',
+    'Retry backoff': '500ms'
+  };
+
+  console.log("Timeout configs:");
+  Object.entries(timeouts).forEach(([name, duration]) => {
+    console.log(`  ${name}: ${duration} = ${ms(duration)}ms`);
+  });
   console.log();
 
-  console.log("1. Timeouts:");
-  console.log(`   setTimeout(fn, ms('5s'))  // 5000ms`);
+  console.log("=== Example 6: Rate Limiting ===");
+  const rateLimits = [
+    { requests: 100, per: '1m' },
+    { requests: 1000, per: '1h' },
+    { requests: 10000, per: '1d' }
+  ];
+
+  console.log("Rate limits:");
+  rateLimits.forEach(limit => {
+    const window = ms(limit.per);
+    console.log(`  ${limit.requests} requests per ${limit.per} (${window}ms window)`);
+  });
   console.log();
 
-  console.log("2. Cache TTL:");
-  console.log(`   cache.set(key, value, ms('1h'))  // 3600000ms`);
+  console.log("=== Example 7: Cache Expiration ===");
+  const cacheConfig = {
+    'user-profile': '15m',
+    'api-response': '5m',
+    'static-assets': '1d',
+    'session-data': '30m'
+  };
+
+  console.log("Cache TTLs:");
+  Object.entries(cacheConfig).forEach(([key, ttl]) => {
+    console.log(`  ${key}: ${ttl} (${ms(ttl)}ms)`);
+  });
   console.log();
 
-  console.log("3. Rate Limiting:");
-  console.log(`   if (now - lastRequest < ms('1m')) { ... }`);
+  console.log("=== Example 8: Scheduling Delays ===");
+  const schedules = [
+    { task: 'Poll API', interval: '30s' },
+    { task: 'Cleanup logs', interval: '1h' },
+    { task: 'Backup database', interval: '24h' },
+    { task: 'Health check', interval: '10s' }
+  ];
+
+  console.log("Scheduled tasks:");
+  schedules.forEach(sched => {
+    console.log(`  ${sched.task}: every ${sched.interval} (${ms(sched.interval)}ms)`);
+  });
   console.log();
 
-  console.log("4. Logging:");
-  console.log(`   const uptime = ms(process.uptime() * 1000);`);
-  console.log(`   console.log('Uptime:', uptime);`);
+  console.log("=== Example 9: Performance Metrics ===");
+  const metrics = [
+    125,
+    1543,
+    15234,
+    65432,
+    320000,
+    1540000
+  ];
+
+  console.log("Response times:");
+  metrics.forEach(time => {
+    console.log(`  ${time}ms => ${ms(time)} (short), ${ms(time, { long: true })} (long)`);
+  });
   console.log();
 
-  console.log("5. Human-readable durations:");
-  console.log(`   Build completed in ${ms(12345, { long: true })}`);
+  console.log("=== Example 10: Duration Arithmetic ===");
+  const duration1 = ms('1h')!;
+  const duration2 = ms('30m')!;
+  const sum = duration1 + duration2;
+  console.log(`  1h + 30m = ${ms(sum)}`);
+
+  const duration3 = ms('2d')!;
+  const duration4 = ms('12h')!;
+  const sum2 = duration3 + duration4;
+  console.log(`  2d + 12h = ${ms(sum2, { long: true })}`);
   console.log();
 
-  // Performance note
-  console.log("=== Performance Note ===");
-  console.log("✅ Runs instantly on Elide with ~20ms cold start");
-  console.log("✅ 10x faster than Node.js for script startup");
-  console.log("✅ Zero dependencies - pure TypeScript");
-  console.log("✅ Perfect for CLI tools with timeouts");
-  console.log("✅ 42M+ downloads/week on npm - battle-tested!");
+  console.log("=== Example 11: Invalid Inputs ===");
+  const invalid = ['invalid', '100', '', 'abc123'];
+  console.log("Invalid inputs:");
+  invalid.forEach(input => {
+    console.log(`  "${input}" => ${ms(input)}`);
+  });
+  console.log();
+
+  console.log("=== Example 12: Decimal Values ===");
+  const decimals = ['1.5h', '2.5d', '0.5m', '3.7s'];
+  console.log("Decimal durations:");
+  decimals.forEach(d => {
+    console.log(`  "${d}" => ${ms(d)}ms`);
+  });
+  console.log();
+
+  console.log("=== Example 13: Long Format Names ===");
+  const longFormats = ['2 hours', '5 minutes', '30 seconds', '1 day'];
+  console.log("Long format:");
+  longFormats.forEach(str => {
+    console.log(`  "${str}" => ${ms(str)}ms`);
+  });
+  console.log();
+
+  console.log("=== Example 14: POLYGLOT Use Case ===");
+  console.log("🌐 Same ms converter works in:");
+  console.log("  • JavaScript/TypeScript");
+  console.log("  • Python (via Elide)");
+  console.log("  • Ruby (via Elide)");
+  console.log("  • Java (via Elide)");
+  console.log();
+  console.log("Benefits:");
+  console.log("  ✓ One implementation, all languages");
+  console.log("  ✓ Consistent time parsing everywhere");
+  console.log("  ✓ No language-specific time bugs");
+  console.log("  ✓ Share time config across polyglot projects");
+  console.log();
+
+  console.log("✅ Use Cases:");
+  console.log("- Configuration timeouts");
+  console.log("- API rate limiting");
+  console.log("- Cache expiration");
+  console.log("- Scheduling delays");
+  console.log("- Log timestamps");
+  console.log("- Performance metrics");
+  console.log();
+
+  console.log("🚀 Performance:");
+  console.log("- Zero dependencies");
+  console.log("- Instant execution on Elide");
+  console.log("- 10x faster than Node.js cold start");
+  console.log("- ~40M+ downloads/week on npm");
+  console.log();
+
+  console.log("💡 Polyglot Tips:");
+  console.log("- Use in Python/Ruby/Java via Elide");
+  console.log("- Share timeout configs across languages");
+  console.log("- One time format for all services");
+  console.log("- Perfect for distributed systems!");
 }
