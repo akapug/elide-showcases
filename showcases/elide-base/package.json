@@ -1,0 +1,60 @@
+{
+  "name": "elidebase",
+  "version": "1.0.0",
+  "description": "Backend-in-a-File with Polyglot Logic Support",
+  "main": "main.ts",
+  "bin": {
+    "elidebase": "./main.ts"
+  },
+  "scripts": {
+    "start": "node main.ts serve",
+    "migrate": "node main.ts migrate",
+    "dev": "nodemon main.ts",
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint .",
+    "example:blog": "node examples/blog/blog-example.ts",
+    "example:todo": "node examples/todo-app/todo-example.ts",
+    "example:chat": "node examples/chat-app/chat-example.ts"
+  },
+  "keywords": [
+    "backend",
+    "database",
+    "api",
+    "realtime",
+    "sqlite",
+    "pocketbase",
+    "polyglot",
+    "python",
+    "ruby",
+    "java",
+    "ml",
+    "hooks"
+  ],
+  "author": "ElideBase Team",
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^9.0.0",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.8",
+    "@types/node": "^20.10.0",
+    "@types/ws": "^8.5.9",
+    "typescript": "^5.3.0",
+    "nodemon": "^3.0.2",
+    "eslint": "^8.55.0",
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elidebase/elidebase"
+  },
+  "bugs": {
+    "url": "https://github.com/elidebase/elidebase/issues"
+  },
+  "homepage": "https://elidebase.dev"
+}
