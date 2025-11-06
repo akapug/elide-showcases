@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - ElideShop</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand">
+        <h1>ElideShop</h1>
+        <p class="tagline">Powered by Polyglot E-commerce</p>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#" class="nav-link" data-page="home">Home</a></li>
+        <li><a href="#" class="nav-link" data-page="products">Products</a></li>
+        <li><a href="#" class="nav-link active" data-page="cart">Cart (<span id="cart-count">0</span>)</a></li>
+        <li><a href="#" class="nav-link" data-page="checkout">Checkout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Shopping Cart</h1>
+      <p>Review your items before checkout</p>
+    </div>
+  </section>
+
+  <!-- Cart Contents -->
+  <section class="cart-section">
+    <div class="container">
+      <div class="cart-layout">
+        <!-- Cart Items -->
+        <div class="cart-items">
+          <div id="cart-items-list">
+            <!-- Cart items will be loaded dynamically -->
+          </div>
+
+          <div id="empty-cart" class="empty-state" style="display: none;">
+            <div class="empty-icon">🛒</div>
+            <h2>Your cart is empty</h2>
+            <p>Add some products to your cart to get started</p>
+            <button class="btn btn-primary" data-page="products">Continue Shopping</button>
+          </div>
+        </div>
+
+        <!-- Cart Summary -->
+        <div class="cart-summary">
+          <h2>Order Summary</h2>
+
+          <div class="summary-row">
+            <span>Subtotal (<span id="summary-item-count">0</span> items)</span>
+            <span id="summary-subtotal">$0.00</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span id="summary-shipping">$0.00</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Tax (8.5%)</span>
+            <span id="summary-tax">$0.00</span>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-row summary-total">
+            <span>Total</span>
+            <span id="summary-total">$0.00</span>
+          </div>
+
+          <div class="summary-actions">
+            <button class="btn btn-primary btn-block" id="proceed-checkout" disabled>
+              Proceed to Checkout
+            </button>
+            <button class="btn btn-secondary btn-block" data-page="products">
+              Continue Shopping
+            </button>
+          </div>
+
+          <div class="summary-info">
+            <h3>💳 Payment Methods</h3>
+            <p>We accept all major credit cards via secure Stripe integration (Python service)</p>
+
+            <h3>📧 Email Notifications</h3>
+            <p>Order confirmations sent via Ruby email service</p>
+
+            <h3>📦 Free Shipping</h3>
+            <p>Free shipping on orders over $50</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cart Actions -->
+      <div class="cart-actions-bar">
+        <button class="btn btn-danger" id="clear-cart">Clear Cart</button>
+        <button class="btn btn-secondary" id="save-cart">Save for Later</button>
+        <button class="btn btn-secondary" id="update-cart">Update Cart</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recommended Products -->
+  <section class="recommended-section">
+    <div class="container">
+      <h2 class="section-title">You May Also Like</h2>
+      <div id="recommended-products" class="products-grid">
+        <!-- Recommended products will be loaded dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Add to Cart Toast -->
+  <div id="cart-toast" class="toast">
+    <span id="toast-message"></span>
+  </div>
+
+  <!-- Confirm Clear Modal -->
+  <div id="confirm-clear-modal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <h2>Clear Cart?</h2>
+      <p>Are you sure you want to remove all items from your cart? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn btn-danger" id="confirm-clear">Yes, Clear Cart</button>
+        <button class="btn btn-secondary" id="cancel-clear">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>ElideShop</h3>
+          <p>Next-generation e-commerce powered by Elide's polyglot runtime</p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#" data-page="home">Home</a></li>
+            <li><a href="#" data-page="products">Products</a></li>
+            <li><a href="#" data-page="cart">Shopping Cart</a></li>
+            <li><a href="#" data-page="checkout">Checkout</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Customer Service</h4>
+          <ul>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Secure Shopping</h4>
+          <p>
+            Your data is protected with industry-standard encryption.
+            All payments processed securely via Stripe.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 ElideShop. Part of Elide Showcases Collection.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="../app.ts"></script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevOps Tools Dashboard</title>
+  <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1>DevOps Tools Dashboard</h1>
+      <div class="header-status">
+        <span id="status-indicator" class="status-indicator">●</span>
+        <span id="status-text">Loading...</span>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+      <button class="nav-btn active" data-tab="overview">Overview</button>
+      <button class="nav-btn" data-tab="deployments">Deployments</button>
+      <button class="nav-btn" data-tab="monitoring">Monitoring</button>
+      <button class="nav-btn" data-tab="alerts">Alerts</button>
+      <button class="nav-btn" data-tab="logs">Logs</button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+      <!-- Overview Tab -->
+      <div id="overview-tab" class="tab-content active">
+        <h2>System Overview</h2>
+
+        <div class="cards">
+          <div class="card">
+            <h3>Active Deployments</h3>
+            <div class="metric-value" id="active-deployments">0</div>
+            <div class="metric-label">In Progress</div>
+          </div>
+
+          <div class="card">
+            <h3>Active Alerts</h3>
+            <div class="metric-value" id="active-alerts">0</div>
+            <div class="metric-label">Requires Attention</div>
+          </div>
+
+          <div class="card">
+            <h3>System Health</h3>
+            <div class="metric-value" id="system-health">100%</div>
+            <div class="metric-label">Overall Status</div>
+          </div>
+
+          <div class="card">
+            <h3>Log Events</h3>
+            <div class="metric-value" id="log-events">0</div>
+            <div class="metric-label">Last Hour</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Quick Stats</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label">CPU Usage:</span>
+              <span class="stat-value" id="cpu-usage">-</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Memory Usage:</span>
+              <span class="stat-value" id="memory-usage">-</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Disk Usage:</span>
+              <span class="stat-value" id="disk-usage">-</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Network I/O:</span>
+              <span class="stat-value" id="network-io">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deployments Tab -->
+      <div id="deployments-tab" class="tab-content">
+        <h2>Deployments</h2>
+
+        <div class="section">
+          <h3>Active Deployments</h3>
+          <div id="active-deployments-list" class="list">
+            <p class="empty-state">No active deployments</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Recent History</h3>
+          <div id="deployment-history-list" class="list">
+            <p class="empty-state">No deployment history</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monitoring Tab -->
+      <div id="monitoring-tab" class="tab-content">
+        <h2>System Monitoring</h2>
+
+        <div class="cards">
+          <div class="card">
+            <h3>CPU</h3>
+            <div class="metric-value" id="mon-cpu">-</div>
+            <div class="metric-label">Usage</div>
+          </div>
+
+          <div class="card">
+            <h3>Memory</h3>
+            <div class="metric-value" id="mon-memory">-</div>
+            <div class="metric-label">Usage</div>
+          </div>
+
+          <div class="card">
+            <h3>Disk</h3>
+            <div class="metric-value" id="mon-disk">-</div>
+            <div class="metric-label">Usage</div>
+          </div>
+
+          <div class="card">
+            <h3>Network</h3>
+            <div class="metric-value" id="mon-network">-</div>
+            <div class="metric-label">Throughput</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>All Metrics</h3>
+          <div id="metrics-list" class="metrics-table">
+            <p class="empty-state">Loading metrics...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alerts Tab -->
+      <div id="alerts-tab" class="tab-content">
+        <h2>Alerts</h2>
+
+        <div class="section">
+          <h3>Alert Statistics</h3>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span class="stat-label">Total:</span>
+              <span class="stat-value" id="alert-total">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Critical:</span>
+              <span class="stat-value" id="alert-critical">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Warning:</span>
+              <span class="stat-value" id="alert-warning">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Acknowledged:</span>
+              <span class="stat-value" id="alert-acknowledged">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Active Alerts</h3>
+          <div id="active-alerts-list" class="alerts-list">
+            <p class="empty-state">No active alerts</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logs Tab -->
+      <div id="logs-tab" class="tab-content">
+        <h2>Log Analysis</h2>
+
+        <div class="section">
+          <h3>Recent Logs</h3>
+          <div class="log-controls">
+            <select id="log-level-filter">
+              <option value="all">All Levels</option>
+              <option value="DEBUG">Debug</option>
+              <option value="INFO">Info</option>
+              <option value="WARN">Warning</option>
+              <option value="ERROR">Error</option>
+              <option value="FATAL">Fatal</option>
+            </select>
+            <input type="text" id="log-search" placeholder="Search logs...">
+          </div>
+          <div id="logs-list" class="logs-container">
+            <p class="empty-state">No logs available</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>DevOps Tools Suite &copy; 2024 | Last Updated: <span id="last-updated">-</span></p>
+    </footer>
+  </div>
+
+  <script src="/dashboard.js"></script>
+</body>
+</html>

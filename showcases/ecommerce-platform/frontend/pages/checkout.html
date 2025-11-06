@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - ElideShop</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand">
+        <h1>ElideShop</h1>
+        <p class="tagline">Powered by Polyglot E-commerce</p>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#" class="nav-link" data-page="home">Home</a></li>
+        <li><a href="#" class="nav-link" data-page="products">Products</a></li>
+        <li><a href="#" class="nav-link" data-page="cart">Cart (<span id="cart-count">0</span>)</a></li>
+        <li><a href="#" class="nav-link active" data-page="checkout">Checkout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Checkout</h1>
+      <p>Complete your purchase securely</p>
+    </div>
+  </section>
+
+  <!-- Checkout Steps -->
+  <section class="checkout-section">
+    <div class="container">
+      <!-- Progress Steps -->
+      <div class="checkout-progress">
+        <div class="progress-step active" data-step="1">
+          <div class="step-number">1</div>
+          <div class="step-label">Shipping</div>
+        </div>
+        <div class="progress-connector"></div>
+        <div class="progress-step" data-step="2">
+          <div class="step-number">2</div>
+          <div class="step-label">Payment</div>
+        </div>
+        <div class="progress-connector"></div>
+        <div class="progress-step" data-step="3">
+          <div class="step-number">3</div>
+          <div class="step-label">Confirmation</div>
+        </div>
+      </div>
+
+      <div class="checkout-layout">
+        <!-- Checkout Form -->
+        <div class="checkout-form">
+          <!-- Step 1: Shipping Information -->
+          <div id="step-shipping" class="checkout-step active">
+            <h2>Shipping Information</h2>
+            <form id="shipping-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="first-name">First Name *</label>
+                  <input type="text" id="first-name" class="form-input" required>
+                  <span class="form-error"></span>
+                </div>
+                <div class="form-group">
+                  <label for="last-name">Last Name *</label>
+                  <input type="text" id="last-name" class="form-input" required>
+                  <span class="form-error"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" class="form-input" required>
+                <span class="form-error"></span>
+                <small>Order confirmation will be sent to this email (Ruby service)</small>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" class="form-input" required>
+                <span class="form-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="address">Street Address *</label>
+                <input type="text" id="address" class="form-input" required>
+                <span class="form-error"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="city">City *</label>
+                  <input type="text" id="city" class="form-input" required>
+                  <span class="form-error"></span>
+                </div>
+                <div class="form-group">
+                  <label for="state">State *</label>
+                  <select id="state" class="form-input" required>
+                    <option value="">Select State</option>
+                    <option value="CA">California</option>
+                    <option value="NY">New York</option>
+                    <option value="TX">Texas</option>
+                    <option value="FL">Florida</option>
+                    <option value="IL">Illinois</option>
+                  </select>
+                  <span class="form-error"></span>
+                </div>
+                <div class="form-group">
+                  <label for="zip">ZIP Code *</label>
+                  <input type="text" id="zip" class="form-input" pattern="[0-9]{5}" required>
+                  <span class="form-error"></span>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary" data-page="cart">Back to Cart</button>
+                <button type="submit" class="btn btn-primary">Continue to Payment</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Step 2: Payment Information -->
+          <div id="step-payment" class="checkout-step">
+            <h2>Payment Information</h2>
+            <p class="service-info">💳 Processed securely by Python payment service with Stripe integration</p>
+
+            <form id="payment-form">
+              <div class="form-group">
+                <label for="card-name">Cardholder Name *</label>
+                <input type="text" id="card-name" class="form-input" required>
+                <span class="form-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="card-number">Card Number *</label>
+                <input type="text" id="card-number" class="form-input" placeholder="4242 4242 4242 4242" required>
+                <span class="form-error"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="card-expiry">Expiry Date *</label>
+                  <input type="text" id="card-expiry" class="form-input" placeholder="MM/YY" required>
+                  <span class="form-error"></span>
+                </div>
+                <div class="form-group">
+                  <label for="card-cvv">CVV *</label>
+                  <input type="text" id="card-cvv" class="form-input" placeholder="123" required>
+                  <span class="form-error"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="billing-same" checked>
+                  Billing address same as shipping
+                </label>
+              </div>
+
+              <div id="billing-address" style="display: none;">
+                <h3>Billing Address</h3>
+                <!-- Billing address fields (same as shipping) -->
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="back-to-shipping">Back to Shipping</button>
+                <button type="submit" class="btn btn-primary">Place Order</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Step 3: Order Confirmation -->
+          <div id="step-confirmation" class="checkout-step">
+            <div class="confirmation-success">
+              <div class="success-icon">✓</div>
+              <h2>Order Confirmed!</h2>
+              <p>Thank you for your purchase</p>
+
+              <div class="order-details">
+                <div class="order-number">
+                  <strong>Order Number:</strong>
+                  <span id="order-id"></span>
+                </div>
+
+                <div class="order-email">
+                  <p>
+                    📧 A confirmation email has been sent to <strong id="confirmation-email"></strong>
+                    via our Ruby email service
+                  </p>
+                </div>
+
+                <div class="order-summary-confirm">
+                  <h3>Order Summary</h3>
+                  <div id="order-items"></div>
+
+                  <div class="order-totals">
+                    <div class="total-row">
+                      <span>Subtotal:</span>
+                      <span id="confirm-subtotal"></span>
+                    </div>
+                    <div class="total-row">
+                      <span>Shipping:</span>
+                      <span id="confirm-shipping"></span>
+                    </div>
+                    <div class="total-row">
+                      <span>Tax:</span>
+                      <span id="confirm-tax"></span>
+                    </div>
+                    <div class="total-row total-final">
+                      <span>Total:</span>
+                      <span id="confirm-total"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="order-shipping">
+                  <h3>Shipping Address</h3>
+                  <div id="shipping-address"></div>
+                </div>
+
+                <div class="order-actions">
+                  <button class="btn btn-primary" data-page="products">Continue Shopping</button>
+                  <button class="btn btn-secondary" id="print-receipt">Print Receipt</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Summary Sidebar -->
+        <div class="order-summary-sidebar">
+          <h2>Order Summary</h2>
+
+          <div id="checkout-items" class="checkout-items">
+            <!-- Items will be loaded dynamically -->
+          </div>
+
+          <div class="summary-totals">
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span id="checkout-subtotal">$0.00</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span id="checkout-shipping">$0.00</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Tax (8.5%)</span>
+              <span id="checkout-tax">$0.00</span>
+            </div>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-row summary-total">
+              <span>Total</span>
+              <span id="checkout-total">$0.00</span>
+            </div>
+          </div>
+
+          <div class="checkout-security">
+            <h3>🔒 Secure Checkout</h3>
+            <ul>
+              <li>✓ 256-bit SSL encryption</li>
+              <li>✓ PCI DSS compliant</li>
+              <li>✓ Stripe payment processing</li>
+              <li>✓ Money-back guarantee</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Processing Overlay -->
+  <div id="processing-overlay" class="overlay">
+    <div class="processing-spinner">
+      <div class="spinner"></div>
+      <p>Processing your order...</p>
+      <small>Please do not close this window</small>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>ElideShop</h3>
+          <p>Next-generation e-commerce powered by Elide's polyglot runtime</p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#" data-page="home">Home</a></li>
+            <li><a href="#" data-page="products">Products</a></li>
+            <li><a href="#" data-page="cart">Shopping Cart</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Payment Methods</h4>
+          <p>We accept Visa, Mastercard, American Express, and Discover</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 ElideShop. Part of Elide Showcases Collection.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="../app.ts"></script>
+</body>
+</html>
