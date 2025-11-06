@@ -1,0 +1,34 @@
+{
+  "name": "edge-compute-platform",
+  "version": "1.0.0",
+  "description": "Cloudflare Workers alternative with Elide - polyglot, zero cold start, run anywhere",
+  "main": "platform.ts",
+  "scripts": {
+    "start": "ts-node server.ts",
+    "example": "ts-node example.ts",
+    "example:server": "ts-node example.ts server",
+    "test": "ts-node tests/platform.test.ts && ts-node tests/deployment.test.ts && ts-node tests/routing.test.ts && ts-node tests/storage.test.ts",
+    "test:platform": "ts-node tests/platform.test.ts",
+    "test:deployment": "ts-node tests/deployment.test.ts",
+    "test:routing": "ts-node tests/routing.test.ts",
+    "test:storage": "ts-node tests/storage.test.ts",
+    "deploy": "ts-node cli/deploy.ts"
+  },
+  "keywords": [
+    "edge",
+    "serverless",
+    "functions",
+    "cloudflare-workers",
+    "polyglot",
+    "typescript",
+    "python",
+    "ruby"
+  ],
+  "author": "Elide",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
+  }
+}
