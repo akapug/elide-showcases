@@ -1,8 +1,8 @@
-# Case Study: Unified fill-range Across Polyglot Platform
+# Case Study: Unified html-entities Across Polyglot Platform
 
 ## The Problem
 
-Multiple languages needed fill-range functionality but used different implementations, causing consistency and maintenance issues.
+Multiple languages needed html-entities functionality but used different implementations, causing consistency and maintenance issues.
 
 ## The Elide Solution
 

@@ -1,8 +1,8 @@
-# Case Study: Unified fill-range Across Polyglot Platform
+# Case Study: Unified is-even Across Polyglot Platform
 
 ## The Problem
 
-Multiple languages needed fill-range functionality but used different implementations, causing consistency and maintenance issues.
+Multiple languages needed is-even functionality but used different implementations, causing consistency and maintenance issues.
 
 ## The Elide Solution
 

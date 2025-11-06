@@ -1,6 +1,6 @@
-import module from './elide-fill-range.ts';
+import module from './elide-has-values.ts';
 
-console.log("⚡ fill-range Benchmark\n");
+console.log("⚡ has-values Benchmark\n");
 const ITERATIONS = 100_000;
 const start = Date.now();
 for (let i = 0; i < ITERATIONS; i++) {
