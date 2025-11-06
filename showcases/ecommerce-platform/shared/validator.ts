@@ -14,4 +14,4 @@ export {
   isJSON,
   isMobilePhone,
   isPostalCode,
-} from '../../conversions/validator/index.ts';
+} from '../../../conversions/validator/elide-validator.ts';

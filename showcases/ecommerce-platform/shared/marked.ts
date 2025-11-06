@@ -5,4 +5,4 @@
  * Shared across all services.
  */
 
-export { marked, parse } from '../../conversions/marked/index.ts';
+export { marked, parse } from '../../../conversions/marked/elide-marked.ts';

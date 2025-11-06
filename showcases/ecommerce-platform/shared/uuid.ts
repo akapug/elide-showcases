@@ -5,4 +5,4 @@
  * Shared across TypeScript API, Python payment service, and Ruby email service.
  */
 
-export { v4, validate, version } from '../../conversions/uuid/index.ts';
+export { v4, validate, version } from '../../../conversions/uuid/elide-uuid.ts';

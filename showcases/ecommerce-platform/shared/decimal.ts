@@ -6,4 +6,4 @@
  * Shared across all services.
  */
 
-export { Decimal } from '../../conversions/decimal/index.ts';
+export { Decimal } from '../../../conversions/decimal/elide-decimal.ts';

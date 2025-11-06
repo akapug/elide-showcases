@@ -5,4 +5,4 @@
  * Shared across all services.
  */
 
-export { nanoid, customAlphabet } from '../../conversions/nanoid/index.ts';
+export { nanoid, customAlphabet } from '../../../conversions/nanoid/elide-nanoid.ts';

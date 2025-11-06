@@ -5,4 +5,4 @@
  * Shared across all services.
  */
 
-export { default as formatBytes, parse as parseBytes } from '../../conversions/bytes/index.ts';
+export { format as formatBytes, parse as parseBytes } from '../../../conversions/bytes/elide-bytes.ts';
