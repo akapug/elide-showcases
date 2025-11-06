@@ -1,0 +1,114 @@
+{
+  "name": "example-etl-pipeline",
+  "description": "Example ETL pipeline configuration",
+  "extractors": [
+    {
+      "type": "json",
+      "name": "json-extractor",
+      "config": {
+        "filePath": "./data/input/sample.json",
+        "dataPath": "data",
+        "encoding": "utf8"
+      },
+      "enabled": true
+    },
+    {
+      "type": "csv",
+      "name": "csv-extractor",
+      "config": {
+        "filePath": "./data/input/sample.csv",
+        "delimiter": ",",
+        "hasHeader": true,
+        "encoding": "utf8"
+      },
+      "enabled": true
+    }
+  ],
+  "transformers": [
+    {
+      "type": "validator",
+      "name": "data-validator",
+      "config": {
+        "schema": {
+          "id": [
+            { "type": "required" }
+          ],
+          "email": [
+            { "type": "required" },
+            { "type": "email" }
+          ],
+          "age": [
+            { "type": "type", "dataType": "number" },
+            { "type": "min", "value": 0 },
+            { "type": "max", "value": 150 }
+          ]
+        },
+        "removeInvalid": false,
+        "addValidationField": true
+      },
+      "enabled": true
+    },
+    {
+      "type": "enricher",
+      "name": "data-enricher",
+      "config": {
+        "computedFields": {
+          "processedAt": {
+            "type": "date",
+            "expression": "now"
+          },
+          "fullName": {
+            "type": "concat",
+            "expression": "{firstName} {lastName}",
+            "fields": ["firstName", "lastName"]
+          }
+        }
+      },
+      "enabled": true
+    }
+  ],
+  "loaders": [
+    {
+      "type": "file",
+      "name": "json-loader",
+      "config": {
+        "outputPath": "./data/output/processed.json",
+        "format": "json",
+        "createDirectory": true,
+        "jsonOptions": {
+          "pretty": true,
+          "indent": 2
+        }
+      },
+      "enabled": true
+    },
+    {
+      "type": "database",
+      "name": "db-loader",
+      "config": {
+        "type": "mock",
+        "connection": {},
+        "table": "processed_data",
+        "mode": "upsert",
+        "conflictKeys": ["id"],
+        "batchSize": 1000
+      },
+      "enabled": false
+    }
+  ],
+  "options": {
+    "parallel": true,
+    "maxConcurrency": 3,
+    "continueOnError": true,
+    "retryConfig": {
+      "maxAttempts": 3,
+      "backoffMs": 1000,
+      "backoffMultiplier": 2,
+      "maxBackoffMs": 30000
+    },
+    "timeout": 300000,
+    "validateSchema": true,
+    "archiveData": true,
+    "archivePath": "./data/archive"
+  }
+}

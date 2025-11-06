@@ -1,0 +1,41 @@
+{
+  "name": "@elide-showcases/data-pipeline",
+  "version": "1.0.0",
+  "description": "ETL Data Pipeline with multi-source extraction, transformation, and loading",
+  "main": "example.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "ts-node tests/pipeline.test.ts && ts-node tests/transformers.test.ts",
+    "example": "ts-node example.ts",
+    "dev": "ts-node-dev --respawn example.ts"
+  },
+  "keywords": [
+    "etl",
+    "pipeline",
+    "data-processing",
+    "extract",
+    "transform",
+    "load",
+    "polyglot",
+    "typescript",
+    "python"
+  ],
+  "author": "Elide Showcases",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "ts-node-dev": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases.git",
+    "directory": "showcases/data-pipeline"
+  }
+}

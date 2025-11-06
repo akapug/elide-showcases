@@ -1,0 +1,54 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@example.com",
+      "age": 30,
+      "city": "New York",
+      "country": "USA"
+    },
+    {
+      "id": "2",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "email": "jane.smith@example.com",
+      "age": 28,
+      "city": "London",
+      "country": "UK"
+    },
+    {
+      "id": "3",
+      "firstName": "Bob",
+      "lastName": "Johnson",
+      "email": "bob.johnson@example.com",
+      "age": 35,
+      "city": "Toronto",
+      "country": "Canada"
+    },
+    {
+      "id": "4",
+      "firstName": "Alice",
+      "lastName": "Williams",
+      "email": "alice.williams@example.com",
+      "age": 42,
+      "city": "Sydney",
+      "country": "Australia"
+    },
+    {
+      "id": "5",
+      "firstName": "Charlie",
+      "lastName": "Brown",
+      "email": "charlie.brown@example.com",
+      "age": 25,
+      "city": "San Francisco",
+      "country": "USA"
+    }
+  ],
+  "metadata": {
+    "source": "sample-data",
+    "timestamp": "2024-01-01T00:00:00Z",
+    "version": "1.0"
+  }
+}
