@@ -1,0 +1,39 @@
+{
+  "name": "velocity",
+  "version": "1.0.0",
+  "description": "Ultra-fast web framework for Bun - outperforming Hono with 1M+ req/sec",
+  "main": "core/app.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run examples/rest-api/server.ts",
+    "bench:all": "bun run benchmarks/run-all.ts",
+    "bench:hono": "bun run benchmarks/vs-hono.ts",
+    "bench:express": "bun run benchmarks/vs-express.ts",
+    "bench:fastify": "bun run benchmarks/vs-fastify.ts",
+    "example:rest": "bun run examples/rest-api/server.ts",
+    "example:ws": "bun run examples/websocket-chat/server.ts",
+    "example:upload": "bun run examples/file-upload/server.ts"
+  },
+  "keywords": [
+    "web",
+    "framework",
+    "bun",
+    "fast",
+    "performance",
+    "router",
+    "http",
+    "server",
+    "velocity"
+  ],
+  "author": "Velocity Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "hono": "^4.0.0",
+    "express": "^4.18.2",
+    "fastify": "^4.25.0"
+  },
+  "peerDependencies": {
+    "bun": ">=1.0.0"
+  }
+}
