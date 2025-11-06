@@ -1,0 +1,156 @@
+# ElideSupabase Configuration Example
+# Copy to config.yaml and customize for your deployment
+
+# Database configuration
+database:
+  type: postgresql  # postgresql or sqlite
+  host: localhost
+  port: 5432
+  database: elide_supabase
+  username: postgres
+  password: your-password-here
+  poolSize: 10
+  ssl: false
+  migrations:
+    enabled: true
+    autoRun: true
+    directory: ./migrations
+
+# REST API configuration
+api:
+  host: 0.0.0.0
+  port: 3000
+  cors:
+    enabled: true
+    origins:
+      - http://localhost:3000
+      - https://yourdomain.com
+    methods:
+      - GET
+      - POST
+      - PUT
+      - PATCH
+      - DELETE
+      - OPTIONS
+    headers:
+      - Content-Type
+      - Authorization
+    credentials: true
+  rateLimit:
+    enabled: true
+    windowMs: 60000  # 1 minute
+    maxRequests: 100
+    skipSuccessfulRequests: false
+  maxRequestSize: 10485760  # 10MB
+
+# Real-time subscriptions
+realtime:
+  host: 0.0.0.0
+  port: 3001
+  maxConnections: 1000
+  heartbeatInterval: 30000
+
+# GraphQL API
+graphql:
+  enabled: true
+  host: 0.0.0.0
+  port: 3002
+  playground: true
+  introspection: true
+
+# Authentication
+auth:
+  jwt:
+    secret: change-this-to-a-random-secret-in-production
+    expiresIn: 1h
+    refreshExpiresIn: 7d
+    algorithm: HS256
+  providers:
+    email:
+      enabled: true
+      requireEmailVerification: false
+      verificationTokenExpiry: 3600
+    magicLink:
+      enabled: true
+      tokenExpiry: 600
+    google:
+      enabled: false
+      clientId: your-google-client-id
+      clientSecret: your-google-client-secret
+      redirectUri: http://localhost:3000/auth/google/callback
+      scopes:
+        - openid
+        - email
+        - profile
+    github:
+      enabled: false
+      clientId: your-github-client-id
+      clientSecret: your-github-client-secret
+      redirectUri: http://localhost:3000/auth/github/callback
+      scopes:
+        - user:email
+  passwordPolicy:
+    minLength: 8
+    requireUppercase: true
+    requireLowercase: true
+    requireNumbers: true
+    requireSpecialChars: false
+  sessionDuration: 3600
+
+# Storage
+storage:
+  provider: local  # local, s3, or gcs
+  basePath: ./data/storage
+  maxFileSize: 52428800  # 50MB
+  # allowedMimeTypes:
+  #   - image/jpeg
+  #   - image/png
+  #   - application/pdf
+  cdn:
+    enabled: true
+    host: 0.0.0.0
+    port: 3003
+    cacheControl: public, max-age=3600
+    compression: true
+  transformations:
+    enabled: true
+    maxWidth: 2000
+    maxHeight: 2000
+    quality: 85
+    formats:
+      - jpeg
+      - png
+      - webp
+
+# Edge functions
+functions:
+  directory: ./functions
+  timeout: 30000
+  memoryLimit: 128
+  concurrency: 10
+  languages:
+    - typescript
+    - python
+    - ruby
+    - java
+    - kotlin
+
+# Webhooks
+webhooks:
+  enabled: true
+  retries: 3
+  timeout: 10000
+
+# Admin dashboard
+dashboard:
+  enabled: true
+  host: 0.0.0.0
+  port: 3004
+  adminEmail: admin@example.com
+
+# Logging
+logging:
+  level: info  # debug, info, warn, error
+  format: text  # text or json
+  output: console  # console, file, or both
+  # file: ./logs/elide-supabase.log
