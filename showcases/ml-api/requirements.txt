@@ -1,0 +1,20 @@
+# Python dependencies for ML API
+# For production use with actual ML models
+
+# Core ML libraries
+# numpy==1.24.3
+# scipy==1.11.2
+
+# NLP and ML
+# transformers==4.35.0
+# torch==2.1.0
+# tensorflow==2.14.0
+# spacy==3.7.2
+
+# Text processing
+# nltk==3.8.1
+# textblob==0.17.1
+# langdetect==1.0.9
+
+# For this demo, no external dependencies are required
+# The showcase uses built-in Python libraries only
