@@ -1,0 +1,39 @@
+{
+  "id": "react-todo",
+  "name": "React Todo App",
+  "description": "A complete Todo application with TypeScript",
+  "language": "typescript",
+  "framework": "react",
+  "files": [
+    {
+      "path": "App.tsx",
+      "content": "import React, { useState } from 'react';\nimport { Todo } from './types';\nimport TodoList from './components/TodoList';\nimport TodoForm from './components/TodoForm';\nimport './App.css';\n\nfunction App() {\n  const [todos, setTodos] = useState<Todo[]>([]);\n\n  const addTodo = (text: string) => {\n    setTodos([...todos, {\n      id: Date.now(),\n      text,\n      completed: false,\n      createdAt: new Date()\n    }]);\n  };\n\n  const toggleTodo = (id: number) => {\n    setTodos(todos.map(todo =>\n      todo.id === id ? { ...todo, completed: !todo.completed } : todo\n    ));\n  };\n\n  const deleteTodo = (id: number) => {\n    setTodos(todos.filter(todo => todo.id !== id));\n  };\n\n  return (\n    <div className=\"App\">\n      <h1>Todo List</h1>\n      <TodoForm onAdd={addTodo} />\n      <TodoList\n        todos={todos}\n        onToggle={toggleTodo}\n        onDelete={deleteTodo}\n      />\n    </div>\n  );\n}\n\nexport default App;\n",
+      "language": "typescript"
+    },
+    {
+      "path": "types.ts",
+      "content": "export interface Todo {\n  id: number;\n  text: string;\n  completed: boolean;\n  createdAt: Date;\n}\n",
+      "language": "typescript"
+    },
+    {
+      "path": "components/TodoList.tsx",
+      "content": "import React from 'react';\nimport { Todo } from '../types';\nimport TodoItem from './TodoItem';\n\ninterface TodoListProps {\n  todos: Todo[];\n  onToggle: (id: number) => void;\n  onDelete: (id: number) => void;\n}\n\nconst TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onDelete }) => {\n  return (\n    <ul className=\"todo-list\">\n      {todos.map(todo => (\n        <TodoItem\n          key={todo.id}\n          todo={todo}\n          onToggle={onToggle}\n          onDelete={onDelete}\n        />\n      ))}\n    </ul>\n  );\n};\n\nexport default TodoList;\n",
+      "language": "typescript"
+    },
+    {
+      "path": "components/TodoItem.tsx",
+      "content": "import React from 'react';\nimport { Todo } from '../types';\n\ninterface TodoItemProps {\n  todo: Todo;\n  onToggle: (id: number) => void;\n  onDelete: (id: number) => void;\n}\n\nconst TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) => {\n  return (\n    <li className={`todo-item ${todo.completed ? 'completed' : ''}`}>\n      <input\n        type=\"checkbox\"\n        checked={todo.completed}\n        onChange={() => onToggle(todo.id)}\n      />\n      <span>{todo.text}</span>\n      <button onClick={() => onDelete(todo.id)}>Delete</button>\n    </li>\n  );\n};\n\nexport default TodoItem;\n",
+      "language": "typescript"
+    },
+    {
+      "path": "components/TodoForm.tsx",
+      "content": "import React, { useState } from 'react';\n\ninterface TodoFormProps {\n  onAdd: (text: string) => void;\n}\n\nconst TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {\n  const [text, setText] = useState('');\n\n  const handleSubmit = (e: React.FormEvent) => {\n    e.preventDefault();\n    if (text.trim()) {\n      onAdd(text);\n      setText('');\n    }\n  };\n\n  return (\n    <form onSubmit={handleSubmit} className=\"todo-form\">\n      <input\n        type=\"text\"\n        value={text}\n        onChange={(e) => setText(e.target.value)}\n        placeholder=\"Add a new todo...\"\n      />\n      <button type=\"submit\">Add</button>\n    </form>\n  );\n};\n\nexport default TodoForm;\n",
+      "language": "typescript"
+    }
+  ],
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.0.0"
+  }
+}

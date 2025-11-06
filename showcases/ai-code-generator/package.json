@@ -1,0 +1,43 @@
+{
+  "name": "ai-code-generator",
+  "version": "1.0.0",
+  "description": "AI-powered code generation platform like bolt.diy but instant with Elide",
+  "main": "backend/server.ts",
+  "scripts": {
+    "start": "node backend/server.ts",
+    "dev": "nodemon backend/server.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint . --ext .ts,.js",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\"",
+    "build": "tsc"
+  },
+  "keywords": [
+    "ai",
+    "code-generator",
+    "bolt.diy",
+    "v0.dev",
+    "elide",
+    "typescript",
+    "react",
+    "vue",
+    "polyglot"
+  ],
+  "author": "Elide Showcases",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "nodemon": "^3.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

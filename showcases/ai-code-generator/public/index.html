@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI Code Generator - Transform natural language into production-ready code">
+  <title>AI Code Generator - Like bolt.diy but Instant</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/editor.css">
+  <link rel="stylesheet" href="/css/chat.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" fill="currentColor"/>
+          </svg>
+          <span>AI Code Generator</span>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-secondary" id="newProjectBtn">
+            <span class="icon">➕</span>
+            New Project
+          </button>
+          <button class="btn btn-primary" id="exportBtn">
+            <span class="icon">⬇️</span>
+            Export
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+      <!-- Sidebar - Chat Interface -->
+      <aside class="sidebar">
+        <div class="chat-container">
+          <div class="chat-header">
+            <h2>AI Assistant</h2>
+            <div class="language-selector">
+              <select id="languageSelect">
+                <option value="typescript">TypeScript</option>
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="ruby">Ruby</option>
+                <option value="java">Java</option>
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+              </select>
+              <select id="frameworkSelect">
+                <option value="react">React</option>
+                <option value="vue">Vue</option>
+                <option value="vanilla">Vanilla</option>
+                <option value="none">None</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="chat-messages" id="chatMessages">
+            <div class="message assistant">
+              <div class="message-avatar">🤖</div>
+              <div class="message-content">
+                <p>Hello! I'm your AI coding assistant. Tell me what you'd like to build and I'll generate the code for you.</p>
+                <div class="message-examples">
+                  <button class="example-btn" data-prompt="Create a React todo app with TypeScript">
+                    📝 Todo App
+                  </button>
+                  <button class="example-btn" data-prompt="Build a landing page with animated header">
+                    🌐 Landing Page
+                  </button>
+                  <button class="example-btn" data-prompt="Make a Python API for user management">
+                    🔌 API Server
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-input-container">
+            <textarea
+              id="chatInput"
+              placeholder="Describe what you want to build..."
+              rows="3"
+            ></textarea>
+            <button id="sendBtn" class="btn btn-primary">
+              <span class="icon">🚀</span>
+              Generate
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="content">
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <button class="toolbar-btn active" data-view="code">
+              <span class="icon">💻</span>
+              Code
+            </button>
+            <button class="toolbar-btn" data-view="preview">
+              <span class="icon">👁️</span>
+              Preview
+            </button>
+            <button class="toolbar-btn" data-view="split">
+              <span class="icon">⚡</span>
+              Split
+            </button>
+          </div>
+          <div class="toolbar-right">
+            <button class="toolbar-btn" id="formatBtn">
+              <span class="icon">✨</span>
+              Format
+            </button>
+            <button class="toolbar-btn" id="transpileBtn">
+              <span class="icon">🔄</span>
+              Transpile
+            </button>
+            <button class="toolbar-btn" id="copyBtn">
+              <span class="icon">📋</span>
+              Copy
+            </button>
+          </div>
+        </div>
+
+        <!-- Editor and Preview -->
+        <div class="workspace">
+          <!-- Code Editor -->
+          <div class="editor-panel" id="editorPanel">
+            <div class="file-tabs" id="fileTabs">
+              <div class="file-tab active" data-file="main">
+                <span class="tab-name">main.tsx</span>
+                <button class="tab-close">×</button>
+              </div>
+            </div>
+            <div class="editor" id="editor">
+              <textarea
+                id="codeEditor"
+                placeholder="Your generated code will appear here..."
+                spellcheck="false"
+              >// AI-generated code will appear here
+// Try asking me to create something!
+
+function App() {
+  return (
+    <div className="app">
+      <h1>Welcome to AI Code Generator</h1>
+      <p>Start by describing what you want to build in the chat.</p>
+    </div>
+  );
+}
+
+export default App;</textarea>
+            </div>
+            <div class="editor-status">
+              <span class="status-item">Lines: <span id="lineCount">13</span></span>
+              <span class="status-item">Characters: <span id="charCount">0</span></span>
+              <span class="status-item">Language: <span id="currentLanguage">TypeScript</span></span>
+            </div>
+          </div>
+
+          <!-- Preview Panel -->
+          <div class="preview-panel" id="previewPanel" style="display: none;">
+            <div class="preview-header">
+              <div class="preview-controls">
+                <button class="preview-btn" id="refreshPreview">
+                  <span class="icon">🔄</span>
+                  Refresh
+                </button>
+                <button class="preview-btn" id="openInNewTab">
+                  <span class="icon">🔗</span>
+                  Open
+                </button>
+              </div>
+            </div>
+            <div class="preview-content">
+              <iframe id="previewFrame" sandbox="allow-scripts allow-same-origin"></iframe>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Generating code...</p>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal" id="exportModal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Export Project</h2>
+          <button class="modal-close" id="closeExportModal">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="projectName">Project Name</label>
+            <input type="text" id="projectName" value="my-project" />
+          </div>
+          <div class="form-group">
+            <label for="exportFormat">Format</label>
+            <select id="exportFormat">
+              <option value="zip">ZIP Archive</option>
+              <option value="tar">TAR Archive</option>
+              <option value="tar.gz">TAR.GZ Archive</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="includeNodeModules" />
+              Include node_modules (not recommended)
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancelExport">Cancel</button>
+          <button class="btn btn-primary" id="confirmExport">Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+  <script src="/js/editor.js"></script>
+  <script src="/js/chat.js"></script>
+  <script src="/js/preview.js"></script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+/* Code Editor Styles */
+
+.editor {
+  position: relative;
+  background: #1e1e1e;
+  color: #d4d4d4;
+}
+
+#codeEditor {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  tab-size: 2;
+}
+
+/* Syntax highlighting (basic) */
+.editor-line-numbers {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50px;
+  background: #1e1e1e;
+  border-right: 1px solid #333;
+  padding: 1rem 0;
+  text-align: right;
+  color: #858585;
+  font-size: 14px;
+  line-height: 1.6;
+  user-select: none;
+}
+
+.editor-line-number {
+  padding-right: 0.75rem;
+  cursor: pointer;
+}
+
+.editor-line-number:hover {
+  color: #d4d4d4;
+}
+
+.editor-gutter {
+  width: 60px;
+  background: #1e1e1e;
+  border-right: 1px solid #333;
+}
+
+.editor-highlight-line {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.editor-selection {
+  background: rgba(38, 79, 120, 0.4);
+}
+
+/* Syntax colors */
+.syntax-keyword {
+  color: #569cd6;
+}
+
+.syntax-string {
+  color: #ce9178;
+}
+
+.syntax-number {
+  color: #b5cea8;
+}
+
+.syntax-comment {
+  color: #6a9955;
+  font-style: italic;
+}
+
+.syntax-function {
+  color: #dcdcaa;
+}
+
+.syntax-class {
+  color: #4ec9b0;
+}
+
+.syntax-variable {
+  color: #9cdcfe;
+}
+
+.syntax-operator {
+  color: #d4d4d4;
+}
+
+.syntax-bracket {
+  color: #ffd700;
+}
+
+.syntax-tag {
+  color: #569cd6;
+}
+
+.syntax-attribute {
+  color: #9cdcfe;
+}
+
+.syntax-value {
+  color: #ce9178;
+}
+
+/* Autocomplete */
+.editor-autocomplete {
+  position: absolute;
+  background: #252526;
+  border: 1px solid #454545;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.autocomplete-item {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #d4d4d4;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.selected {
+  background: #2a2d2e;
+}
+
+.autocomplete-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.autocomplete-icon.function {
+  color: #dcdcaa;
+}
+
+.autocomplete-icon.variable {
+  color: #9cdcfe;
+}
+
+.autocomplete-icon.keyword {
+  color: #569cd6;
+}
+
+.autocomplete-icon.class {
+  color: #4ec9b0;
+}
+
+.autocomplete-detail {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: #858585;
+}
+
+/* Error underline */
+.editor-error {
+  position: relative;
+}
+
+.editor-error::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    #f48771 0,
+    #f48771 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* Warning underline */
+.editor-warning {
+  position: relative;
+}
+
+.editor-warning::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    #cca700 0,
+    #cca700 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* Tooltip */
+.editor-tooltip {
+  position: absolute;
+  background: #252526;
+  border: 1px solid #454545;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: #d4d4d4;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+.editor-tooltip code {
+  background: #1e1e1e;
+  padding: 0.125rem 0.25rem;
+  border-radius: 2px;
+  font-family: inherit;
+}
+
+/* Find/Replace */
+.editor-find {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #252526;
+  border: 1px solid #454545;
+  border-radius: 4px;
+  padding: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 300px;
+  z-index: 100;
+}
+
+.editor-find-input {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editor-find-input input {
+  flex: 1;
+  padding: 0.375rem 0.5rem;
+  background: #3c3c3c;
+  border: 1px solid #454545;
+  border-radius: 4px;
+  color: #d4d4d4;
+  font-size: 0.875rem;
+}
+
+.editor-find-input input:focus {
+  outline: none;
+  border-color: #007acc;
+}
+
+.editor-find-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.editor-find-button {
+  padding: 0.375rem 0.5rem;
+  background: #3c3c3c;
+  border: 1px solid #454545;
+  border-radius: 4px;
+  color: #d4d4d4;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.editor-find-button:hover {
+  background: #505050;
+}
+
+.editor-find-button:active {
+  background: #2a2a2a;
+}
+
+/* Minimap */
+.editor-minimap {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  background: #1e1e1e;
+  border-left: 1px solid #333;
+  overflow: hidden;
+}
+
+.editor-minimap-content {
+  transform: scale(0.1);
+  transform-origin: top left;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Breadcrumb */
+.editor-breadcrumb {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: #252526;
+  border-bottom: 1px solid #333;
+  font-size: 0.75rem;
+  color: #858585;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  cursor: pointer;
+}
+
+.breadcrumb-item:hover {
+  color: #d4d4d4;
+}
+
+.breadcrumb-separator {
+  margin: 0 0.5rem;
+  color: #454545;
+}
+
+/* Diff viewer */
+.editor-diff {
+  display: flex;
+  height: 100%;
+}
+
+.editor-diff-side {
+  flex: 1;
+  overflow: auto;
+}
+
+.editor-diff-gutter {
+  width: 4px;
+  background: #333;
+}
+
+.diff-line-added {
+  background: rgba(139, 191, 139, 0.2);
+  border-left: 3px solid #8bbf8b;
+}
+
+.diff-line-removed {
+  background: rgba(255, 140, 140, 0.2);
+  border-left: 3px solid #ff8c8c;
+}
+
+.diff-line-modified {
+  background: rgba(139, 176, 255, 0.2);
+  border-left: 3px solid #8bb0ff;
+}
+
+/* Folding */
+.editor-fold-marker {
+  width: 12px;
+  height: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #3c3c3c;
+  border: 1px solid #454545;
+  border-radius: 2px;
+  font-size: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.editor-fold-marker:hover {
+  background: #505050;
+}
+
+.editor-fold-marker.collapsed::after {
+  content: '▸';
+}
+
+.editor-fold-marker.expanded::after {
+  content: '▾';
+}
+
+.editor-folded-content {
+  display: none;
+}
