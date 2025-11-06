@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Dashboard - Live Metrics Monitoring</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1>Real-Time Metrics Dashboard</h1>
+                <div class="header-info">
+                    <span class="connection-status" id="connectionStatus">
+                        <span class="status-dot disconnected"></span>
+                        Disconnected
+                    </span>
+                    <span class="update-time" id="updateTime">Last update: Never</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard -->
+        <main class="dashboard-main">
+            <!-- System Metrics Section -->
+            <section class="metrics-section">
+                <h2>System Metrics</h2>
+                <div class="metrics-grid">
+                    <!-- CPU Metric Card -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>CPU Usage</h3>
+                            <span class="metric-value" id="cpuValue">0%</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="cpuChart"></canvas>
+                        </div>
+                        <div class="metric-details">
+                            <span>Cores: <span id="cpuCores">0</span></span>
+                            <span>Load Avg: <span id="loadAvg">0.00</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Memory Metric Card -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Memory Usage</h3>
+                            <span class="metric-value" id="memoryValue">0%</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="memoryChart"></canvas>
+                        </div>
+                        <div class="metric-details">
+                            <span>Used: <span id="memoryUsed">0 GB</span></span>
+                            <span>Total: <span id="memoryTotal">0 GB</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Network Metric Card -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Network Traffic</h3>
+                            <span class="metric-value" id="networkValue">0 MB/s</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="networkChart"></canvas>
+                        </div>
+                        <div class="metric-details">
+                            <span>RX: <span id="networkRx">0 MB</span></span>
+                            <span>TX: <span id="networkTx">0 MB</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Disk I/O Metric Card -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Disk Usage</h3>
+                            <span class="metric-value" id="diskValue">0%</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="diskChart"></canvas>
+                        </div>
+                        <div class="metric-details">
+                            <span>Read: <span id="diskRead">0 ops/s</span></span>
+                            <span>Write: <span id="diskWrite">0 ops/s</span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Application Metrics Section -->
+            <section class="metrics-section">
+                <h2>Application Metrics</h2>
+                <div class="metrics-grid">
+                    <!-- Request Rate Card -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Request Rate</h3>
+                            <span class="metric-value" id="requestRate">0 req/s</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="requestChart"></canvas>
+                        </div>
+                        <div class="metric-details">
+                            <span>Total: <span id="totalRequests">0</span></span>
+                            <span>Active: <span id="activeConnections">0</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Error Rate Card -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Error Rate</h3>
+                            <span class="metric-value" id="errorRate">0 err/s</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="errorChart"></canvas>
+                        </div>
+                        <div class="metric-details">
+                            <span>Total: <span id="totalErrors">0</span></span>
+                            <span>Ratio: <span id="errorRatio">0%</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Latency Card -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Response Latency</h3>
+                            <span class="metric-value" id="latencyValue">0 ms</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="latencyChart"></canvas>
+                        </div>
+                        <div class="metric-details">
+                            <span>P95: <span id="latencyP95">0 ms</span></span>
+                            <span>P99: <span id="latencyP99">0 ms</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Custom Metrics Card -->
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Custom Metrics</h3>
+                            <span class="metric-value" id="customValue">-</span>
+                        </div>
+                        <div class="custom-metrics-list" id="customMetricsList">
+                            <div class="custom-metric-item">
+                                <span>Cache Hit Rate:</span>
+                                <span id="cacheHitRate">0%</span>
+                            </div>
+                            <div class="custom-metric-item">
+                                <span>DB Connections:</span>
+                                <span id="dbConnections">0</span>
+                            </div>
+                            <div class="custom-metric-item">
+                                <span>Queue Depth:</span>
+                                <span id="queueDepth">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Anomalies Section -->
+            <section class="metrics-section anomalies-section">
+                <h2>Anomaly Detection</h2>
+                <div class="anomalies-container">
+                    <div class="anomalies-summary" id="anomaliesSummary">
+                        <div class="anomaly-stat">
+                            <span class="stat-label">Total Anomalies</span>
+                            <span class="stat-value" id="totalAnomalies">0</span>
+                        </div>
+                        <div class="anomaly-stat">
+                            <span class="stat-label">High Severity</span>
+                            <span class="stat-value severity-high" id="highSeverityCount">0</span>
+                        </div>
+                        <div class="anomaly-stat">
+                            <span class="stat-label">Medium Severity</span>
+                            <span class="stat-value severity-medium" id="mediumSeverityCount">0</span>
+                        </div>
+                    </div>
+                    <div class="anomalies-list" id="anomaliesList">
+                        <div class="no-anomalies">No anomalies detected</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section class="metrics-section stats-section">
+                <h2>Statistics (Last 5 Minutes)</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>CPU</h4>
+                        <div class="stat-row">
+                            <span>Average:</span>
+                            <span id="cpuAvg">0%</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Min:</span>
+                            <span id="cpuMin">0%</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Max:</span>
+                            <span id="cpuMax">0%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Memory</h4>
+                        <div class="stat-row">
+                            <span>Average:</span>
+                            <span id="memAvg">0%</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Min:</span>
+                            <span id="memMin">0%</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Max:</span>
+                            <span id="memMax">0%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Latency</h4>
+                        <div class="stat-row">
+                            <span>Average:</span>
+                            <span id="latAvg">0 ms</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>P95:</span>
+                            <span id="latP95">0 ms</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>P99:</span>
+                            <span id="latP99">0 ms</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Requests</h4>
+                        <div class="stat-row">
+                            <span>Total:</span>
+                            <span id="reqTotal">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Avg Rate:</span>
+                            <span id="reqRate">0 req/s</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Error Rate:</span>
+                            <span id="errRate">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>Real-Time Dashboard | Update Frequency: <span id="updateFrequency">2s</span> | Data Points: <span id="dataPoints">0</span></p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="dashboard.ts"></script>
+    <script type="module" src="websocket-client.ts"></script>
+</body>
+</html>
