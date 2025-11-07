@@ -8,7 +8,7 @@
 
 ## EXECUTIVE SUMMARY
 
-You are taking over the **elide-showcases** project, which has **186 TypeScript conversions** of popular npm packages running on Elide (a polyglot runtime). The codebase is excellent, but **critically missing** actual polyglot integration examples. Your mission is to **transform these from TypeScript-only demos into true polyglot showcases** by adding Python/Ruby/Java examples, benchmarks, and case studies.
+You are taking over the **elide-showcases** project, which has **251 TypeScript conversions** of popular npm packages running on Elide (a polyglot runtime). The codebase is excellent, but **critically missing** actual polyglot integration examples. Your mission is to **transform these from TypeScript-only demos into true polyglot showcases** by adding Python/Ruby/Java examples, benchmarks, and case studies.
 
 **Key Insight from User**: "We may just be proving Elide can serve TypeScript over and over... that's not having the impact we think it is."
 
@@ -24,7 +24,7 @@ You are taking over the **elide-showcases** project, which has **186 TypeScript 
 
 ### What is elide-showcases?
 - **Repository**: `/home/user/elide-showcases` and `https://github.com/akapug/elide-showcases`
-- **186 conversions** of npm packages to TypeScript on Elide
+- **251 conversions** of npm packages to TypeScript on Elide
 - **602M+ weekly downloads** represented
 - **100% success rate** - all conversions work
 - **Problem**: Only proves "TypeScript works on Elide", not polyglot capabilities
@@ -75,16 +75,16 @@ Transform each conversion by adding:
 Follow the ranking in **POLYGLOT_OPPORTUNITY_RANKING.md**:
 
 **Phase 1 (Weeks 1-4) - TOP 10**:
-1. uuid (#183) - `/home/user/elide-showcases/conversions/uuid/`
-2. ms (#184) - `/home/user/elide-showcases/conversions/ms/`
-3. base64 (#182) - `/home/user/elide-showcases/conversions/base64/`
-4. validator (#166) - `/home/user/elide-showcases/conversions/validator/`
-5. query-string (#180) - `/home/user/elide-showcases/conversions/query-string/`
-6. nanoid (#185) - `/home/user/elide-showcases/conversions/nanoid/`
-7. bytes (#2) - `/home/user/elide-showcases/conversions/bytes/`
-8. escape-html (#181) - `/home/user/elide-showcases/conversions/escape-html/`
-9. marked (#167) - `/home/user/elide-showcases/conversions/marked/`
-10. decimal (#169) - `/home/user/elide-showcases/conversions/decimal/`
+1. uuid (#183) - `/home/user/elide-showcases/converted/utilities/uuid/`
+2. ms (#184) - `/home/user/elide-showcases/converted/utilities/ms/`
+3. base64 (#182) - `/home/user/elide-showcases/converted/utilities/base64/`
+4. validator (#166) - `/home/user/elide-showcases/converted/utilities/validator/`
+5. query-string (#180) - `/home/user/elide-showcases/converted/utilities/query-string/`
+6. nanoid (#185) - `/home/user/elide-showcases/converted/utilities/nanoid/`
+7. bytes (#2) - `/home/user/elide-showcases/converted/utilities/bytes/`
+8. escape-html (#181) - `/home/user/elide-showcases/converted/utilities/escape-html/`
+9. marked (#167) - `/home/user/elide-showcases/converted/utilities/marked/`
+10. decimal (#169) - `/home/user/elide-showcases/converted/utilities/decimal/`
 
 **Always start with #1 (uuid) unless instructed otherwise.**
 
@@ -94,7 +94,7 @@ Follow the ranking in **POLYGLOT_OPPORTUNITY_RANKING.md**:
 
 ```bash
 # Example: Enhancing uuid
-cd /home/user/elide-showcases/conversions/uuid
+cd /home/user/elide-showcases/converted/utilities/uuid
 
 # Read the main implementation
 Read: elide-uuid.ts
@@ -701,12 +701,12 @@ Before marking a conversion as "enhanced", verify:
 ### What Success Looks Like
 
 **Before (Current State)**:
-- 186 TypeScript files
+- 251 TypeScript files
 - Comment: "works in Python/Ruby/Java!"
 - Reality: No proof, just claims
 
 **After (Your Goal)**:
-- 186 TypeScript files + 558 polyglot examples (186 × 3 languages)
+- 251 TypeScript files + 753 polyglot examples (251 × 3 languages)
 - Python/Ruby/Java files showing actual integration
 - Benchmarks proving performance
 - Case studies proving value
@@ -786,7 +786,7 @@ After each completion:
 ### Metrics to Track
 
 For your summary report:
-- **Conversions enhanced**: X/186
+- **Conversions enhanced**: X/251
 - **Polyglot examples added**: Y (X × 3 languages)
 - **Benchmarks created**: Z
 - **Case studies written**: Z
@@ -800,7 +800,7 @@ For your summary report:
 Here's what a fully enhanced conversion looks like:
 
 ```
-conversions/uuid/
+converted/utilities/uuid/
 ├── elide-uuid.ts                 ← Original (already exists)
 ├── elide-uuid.py                 ← NEW: Python example
 ├── elide-uuid.rb                 ← NEW: Ruby example
@@ -825,7 +825,7 @@ conversions/uuid/
 6. **Push** to master
 7. **Repeat** for remaining TOP 10
 
-**Goal**: Transform 186 TypeScript demos → 186 polyglot showcases
+**Goal**: Transform 251 TypeScript demos → 251 polyglot showcases
 
 **Timeline**: Phase 1 (TOP 10) = 4 weeks if 2-3 conversions/week
 

@@ -9,7 +9,6 @@
  * - Health checks and metrics
  */
 
-import { serve } from "bun";
 import * as tf from "@tensorflow/tfjs-node";
 
 // ============================================================================
@@ -341,88 +340,8 @@ if (DEMO_MODE) {
   console.log("Running in demo mode with mock model...");
 }
 
-const server = serve({
-  port: 3000,
-  async fetch(req) {
-    const url = new URL(req.url);
-
-    // Health check
-    if (url.pathname === "/health" && req.method === "GET") {
-      return new Response(JSON.stringify({ status: "healthy" }), {
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    // Metrics endpoint
-    if (url.pathname === "/metrics" && req.method === "GET") {
-      return new Response(JSON.stringify(metricsCollector.getMetrics()), {
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    // List models
-    if (url.pathname === "/models" && req.method === "GET") {
-      const models = modelManager.listModels();
-      return new Response(JSON.stringify({ models }), {
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    // Prediction endpoint
-    if (url.pathname === "/predict" && req.method === "POST") {
-      try {
-        const body = await req.json() as PredictionRequest & { modelName: string };
-        const startTime = Date.now();
-
-        const result = await inferenceEngine.predict(body.modelName, body);
-
-        metricsCollector.recordRequest(Date.now() - startTime);
-
-        return new Response(JSON.stringify(result), {
-          headers: { "Content-Type": "application/json" },
-        });
-      } catch (error) {
-        metricsCollector.recordError();
-        return new Response(
-          JSON.stringify({ error: (error as Error).message }),
-          {
-            status: 500,
-            headers: { "Content-Type": "application/json" }
-          }
-        );
-      }
-    }
-
-    // Batch prediction endpoint
-    if (url.pathname === "/batch-predict" && req.method === "POST") {
-      try {
-        const body = await req.json() as BatchPredictionRequest & { modelName: string };
-        const startTime = Date.now();
-
-        const results = await inferenceEngine.batchPredict(body.modelName, body);
-
-        metricsCollector.recordRequest(Date.now() - startTime);
-
-        return new Response(JSON.stringify({ results }), {
-          headers: { "Content-Type": "application/json" },
-        });
-      } catch (error) {
-        metricsCollector.recordError();
-        return new Response(
-          JSON.stringify({ error: (error as Error).message }),
-          {
-            status: 500,
-            headers: { "Content-Type": "application/json" }
-          }
-        );
-      }
-    }
-
-    return new Response("Not Found", { status: 404 });
-  },
-});
-
-console.log(`TensorFlow Model Serving API running on http://localhost:${server.port}`);
+const PORT = 3000;
+console.log(`TensorFlow Model Serving API running on http://localhost:${PORT}`);
 console.log(`
 Available endpoints:
   GET  /health         - Health check

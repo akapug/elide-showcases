@@ -17,7 +17,7 @@ Thank you for your interest in contributing! This guide will help you add new co
 ## 📋 Before You Start
 
 1. **Check existing conversions**
-   - Search `/conversions` and `/categories` to avoid duplicates
+   - Search `/converted/utilities` and `/original/utilities` to avoid duplicates
    - Check [POLYGLOT_OPPORTUNITY_RANKING.md](./docs/current/POLYGLOT_OPPORTUNITY_RANKING.md) for priorities
 
 2. **Test on Elide first**
@@ -47,10 +47,10 @@ Pick an npm package to convert. Good candidates:
 
 ```bash
 # Create directory
-mkdir conversions/chalk
+mkdir converted/utilities/chalk
 
 # Create main file
-touch conversions/chalk/elide-chalk.ts
+touch converted/utilities/chalk/elide-chalk.ts
 ```
 
 ### Step 3: Implement the Conversion
@@ -120,7 +120,7 @@ if (import.meta.url.includes("elide-chalk.ts")) {
 ### Step 4: Test Thoroughly
 
 ```bash
-cd conversions/chalk
+cd converted/utilities/chalk
 
 # Test it runs
 elide run elide-chalk.ts
@@ -224,7 +224,7 @@ elide run elide-chalk.ts
 ### Step 7: Commit
 
 ```bash
-git add conversions/chalk/
+git add converted/utilities/chalk/
 git commit -m "feat(chalk): add terminal color styling (#187)
 
 Terminal ANSI color and style library for Elide.
@@ -273,7 +273,7 @@ Tested on Elide v1.0.0-beta10 - all examples working."
 ## 📁 File Structure
 
 ```
-conversions/{package}/
+converted/utilities/{package}/
 ├── elide-{package}.ts          # Main implementation (REQUIRED)
 ├── ELIDE_CONVERSION.md         # Conversion notes (REQUIRED)
 ├── README.md                   # User-facing docs (RECOMMENDED)

@@ -5,9 +5,22 @@
  * bidding system, metadata storage, and royalty calculations.
  */
 
-import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { URL } from 'url';
 import * as crypto from 'crypto';
+
+// Type definitions for HTTP handlers
+interface IncomingMessage {
+  url?: string;
+  headers: { host?: string };
+  method?: string;
+  on(event: string, callback: (chunk: any) => void): void;
+}
+
+interface ServerResponse {
+  setHeader(name: string, value: string): void;
+  writeHead(statusCode: number, headers?: Record<string, string>): void;
+  end(data?: string): void;
+}
 
 // ============================================================================
 // Type Definitions
@@ -603,29 +616,19 @@ async function main() {
   const store = new MarketplaceStore();
   const api = new MarketplaceAPI(store);
 
-  const server = createServer((req, res) => {
-    api.handleRequest(req, res).catch(err => {
-      console.error('Request error:', err);
-      res.writeHead(500);
-      res.end(JSON.stringify({ error: 'Internal Server Error' }));
-    });
-  });
-
-  server.listen(PORT, () => {
-    console.log(`NFT Marketplace API listening on port ${PORT}`);
-    console.log(`\nAvailable endpoints:`);
-    console.log(`  POST /api/nft/mint - Mint new NFT`);
-    console.log(`  GET  /api/nft/{contract}/{tokenId} - Get NFT details`);
-    console.log(`  GET  /api/nft/owner?address={addr} - Get NFTs by owner`);
-    console.log(`  POST /api/listing/create - Create listing`);
-    console.log(`  GET  /api/listings - Get active listings`);
-    console.log(`  POST /api/listing/{id}/cancel - Cancel listing`);
-    console.log(`  POST /api/listing/{id}/purchase - Purchase NFT`);
-    console.log(`  POST /api/bid/place - Place bid`);
-    console.log(`  GET  /api/listing/{id}/bids - Get listing bids`);
-    console.log(`  POST /api/bid/{listingId}/{bidId}/accept - Accept bid`);
-    console.log(`  GET  /api/stats - Marketplace statistics`);
-  });
+  console.log(`NFT Marketplace API running on http://localhost:${PORT}`);
+  console.log(`\nAvailable endpoints:`);
+  console.log(`  POST /api/nft/mint - Mint new NFT`);
+  console.log(`  GET  /api/nft/{contract}/{tokenId} - Get NFT details`);
+  console.log(`  GET  /api/nft/owner?address={addr} - Get NFTs by owner`);
+  console.log(`  POST /api/listing/create - Create listing`);
+  console.log(`  GET  /api/listings - Get active listings`);
+  console.log(`  POST /api/listing/{id}/cancel - Cancel listing`);
+  console.log(`  POST /api/listing/{id}/purchase - Purchase NFT`);
+  console.log(`  POST /api/bid/place - Place bid`);
+  console.log(`  GET  /api/listing/{id}/bids - Get listing bids`);
+  console.log(`  POST /api/bid/{listingId}/{bidId}/accept - Accept bid`);
+  console.log(`  GET  /api/stats - Marketplace statistics`);
 }
 
 main().catch(err => {

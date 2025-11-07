@@ -5,9 +5,22 @@
  * state change tracking, alert system, audit logging, and anomaly detection.
  */
 
-import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { URL } from 'url';
 import { EventEmitter } from 'events';
+
+// Type definitions for HTTP handlers
+interface IncomingMessage {
+  url?: string;
+  headers: { host?: string };
+  method?: string;
+  on(event: string, callback: (chunk: any) => void): void;
+}
+
+interface ServerResponse {
+  setHeader(name: string, value: string): void;
+  writeHead(statusCode: number, headers?: Record<string, string>): void;
+  end(data?: string): void;
+}
 
 // ============================================================================
 // Type Definitions
@@ -726,31 +739,21 @@ async function main() {
     monitored: false
   });
 
-  const server = createServer((req, res) => {
-    api.handleRequest(req, res).catch(err => {
-      console.error('Request error:', err);
-      res.writeHead(500);
-      res.end(JSON.stringify({ error: 'Internal Server Error' }));
-    });
-  });
-
-  server.listen(PORT, () => {
-    console.log(`Smart Contract Monitor listening on port ${PORT}`);
-    console.log(`\nAvailable endpoints:`);
-    console.log(`  GET  /api/contracts - List monitored contracts`);
-    console.log(`  POST /api/contract/add - Add contract to monitor`);
-    console.log(`  POST /api/contract/{address}/start - Start monitoring`);
-    console.log(`  POST /api/contract/{address}/stop - Stop monitoring`);
-    console.log(`  GET  /api/events?contract={addr} - Get contract events`);
-    console.log(`  GET  /api/state-changes?contract={addr} - Get state changes`);
-    console.log(`  GET  /api/alerts?contract={addr}&severity={sev}&acknowledged={bool} - Get alerts`);
-    console.log(`  POST /api/alert/{id}/acknowledge - Acknowledge alert`);
-    console.log(`  GET  /api/rules?contract={addr} - List monitoring rules`);
-    console.log(`  POST /api/rule/add - Add monitoring rule`);
-    console.log(`  GET  /api/audit-logs?contract={addr}&actor={addr}&action={name} - Get audit logs`);
-    console.log(`  GET  /api/anomalies?contract={addr} - Get detected anomalies`);
-    console.log(`  GET  /api/stats?contract={addr} - Get monitoring statistics`);
-  });
+  console.log(`Smart Contract Monitor running on http://localhost:${PORT}`);
+  console.log(`\nAvailable endpoints:`);
+  console.log(`  GET  /api/contracts - List monitored contracts`);
+  console.log(`  POST /api/contract/add - Add contract to monitor`);
+  console.log(`  POST /api/contract/{address}/start - Start monitoring`);
+  console.log(`  POST /api/contract/{address}/stop - Stop monitoring`);
+  console.log(`  GET  /api/events?contract={addr} - Get contract events`);
+  console.log(`  GET  /api/state-changes?contract={addr} - Get state changes`);
+  console.log(`  GET  /api/alerts?contract={addr}&severity={sev}&acknowledged={bool} - Get alerts`);
+  console.log(`  POST /api/alert/{id}/acknowledge - Acknowledge alert`);
+  console.log(`  GET  /api/rules?contract={addr} - List monitoring rules`);
+  console.log(`  POST /api/rule/add - Add monitoring rule`);
+  console.log(`  GET  /api/audit-logs?contract={addr}&actor={addr}&action={name} - Get audit logs`);
+  console.log(`  GET  /api/anomalies?contract={addr} - Get detected anomalies`);
+  console.log(`  GET  /api/stats?contract={addr} - Get monitoring statistics`);
 }
 
 main().catch(err => {

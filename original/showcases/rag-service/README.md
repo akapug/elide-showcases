@@ -2,6 +2,30 @@
 
 A comprehensive RAG service built with Elide that combines document ingestion, semantic search, and LLM generation to provide accurate, context-aware responses grounded in your knowledge base.
 
+## Reality Check
+
+**Status:** Educational / Reference Implementation
+
+**What This Is:**
+- Complete RAG pipeline architecture from document ingestion to answer generation
+- Production-ready chunking strategies with overlap for context preservation
+- Demonstrates semantic search, context injection, and citation tracking
+- Shows proper document management with CRUD operations and metadata handling
+
+**What This Isn't:**
+- Does not include actual embedding models (would be 80MB-500MB)
+- Uses simulated vector embeddings and similarity calculations
+- Requires real LLM integration for actual answer generation
+- Vector search is basic cosine similarity, not optimized HNSW/FAISS
+
+**To Make It Production-Ready:**
+1. Integrate embedding models (sentence-transformers, OpenAI embeddings, etc.)
+2. Add LLM integration (OpenAI, Anthropic, local models) for answer generation
+3. Use proper vector database (Pinecone, Weaviate, Qdrant) for scale
+4. Configure chunk size and retrieval parameters based on your domain
+
+**Value:** Shows the complete RAG architecture including document processing, chunking strategies, vector search patterns, prompt construction with context, and citation tracking used by production Q&A systems like ChatGPT with retrieval.
+
 ## Overview
 
 This showcase implements a production-ready RAG pipeline that demonstrates:

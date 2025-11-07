@@ -2,6 +2,29 @@
 
 Production-ready TensorFlow model serving infrastructure with advanced features for ML model deployment.
 
+## Reality Check
+
+**Status:** Educational / Reference Implementation
+
+**What This Is:**
+- Complete TensorFlow model serving architecture with preprocessing pipelines
+- Production-ready model lifecycle management (load, unload, version control)
+- Demonstrates batch inference, warmup optimization, and memory management
+- Shows proper metrics collection and health monitoring for ML services
+
+**What This Isn't:**
+- Does not include actual trained TensorFlow models
+- Uses simulated inference that returns mock predictions
+- Requires real model files and TensorFlow.js integration for actual predictions
+
+**To Make It Production-Ready:**
+1. Load actual SavedModel or TensorFlow.js models from your training pipeline
+2. Configure model-specific preprocessing (image normalization, text tokenization, etc.)
+3. Add proper input/output tensor shape handling based on model architecture
+4. Optimize batch sizes and enable GPU acceleration if available
+
+**Value:** Shows the complete model serving infrastructure including model registry, preprocessing pipelines, batch optimization, version management, and monitoring that production ML APIs need.
+
 ## Features
 
 ### Model Management

@@ -2,6 +2,29 @@
 
 Production-ready Stable Diffusion API for AI-powered image generation with comprehensive features and queue management.
 
+## Reality Check
+
+**Status:** Educational / Reference Implementation
+
+**What This Is:**
+- Complete async job queue system for long-running image generation tasks
+- Production-ready REST API with all Stable Diffusion features (text2img, img2img, inpainting, style transfer)
+- Demonstrates proper parameter handling (samplers, guidance scale, seeds, etc.)
+- Shows how to track job status, handle cancellations, and manage concurrent processing
+
+**What This Isn't:**
+- Does not include actual Stable Diffusion model files (would be 2-7GB per model)
+- Uses simulated image generation that returns placeholder base64 images
+- Requires actual diffusion model integration for real image generation
+
+**To Make It Production-Ready:**
+1. Integrate Stable Diffusion via diffusers library (HuggingFace) or ComfyUI
+2. Load model weights (SD 1.5, SDXL, or custom fine-tuned models)
+3. Add GPU acceleration (CUDA required, 8GB+ VRAM recommended)
+4. Configure proper image preprocessing, VAE decoding, and safety checkers
+
+**Value:** Shows the complete architecture for async image generation services including job queuing, concurrent processing, multiple generation modes, model management, and the API patterns used by Midjourney-style services.
+
 ## Features
 
 ### Generation Modes

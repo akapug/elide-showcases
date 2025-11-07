@@ -2,6 +2,30 @@
 
 Production-ready feature store for machine learning systems with real-time serving, historical queries, and comprehensive monitoring.
 
+## Reality Check
+
+**Status:** Educational / Reference Implementation
+
+**What This Is:**
+- Complete feature store architecture with online and offline serving patterns
+- Production-ready feature registry, versioning, and metadata management
+- Demonstrates point-in-time correctness, aggregations, and historical queries
+- Shows proper monitoring with drift detection and data quality checks
+
+**What This Isn't:**
+- Uses in-memory storage, no persistent database backend
+- Simulated features and values for demonstration purposes
+- Lacks production optimizations like Redis caching or partitioned storage
+- No actual data pipeline integrations (Spark, Airflow, etc.)
+
+**To Make It Production-Ready:**
+1. Add persistent storage (Redis for online, PostgreSQL/Snowflake for offline)
+2. Integrate with data pipelines for automated feature computation
+3. Configure proper indexing and partitioning for high-volume serving
+4. Add streaming ingestion (Kafka, Kinesis) for real-time feature updates
+
+**Value:** Shows the complete feature store architecture including online/offline serving, point-in-time correctness, feature versioning, aggregation patterns, and monitoring used by production ML platforms like Feast and Tecton.
+
 ## Features
 
 ### Feature Management

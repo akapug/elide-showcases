@@ -5,8 +5,20 @@
  * monitoring liquidity, aggregating price feeds, and computing risk metrics.
  */
 
-import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { URL } from 'url';
+
+// Type definitions for HTTP handlers
+interface IncomingMessage {
+  url?: string;
+  headers: { host?: string };
+  method?: string;
+}
+
+interface ServerResponse {
+  setHeader(name: string, value: string): void;
+  writeHead(statusCode: number, headers?: Record<string, string>): void;
+  end(data?: string): void;
+}
 
 // ============================================================================
 // Type Definitions
@@ -580,29 +592,19 @@ async function main() {
   const analytics = new DeFiAnalytics();
   const api = new AnalyticsAPI(analytics);
 
-  const server = createServer((req, res) => {
-    api.handleRequest(req, res).catch(err => {
-      console.error('Request error:', err);
-      res.writeHead(500);
-      res.end(JSON.stringify({ error: 'Internal Server Error' }));
-    });
-  });
-
-  server.listen(PORT, () => {
-    console.log(`DeFi Analytics API listening on port ${PORT}`);
-    console.log(`\nAvailable endpoints:`);
-    console.log(`  GET /api/health - Health check`);
-    console.log(`  GET /api/tvl?chain={chain} - Total value locked`);
-    console.log(`  GET /api/tvl/protocol/{id} - Protocol TVL`);
-    console.log(`  GET /api/tvl/history?protocol={id}&hours={n} - TVL history`);
-    console.log(`  GET /api/protocols?limit={n}&category={cat} - Top protocols`);
-    console.log(`  GET /api/protocol/{id} - Protocol details`);
-    console.log(`  GET /api/yields?minAPY={n}&protocol={id} - Yield opportunities`);
-    console.log(`  GET /api/prices?tokens={token1,token2} - Token prices`);
-    console.log(`  GET /api/price/{token} - Single token price`);
-    console.log(`  GET /api/risk/{protocol} - Risk metrics`);
-    console.log(`  GET /api/pool/{id} - Pool details`);
-  });
+  console.log(`DeFi Analytics API running on http://localhost:${PORT}`);
+  console.log(`\nAvailable endpoints:`);
+  console.log(`  GET /api/health - Health check`);
+  console.log(`  GET /api/tvl?chain={chain} - Total value locked`);
+  console.log(`  GET /api/tvl/protocol/{id} - Protocol TVL`);
+  console.log(`  GET /api/tvl/history?protocol={id}&hours={n} - TVL history`);
+  console.log(`  GET /api/protocols?limit={n}&category={cat} - Top protocols`);
+  console.log(`  GET /api/protocol/{id} - Protocol details`);
+  console.log(`  GET /api/yields?minAPY={n}&protocol={id} - Yield opportunities`);
+  console.log(`  GET /api/prices?tokens={token1,token2} - Token prices`);
+  console.log(`  GET /api/price/{token} - Single token price`);
+  console.log(`  GET /api/risk/{protocol} - Risk metrics`);
+  console.log(`  GET /api/pool/{id} - Pool details`);
 }
 
 main().catch(err => {

@@ -14,7 +14,7 @@ This document clarifies the different types of projects, their sources, and what
 
 **Source**: Each is based on a real npm package from the JavaScript ecosystem
 
-**Location**: `/conversions/`
+**Location**: `/converted/utilities/`
 
 **Process**:
 1. Start with popular npm package (documented download counts)
@@ -43,7 +43,7 @@ This document clarifies the different types of projects, their sources, and what
 
 **What they are**: Collections organized by type
 
-**Location**: `/categories/`
+**Location**: `/original/utilities/`
 
 **Breakdown**:
 
@@ -105,7 +105,7 @@ This document clarifies the different types of projects, their sources, and what
 
 **Source**: Original applications built specifically for this repository
 
-**Location**: `/showcases/`
+**Location**: `/original/showcases/`
 
 **Examples**:
 - `nanochat-lite/` - Real-time chat application
@@ -124,7 +124,7 @@ This document clarifies the different types of projects, their sources, and what
 
 **Source**: Original applications
 
-**Location**: `/applications/`
+**Location**: `/original/utilities/`
 
 **Files**:
 - `markdown-cli.ts` - Markdown converter
@@ -142,7 +142,7 @@ This document clarifies the different types of projects, their sources, and what
 
 **Source**: Original code written to teach patterns
 
-**Location**: `/examples/`
+**Location**: `/original/examples/`
 
 **Projects**:
 - `modern-typescript/` - TypeScript features showcase
@@ -155,7 +155,7 @@ This document clarifies the different types of projects, their sources, and what
 ## 🎯 What's Converted vs Original?
 
 ### Conversions from npm (79):
-**All in `/conversions/` directory**
+**All in `/converted/utilities/` directory**
 
 Every project here is based on a real npm package:
 - We list the original package name
@@ -171,7 +171,7 @@ Every project here is based on a real npm package:
 - Some simplified APIs to work around Elide limitations
 
 ### Original Implementations (107):
-**In `/categories/`, `/showcases/`, `/applications/`, `/examples/`**
+**In `/original/utilities/`, `/original/showcases/`, `/original/examples/`**
 
 - **Algorithms** (31) - Classic CS algorithms from textbooks
 - **Data Structures** (5) - Standard CS data structures
@@ -202,10 +202,10 @@ Every project here is based on a real npm package:
 | **Applications** | 4 | Original | ⚠️ Need verification |
 | **Examples** | 2 | Original educational | ⚠️ Need verification |
 
-**Total: 186 projects**
+**Total: 251 projects**
 
 **Fully Verified: ~40 projects** (Top conversions + some algorithms)
-**Need User Testing: ~146 projects** (Recent additions, showcases, utilities)
+**Need User Testing: ~211 projects** (Recent additions, showcases, utilities)
 
 ---
 
@@ -239,26 +239,26 @@ See [docs/current/ELIDE_BUG_TRACKER.md](docs/current/ELIDE_BUG_TRACKER.md) for d
 
 ## 🎯 User Expectations
 
-### If you're trying a **Conversion** (`/conversions/`):
+### If you're trying a **Conversion** (`/converted/utilities/`):
 1. Expect it to work MOSTLY like the npm version
 2. Some features may be simplified (documented in README)
 3. Top 10 are thoroughly tested, others less so
 4. Check ELIDE_CONVERSION.md in each directory for details
 
-### If you're trying a **Category utility** (`/categories/`):
+### If you're trying a **Category utility** (`/original/utilities/`):
 1. Many are new and lightly tested
 2. Follow instructions in category README
 3. Report issues if something doesn't work
 4. Algorithms are most reliable, others vary
 
-### If you're trying a **Showcase** (`/showcases/`):
+### If you're trying a **Showcase** (`/original/showcases/`):
 1. **WARNING**: Most haven't been verified to work!
 2. These are ambitious full-stack apps
 3. May require features not yet in Elide
 4. Consider them "aspirational" until tested
 5. We'd LOVE help testing these!
 
-### If you're trying **Examples** (`/examples/`):
+### If you're trying **Examples** (`/original/examples/`):
 1. Should work, but haven't been re-verified post-reorganization
 2. Educational code, not production apps
 3. Good starting point for learning
@@ -329,4 +329,4 @@ See [docs/current/ELIDE_BUG_TRACKER.md](docs/current/ELIDE_BUG_TRACKER.md) for d
 
 ---
 
-**Bottom line: We're honest about what's what. Some projects are rock-solid and verified. Others are newer and need testing. We'd love your help making ALL 186 projects production-ready!**
+**Bottom line: We're honest about what's what. Some projects are rock-solid and verified. Others are newer and need testing. We'd love your help making ALL 251 projects production-ready!**

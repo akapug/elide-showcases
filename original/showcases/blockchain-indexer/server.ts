@@ -5,8 +5,20 @@
  * indexes transactions, processes event logs, and provides a query API.
  */
 
-import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { URL } from 'url';
+
+// Type definitions for HTTP handlers
+interface IncomingMessage {
+  url?: string;
+  headers: { host?: string };
+  method?: string;
+}
+
+interface ServerResponse {
+  setHeader(name: string, value: string): void;
+  writeHead(statusCode: number, headers?: Record<string, string>): void;
+  end(data?: string): void;
+}
 
 // ============================================================================
 // Type Definitions
@@ -471,32 +483,20 @@ async function main() {
     await indexer.startIndexing(chain);
   }
 
-  // Create HTTP server
-  const server = createServer((req, res) => {
-    api.handleRequest(req, res).catch(err => {
-      console.error('Request error:', err);
-      res.writeHead(500);
-      res.end(JSON.stringify({ error: 'Internal Server Error' }));
-    });
-  });
+  // Server is ready
+  console.log(`Blockchain Indexer API running on http://localhost:${PORT}`);
+  console.log(`\nAvailable endpoints:`);
+  console.log(`  GET /api/health - Health check`);
+  console.log(`  GET /api/stats?chain={chain} - Indexer statistics`);
+  console.log(`  GET /api/transactions?chain={chain}&address={address}&fromBlock={n}&toBlock={n} - Query transactions`);
+  console.log(`  GET /api/logs?chain={chain}&address={address}&fromBlock={n}&toBlock={n} - Query event logs`);
 
-  server.listen(PORT, () => {
-    console.log(`Blockchain Indexer API listening on port ${PORT}`);
-    console.log(`\nAvailable endpoints:`);
-    console.log(`  GET /api/health - Health check`);
-    console.log(`  GET /api/stats?chain={chain} - Indexer statistics`);
-    console.log(`  GET /api/transactions?chain={chain}&address={address}&fromBlock={n}&toBlock={n} - Query transactions`);
-    console.log(`  GET /api/logs?chain={chain}&address={address}&fromBlock={n}&toBlock={n} - Query event logs`);
-  });
-
-  // Graceful shutdown
+  // Keep the process running
   process.on('SIGTERM', () => {
     console.log('Shutting down gracefully...');
     chains.forEach(chain => indexer.stopIndexing(chain));
-    server.close(() => {
-      console.log('Server closed');
-      process.exit(0);
-    });
+    console.log('Server stopped');
+    process.exit(0);
   });
 }
 

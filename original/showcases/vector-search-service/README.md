@@ -2,6 +2,30 @@
 
 A high-performance vector database service built with Elide for storing and searching embeddings using semantic similarity. Perfect for AI applications requiring semantic search, recommendations, and RAG systems.
 
+## Reality Check
+
+**Status:** Educational / Reference Implementation
+
+**What This Is:**
+- Complete vector database API with collections, CRUD operations, and similarity search
+- Production-ready REST interface showing cosine, euclidean, and dot product metrics
+- Demonstrates metadata filtering, batch operations, and collection management
+- Shows proper API patterns for vector databases like Pinecone, Weaviate, Qdrant
+
+**What This Isn't:**
+- Uses basic brute-force search, not approximate nearest neighbors (ANN)
+- In-memory storage only, no persistence or disk-backed indices
+- Lacks advanced features like HNSW, IVF, or product quantization
+- Not optimized for million+ vector scale
+
+**To Make It Production-Ready:**
+1. Implement ANN algorithms (HNSW, IVF, or LSH) for sub-millisecond search at scale
+2. Add persistent storage (RocksDB, SQLite, or PostgreSQL with pgvector)
+3. Configure memory limits and implement disk-backed indices for large datasets
+4. Add replication, sharding, and backup capabilities
+
+**Value:** Shows the complete vector database architecture including collection management, batch operations, metadata filtering, and similarity search APIs. Perfect for understanding vector DB patterns before scaling to production with specialized databases.
+
 ## Overview
 
 This showcase implements a production-ready vector database with similarity search capabilities. Built on Elide's efficient runtime, it provides:

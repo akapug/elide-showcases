@@ -2,6 +2,29 @@
 
 A high-performance audio transcription service built with Elide, providing automatic speech recognition (ASR) with support for 50+ languages, timestamp generation, and multiple output formats.
 
+## Reality Check
+
+**Status:** Educational / Reference Implementation
+
+**What This Is:**
+- Complete Whisper-compatible API with all output formats (JSON, SRT, VTT, text)
+- Production-ready multipart file upload handling and audio validation
+- Demonstrates word-level timestamps, segment timing, and confidence scoring
+- Shows proper API structure for multi-language ASR services
+
+**What This Isn't:**
+- Does not include actual Whisper model files (would be 150MB-3GB depending on model size)
+- Uses simulated transcription responses with realistic structure
+- Requires actual audio processing and ASR model integration for real transcription
+
+**To Make It Production-Ready:**
+1. Integrate OpenAI Whisper, faster-whisper, or whisper.cpp
+2. Add FFmpeg for audio format conversion and preprocessing
+3. Load appropriate model size (tiny/base/small/medium/large) based on accuracy needs
+4. Configure GPU acceleration for reasonable transcription speeds (10-30x real-time)
+
+**Value:** Shows the complete API design for ASR services including file handling, multiple output formats, language detection, translation endpoints, and statistics tracking that matches production transcription services.
+
 ## Overview
 
 This showcase implements a production-ready transcription service similar to OpenAI's Whisper API. Built on Elide's efficient runtime, it demonstrates:

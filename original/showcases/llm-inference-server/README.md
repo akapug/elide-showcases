@@ -2,6 +2,29 @@
 
 An OpenAI-compatible API server for LLM inference built with Elide, demonstrating high-performance AI capabilities with minimal overhead.
 
+## Reality Check
+
+**Status:** Educational / Reference Implementation
+
+**What This Is:**
+- A complete OpenAI-compatible API architecture with streaming support
+- Production-ready server structure with proper error handling and CORS
+- Demonstrates token counting, model management, and request caching patterns
+- Shows how to build chat completion APIs that work with OpenAI client libraries
+
+**What This Isn't:**
+- Does not include actual LLM model files (would be 5-15GB+ per model)
+- Uses simulated inference responses for demonstration purposes
+- Requires integration with actual model inference engines for production use
+
+**To Make It Production-Ready:**
+1. Integrate with llama.cpp, ONNX Runtime, or Transformers.js for actual inference
+2. Load real model weights (e.g., Mistral-7B, Llama-2, GPT-J)
+3. Add GPU acceleration (CUDA/Metal) for acceptable inference speeds
+4. Configure batching and model-specific preprocessing pipelines
+
+**Value:** Shows the complete API design, OpenAI compatibility layer, streaming implementation, and model management architecture you'd need to wrap any LLM for production serving.
+
 ## Overview
 
 This showcase implements a production-ready LLM inference server that provides OpenAI-compatible endpoints for chat completions. Built on Elide's high-performance runtime, it offers:

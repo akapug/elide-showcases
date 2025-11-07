@@ -2,6 +2,30 @@
 
 A comprehensive toolkit for managing, testing, and optimizing prompts for LLM applications. Built with Elide for high-performance prompt experimentation and production deployment.
 
+## Reality Check
+
+**Status:** Educational / Reference Implementation
+
+**What This Is:**
+- Complete prompt management system with versioning, templates, and variable injection
+- Production-ready A/B testing framework with variant tracking and metrics
+- Demonstrates prompt analysis, quality scoring, and optimization suggestions
+- Shows proper template patterns with variable extraction and validation
+
+**What This Isn't:**
+- Does not include actual LLM integration for executing prompts
+- Uses simulated responses and mock token/cost calculations
+- Prompt analysis is rule-based, not ML-powered
+- Requires real LLM APIs for actual prompt execution and evaluation
+
+**To Make It Production-Ready:**
+1. Integrate with OpenAI, Anthropic, or other LLM providers for actual execution
+2. Add real token counting using tiktoken or provider-specific libraries
+3. Implement cost tracking based on actual provider pricing
+4. Configure evaluation metrics (relevance, correctness, safety) for A/B tests
+
+**Value:** Shows the complete prompt engineering platform architecture including template management, version control, A/B testing infrastructure, and analytics tracking used by teams managing prompts at scale.
+
 ## Overview
 
 This showcase implements a production-ready prompt engineering platform that provides:
