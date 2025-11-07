@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElideShop - Home</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand">
+        <h1>ElideShop</h1>
+        <p class="tagline">Powered by Polyglot E-commerce</p>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+        <li><a href="#" class="nav-link" data-page="products">Products</a></li>
+        <li><a href="#" class="nav-link" data-page="cart">Cart (<span id="cart-count">0</span>)</a></li>
+        <li><a href="#" class="nav-link" data-page="checkout">Checkout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h2 class="hero-title">Welcome to ElideShop</h2>
+        <p class="hero-subtitle">
+          Experience next-generation e-commerce powered by Elide's polyglot runtime
+        </p>
+        <p class="hero-description">
+          Shop from our curated collection of premium products. Built with TypeScript, Python,
+          and Ruby services working seamlessly together through shared utilities.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-page="products">Shop Now</button>
+          <button class="btn btn-secondary" id="demo-btn">View Demo</button>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-number" id="product-count">0</div>
+          <div class="stat-label">Products</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="order-count">0</div>
+          <div class="stat-label">Orders Placed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="inventory-count">0</div>
+          <div class="stat-label">Items in Stock</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title">Platform Features</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🛒</div>
+          <h3>Smart Shopping Cart</h3>
+          <p>Session-based cart with real-time inventory checking and price calculations using decimal.js for precision</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💳</div>
+          <h3>Secure Payments</h3>
+          <p>Payment processing handled by Python service with Stripe integration (conceptual)</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📧</div>
+          <h3>Email Notifications</h3>
+          <p>Order confirmations sent via Ruby email service with beautiful templates</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <h3>Inventory Management</h3>
+          <p>Real-time stock tracking and automatic reorder alerts</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <h3>Advanced Search</h3>
+          <p>Filter and search products by category, price range, and availability</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Lightning Fast</h3>
+          <p>Built on Elide for sub-millisecond response times and instant page loads</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Polyglot Architecture Section -->
+  <section class="architecture">
+    <div class="container">
+      <h2 class="section-title">Polyglot Architecture</h2>
+      <p class="section-subtitle">
+        Built with multiple languages, powered by shared TypeScript utilities
+      </p>
+
+      <div class="arch-grid">
+        <div class="arch-card">
+          <div class="arch-lang">TypeScript</div>
+          <div class="arch-service">API Server</div>
+          <ul class="arch-features">
+            <li>Product catalog & CRUD</li>
+            <li>Shopping cart management</li>
+            <li>Order processing</li>
+            <li>Inventory tracking</li>
+          </ul>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-lang">Python</div>
+          <div class="arch-service">Payment Service</div>
+          <ul class="arch-features">
+            <li>Stripe integration</li>
+            <li>Payment processing</li>
+            <li>Transaction logging</li>
+            <li>Refund handling</li>
+          </ul>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-lang">Ruby</div>
+          <div class="arch-service">Email Service</div>
+          <ul class="arch-features">
+            <li>Order confirmations</li>
+            <li>Shipping updates</li>
+            <li>Marketing campaigns</li>
+            <li>Template management</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="shared-utils">
+        <h3>Shared Utilities (Zero Duplication)</h3>
+        <div class="utils-list">
+          <span class="util-badge">UUID</span>
+          <span class="util-badge">Validator</span>
+          <span class="util-badge">Decimal.js</span>
+          <span class="util-badge">Nanoid</span>
+          <span class="util-badge">Bytes</span>
+        </div>
+        <p class="utils-description">
+          Write once in TypeScript, use everywhere across all services with perfect consistency
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Modal -->
+  <div id="demo-modal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <h2>Platform Demo</h2>
+      <div class="demo-info">
+        <h3>Try These Features:</h3>
+        <ol>
+          <li><strong>Browse Products:</strong> Navigate to the Products page to see our catalog</li>
+          <li><strong>Add to Cart:</strong> Click "Add to Cart" on any product</li>
+          <li><strong>View Cart:</strong> Check your cart to see items and total price</li>
+          <li><strong>Checkout:</strong> Complete the checkout flow with validation</li>
+          <li><strong>Track Orders:</strong> View your order confirmation</li>
+        </ol>
+
+        <h3>Backend Services:</h3>
+        <ul>
+          <li><strong>TypeScript API:</strong> Handles product catalog, cart, and orders</li>
+          <li><strong>Python Payment Service:</strong> Processes payments (conceptual Stripe integration)</li>
+          <li><strong>Ruby Email Service:</strong> Sends order confirmations (conceptual)</li>
+        </ul>
+
+        <h3>Test Credentials:</h3>
+        <div class="credentials">
+          <p><strong>Email:</strong> demo@example.com</p>
+          <p><strong>Card:</strong> 4242 4242 4242 4242</p>
+          <p><strong>CVV:</strong> 123</p>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="close-demo">Start Shopping</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>ElideShop</h3>
+          <p>Next-generation e-commerce powered by Elide's polyglot runtime</p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#" data-page="home">Home</a></li>
+            <li><a href="#" data-page="products">Products</a></li>
+            <li><a href="#" data-page="cart">Shopping Cart</a></li>
+            <li><a href="#" data-page="checkout">Checkout</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Technology</h4>
+          <ul>
+            <li>Elide Runtime</li>
+            <li>TypeScript API</li>
+            <li>Python Services</li>
+            <li>Ruby Services</li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>About</h4>
+          <p>
+            This is a showcase project demonstrating Elide's capabilities for
+            building polyglot e-commerce platforms with shared utilities.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 ElideShop. Part of Elide Showcases Collection.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="../app.ts"></script>
+</body>
+</html>

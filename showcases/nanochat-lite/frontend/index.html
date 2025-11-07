@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nanochat-Lite - Polyglot ML Chat</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>
+                    <span class="logo">🤖</span>
+                    Nanochat-Lite
+                </h1>
+                <p class="subtitle">Polyglot ML Chat powered by Elide</p>
+            </div>
+            <div class="stats">
+                <span class="stat" id="token-count">Tokens: 0</span>
+                <span class="stat" id="message-count">Messages: 0</span>
+                <span class="stat" id="connection-status">⚡ Connected</span>
+            </div>
+        </header>
+
+        <main class="chat-container">
+            <div class="messages" id="messages">
+                <div class="message system">
+                    <div class="message-content">
+                        <p><strong>Welcome to Nanochat-Lite!</strong></p>
+                        <p>This is a demonstration of Elide's polyglot capabilities:</p>
+                        <ul>
+                            <li>Frontend: TypeScript + HTML/CSS</li>
+                            <li>Backend: TypeScript server with BPE tokenizer</li>
+                            <li>ML Layer: Python inference integration</li>
+                            <li>Zero cold start deployment</li>
+                        </ul>
+                        <p>Type a message to get started...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <form id="chat-form" class="chat-form">
+                    <textarea
+                        id="message-input"
+                        class="message-input"
+                        placeholder="Type your message here..."
+                        rows="1"
+                        autocomplete="off"
+                        autofocus
+                    ></textarea>
+                    <button type="submit" class="send-button" id="send-button">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </form>
+                <div class="input-info">
+                    <span id="char-count">0 / 500</span>
+                    <span id="typing-indicator"></span>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Settings</h3>
+                    <label class="toggle">
+                        <input type="checkbox" id="stream-mode" checked>
+                        <span>Stream responses</span>
+                    </label>
+                    <label class="toggle">
+                        <input type="checkbox" id="websocket-mode" checked>
+                        <span>Use WebSocket</span>
+                    </label>
+                </div>
+                <div class="footer-section">
+                    <h3>Model Info</h3>
+                    <p class="model-info">Tokenizer: BPE (TypeScript)</p>
+                    <p class="model-info">Backend: Elide Runtime</p>
+                    <p class="model-info">Cold Start: ~0ms</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Actions</h3>
+                    <button class="action-button" id="clear-chat">Clear Chat</button>
+                    <button class="action-button" id="export-chat">Export</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script type="module" src="app.ts"></script>
+</body>
+</html>

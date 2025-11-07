@@ -115,19 +115,23 @@ Create `ELIDE_CONVERSION.md` with:
 - Blockers (if any)
 - Rating (⭐⭐⭐⭐⭐)
 
-### Step 5: Push to Main Branch
+### Step 5: Push Changes
 ```bash
-# Initialize if needed
-git init
-git remote add origin "https://ghp_[REDACTED]@github.com/akapug/elide-showcases.git"
-
 # Commit
 git config --local commit.gpgsign false
 git add -A
 git commit -m "feat: PROJECT-NAME conversion"
 
-# Push to MAIN (not a branch!)
-git push -u origin main:main/PROJECT-NAME  # Or pull main first if exists
+# Push Strategy:
+# - In Claude Code Web: Push to feature branch (claude/SESSION-ID)
+# - In standalone CLI: Can push directly to master
+# - Feature branches get merged to master via PR or merge
+
+# Claude Code Web example:
+git push -u origin claude/polyglot-enhancement-planning-SESSION-ID
+
+# Standalone CLI example:
+# git push -u origin master
 ```
 
 ### Step 6: Update Summary

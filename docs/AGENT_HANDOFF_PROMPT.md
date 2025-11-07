@@ -585,8 +585,6 @@ Read the [Case Study](./CASE_STUDY.md) for a real-world example.
 
 ### Step 9: Commit and Push
 
-**CRITICAL**: Always push to **master** branch only (user's explicit requirement).
-
 ```bash
 cd /home/user/elide-showcases
 
@@ -616,8 +614,13 @@ Part of Phase 1: TOP 10 conversions enhancement.
 
 Tested on Elide v1.0.0-beta10."
 
-# Push to master
-git push -u origin master
+# Push to appropriate branch
+# - Claude Code Web: Push to feature branch (claude/SESSION-ID)
+# - Feature branches get merged to master later
+git push -u origin claude/polyglot-enhancement-planning-011CUs5GPBXAQACHeXQUd3uN
+
+# Note: In standalone Claude Code CLI, you can push directly to master:
+# git push -u origin master
 ```
 
 ---
@@ -626,8 +629,16 @@ git push -u origin master
 
 ### Git Workflow
 
-1. **ALWAYS push to master** (user explicitly requested this)
-2. **Branch name format**: N/A - work directly on master
+1. **Branch strategy**:
+   - **Claude Code Web**: Work on feature branch (claude/SESSION-ID), push there
+   - **Standalone CLI**: Can work directly on master
+   - Feature branches get merged to master via PR or direct merge
+
+2. **Branch name format** (Claude Code Web):
+   - Must start with `claude/`
+   - Must end with session ID
+   - Example: `claude/polyglot-enhancement-planning-011CUs5GPBXAQACHeXQUd3uN`
+
 3. **Commit message format**:
    ```
    feat({package}): add polyglot examples and case study (#{number}-POLYGLOT)
@@ -637,7 +648,7 @@ git push -u origin master
 
 4. **Push with retry** (if network issues):
    ```bash
-   git push -u origin master
+   git push -u origin claude/polyglot-enhancement-planning-011CUs5GPBXAQACHeXQUd3uN
    # If fails, retry up to 4 times with exponential backoff (2s, 4s, 8s, 16s)
    ```
 

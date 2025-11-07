@@ -1,0 +1,24 @@
+{
+  "id": "react-basic",
+  "name": "React Basic App",
+  "description": "A simple React application with TypeScript",
+  "language": "typescript",
+  "framework": "react",
+  "files": [
+    {
+      "path": "App.tsx",
+      "content": "import React from 'react';\nimport './App.css';\n\nfunction App() {\n  return (\n    <div className=\"App\">\n      <header className=\"App-header\">\n        <h1>Hello React!</h1>\n        <p>Edit src/App.tsx and save to reload.</p>\n      </header>\n    </div>\n  );\n}\n\nexport default App;\n",
+      "language": "typescript"
+    },
+    {
+      "path": "App.css",
+      "content": ".App {\n  text-align: center;\n}\n\n.App-header {\n  background-color: #282c34;\n  min-height: 100vh;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  font-size: calc(10px + 2vmin);\n  color: white;\n}\n",
+      "language": "css"
+    }
+  ],
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.0.0"
+  }
+}

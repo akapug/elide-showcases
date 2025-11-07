@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Finance Tracker</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="app">
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <h1>💰 Finance Tracker</h1>
+      </div>
+      <div class="navbar-menu">
+        <button class="nav-btn" data-view="dashboard">Dashboard</button>
+        <button class="nav-btn" data-view="accounts">Accounts</button>
+        <button class="nav-btn" data-view="transactions">Transactions</button>
+        <button class="nav-btn" data-view="budgets">Budgets</button>
+        <button class="nav-btn" data-view="reports">Reports</button>
+      </div>
+    </nav>
+
+    <main class="container">
+      <!-- Dashboard View -->
+      <div id="dashboard-view" class="view">
+        <h2>Dashboard</h2>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Net Worth</div>
+            <div class="stat-value" id="net-worth">$0.00</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total Assets</div>
+            <div class="stat-value" id="total-assets">$0.00</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">This Month Income</div>
+            <div class="stat-value income" id="month-income">$0.00</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">This Month Expenses</div>
+            <div class="stat-value expense" id="month-expense">$0.00</div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="card">
+            <h3>Recent Transactions</h3>
+            <div id="recent-transactions"></div>
+          </div>
+
+          <div class="card">
+            <h3>Budget Overview</h3>
+            <div id="budget-overview"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accounts View -->
+      <div id="accounts-view" class="view" style="display: none;">
+        <div class="view-header">
+          <h2>Accounts</h2>
+          <button class="btn btn-primary" id="add-account-btn">Add Account</button>
+        </div>
+        <div id="accounts-list"></div>
+      </div>
+
+      <!-- Transactions View -->
+      <div id="transactions-view" class="view" style="display: none;">
+        <div class="view-header">
+          <h2>Transactions</h2>
+          <button class="btn btn-primary" id="add-transaction-btn">Add Transaction</button>
+        </div>
+
+        <div class="filters">
+          <input type="text" id="transaction-search" placeholder="Search transactions...">
+          <select id="account-filter">
+            <option value="">All Accounts</option>
+          </select>
+          <select id="category-filter">
+            <option value="">All Categories</option>
+          </select>
+        </div>
+
+        <div id="transactions-list"></div>
+      </div>
+
+      <!-- Budgets View -->
+      <div id="budgets-view" class="view" style="display: none;">
+        <div class="view-header">
+          <h2>Budgets</h2>
+          <button class="btn btn-primary" id="add-budget-btn">Add Budget</button>
+        </div>
+        <div id="budgets-list"></div>
+      </div>
+
+      <!-- Reports View -->
+      <div id="reports-view" class="view" style="display: none;">
+        <h2>Reports</h2>
+
+        <div class="report-tabs">
+          <button class="tab-btn active" data-tab="overview">Overview</button>
+          <button class="tab-btn" data-tab="spending">Spending</button>
+          <button class="tab-btn" data-tab="trends">Trends</button>
+        </div>
+
+        <div id="report-content"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modals -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script type="module" src="/app.ts"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "name": "finance-tracker",
+  "version": "1.0.0",
+  "description": "Self-hosted personal finance and budgeting application",
+  "main": "main.ts",
+  "scripts": {
+    "start": "elide run main.ts",
+    "test": "elide test tests/",
+    "dev": "elide run --watch main.ts"
+  },
+  "keywords": [
+    "finance",
+    "budgeting",
+    "personal-finance",
+    "expense-tracker",
+    "elide",
+    "polyglot"
+  ],
+  "dependencies": {
+    "decimal.js": "^10.4.3",
+    "validator": "^13.11.0",
+    "nanoid": "^5.0.4",
+    "marked": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/validator": "^13.11.0"
+  },
+  "author": "Elide Showcase",
+  "license": "MIT"
+}

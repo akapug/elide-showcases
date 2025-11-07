@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - ElideShop</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand">
+        <h1>ElideShop</h1>
+        <p class="tagline">Powered by Polyglot E-commerce</p>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#" class="nav-link" data-page="home">Home</a></li>
+        <li><a href="#" class="nav-link active" data-page="products">Products</a></li>
+        <li><a href="#" class="nav-link" data-page="cart">Cart (<span id="cart-count">0</span>)</a></li>
+        <li><a href="#" class="nav-link" data-page="checkout">Checkout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Product Catalog</h1>
+      <p>Browse our curated collection of premium products</p>
+    </div>
+  </section>
+
+  <!-- Filters and Search -->
+  <section class="filters-section">
+    <div class="container">
+      <div class="filters-bar">
+        <div class="search-box">
+          <input
+            type="text"
+            id="search-input"
+            class="search-input"
+            placeholder="Search products..."
+          />
+          <button class="btn btn-search" id="search-btn">🔍 Search</button>
+        </div>
+
+        <div class="filters">
+          <div class="filter-group">
+            <label for="category-filter">Category:</label>
+            <select id="category-filter" class="filter-select">
+              <option value="">All Categories</option>
+              <option value="electronics">Electronics</option>
+              <option value="clothing">Clothing</option>
+              <option value="home">Home & Garden</option>
+              <option value="sports">Sports & Outdoors</option>
+              <option value="books">Books</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="price-filter">Max Price:</label>
+            <select id="price-filter" class="filter-select">
+              <option value="">Any Price</option>
+              <option value="25">Under $25</option>
+              <option value="50">Under $50</option>
+              <option value="100">Under $100</option>
+              <option value="200">Under $200</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="stock-filter">Availability:</label>
+            <select id="stock-filter" class="filter-select">
+              <option value="">All Products</option>
+              <option value="in-stock">In Stock Only</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="sort-filter">Sort By:</label>
+            <select id="sort-filter" class="filter-select">
+              <option value="name">Name</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="stock">Stock</option>
+            </select>
+          </div>
+
+          <button class="btn btn-secondary" id="reset-filters">Reset Filters</button>
+        </div>
+      </div>
+
+      <div class="results-info">
+        <span id="results-count">0</span> products found
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Grid -->
+  <section class="products-section">
+    <div class="container">
+      <div id="products-grid" class="products-grid">
+        <!-- Products will be loaded dynamically -->
+        <div class="loading">Loading products...</div>
+      </div>
+
+      <!-- Pagination -->
+      <div id="pagination" class="pagination">
+        <!-- Pagination buttons will be added dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Detail Modal -->
+  <div id="product-modal" class="modal">
+    <div class="modal-content modal-large">
+      <span class="modal-close">&times;</span>
+      <div id="product-detail">
+        <!-- Product details will be loaded dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Add to Cart Toast -->
+  <div id="cart-toast" class="toast">
+    <span id="toast-message"></span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>ElideShop</h3>
+          <p>Next-generation e-commerce powered by Elide's polyglot runtime</p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#" data-page="home">Home</a></li>
+            <li><a href="#" data-page="products">Products</a></li>
+            <li><a href="#" data-page="cart">Shopping Cart</a></li>
+            <li><a href="#" data-page="checkout">Checkout</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="#" data-category="electronics">Electronics</a></li>
+            <li><a href="#" data-category="clothing">Clothing</a></li>
+            <li><a href="#" data-category="home">Home & Garden</a></li>
+            <li><a href="#" data-category="sports">Sports</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Customer Service</h4>
+          <ul>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 ElideShop. Part of Elide Showcases Collection.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="../app.ts"></script>
+</body>
+</html>

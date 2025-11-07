@@ -1,0 +1,64 @@
+{
+  "name": "@deploy-platform/platform",
+  "version": "1.0.0",
+  "description": "Self-hosted deployment platform alternative to Vercel/Netlify",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "deploy": "./dist/cli/deploy-cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn index.ts",
+    "dev:api": "ts-node-dev --respawn api/platform-api.ts",
+    "dev:builder": "ts-node-dev --respawn builder/build-pipeline.ts",
+    "dev:dashboard": "ts-node-dev --respawn dashboard/dashboard-app.ts",
+    "start": "node dist/index.js",
+    "start:api": "node dist/api/platform-api.js",
+    "start:builder": "node dist/builder/build-pipeline.js",
+    "start:dashboard": "node dist/dashboard/dashboard-app.js",
+    "test": "npm run test:cli && npm run test:api && npm run test:builder",
+    "test:cli": "ts-node tests/cli.test.ts",
+    "test:api": "ts-node tests/api.test.ts",
+    "test:builder": "ts-node tests/builder.test.ts",
+    "test:all": "chmod +x tests/run-all-tests.sh && ./tests/run-all-tests.sh",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\"",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "deployment",
+    "vercel",
+    "netlify",
+    "platform",
+    "hosting",
+    "serverless",
+    "edge",
+    "cdn",
+    "ci-cd",
+    "devops"
+  ],
+  "author": "Deploy Platform Team",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "ts-node-dev": "^2.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases"
+  },
+  "bugs": {
+    "url": "https://github.com/elide-dev/elide-showcases/issues"
+  },
+  "homepage": "https://github.com/elide-dev/elide-showcases/tree/main/showcases/deploy-platform"
+}

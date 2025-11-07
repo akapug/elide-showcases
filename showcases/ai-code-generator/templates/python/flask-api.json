@@ -1,0 +1,23 @@
+{
+  "id": "python-flask-api",
+  "name": "Flask API",
+  "description": "A RESTful API built with Flask",
+  "language": "python",
+  "framework": "flask",
+  "files": [
+    {
+      "path": "app.py",
+      "content": "from flask import Flask, jsonify, request\nfrom flask_cors import CORS\n\napp = Flask(__name__)\nCORS(app)\n\n# In-memory database\nusers = []\nuser_id_counter = 1\n\n@app.route('/api/users', methods=['GET'])\ndef get_users():\n    return jsonify(users)\n\n@app.route('/api/users/<int:user_id>', methods=['GET'])\ndef get_user(user_id):\n    user = next((u for u in users if u['id'] == user_id), None)\n    if user:\n        return jsonify(user)\n    return jsonify({'error': 'User not found'}), 404\n\n@app.route('/api/users', methods=['POST'])\ndef create_user():\n    global user_id_counter\n    data = request.json\n    \n    if not data.get('name') or not data.get('email'):\n        return jsonify({'error': 'Name and email required'}), 400\n    \n    user = {\n        'id': user_id_counter,\n        'name': data['name'],\n        'email': data['email']\n    }\n    users.append(user)\n    user_id_counter += 1\n    \n    return jsonify(user), 201\n\n@app.route('/api/users/<int:user_id>', methods=['PUT'])\ndef update_user(user_id):\n    user = next((u for u in users if u['id'] == user_id), None)\n    if not user:\n        return jsonify({'error': 'User not found'}), 404\n    \n    data = request.json\n    user.update(data)\n    return jsonify(user)\n\n@app.route('/api/users/<int:user_id>', methods=['DELETE'])\ndef delete_user(user_id):\n    global users\n    users = [u for u in users if u['id'] != user_id]\n    return '', 204\n\nif __name__ == '__main__':\n    app.run(debug=True, host='0.0.0.0', port=3000)\n",
+      "language": "python"
+    },
+    {
+      "path": "requirements.txt",
+      "content": "Flask==2.3.0\nflask-cors==4.0.0\n",
+      "language": "text"
+    }
+  ],
+  "dependencies": {
+    "Flask": "2.3.0",
+    "flask-cors": "4.0.0"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "elide-supabase",
+  "version": "1.0.0",
+  "description": "Open-source Firebase alternative with polyglot edge functions",
+  "main": "main.ts",
+  "scripts": {
+    "start": "elide run main.ts",
+    "dev": "elide run main.ts --watch",
+    "build": "elide build main.ts -o elide-supabase",
+    "test": "elide test"
+  },
+  "keywords": [
+    "backend",
+    "firebase",
+    "supabase",
+    "database",
+    "api",
+    "realtime",
+    "auth",
+    "storage",
+    "edge-functions",
+    "polyglot"
+  ],
+  "author": "Elide Showcases",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases"
+  }
+}
