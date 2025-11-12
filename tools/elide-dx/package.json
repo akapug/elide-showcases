@@ -1,0 +1,78 @@
+{
+  "name": "@elide/dx",
+  "version": "1.0.0",
+  "description": "Production-ready developer experience tools for Elide runtime",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "elide": "./cli/dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "node cli/dist/cli.js test",
+    "lint": "node cli/dist/cli.js lint",
+    "format": "node cli/dist/cli.js format",
+    "typecheck": "node cli/dist/cli.js typecheck",
+    "docs": "node cli/dist/cli.js docs",
+    "prepublishOnly": "npm run build",
+    "clean": "rm -rf */dist"
+  },
+  "keywords": [
+    "elide",
+    "developer-experience",
+    "debugger",
+    "repl",
+    "inspector",
+    "profiler",
+    "testing",
+    "linter",
+    "formatter",
+    "documentation"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide/elide-dx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/elide/elide-dx/issues"
+  },
+  "homepage": "https://elide.dev/docs/dx",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "events": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./debugger": "./debugger/dist/debugger.js",
+    "./repl": "./repl/dist/repl.js",
+    "./inspector": "./inspector/dist/inspector.js",
+    "./profiler": "./profiler/dist/profiler.js",
+    "./testing": "./testing/dist/test-runner.js",
+    "./linter": "./quality/dist/linter.js",
+    "./formatter": "./quality/dist/formatter.js",
+    "./type-checker": "./quality/dist/type-checker.js",
+    "./docs": "./docs/dist/doc-generator.js",
+    "./cli": "./cli/dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "debugger/dist",
+    "repl/dist",
+    "inspector/dist",
+    "profiler/dist",
+    "testing/dist",
+    "quality/dist",
+    "docs/dist",
+    "cli/dist",
+    "README.md",
+    "LICENSE"
+  ]
+}

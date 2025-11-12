@@ -1,0 +1,21 @@
+{
+  "name": "elide-file-processor",
+  "version": "1.0.0",
+  "description": "Native CLI file processor built with Elide",
+  "main": "main.ts",
+  "bin": {
+    "fileproc": "./dist/fileproc"
+  },
+  "scripts": {
+    "dev": "elide run main.ts",
+    "build": "elide build --target cli --output ./dist/fileproc",
+    "build:windows": "elide build --target cli --platform windows --output ./dist/fileproc.exe",
+    "build:macos": "elide build --target cli --platform macos --output ./dist/fileproc",
+    "build:linux": "elide build --target cli --platform linux --output ./dist/fileproc"
+  },
+  "elide": {
+    "target": "cli",
+    "optimize": "speed",
+    "minify": true
+  }
+}

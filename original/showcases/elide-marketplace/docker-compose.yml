@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  # Main API Server
+  api:
+    image: elide-dev/marketplace:latest
+    command: elide run server.ts
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DATABASE_PATH=/data/marketplace.db
+    volumes:
+      - ./data:/data
+      - .:/app
+    restart: unless-stopped
+
+  # Package Registry
+  registry:
+    image: elide-dev/marketplace:latest
+    command: elide run registry/registry-server.ts
+    ports:
+      - "4873:4873"
+    environment:
+      - REGISTRY_PORT=4873
+      - DATABASE_PATH=/data/registry.db
+    volumes:
+      - ./data:/data
+      - .:/app
+    restart: unless-stopped
+
+  # Service Marketplace
+  marketplace:
+    image: elide-dev/marketplace:latest
+    command: elide run marketplace/marketplace-server.ts
+    ports:
+      - "3001:3001"
+    environment:
+      - MARKETPLACE_PORT=3001
+      - DATABASE_PATH=/data/marketplace.db
+    volumes:
+      - ./data:/data
+      - .:/app
+    restart: unless-stopped
+
+  # Web Dashboard
+  dashboard:
+    image: elide-dev/marketplace:latest
+    command: elide run dashboard/dashboard-server.ts
+    ports:
+      - "8080:8080"
+    environment:
+      - DASHBOARD_PORT=8080
+      - ELIDE_API_URL=http://api:3000
+      - ELIDE_MARKETPLACE_URL=http://marketplace:3001
+      - ELIDE_REGISTRY_URL=http://registry:4873
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    depends_on:
+      - api
+      - marketplace
+      - registry
+
+  # Service Orchestrator
+  orchestrator:
+    image: elide-dev/marketplace:latest
+    command: elide run services/service-orchestrator.ts
+    ports:
+      - "3002:3002"
+    environment:
+      - ORCHESTRATOR_PORT=3002
+      - DATABASE_PATH=/data/marketplace.db
+    volumes:
+      - ./data:/data
+      - .:/app
+    restart: unless-stopped
+
+volumes:
+  data:
+    driver: local

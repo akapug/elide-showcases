@@ -1,0 +1,19 @@
+{
+  "name": "elide-text-editor",
+  "version": "1.0.0",
+  "description": "Native desktop text editor built with Elide",
+  "main": "main.ts",
+  "scripts": {
+    "dev": "elide run main.ts",
+    "build": "elide build --target desktop --output ./dist/TextEditor",
+    "build:windows": "elide build --target desktop --platform windows --output ./dist/TextEditor.exe",
+    "build:macos": "elide build --target desktop --platform macos --output ./dist/TextEditor.app",
+    "build:linux": "elide build --target desktop --platform linux --output ./dist/TextEditor"
+  },
+  "elide": {
+    "target": "desktop",
+    "optimize": "speed",
+    "minify": true,
+    "icon": "./assets/icon.png"
+  }
+}

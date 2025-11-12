@@ -1,0 +1,67 @@
+{
+  "name": "@elide/build",
+  "version": "1.0.0",
+  "description": "Lightning-fast build system for Elide - 10x faster than webpack",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "elide": "./cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "keywords": [
+    "elide",
+    "build",
+    "bundler",
+    "compiler",
+    "typescript",
+    "javascript",
+    "python",
+    "ruby",
+    "hmr",
+    "fast",
+    "performance"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases.git",
+    "directory": "tools/elide-build"
+  },
+  "bugs": {
+    "url": "https://github.com/elide-dev/elide/issues"
+  },
+  "homepage": "https://elide.dev/build",
+  "dependencies": {
+    "inquirer": "^9.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "jest": "^29.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "bundler",
+    "compiler",
+    "optimizer",
+    "dev-server",
+    "production",
+    "plugins",
+    "config",
+    "cli",
+    "README.md",
+    "LICENSE"
+  ]
+}

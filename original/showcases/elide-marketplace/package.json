@@ -1,0 +1,53 @@
+{
+  "name": "@elide/marketplace",
+  "version": "1.0.0",
+  "description": "Complete Marketplace Platform for Elide Packages and Services",
+  "main": "server.ts",
+  "type": "module",
+  "scripts": {
+    "start": "elide run server.ts",
+    "dev": "elide run --watch server.ts",
+    "build": "elide build server.ts",
+    "test": "elide test",
+    "registry": "elide run registry/registry-server.ts",
+    "marketplace": "elide run marketplace/marketplace-server.ts",
+    "publish": "elide run client/publish-cli.ts",
+    "dashboard": "elide run dashboard/dashboard-server.ts",
+    "services": "elide run services/service-orchestrator.ts",
+    "migrate": "elide run scripts/migrate-db.ts",
+    "seed": "elide run scripts/seed-data.ts",
+    "analytics": "elide run scripts/analytics-report.ts"
+  },
+  "keywords": [
+    "marketplace",
+    "package-registry",
+    "npm-compatible",
+    "service-marketplace",
+    "elide",
+    "polyglot",
+    "typescript",
+    "python",
+    "java",
+    "ruby",
+    "package-manager",
+    "saas",
+    "marketplace-platform"
+  ],
+  "author": "Elide Marketplace Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^0.11.0-beta11-rc1",
+    "@elide/http": "^0.11.0-beta11-rc1",
+    "@elide/db": "^0.11.0-beta11-rc1"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "elide": ">=0.11.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-marketplace"
+  }
+}
