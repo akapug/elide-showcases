@@ -1,0 +1,35 @@
+{
+  "name": "@elide/lodash",
+  "version": "1.0.0",
+  "description": "Lodash utility library for Elide - Modern JavaScript utilities for all languages",
+  "main": "lodash.ts",
+  "type": "module",
+  "keywords": [
+    "elide",
+    "lodash",
+    "utility",
+    "functional",
+    "polyglot",
+    "array",
+    "object",
+    "collection",
+    "string",
+    "typescript"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases"
+  },
+  "npm": {
+    "original": "lodash",
+    "downloads": "30M/week",
+    "url": "https://www.npmjs.com/package/lodash"
+  },
+  "elide": {
+    "polyglot": true,
+    "languages": ["javascript", "typescript", "python", "ruby", "java"],
+    "ready": true
+  }
+}

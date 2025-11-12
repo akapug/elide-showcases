@@ -1,0 +1,20 @@
+{
+  "name": "@elide/glob",
+  "version": "1.0.0",
+  "description": "Glob file pattern matching for Elide",
+  "main": "glob.ts",
+  "type": "module",
+  "keywords": ["elide", "glob", "pattern", "files", "match"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "glob",
+    "downloads": "18M/week",
+    "url": "https://www.npmjs.com/package/glob"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": false,
+    "note": "Requires Elide file system APIs"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@elide/commander",
+  "version": "1.0.0",
+  "description": "Commander CLI framework for Elide",
+  "main": "commander.ts",
+  "type": "module",
+  "keywords": ["elide", "commander", "cli", "command-line", "options", "parser"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "commander",
+    "downloads": "22M/week",
+    "url": "https://www.npmjs.com/package/commander"
+  },
+  "elide": {
+    "polyglot": true,
+    "languages": ["javascript", "typescript", "python", "ruby", "java"],
+    "ready": true
+  }
+}
