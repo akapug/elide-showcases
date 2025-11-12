@@ -15,7 +15,7 @@
  * - Cost tracking
  */
 
-import { serve } from "elide/http/server";
+// Native Elide beta11-rc1 HTTP - No imports needed for fetch handler
 
 // Types
 interface PromptTemplate {
@@ -511,9 +511,13 @@ templateManager.createTemplate({
   },
 });
 
-serve({
-  port: 8084,
-  fetch: async (req: Request): Promise<Response> => {
+/**
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ *
+ * Export a default fetch function that handles HTTP requests.
+ * Run with: elide serve --port 8084 server.ts
+ */
+export default async function fetch(req: Request): Promise<Response> {
     const url = new URL(req.url);
     const path = url.pathname;
 
@@ -847,21 +851,24 @@ serve({
         }
       );
     }
-  },
-});
+  }
+}
 
-console.log("Prompt Engineering Toolkit running on http://localhost:8084");
-console.log("Endpoints:");
-console.log("  GET    /v1/templates - List templates");
-console.log("  POST   /v1/templates - Create template");
-console.log("  GET    /v1/templates/{id} - Get template");
-console.log("  GET    /v1/templates/{id}/versions - List versions");
-console.log("  POST   /v1/templates/{id}/execute - Execute template");
-console.log("  GET    /v1/templates/{id}/metrics - Get metrics");
-console.log("  POST   /v1/analyze - Analyze prompt");
-console.log("  GET    /v1/tests - List A/B tests");
-console.log("  POST   /v1/tests - Create A/B test");
-console.log("  GET    /v1/tests/{id} - Get A/B test");
-console.log("  POST   /v1/tests/{id}/start - Start A/B test");
-console.log("  POST   /v1/tests/{id}/complete - Complete A/B test");
-console.log("  GET    /health - Health check");
+// Log server info on startup
+if (import.meta.url.includes("server.ts")) {
+  console.log("Prompt Engineering Toolkit running on http://localhost:8084");
+  console.log("Endpoints:");
+  console.log("  GET    /v1/templates - List templates");
+  console.log("  POST   /v1/templates - Create template");
+  console.log("  GET    /v1/templates/{id} - Get template");
+  console.log("  GET    /v1/templates/{id}/versions - List versions");
+  console.log("  POST   /v1/templates/{id}/execute - Execute template");
+  console.log("  GET    /v1/templates/{id}/metrics - Get metrics");
+  console.log("  POST   /v1/analyze - Analyze prompt");
+  console.log("  GET    /v1/tests - List A/B tests");
+  console.log("  POST   /v1/tests - Create A/B test");
+  console.log("  GET    /v1/tests/{id} - Get A/B test");
+  console.log("  POST   /v1/tests/{id}/start - Start A/B test");
+  console.log("  POST   /v1/tests/{id}/complete - Complete A/B test");
+  console.log("  GET    /health - Health check");
+}

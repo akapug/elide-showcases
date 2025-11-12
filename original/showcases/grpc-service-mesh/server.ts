@@ -12,7 +12,7 @@
  * @module grpc-service-mesh
  */
 
-import { serve } from "elide/http";
+// Native Elide beta11-rc1 HTTP - No imports needed for fetch handler
 
 /**
  * Protocol Buffer field types
@@ -684,8 +684,13 @@ grpcServer.use(async (context: CallContext, next: Function) => {
   }
 });
 
-// HTTP handler
-async function handleRequest(request: Request): Promise<Response> {
+/**
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ *
+ * Export a default fetch function that handles HTTP requests.
+ * Run with: elide serve --port 50051 server.ts
+ */
+export default async function fetch(request: Request): Promise<Response> {
   const url = new URL(request.url);
 
   // Health check endpoint
@@ -703,14 +708,11 @@ async function handleRequest(request: Request): Promise<Response> {
   return new Response('Not a gRPC request', { status: 400 });
 }
 
-// Start server
-serve({
-  port: 50051,
-  fetch: handleRequest
-});
-
-console.log('gRPC Server running on http://localhost:50051');
-console.log('Services:');
-console.log('  - UserService');
-console.log('  - grpc.health.v1.Health');
-console.log('  - grpc.reflection.v1alpha.ServerReflection');
+// Log server info on startup
+if (import.meta.url.includes("server.ts")) {
+  console.log('gRPC Server running on http://localhost:50051');
+  console.log('Services:');
+  console.log('  - UserService');
+  console.log('  - grpc.health.v1.Health');
+  console.log('  - grpc.reflection.v1alpha.ServerReflection');
+}

@@ -16,14 +16,27 @@
 
 ---
 
-## 🚀 What's New (V2 Reorganization + AI Expansion!)
+## 🚀 What's New
+
+### 🎉 Beta11-RC1 Released - Native HTTP Support!
+
+**Elide 1.0.0-beta11-rc1** is here with **native HTTP server support**! No more shims needed.
+
+**What this means:**
+- ✅ **Native Node.js `http.createServer` API** - Drop-in compatibility
+- ✅ **Fetch Handler Pattern** - Modern `export default async function fetch()`
+- ✅ **WSGI Support** - Run Flask/Django Python apps with `--wsgi` flag
+- ✅ **22 Showcases Converted** - All HTTP servers now use native beta11 APIs
+- ✅ **Flask+TypeScript Polyglot** - NEW showcase demonstrating Python WSGI + TypeScript orchestration
+
+**Migration:** All showcases have been updated from the old `elide/http/server` shim to native beta11-rc1 patterns. See [BETA11_MIGRATION_GUIDE.md](BETA11_MIGRATION_GUIDE.md) for migration details.
 
 ### ✨ Clean Two-Tier Structure
 - **Tier 1: Origin** - `converted/` vs `original/`
 - **Tier 2: Type** - `utilities/`, `showcases/`, `examples/`
 - **Every project in exactly ONE place**
 
-### 🤖 50 New AI/Microservices/Cloud-Native Showcases
+### 🤖 50+ AI/Microservices/Cloud-Native Showcases
 - **LLM Inference** - OpenAI-compatible APIs, Whisper, RAG, Vector search
 - **Microservices** - Service mesh, Event sourcing, Distributed tracing
 - **Data Pipelines** - Stream processing, ETL, CDC, Analytics
@@ -34,6 +47,7 @@
 - **Blockchain/Web3** - Indexers, NFT marketplaces, DeFi analytics
 - **Edge Computing** - CDN, Auth, Image optimization, Analytics
 - **Security/Compliance** - Threat detection, Vulnerability scanning, Encryption
+- **Polyglot** - Flask+TypeScript with <1ms cross-language calls
 
 ---
 
@@ -74,6 +88,8 @@
 │   │   │   ├── ai-agent-framework/
 │   │   │   ├── image-generation-api/
 │   │   │   └── sentiment-analysis-api/
+│   │   ├── 🌐 Polyglot (1)
+│   │   │   └── flask-typescript-polyglot/ (NEW! 🎉)
 │   │   ├── 🏗️ Microservices (10)
 │   │   │   ├── service-mesh/
 │   │   │   ├── api-gateway-advanced/
@@ -168,12 +184,17 @@
 - **Execution**: Instant TypeScript compilation
 - **Memory**: No V8 initialization overhead
 - **Polyglot**: <1ms cross-language call overhead
+- **HTTP**: Native server support in beta11-rc1 (Node.js `http` API + Fetch handlers)
+- **WSGI**: Native Python Flask/Django support with zero serialization overhead
 
 ---
 
 ## 🎯 Why Elide for VCs?
 
 ### Enterprise-Ready Capabilities
+- ✅ **Native HTTP** - Beta11-rc1 with Node.js `http` API + Fetch handlers (no shims!)
+- ✅ **True Polyglot** - Python Flask + TypeScript in ONE process with <1ms cross-language calls
+- ✅ **WSGI Support** - Run Flask/Django natively with `--wsgi` flag
 - ✅ **AI/ML Inference** - Production LLM serving, RAG, vector search
 - ✅ **Microservices** - Service mesh, event sourcing, distributed tracing
 - ✅ **Data Pipelines** - Real-time streaming, ETL, analytics
@@ -184,26 +205,31 @@
 
 ### Market Opportunity
 - **260M+ npm downloads/week** proven compatible
-- **50 enterprise showcases** demonstrating production readiness
-- **Polyglot runtime** - TypeScript + Python + Ruby + Java
-- **10x faster** cold starts than Node.js
+- **50+ enterprise showcases** demonstrating production readiness
+- **Polyglot runtime** - TypeScript + Python + Ruby + Java in ONE process
+- **10x faster** cold starts than Node.js (~20ms vs ~200ms)
 - **Zero dependencies** - instant execution
+- **Native HTTP** - Production-ready server support in beta11-rc1
 
 ---
 
 ## 🚀 Quick Start
 
 ```bash
-# Install Elide
-curl -sSL https://elide.sh | bash
+# Install Elide beta11-rc1 (with native HTTP support)
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
 
-# Run AI showcase
+# Run AI showcase (native HTTP)
 cd original/showcases/llm-inference-server
 elide run server.ts
 
-# Run microservices showcase
-cd original/showcases/service-mesh
+# Run polyglot showcase (Python Flask + TypeScript)
+cd original/showcases/flask-typescript-polyglot
 elide run server.ts
+
+# Run Flask with WSGI
+cd original/showcases/flask-typescript-polyglot
+elide run --wsgi app.py
 
 # Run npm conversion
 cd converted/utilities/chalk
@@ -233,7 +259,8 @@ elide run elide-chalk.ts
 - **escape-html** (18M/week) - XSS prevention
 
 ### Most Impressive Showcases:
-- **llm-inference-server** - OpenAI-compatible LLM API
+- **flask-typescript-polyglot** (NEW!) - Python Flask + TypeScript in ONE process (<1ms cross-language calls)
+- **llm-inference-server** - OpenAI-compatible LLM API (native HTTP)
 - **service-mesh** - Enterprise microservices pattern
 - **stream-processor** - Real-time data pipeline
 - **kubernetes-controller** - K8s operator

@@ -15,7 +15,7 @@
  * - Performance metrics and monitoring
  */
 
-import { serve } from "elide/http/server";
+// Native Elide beta11-rc1 HTTP - No imports needed for fetch handler
 
 // Model Configuration
 interface ModelConfig {
@@ -326,24 +326,28 @@ class InferenceEngine {
 const registry = new ModelRegistry();
 const engine = new InferenceEngine(registry);
 
-serve({
-  port: 8080,
-  fetch: async (req: Request): Promise<Response> => {
-    const url = new URL(req.url);
-    const path = url.pathname;
+/**
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ *
+ * Export a default fetch function that handles HTTP requests.
+ * Configure port in elide.pkl or run with: elide serve --port 8080
+ */
+export default async function fetch(req: Request): Promise<Response> {
+  const url = new URL(req.url);
+  const path = url.pathname;
 
-    // CORS headers
-    const corsHeaders = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    };
+  // CORS headers
+  const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  };
 
-    if (req.method === "OPTIONS") {
-      return new Response(null, { headers: corsHeaders });
-    }
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
 
-    try {
+  try {
       // Health check
       if (path === "/health" || path === "/") {
         return new Response(
@@ -475,13 +479,16 @@ serve({
         }
       );
     }
-  },
-});
+  }
+}
 
-console.log("LLM Inference Server running on http://localhost:8080");
-console.log("OpenAI-compatible API endpoints:");
-console.log("  POST /v1/chat/completions - Chat completions");
-console.log("  GET  /v1/models - List models");
-console.log("  POST /v1/models/{id}?action=load - Load model");
-console.log("  POST /v1/models/{id}?action=unload - Unload model");
-console.log("  GET  /health - Health check");
+// Log server info on startup (appears when running with elide serve)
+if (import.meta.url.includes("server.ts")) {
+  console.log("LLM Inference Server running on http://localhost:8080");
+  console.log("OpenAI-compatible API endpoints:");
+  console.log("  POST /v1/chat/completions - Chat completions");
+  console.log("  GET  /v1/models - List models");
+  console.log("  POST /v1/models/{id}?action=load - Load model");
+  console.log("  POST /v1/models/{id}?action=unload - Unload model");
+  console.log("  GET  /health - Health check");
+}

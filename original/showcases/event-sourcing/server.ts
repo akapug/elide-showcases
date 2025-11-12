@@ -55,7 +55,7 @@ class BankAccount implements AggregateRoot {
 
   constructor(id: string) {
     this.id = id;
-  }
+}
 
   apply(event: Event): void {
     switch (event.eventType) {
@@ -87,7 +87,7 @@ class BankAccount implements AggregateRoot {
         break;
     }
     this.version = event.metadata.version;
-  }
+}
 
   getState(): any {
     return {
@@ -98,7 +98,7 @@ class BankAccount implements AggregateRoot {
       transactionCount: this.transactions.length,
       transactions: this.transactions
     };
-  }
+}
 }
 
 class EventStore {
@@ -125,24 +125,24 @@ class EventStore {
     if (events.length % this.snapshotInterval === 0) {
       await this.createSnapshot(event.aggregateType, event.aggregateId);
     }
-  }
+}
 
   async getEvents(aggregateType: string, aggregateId: string, fromVersion: number = 0): Promise<Event[]> {
     const aggregateKey = `${aggregateType}:${aggregateId}`;
     const events = this.events.get(aggregateKey) || [];
     return events.filter(e => e.metadata.version > fromVersion);
-  }
+}
 
   async getAllEvents(fromId?: string): Promise<Event[]> {
     if (!fromId) return [...this.globalEventLog];
 
     const index = this.globalEventLog.findIndex(e => e.id === fromId);
     return index >= 0 ? this.globalEventLog.slice(index + 1) : [];
-  }
+}
 
   async getEventsByType(eventType: string): Promise<Event[]> {
     return this.globalEventLog.filter(e => e.eventType === eventType);
-  }
+}
 
   async createSnapshot(aggregateType: string, aggregateId: string): Promise<void> {
     const aggregate = await this.rehydrateAggregate(aggregateType, aggregateId);
@@ -159,12 +159,12 @@ class EventStore {
     const snapshotKey = `${aggregateType}:${aggregateId}`;
     this.snapshots.set(snapshotKey, snapshot);
     console.log(`Snapshot created for ${snapshotKey} at version ${aggregate.version}`);
-  }
+}
 
   async getSnapshot(aggregateType: string, aggregateId: string): Promise<Snapshot | null> {
     const snapshotKey = `${aggregateType}:${aggregateId}`;
     return this.snapshots.get(snapshotKey) || null;
-  }
+}
 
   async rehydrateAggregate(aggregateType: string, aggregateId: string): Promise<AggregateRoot | null> {
     // Try to load from snapshot first
@@ -189,7 +189,7 @@ class EventStore {
     }
 
     return aggregate;
-  }
+}
 
   private createAggregate(aggregateType: string, aggregateId: string): AggregateRoot {
     switch (aggregateType) {
@@ -198,7 +198,7 @@ class EventStore {
       default:
         throw new Error(`Unknown aggregate type: ${aggregateType}`);
     }
-  }
+}
 
   getStats(): any {
     return {
@@ -212,7 +212,7 @@ class EventStore {
         latestVersion: events[events.length - 1]?.metadata.version || 0
       }))
     };
-  }
+}
 
   private getEventCountsByType(): Record<string, number> {
     const counts: Record<string, number> = {};
@@ -220,7 +220,7 @@ class EventStore {
       counts[event.eventType] = (counts[event.eventType] || 0) + 1;
     }
     return counts;
-  }
+}
 }
 
 class ProjectionManager {
@@ -231,7 +231,7 @@ class ProjectionManager {
   constructor(eventStore: EventStore) {
     this.eventStore = eventStore;
     this.initializeProjections();
-  }
+}
 
   private initializeProjections(): void {
     // Account Balance Projection
@@ -298,7 +298,7 @@ class ProjectionManager {
 
       projection.data.summary = summary;
     });
-  }
+}
 
   private createProjection(name: string, handler: (event: Event) => void): void {
     this.projections.set(name, {
@@ -308,7 +308,7 @@ class ProjectionManager {
       data: {}
     });
     this.projectionHandlers.set(name, handler);
-  }
+}
 
   async rebuildProjection(name: string): Promise<void> {
     const projection = this.projections.get(name);
@@ -335,7 +335,7 @@ class ProjectionManager {
     }
 
     console.log(`Projection ${name} rebuilt with ${events.length} events`);
-  }
+}
 
   async updateProjections(event: Event): Promise<void> {
     for (const [name, handler] of this.projectionHandlers.entries()) {
@@ -344,15 +344,15 @@ class ProjectionManager {
       projection.lastProcessedEvent = event.id;
       projection.lastProcessedVersion++;
     }
-  }
+}
 
   getProjection(name: string): Projection | null {
     return this.projections.get(name) || null;
-  }
+}
 
   getAllProjections(): Projection[] {
     return Array.from(this.projections.values());
-  }
+}
 }
 
 class CommandHandler {
@@ -373,7 +373,7 @@ class CommandHandler {
 
     await this.eventStore.appendEvent(event);
     await this.projectionManager.updateProjections(event);
-  }
+}
 
   async handleDeposit(accountId: string, amount: number): Promise<void> {
     const event: Event = {
@@ -387,7 +387,7 @@ class CommandHandler {
 
     await this.eventStore.appendEvent(event);
     await this.projectionManager.updateProjections(event);
-  }
+}
 
   async handleWithdrawal(accountId: string, amount: number): Promise<void> {
     const event: Event = {
@@ -401,7 +401,7 @@ class CommandHandler {
 
     await this.eventStore.appendEvent(event);
     await this.projectionManager.updateProjections(event);
-  }
+}
 
   async handleCloseAccount(accountId: string): Promise<void> {
     const event: Event = {
@@ -415,7 +415,7 @@ class CommandHandler {
 
     await this.eventStore.appendEvent(event);
     await this.projectionManager.updateProjections(event);
-  }
+}
 }
 
 // Initialize event sourcing system
@@ -423,9 +423,12 @@ const eventStore = new EventStore();
 const projectionManager = new ProjectionManager(eventStore);
 const commandHandler = new CommandHandler(eventStore, projectionManager);
 
-// Elide server
-Elide.serve({
-  port: 3000,
+/**
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ * Run with: elide serve --port 3000 server.ts
+ */
+export default async function fetch(request: Request): Promise<Response> {
+
 
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url);
@@ -571,8 +574,11 @@ Elide.serve({
     }
 
     return new Response('Event Sourcing System', { status: 200 });
-  }
-});
+}
 
-console.log('📝 Event Sourcing System running on http://localhost:3000');
-console.log('CQRS Pattern: Commands → Events → Projections');
+
+
+if (import.meta.url.includes("server.ts")) {
+  console.log('📝 Event Sourcing System ready on port 3000');
+  console.log('CQRS Pattern: Commands → Events → Projections');
+}

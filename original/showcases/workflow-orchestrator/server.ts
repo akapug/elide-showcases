@@ -74,7 +74,7 @@ class WorkflowEngine {
 
   constructor() {
     this.registerBuiltInExecutors();
-  }
+}
 
   private registerBuiltInExecutors(): void {
     // HTTP Request executor
@@ -120,7 +120,7 @@ class WorkflowEngine {
       });
       return { status: response.status, sent: true };
     });
-  }
+}
 
   registerWorkflow(workflow: WorkflowDefinition): void {
     // Validate DAG (no cycles)
@@ -130,7 +130,7 @@ class WorkflowEngine {
 
     this.workflows.set(workflow.id, workflow);
     console.log(`Workflow registered: ${workflow.name} (${workflow.id})`);
-  }
+}
 
   private isValidDAG(steps: WorkflowStep[]): boolean {
     const visited = new Set<string>();
@@ -163,7 +163,7 @@ class WorkflowEngine {
     }
 
     return true;
-  }
+}
 
   async startWorkflow(workflowId: string, initialContext: Record<string, any> = {}): Promise<string> {
     const workflow = this.workflows.get(workflowId);
@@ -195,7 +195,7 @@ class WorkflowEngine {
     });
 
     return executionId;
-  }
+}
 
   private async executeWorkflow(executionId: string): Promise<void> {
     const execution = this.executions.get(executionId);
@@ -264,7 +264,7 @@ class WorkflowEngine {
       execution.error = (error as Error).message;
       execution.endTime = Date.now();
     }
-  }
+}
 
   private async executeStep(executionId: string, step: WorkflowStep): Promise<void> {
     const execution = this.executions.get(executionId);
@@ -343,7 +343,7 @@ class WorkflowEngine {
     stepResult.duration = stepResult.endTime - stepResult.startTime;
 
     execution.currentSteps = execution.currentSteps.filter(id => id !== step.id);
-  }
+}
 
   private async executeStepWithTimeout(
     step: WorkflowStep,
@@ -361,7 +361,7 @@ class WorkflowEngine {
         setTimeout(() => reject(new Error(`Step timeout after ${timeout}ms`)), timeout)
       )
     ]);
-  }
+}
 
   private async sendWebhook(url: string, payload: any): Promise<void> {
     try {
@@ -373,19 +373,19 @@ class WorkflowEngine {
     } catch (error) {
       console.error('Webhook failed:', error);
     }
-  }
+}
 
   getExecution(executionId: string): WorkflowExecution | null {
     return this.executions.get(executionId) || null;
-  }
+}
 
   getWorkflow(workflowId: string): WorkflowDefinition | null {
     return this.workflows.get(workflowId) || null;
-  }
+}
 
   listWorkflows(): WorkflowDefinition[] {
     return Array.from(this.workflows.values());
-  }
+}
 
   listExecutions(workflowId?: string): WorkflowExecution[] {
     let executions = Array.from(this.executions.values());
@@ -393,7 +393,7 @@ class WorkflowEngine {
       executions = executions.filter(e => e.workflowId === workflowId);
     }
     return executions.sort((a, b) => b.startTime - a.startTime);
-  }
+}
 
   async pauseExecution(executionId: string): Promise<void> {
     const execution = this.executions.get(executionId);
@@ -401,7 +401,7 @@ class WorkflowEngine {
       execution.status = 'paused';
       console.log(`Execution paused: ${executionId}`);
     }
-  }
+}
 
   getExecutionVisualization(executionId: string): any {
     const execution = this.executions.get(executionId);
@@ -428,7 +428,7 @@ class WorkflowEngine {
         };
       })
     };
-  }
+}
 }
 
 // Initialize engine
@@ -490,12 +490,15 @@ workflowEngine.registerWorkflow({
   webhooks: {
     onComplete: 'http://notifications.example.com/workflow-complete',
     onFailure: 'http://notifications.example.com/workflow-failed'
-  }
-});
+}
 
-// Elide server
-Elide.serve({
-  port: 3000,
+
+/**
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ * Run with: elide serve --port 3000 server.ts
+ */
+export default async function fetch(request: Request): Promise<Response> {
+
 
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url);
@@ -604,8 +607,11 @@ Elide.serve({
     }
 
     return new Response('Workflow Orchestrator', { status: 200 });
-  }
-});
+}
 
-console.log('🔄 Workflow Orchestrator running on http://localhost:3000');
-console.log('Execute complex workflows with DAG support');
+
+
+if (import.meta.url.includes("server.ts")) {
+  console.log('🔄 Workflow Orchestrator ready on port 3000');
+  console.log('Execute complex workflows with DAG support');
+}

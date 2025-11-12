@@ -1,4 +1,5 @@
 /**
+import { createServer, IncomingMessage, ServerResponse } from "http";
  * Kubernetes Controller - Custom Resource Controller
  *
  * A production-ready Kubernetes operator that manages custom resources,
@@ -6,21 +7,7 @@
  */
 
 // Type definitions for HTTP handlers
-interface IncomingMessage {
-  url?: string;
-  headers: { host?: string };
-  method?: string;
-  on(event: string, callback: (chunk: any) => void): void;
-}
 
-interface ServerResponse {
-  setHeader(name: string, value: string): void;
-  writeHead(statusCode: number, headers?: Record<string, string>): void;
-  end(data?: string): void;
-  write(data: string): void;
-  closed: boolean;
-  on(event: string, callback: () => void): void;
-}
 
 // ============================================================================
 // Type Definitions
@@ -525,6 +512,18 @@ class KubernetesController {
 const controller = new KubernetesController();
 const PORT = Number(process.env.PORT) || 3000;
 
-console.log(`Kubernetes Controller running on http://localhost:${PORT}`);
-console.log(`Health: http://localhost:${PORT}/healthz`);
-console.log(`CRD: http://localhost:${PORT}/crd`);
+
+// ============================================================================
+// HTTP Server Setup
+// ============================================================================
+
+const PORT = Number(process.env.PORT) || 3000;
+const server = createServer((req, res) => {
+  controller.handleRequest(req, res);
+});
+
+server.listen(PORT, () => {
+  console.log(`Kubernetes Controller running on http://localhost:${PORT}`);
+  console.log(`Health: http://localhost:${PORT}/healthz`);
+  console.log(`CRD: http://localhost:${PORT}/crd`);
+});

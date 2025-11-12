@@ -1,4 +1,5 @@
 /**
+import { createServer, IncomingMessage, ServerResponse } from "http";
  * DeFi Analytics Platform
  *
  * A production-grade DeFi analytics service for tracking TVL, calculating yields,
@@ -8,17 +9,7 @@
 import { URL } from 'url';
 
 // Type definitions for HTTP handlers
-interface IncomingMessage {
-  url?: string;
-  headers: { host?: string };
-  method?: string;
-}
 
-interface ServerResponse {
-  setHeader(name: string, value: string): void;
-  writeHead(statusCode: number, headers?: Record<string, string>): void;
-  end(data?: string): void;
-}
 
 // ============================================================================
 // Type Definitions
@@ -607,7 +598,16 @@ async function main() {
   console.log(`  GET /api/pool/{id} - Pool details`);
 }
 
-main().catch(err => {
-  console.error('Fatal error:', err);
-  process.exit(1);
+
+// ============================================================================
+// HTTP Server Setup
+// ============================================================================
+
+const PORT = Number(process.env.PORT) || 3000;
+const server = createServer((req, res) => {
+  url.handleRequest(req, res);
+});
+
+server.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });

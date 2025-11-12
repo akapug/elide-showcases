@@ -478,78 +478,79 @@ class APIGateway {
 // Create gateway instance
 const gateway = new APIGateway();
 
-// Elide server
-Elide.serve({
-  port: 3000,
+/**
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ * Run with: elide serve --port 3000 server.ts
+ */
+export default async function fetch(request: Request): Promise<Response> {
+  const url = new URL(request.url);
 
-  async fetch(request: Request): Promise<Response> {
-    const url = new URL(request.url);
-
-    // Auth endpoint - generate JWT token
-    if (url.pathname === '/auth/login' && request.method === 'POST') {
-      try {
-        const { email, password } = await request.json();
-        // Simplified auth (in production, validate credentials)
-        if (email && password) {
-          const token = gateway.getJWTValidator().createToken({
-            sub: crypto.randomUUID(),
-            email,
-            role: 'user'
-          });
-          return new Response(JSON.stringify({ token, expiresIn: 3600 }), {
-            headers: { 'Content-Type': 'application/json' }
-          });
-        }
-        return new Response(JSON.stringify({ error: 'Invalid credentials' }), {
-          status: 401,
-          headers: { 'Content-Type': 'application/json' }
+  // Auth endpoint - generate JWT token
+  if (url.pathname === '/auth/login' && request.method === 'POST') {
+    try {
+      const { email, password } = await request.json();
+      // Simplified auth (in production, validate credentials)
+      if (email && password) {
+        const token = gateway.getJWTValidator().createToken({
+          sub: crypto.randomUUID(),
+          email,
+          role: 'user'
         });
-      } catch (error) {
-        return new Response(JSON.stringify({ error: 'Invalid request' }), {
-          status: 400,
+        return new Response(JSON.stringify({ token, expiresIn: 3600 }), {
           headers: { 'Content-Type': 'application/json' }
         });
       }
-    }
-
-    // Cache management
-    if (url.pathname === '/admin/cache/stats') {
-      return new Response(JSON.stringify(gateway.getCacheStats(), null, 2), {
+      return new Response(JSON.stringify({ error: 'Invalid credentials' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } catch (error) {
+      return new Response(JSON.stringify({ error: 'Invalid request' }), {
+        status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
     }
-
-    if (url.pathname === '/admin/cache/invalidate' && request.method === 'POST') {
-      const { pattern } = await request.json();
-      gateway.invalidateCache(pattern);
-      return new Response(JSON.stringify({ success: true }), {
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Routes listing
-    if (url.pathname === '/admin/routes') {
-      const routes = gateway.getRoutes();
-      return new Response(JSON.stringify(routes, null, 2), {
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Health check
-    if (url.pathname === '/health') {
-      return new Response(JSON.stringify({ status: 'healthy' }), {
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // Route all API requests through gateway
-    if (url.pathname.startsWith('/api/')) {
-      return await gateway.handleRequest(request);
-    }
-
-    return new Response('Advanced API Gateway', { status: 200 });
   }
-});
 
-console.log('🚪 Advanced API Gateway running on http://localhost:3000');
-console.log('Features: Rate Limiting | JWT Auth | Caching | Transformation | Versioning');
+  // Cache management
+  if (url.pathname === '/admin/cache/stats') {
+    return new Response(JSON.stringify(gateway.getCacheStats(), null, 2), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  if (url.pathname === '/admin/cache/invalidate' && request.method === 'POST') {
+    const { pattern } = await request.json();
+    gateway.invalidateCache(pattern);
+    return new Response(JSON.stringify({ success: true }), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  // Routes listing
+  if (url.pathname === '/admin/routes') {
+    const routes = gateway.getRoutes();
+    return new Response(JSON.stringify(routes, null, 2), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  // Health check
+  if (url.pathname === '/health') {
+    return new Response(JSON.stringify({ status: 'healthy' }), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  // Route all API requests through gateway
+  if (url.pathname.startsWith('/api/')) {
+    return await gateway.handleRequest(request);
+  }
+
+  return new Response('Advanced API Gateway', { status: 200 });
+}
+
+if (import.meta.url.includes("server.ts")) {
+  console.log('🚪 Advanced API Gateway ready on port 3000');
+  console.log('Features: Rate Limiting | JWT Auth | Caching | Transformation | Versioning');
+}

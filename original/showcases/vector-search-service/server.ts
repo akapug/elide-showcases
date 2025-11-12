@@ -15,7 +15,7 @@
  * - Fast approximate nearest neighbor (ANN) search
  */
 
-import { serve } from "elide/http/server";
+// Native Elide beta11-rc1 HTTP - No imports needed for fetch handler
 
 // Types
 interface Vector {
@@ -364,9 +364,13 @@ const stats = new VectorStats();
 // Create default collection
 collectionManager.createCollection("default", 384, "cosine");
 
-serve({
-  port: 8082,
-  fetch: async (req: Request): Promise<Response> => {
+/**
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ *
+ * Export a default fetch function that handles HTTP requests.
+ * Run with: elide serve --port 8082 server.ts
+ */
+export default async function fetch(req: Request): Promise<Response> {
     const url = new URL(req.url);
     const path = url.pathname;
 
@@ -654,18 +658,21 @@ serve({
         }
       );
     }
-  },
-});
+  }
+}
 
-console.log("Vector Search Service running on http://localhost:8082");
-console.log("Endpoints:");
-console.log("  GET    /collections - List collections");
-console.log("  POST   /collections - Create collection");
-console.log("  DELETE /collections/{name} - Delete collection");
-console.log("  POST   /collections/{name}/upsert - Upsert vectors");
-console.log("  POST   /collections/{name}/search - Search vectors");
-console.log("  POST   /collections/{name}/delete - Delete vectors");
-console.log("  GET    /collections/{name}/list - List vectors");
-console.log("  GET    /collections/{name}/vectors/{id} - Get vector by ID");
-console.log("  GET    /stats - Service statistics");
-console.log("  GET    /health - Health check");
+// Log server info on startup
+if (import.meta.url.includes("server.ts")) {
+  console.log("Vector Search Service running on http://localhost:8082");
+  console.log("Endpoints:");
+  console.log("  GET    /collections - List collections");
+  console.log("  POST   /collections - Create collection");
+  console.log("  DELETE /collections/{name} - Delete collection");
+  console.log("  POST   /collections/{name}/upsert - Upsert vectors");
+  console.log("  POST   /collections/{name}/search - Search vectors");
+  console.log("  POST   /collections/{name}/delete - Delete vectors");
+  console.log("  GET    /collections/{name}/list - List vectors");
+  console.log("  GET    /collections/{name}/vectors/{id} - Get vector by ID");
+  console.log("  GET    /stats - Service statistics");
+  console.log("  GET    /health - Health check");
+}

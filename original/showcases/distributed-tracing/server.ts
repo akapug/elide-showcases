@@ -72,17 +72,17 @@ class SpanBuilder {
       logs: [],
       status: 'pending'
     };
-  }
+}
 
   setTag(key: string, value: string | number | boolean): SpanBuilder {
     this.span.tags[key] = value;
     return this;
-  }
+}
 
   setTags(tags: Record<string, string | number | boolean>): SpanBuilder {
     Object.assign(this.span.tags, tags);
     return this;
-  }
+}
 
   log(level: LogEntry['level'], message: string, fields?: Record<string, any>): SpanBuilder {
     this.span.logs.push({
@@ -92,7 +92,7 @@ class SpanBuilder {
       fields
     });
     return this;
-  }
+}
 
   finish(status: 'success' | 'error' = 'success', error?: string): Span {
     this.span.endTime = Date.now();
@@ -102,11 +102,11 @@ class SpanBuilder {
       this.span.error = error;
     }
     return this.span;
-  }
+}
 
   build(): Span {
     return this.span;
-  }
+}
 }
 
 class TraceCollector {
@@ -133,7 +133,7 @@ class TraceCollector {
 
     console.log(`Trace created: ${traceId} (${serviceName}:${operationName})`);
     return { traceId, rootSpan };
-  }
+}
 
   addSpan(span: Span): void {
     const trace = this.traces.get(span.traceId);
@@ -152,7 +152,7 @@ class TraceCollector {
     }
 
     console.log(`Span added: ${span.operationName} to trace ${span.traceId}`);
-  }
+}
 
   finishSpan(spanId: string, status: 'success' | 'error' = 'success', error?: string): void {
     const span = this.spans.get(spanId);
@@ -173,7 +173,7 @@ class TraceCollector {
     if (trace && trace.rootSpan.spanId === spanId) {
       this.completeTrace(span.traceId);
     }
-  }
+}
 
   private completeTrace(traceId: string): void {
     const trace = this.traces.get(traceId);
@@ -186,15 +186,15 @@ class TraceCollector {
       trace.status = trace.spans.some(s => s.status === 'error') ? 'failed' : 'completed';
       console.log(`Trace completed: ${traceId} (${trace.duration}ms)`);
     }
-  }
+}
 
   getTrace(traceId: string): Trace | null {
     return this.traces.get(traceId) || null;
-  }
+}
 
   getSpan(spanId: string): Span | null {
     return this.spans.get(spanId) || null;
-  }
+}
 
   queryTraces(filters: {
     serviceName?: string;
@@ -234,7 +234,7 @@ class TraceCollector {
     traces.sort((a, b) => b.startTime - a.startTime);
 
     return traces.slice(0, filters.limit || 100);
-  }
+}
 
   getStats(): TracingStats {
     const traces = Array.from(this.traces.values());
@@ -272,7 +272,7 @@ class TraceCollector {
       slowestTraces,
       serviceStats
     };
-  }
+}
 
   cleanup(): void {
     const now = Date.now();
@@ -310,7 +310,7 @@ class TraceCollector {
         }
       }
     }
-  }
+}
 
   generateVisualization(traceId: string): any {
     const trace = this.getTrace(traceId);
@@ -346,7 +346,7 @@ class TraceCollector {
       serviceCalls: trace.serviceCalls,
       tree: buildTree(trace.rootSpan)
     };
-  }
+}
 }
 
 class PerformanceAnalyzer {
@@ -383,7 +383,7 @@ class PerformanceAnalyzer {
       serviceBreakdown: Object.fromEntries(serviceBreakdown),
       criticalPath: this.findCriticalPath(trace)
     };
-  }
+}
 
   private findCriticalPath(trace: Trace): string[] {
     // Find the longest path through the span tree
@@ -402,7 +402,7 @@ class PerformanceAnalyzer {
     }
 
     return path;
-  }
+}
 }
 
 // Initialize tracing system
@@ -412,9 +412,12 @@ const performanceAnalyzer = new PerformanceAnalyzer();
 // Start cleanup job
 setInterval(() => traceCollector.cleanup(), 300000); // Every 5 minutes
 
-// Elide server
-Elide.serve({
-  port: 3000,
+/**
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ * Run with: elide serve --port 3000 server.ts
+ */
+export default async function fetch(request: Request): Promise<Response> {
+
 
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url);
@@ -586,8 +589,11 @@ Elide.serve({
     }
 
     return new Response('Distributed Tracing System', { status: 200 });
-  }
-});
+}
 
-console.log('🔍 Distributed Tracing System running on http://localhost:3000');
-console.log('Track requests across services with correlation IDs');
+
+
+if (import.meta.url.includes("server.ts")) {
+  console.log('🔍 Distributed Tracing System ready on port 3000');
+  console.log('Track requests across services with correlation IDs');
+}
