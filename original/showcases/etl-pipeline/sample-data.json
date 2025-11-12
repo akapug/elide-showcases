@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "customer_name": "Acme Corporation",
+    "email": "contact@acme.com",
+    "region": "North",
+    "status": "active",
+    "order_total": 15000,
+    "order_date": "2024-01-15",
+    "product_count": 25
+  },
+  {
+    "id": 2,
+    "customer_name": "TechStart Inc",
+    "email": "info@techstart.io",
+    "region": "South",
+    "status": "active",
+    "order_total": 8500,
+    "order_date": "2024-01-16",
+    "product_count": 12
+  },
+  {
+    "id": 3,
+    "customer_name": "Global Solutions",
+    "email": "sales@globalsolutions.com",
+    "region": "East",
+    "status": "pending",
+    "order_total": 22000,
+    "order_date": "2024-01-17",
+    "product_count": 45
+  },
+  {
+    "id": 4,
+    "customer_name": "Innovation Labs",
+    "email": "hello@innovationlabs.tech",
+    "region": "West",
+    "status": "active",
+    "order_total": 31500,
+    "order_date": "2024-01-18",
+    "product_count": 67
+  },
+  {
+    "id": 5,
+    "customer_name": "Digital Dynamics",
+    "email": "contact@digitaldynamics.net",
+    "region": "North",
+    "status": "active",
+    "order_total": 12000,
+    "order_date": "2024-01-19",
+    "product_count": 18
+  },
+  {
+    "id": 6,
+    "customer_name": "Cloud Systems",
+    "email": "support@cloudsystems.com",
+    "region": "South",
+    "status": "inactive",
+    "order_total": 5000,
+    "order_date": "2024-01-20",
+    "product_count": 8
+  },
+  {
+    "id": 7,
+    "customer_name": "DataFlow Inc",
+    "email": "info@dataflow.com",
+    "region": "East",
+    "status": "active",
+    "order_total": 28000,
+    "order_date": "2024-01-21",
+    "product_count": 52
+  },
+  {
+    "id": 8,
+    "customer_name": "SmartTech Solutions",
+    "email": "contact@smarttech.io",
+    "region": "West",
+    "status": "active",
+    "order_total": 19500,
+    "order_date": "2024-01-22",
+    "product_count": 34
+  },
+  {
+    "id": 9,
+    "customer_name": "Future Systems",
+    "email": "hello@futuresystems.tech",
+    "region": "North",
+    "status": "pending",
+    "order_total": 16500,
+    "order_date": "2024-01-23",
+    "product_count": 29
+  },
+  {
+    "id": 10,
+    "customer_name": "Enterprise Corp",
+    "email": "sales@enterprisecorp.com",
+    "region": "South",
+    "status": "active",
+    "order_total": 42000,
+    "order_date": "2024-01-24",
+    "product_count": 78
+  }
+]

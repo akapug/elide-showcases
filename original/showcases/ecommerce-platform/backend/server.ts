@@ -29,6 +29,15 @@ import { InventoryRoutes } from './routes/inventory.ts';
 import { Database } from './db/database.ts';
 import { v4 as uuidv4 } from '../shared/uuid.ts';
 
+// Import new production services
+import { CartManager } from './services/cart-manager.ts';
+import { CheckoutEngine } from './services/checkout-engine.ts';
+import { PaymentProcessor } from './services/payment-processor.ts';
+import { InventoryTracker } from './services/inventory-tracker.ts';
+import { ShippingCalculator } from './services/shipping-calculator.ts';
+import { RecommendationEngine } from './services/recommendation-engine.ts';
+import { SearchEngine } from './services/search-engine.ts';
+
 /**
  * Request context interface
  */
@@ -73,12 +82,30 @@ export class EcommerceServer {
   private orderRoutes: OrderRoutes;
   private inventoryRoutes: InventoryRoutes;
 
+  // Production services
+  private cartManager: CartManager;
+  private checkoutEngine: CheckoutEngine;
+  private paymentProcessor: PaymentProcessor;
+  private inventoryTracker: InventoryTracker;
+  private shippingCalculator: ShippingCalculator;
+  private recommendationEngine: RecommendationEngine;
+  private searchEngine: SearchEngine;
+
   constructor() {
     this.db = new Database();
     this.productRoutes = new ProductRoutes(this.db);
     this.cartRoutes = new CartRoutes(this.db);
     this.orderRoutes = new OrderRoutes(this.db);
     this.inventoryRoutes = new InventoryRoutes(this.db);
+
+    // Initialize production services
+    this.cartManager = new CartManager(this.db);
+    this.checkoutEngine = new CheckoutEngine(this.db);
+    this.paymentProcessor = new PaymentProcessor();
+    this.inventoryTracker = new InventoryTracker(this.db);
+    this.shippingCalculator = new ShippingCalculator();
+    this.recommendationEngine = new RecommendationEngine(this.db);
+    this.searchEngine = new SearchEngine(this.db);
   }
 
   /**
@@ -201,6 +228,60 @@ export class EcommerceServer {
       return this.inventoryRoutes.handle(ctx);
     }
 
+    // Search routes
+    if (path === '/api/search' && method === 'GET') {
+      return this.handleSearch(ctx);
+    }
+
+    // Recommendations routes
+    if (path === '/api/recommendations/personalized' && method === 'GET') {
+      return this.handlePersonalizedRecommendations(ctx);
+    }
+    if (path === '/api/recommendations/trending' && method === 'GET') {
+      return this.handleTrendingProducts(ctx);
+    }
+    if (path.match(/^\/api\/recommendations\/similar\/[\w-]+$/) && method === 'GET') {
+      const productId = path.split('/').pop()!;
+      return this.handleSimilarProducts(productId);
+    }
+
+    // Cart manager routes
+    if (path === '/api/cart/summary' && method === 'GET') {
+      return this.handleCartSummary(ctx);
+    }
+    if (path === '/api/wishlist' && method === 'GET') {
+      return this.handleGetWishlist(ctx);
+    }
+    if (path === '/api/wishlist' && method === 'POST') {
+      return this.handleAddToWishlist(ctx);
+    }
+
+    // Checkout routes
+    if (path === '/api/checkout/session' && method === 'POST') {
+      return this.handleCreateCheckoutSession(ctx);
+    }
+    if (path === '/api/checkout/discount' && method === 'POST') {
+      return this.handleApplyDiscount(ctx);
+    }
+
+    // Payment routes
+    if (path === '/api/payment/intent' && method === 'POST') {
+      return this.handleCreatePaymentIntent(ctx);
+    }
+    if (path === '/api/payment/process' && method === 'POST') {
+      return this.handleProcessPayment(ctx);
+    }
+
+    // Shipping routes
+    if (path === '/api/shipping/rates' && method === 'POST') {
+      return this.handleCalculateShipping(ctx);
+    }
+
+    // Analytics routes
+    if (path === '/api/analytics/dashboard' && method === 'GET') {
+      return this.handleAnalyticsDashboard(ctx);
+    }
+
     // 404 Not Found
     return this.errorResponse(404, 'Endpoint not found');
   }
@@ -293,6 +374,226 @@ export class EcommerceServer {
    */
   getDatabase(): Database {
     return this.db;
+  }
+
+  // ============================================================================
+  // New Production Feature Handlers
+  // ============================================================================
+
+  /**
+   * Handle advanced search
+   */
+  private handleSearch(ctx: RequestContext): Response {
+    const query = ctx.query.q || ctx.query.query || '';
+    const page = parseInt(ctx.query.page || '1', 10);
+    const limit = parseInt(ctx.query.limit || '20', 10);
+
+    const searchQuery = {
+      query: query as string,
+      page,
+      limit,
+      filters: {
+        categories: ctx.query.category ? [ctx.query.category as string] : undefined,
+        minPrice: ctx.query.minPrice ? parseFloat(ctx.query.minPrice as string) : undefined,
+        maxPrice: ctx.query.maxPrice ? parseFloat(ctx.query.maxPrice as string) : undefined,
+        inStock: ctx.query.inStock === 'true',
+      },
+      sort: ctx.query.sort ? {
+        field: ctx.query.sortField as any || 'relevance',
+        order: ctx.query.sortOrder as any || 'desc',
+      } : undefined,
+    };
+
+    const results = this.searchEngine.search(searchQuery);
+    return this.jsonResponse(200, results);
+  }
+
+  /**
+   * Handle personalized recommendations
+   */
+  private handlePersonalizedRecommendations(ctx: RequestContext): Response {
+    const recommendations = this.recommendationEngine.getPersonalizedRecommendations({
+      sessionId: ctx.sessionId,
+    }, 10);
+
+    return this.jsonResponse(200, { recommendations });
+  }
+
+  /**
+   * Handle trending products
+   */
+  private handleTrendingProducts(ctx: RequestContext): Response {
+    const trending = this.recommendationEngine.getTrendingProducts(10);
+    return this.jsonResponse(200, { trending });
+  }
+
+  /**
+   * Handle similar products
+   */
+  private handleSimilarProducts(productId: string): Response {
+    const similar = this.recommendationEngine.getSimilarProducts(productId, 6);
+    return this.jsonResponse(200, { similar });
+  }
+
+  /**
+   * Handle cart summary
+   */
+  private handleCartSummary(ctx: RequestContext): Response {
+    if (!ctx.sessionId) {
+      return this.errorResponse(400, 'Session required');
+    }
+
+    const summary = this.cartManager.getCartSummary(ctx.sessionId);
+    const validation = this.cartManager.validateCart(ctx.sessionId);
+
+    return this.jsonResponse(200, { summary, validation });
+  }
+
+  /**
+   * Handle get wishlist
+   */
+  private handleGetWishlist(ctx: RequestContext): Response {
+    if (!ctx.sessionId) {
+      return this.errorResponse(400, 'Session required');
+    }
+
+    const wishlist = this.cartManager.getWishlist(ctx.sessionId);
+    return this.jsonResponse(200, { wishlist });
+  }
+
+  /**
+   * Handle add to wishlist
+   */
+  private handleAddToWishlist(ctx: RequestContext): Response {
+    if (!ctx.sessionId) {
+      return this.errorResponse(400, 'Session required');
+    }
+
+    const { productId, notes, priority } = ctx.body;
+    if (!productId) {
+      return this.errorResponse(400, 'Product ID required');
+    }
+
+    try {
+      const item = this.cartManager.addToWishlist(ctx.sessionId, productId, notes, priority);
+      return this.jsonResponse(200, { item });
+    } catch (error) {
+      return this.errorResponse(400, error instanceof Error ? error.message : 'Failed to add to wishlist');
+    }
+  }
+
+  /**
+   * Handle create checkout session
+   */
+  private handleCreateCheckoutSession(ctx: RequestContext): Response {
+    if (!ctx.sessionId) {
+      return this.errorResponse(400, 'Session required');
+    }
+
+    try {
+      const checkoutSession = this.checkoutEngine.createCheckoutSession(ctx.sessionId);
+      return this.jsonResponse(200, { checkoutSession });
+    } catch (error) {
+      return this.errorResponse(400, error instanceof Error ? error.message : 'Failed to create checkout session');
+    }
+  }
+
+  /**
+   * Handle apply discount code
+   */
+  private handleApplyDiscount(ctx: RequestContext): Response {
+    const { checkoutId, code } = ctx.body;
+    if (!checkoutId || !code) {
+      return this.errorResponse(400, 'Checkout ID and discount code required');
+    }
+
+    try {
+      const session = this.checkoutEngine.applyDiscountCode(checkoutId, code);
+      return this.jsonResponse(200, { session });
+    } catch (error) {
+      return this.errorResponse(400, error instanceof Error ? error.message : 'Failed to apply discount');
+    }
+  }
+
+  /**
+   * Handle create payment intent
+   */
+  private handleCreatePaymentIntent(ctx: RequestContext): Response {
+    const { orderId, amount, currency, customerEmail, customerName, method } = ctx.body;
+
+    if (!orderId || !amount || !customerEmail) {
+      return this.errorResponse(400, 'Missing required payment information');
+    }
+
+    const intent = this.paymentProcessor.createPaymentIntent(
+      orderId,
+      amount,
+      currency || 'USD',
+      customerEmail,
+      customerName || 'Customer',
+      method || 'credit_card'
+    );
+
+    return this.jsonResponse(200, { intent });
+  }
+
+  /**
+   * Handle process payment
+   */
+  private async handleProcessPayment(ctx: RequestContext): Promise<Response> {
+    const { intentId, paymentMethod } = ctx.body;
+
+    if (!intentId || !paymentMethod) {
+      return this.errorResponse(400, 'Payment intent ID and method required');
+    }
+
+    try {
+      const result = await this.paymentProcessor.processStripePayment(intentId, paymentMethod);
+      return this.jsonResponse(200, { result });
+    } catch (error) {
+      return this.errorResponse(400, error instanceof Error ? error.message : 'Payment processing failed');
+    }
+  }
+
+  /**
+   * Handle calculate shipping
+   */
+  private handleCalculateShipping(ctx: RequestContext): Response {
+    const { destination, packages, orderTotal } = ctx.body;
+
+    if (!destination || !packages) {
+      return this.errorResponse(400, 'Destination and packages required');
+    }
+
+    const quote = this.shippingCalculator.calculateRates(
+      destination,
+      packages,
+      orderTotal || 0
+    );
+
+    return this.jsonResponse(200, { quote });
+  }
+
+  /**
+   * Handle analytics dashboard
+   */
+  private handleAnalyticsDashboard(ctx: RequestContext): Response {
+    const cartAnalytics = this.cartManager.getCartAnalytics();
+    const inventoryAnalytics = this.inventoryTracker.getInventoryAnalytics();
+    const searchAnalytics = this.searchEngine.getSearchAnalytics();
+    const recommendationAnalytics = this.recommendationEngine.getRecommendationAnalytics();
+    const paymentAnalytics = this.paymentProcessor.getPaymentAnalytics();
+
+    const dashboard = {
+      cart: cartAnalytics,
+      inventory: inventoryAnalytics,
+      search: searchAnalytics,
+      recommendations: recommendationAnalytics,
+      payments: paymentAnalytics,
+      timestamp: new Date().toISOString(),
+    };
+
+    return this.jsonResponse(200, dashboard);
   }
 }
 
@@ -429,14 +730,18 @@ export async function main() {
   console.log('Server Tests Complete!');
   console.log('══════════════════════════════════════════════════════');
   console.log();
-  console.log('Key Features Demonstrated:');
-  console.log('  ✓ Product catalog management');
-  console.log('  ✓ Shopping cart with session tracking');
-  console.log('  ✓ Real-time inventory management');
-  console.log('  ✓ Order processing and checkout');
-  console.log('  ✓ Integration with Python payment service');
-  console.log('  ✓ Integration with Ruby email service');
-  console.log('  ✓ Shared utilities across all services');
+  console.log('Production Features:');
+  console.log('  ✓ Advanced search with filters & autocomplete');
+  console.log('  ✓ AI-powered product recommendations');
+  console.log('  ✓ Shopping cart with wishlist & save-for-later');
+  console.log('  ✓ Multi-step checkout with validation');
+  console.log('  ✓ Payment processing (Stripe & PayPal)');
+  console.log('  ✓ Multi-location inventory tracking');
+  console.log('  ✓ Smart shipping calculation');
+  console.log('  ✓ Discount codes & promotions');
+  console.log('  ✓ Tax calculation by jurisdiction');
+  console.log('  ✓ Order fulfillment optimization');
+  console.log('  ✓ Analytics dashboard');
   console.log();
   console.log('Polyglot Value:');
   console.log('  → One TypeScript implementation for utilities');

@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-Time Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .header p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.95rem;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .stat-label {
+      color: #94a3b8;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+      font-size: 2.25rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-change {
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .stat-change.positive {
+      color: #10b981;
+    }
+
+    .stat-change.negative {
+      color: #ef4444;
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .chart-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .chart-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #f1f5f9;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: #334155;
+    }
+
+    .btn-secondary:hover {
+      box-shadow: 0 4px 12px rgba(51, 65, 85, 0.4);
+    }
+
+    select {
+      background: #334155;
+      color: #e2e8f0;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .alerts-panel {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .alert-item {
+      background: #334155;
+      border-left: 4px solid #ef4444;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+    }
+
+    .alert-item.warning {
+      border-left-color: #f59e0b;
+    }
+
+    .alert-item.info {
+      border-left-color: #3b82f6;
+    }
+
+    .alert-time {
+      color: #94a3b8;
+      font-size: 0.875rem;
+    }
+
+    .alert-message {
+      margin-top: 0.5rem;
+      color: #f1f5f9;
+    }
+
+    .export-panel {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .export-options {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #94a3b8;
+    }
+
+    .connection-status {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: #1e293b;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 1000;
+    }
+
+    .ws-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    .ws-indicator.disconnected {
+      background: #ef4444;
+    }
+
+    @media (max-width: 768px) {
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>
+      <span class="status-indicator"></span>
+      Real-Time Analytics Dashboard
+    </h1>
+    <p>Live performance monitoring and analytics • Powered by Elide</p>
+  </div>
+
+  <div class="connection-status">
+    <div class="ws-indicator" id="wsIndicator"></div>
+    <span id="wsStatus">Connecting...</span>
+  </div>
+
+  <div class="container">
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Events/Second</div>
+        <div class="stat-value" id="eventsPerSec">0</div>
+        <div class="stat-change positive" id="eventsChange">
+          ↑ Real-time
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Total Events</div>
+        <div class="stat-value" id="totalEvents">0</div>
+        <div class="stat-change" id="totalChange">
+          Processing...
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Active Users</div>
+        <div class="stat-value" id="activeUsers">0</div>
+        <div class="stat-change" id="usersChange">
+          Last 5 minutes
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">WebSocket Clients</div>
+        <div class="stat-value" id="wsClients">0</div>
+        <div class="stat-change" id="wsChange">
+          Connected
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="btn" onclick="refreshData()">🔄 Refresh Data</button>
+      <button class="btn" onclick="runFunnelAnalysis()">📊 Funnel Analysis</button>
+      <button class="btn" onclick="runCohortAnalysis()">👥 Cohort Analysis</button>
+      <button class="btn" onclick="exportData('csv')">📥 Export CSV</button>
+      <button class="btn" onclick="exportData('json')">📥 Export JSON</button>
+      <select id="timeRange" onchange="updateTimeRange()">
+        <option value="3600000">Last Hour</option>
+        <option value="86400000" selected>Last 24 Hours</option>
+        <option value="604800000">Last 7 Days</option>
+        <option value="2592000000">Last 30 Days</option>
+      </select>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3 class="chart-title">Events Over Time</h3>
+        <div class="chart-container">
+          <canvas id="eventsChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h3 class="chart-title">Event Types Distribution</h3>
+        <div class="chart-container">
+          <canvas id="typesChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h3 class="chart-title">User Activity</h3>
+        <div class="chart-container">
+          <canvas id="usersChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h3 class="chart-title">Performance Metrics</h3>
+        <div class="chart-container">
+          <canvas id="performanceChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alerts Panel -->
+    <div class="alerts-panel">
+      <h3 class="chart-title">Recent Alerts</h3>
+      <div id="alertsList">
+        <div class="loading">No alerts yet...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // WebSocket Connection
+    let ws = null;
+    let charts = {};
+    let currentTimeRange = 86400000; // 24 hours
+
+    function connectWebSocket() {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = `${protocol}//${window.location.host}/ws`;
+
+      ws = new WebSocket(wsUrl);
+
+      ws.onopen = () => {
+        console.log('WebSocket connected');
+        updateConnectionStatus(true);
+
+        // Subscribe to channels
+        ws.send(JSON.stringify({ type: 'subscribe', channel: 'metrics' }));
+        ws.send(JSON.stringify({ type: 'subscribe', channel: 'alerts' }));
+      };
+
+      ws.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+        handleWebSocketMessage(message);
+      };
+
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+        updateConnectionStatus(false);
+      };
+
+      ws.onclose = () => {
+        console.log('WebSocket disconnected');
+        updateConnectionStatus(false);
+
+        // Reconnect after 3 seconds
+        setTimeout(connectWebSocket, 3000);
+      };
+    }
+
+    function handleWebSocketMessage(message) {
+      if (message.type === 'metrics_update') {
+        updateMetrics(message.data);
+      } else if (message.type === 'alert') {
+        addAlert(message.event);
+      }
+    }
+
+    function updateConnectionStatus(connected) {
+      const indicator = document.getElementById('wsIndicator');
+      const status = document.getElementById('wsStatus');
+
+      if (connected) {
+        indicator.classList.remove('disconnected');
+        status.textContent = 'Connected';
+      } else {
+        indicator.classList.add('disconnected');
+        status.textContent = 'Disconnected';
+      }
+    }
+
+    function updateMetrics(data) {
+      document.getElementById('eventsPerSec').textContent = data.eventsPerSecond.toLocaleString();
+      document.getElementById('totalEvents').textContent = data.totalEvents.toLocaleString();
+      document.getElementById('activeUsers').textContent = data.uniqueUsers.toLocaleString();
+
+      // Update charts with real-time data
+      updateRealtimeChart(data);
+    }
+
+    // Initialize Charts
+    function initCharts() {
+      // Events Over Time Chart
+      charts.events = new Chart(document.getElementById('eventsChart'), {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'Events',
+            data: [],
+            borderColor: '#667eea',
+            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#e2e8f0' } }
+          },
+          scales: {
+            x: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } },
+            y: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } }
+          }
+        }
+      });
+
+      // Event Types Chart
+      charts.types = new Chart(document.getElementById('typesChart'), {
+        type: 'doughnut',
+        data: {
+          labels: [],
+          datasets: [{
+            data: [],
+            backgroundColor: [
+              '#667eea', '#764ba2', '#f093fb', '#4facfe',
+              '#43e97b', '#fa709a', '#fee140', '#30cfd0'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#e2e8f0' } }
+          }
+        }
+      });
+
+      // User Activity Chart
+      charts.users = new Chart(document.getElementById('usersChart'), {
+        type: 'bar',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'Active Users',
+            data: [],
+            backgroundColor: 'rgba(16, 185, 129, 0.8)',
+            borderColor: '#10b981',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#e2e8f0' } }
+          },
+          scales: {
+            x: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } },
+            y: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } }
+          }
+        }
+      });
+
+      // Performance Chart
+      charts.performance = new Chart(document.getElementById('performanceChart'), {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'Response Time (ms)',
+            data: [],
+            borderColor: '#f59e0b',
+            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#e2e8f0' } }
+          },
+          scales: {
+            x: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } },
+            y: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } }
+          }
+        }
+      });
+    }
+
+    // Update chart with real-time data
+    function updateRealtimeChart(data) {
+      const now = new Date().toLocaleTimeString();
+
+      // Update events chart
+      if (charts.events.data.labels.length > 20) {
+        charts.events.data.labels.shift();
+        charts.events.data.datasets[0].data.shift();
+      }
+
+      charts.events.data.labels.push(now);
+      charts.events.data.datasets[0].data.push(data.eventsPerSecond);
+      charts.events.update('none');
+    }
+
+    // Load dashboard data
+    async function loadData() {
+      try {
+        const endTime = Date.now();
+        const startTime = endTime - currentTimeRange;
+
+        // Load event types distribution
+        const countsRes = await fetch(`/analytics/count?type=&groupBy=type&startTime=${startTime}&endTime=${endTime}`);
+        const counts = await countsRes.json();
+
+        if (counts && typeof counts === 'object') {
+          const labels = Object.keys(counts);
+          const data = Object.values(counts);
+
+          charts.types.data.labels = labels;
+          charts.types.data.datasets[0].data = data;
+          charts.types.update();
+        }
+
+        // Load top pages
+        const topRes = await fetch(`/analytics/top?type=pageview&property=page&n=10&startTime=${startTime}&endTime=${endTime}`);
+        const topData = await topRes.json();
+
+        if (topData.top) {
+          charts.users.data.labels = topData.top.map(t => t.value);
+          charts.users.data.datasets[0].data = topData.top.map(t => t.count);
+          charts.users.update();
+        }
+
+        // Load time-series data
+        const aggregateRes = await fetch('/analytics/aggregate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            eventType: 'pageview',
+            metric: 'duration',
+            startTime,
+            endTime,
+            interval: Math.floor(currentTimeRange / 20)
+          })
+        });
+        const aggregateData = await aggregateRes.json();
+
+        if (aggregateData.data) {
+          charts.performance.data.labels = aggregateData.data.map(d =>
+            new Date(d.timestamp).toLocaleTimeString()
+          );
+          charts.performance.data.datasets[0].data = aggregateData.data.map(d => d.value);
+          charts.performance.update();
+        }
+
+        // Load stats
+        const statsRes = await fetch('/stats');
+        const stats = await statsRes.json();
+
+        if (stats.websocket) {
+          document.getElementById('wsClients').textContent = stats.websocket.activeConnections;
+        }
+
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    }
+
+    // Add alert to panel
+    function addAlert(alert) {
+      const alertsList = document.getElementById('alertsList');
+
+      if (alertsList.querySelector('.loading')) {
+        alertsList.innerHTML = '';
+      }
+
+      const alertEl = document.createElement('div');
+      alertEl.className = `alert-item ${alert.severity}`;
+      alertEl.innerHTML = `
+        <div class="alert-time">${new Date(alert.timestamp).toLocaleString()}</div>
+        <div class="alert-message"><strong>${alert.alertName}</strong>: ${alert.message}</div>
+      `;
+
+      alertsList.insertBefore(alertEl, alertsList.firstChild);
+
+      // Keep only last 10 alerts
+      while (alertsList.children.length > 10) {
+        alertsList.removeChild(alertsList.lastChild);
+      }
+    }
+
+    // Refresh data
+    function refreshData() {
+      loadData();
+    }
+
+    // Update time range
+    function updateTimeRange() {
+      currentTimeRange = parseInt(document.getElementById('timeRange').value);
+      loadData();
+    }
+
+    // Export data
+    async function exportData(format) {
+      try {
+        const endTime = Date.now();
+        const startTime = endTime - currentTimeRange;
+
+        const response = await fetch('/export', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            format,
+            filter: { startTime, endTime },
+            limit: 10000
+          })
+        });
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `analytics-export-${Date.now()}.${format}`;
+        a.click();
+
+        console.log(`Exported data as ${format}`);
+      } catch (error) {
+        console.error('Export error:', error);
+        alert('Export failed. Check console for details.');
+      }
+    }
+
+    // Funnel analysis
+    async function runFunnelAnalysis() {
+      try {
+        const endTime = Date.now();
+        const startTime = endTime - currentTimeRange;
+
+        const response = await fetch('/queries/funnel', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            steps: [
+              { name: 'Page View', eventType: 'pageview' },
+              { name: 'Click', eventType: 'click' },
+              { name: 'Form Submit', eventType: 'form_submit' }
+            ],
+            startTime,
+            endTime,
+            timeLimit: 3600000
+          })
+        });
+
+        const result = await response.json();
+        console.log('Funnel Analysis:', result);
+
+        alert(`Funnel Analysis:\n\nConversion Rate: ${result.overallConversionRate.toFixed(2)}%\nTotal Entered: ${result.totalEntered}\nTotal Completed: ${result.totalCompleted}`);
+      } catch (error) {
+        console.error('Funnel analysis error:', error);
+      }
+    }
+
+    // Cohort analysis
+    async function runCohortAnalysis() {
+      try {
+        const response = await fetch('/queries/cohort', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: 'User Retention',
+            entryEvent: 'pageview',
+            retentionEvent: 'pageview',
+            periods: 7,
+            periodLength: 86400000
+          })
+        });
+
+        const result = await response.json();
+        console.log('Cohort Analysis:', result);
+
+        alert(`Cohort Analysis:\n\nCohorts Analyzed: ${result.cohorts.length}\nAverage Day 1 Retention: ${result.averageRetention[0]?.toFixed(2)}%`);
+      } catch (error) {
+        console.error('Cohort analysis error:', error);
+      }
+    }
+
+    // Initialize
+    connectWebSocket();
+    initCharts();
+    loadData();
+
+    // Refresh data periodically
+    setInterval(loadData, 30000); // Every 30 seconds
+  </script>
+</body>
+</html>
