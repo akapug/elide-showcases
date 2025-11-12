@@ -117,7 +117,7 @@ npm run dev
 **Backend**:
 ```bash
 cd backend
-elide run server.ts
+elide serve server.ts
 # or
 node --loader ts-node/esm server.ts
 ```
@@ -135,7 +135,7 @@ npm run build
 **Run backend** (serves both API and static files):
 ```bash
 cd backend
-elide run server.ts
+elide serve server.ts
 ```
 
 Visit: `http://localhost:8080`

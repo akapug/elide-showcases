@@ -74,7 +74,7 @@ This showcase implements a production-ready vector database with similarity sear
 
 ```bash
 # Start the service
-elide run server.ts
+elide serve server.ts
 
 # Service will start on http://localhost:8082
 ```

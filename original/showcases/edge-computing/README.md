@@ -26,9 +26,9 @@ Each utility is optimized for:
 cd categories/edge
 
 # Run any edge utility
-elide run edge-router.ts
-elide run edge-cache.ts
-elide run edge-auth.ts
+elide serve edge-router.ts
+elide serve edge-cache.ts
+elide serve edge-auth.ts
 ```
 
 ## ⚡ Why Elide for Edge?

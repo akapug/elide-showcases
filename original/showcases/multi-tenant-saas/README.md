@@ -606,7 +606,7 @@ spec:
 
 ```bash
 # Start server
-elide run server.ts
+elide serve server.ts
 
 # Server runs on http://localhost:3000
 ```

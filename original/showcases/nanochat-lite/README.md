@@ -27,7 +27,7 @@ Nanochat-Lite is a showcase application demonstrating how Elide's polyglot runti
 ### Demo
 
 ```
-$ elide run backend/server.ts
+$ elide serve backend/server.ts
 
 =============================================================
 Nanochat-Lite Server
@@ -62,7 +62,7 @@ cd elide-showcases/showcases/nanochat-lite
 
 ```bash
 # Start the server with Elide
-elide run backend/server.ts
+elide serve backend/server.ts
 
 # Or use Node.js for development
 npx ts-node backend/server.ts
@@ -444,7 +444,7 @@ private async authenticate(request: Request): Promise<User> {
 ### Development
 
 ```bash
-elide run backend/server.ts
+elide serve backend/server.ts
 ```
 
 ### Production
@@ -454,7 +454,7 @@ elide run backend/server.ts
 elide build backend/server.ts -o dist/
 
 # Run in production
-elide run dist/server.js
+elide serve dist/server.js
 ```
 
 ### Docker (optional)
@@ -486,7 +486,7 @@ fastly compute publish
 
 ```bash
 # Change port
-PORT=3000 elide run backend/server.ts
+PORT=3000 elide serve backend/server.ts
 ```
 
 ### WebSocket Connection Failed

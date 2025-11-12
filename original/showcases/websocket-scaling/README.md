@@ -545,7 +545,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 EXPOSE 3000
-CMD ["elide", "run", "server.ts"]
+CMD ["elide", "serve", "server.ts"]
 ```
 
 ### Kubernetes
@@ -592,7 +592,7 @@ spec:
 
 ```bash
 # Start server
-elide run server.ts
+elide serve server.ts
 
 # Server runs on http://localhost:3000
 # WebSocket endpoint: ws://localhost:3000

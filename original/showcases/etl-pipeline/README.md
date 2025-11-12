@@ -209,7 +209,7 @@ List all ETL jobs.
 
 ### Start the Server
 ```bash
-elide run server.ts
+elide serve server.ts
 ```
 
 ### Run a Simple ETL Job

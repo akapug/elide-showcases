@@ -171,7 +171,7 @@ Health check endpoint.
 
 ### Start the Server
 ```bash
-elide run server.ts
+elide serve server.ts
 ```
 
 ### Ingest Events

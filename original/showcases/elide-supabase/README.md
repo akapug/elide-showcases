@@ -22,10 +22,10 @@ All backend services in one self-hosted binary, powered by Elide.
 
 ```bash
 # Run ElideSupabase
-elide run main.ts
+elide serve main.ts
 
 # Or with custom config
-elide run main.ts config.yaml
+elide serve main.ts config.yaml
 ```
 
 ## Configuration

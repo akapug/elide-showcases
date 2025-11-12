@@ -313,7 +313,7 @@ Get replicated data maintained by the replication consumer.
 
 ### Start the Server
 ```bash
-elide run server.ts
+elide serve server.ts
 ```
 
 ### Simulate Database Operations

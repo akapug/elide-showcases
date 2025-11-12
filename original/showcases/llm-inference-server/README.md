@@ -73,7 +73,7 @@ This showcase implements a production-ready LLM inference server that provides O
 
 ```bash
 # Start the server
-elide run server.ts
+elide serve server.ts
 
 # Server will start on http://localhost:8080
 ```

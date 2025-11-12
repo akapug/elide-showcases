@@ -30,10 +30,10 @@ This showcase demonstrates a production-ready e-commerce platform with shopping 
 
 ```bash
 # Using Elide
-elide run backend/server.ts
+elide serve backend/server.ts
 
 # Or execute directly
-/tmp/elide-1.0.0-beta10-linux-amd64/elide run backend/server.ts
+/tmp/elide-1.0.0-beta10-linux-amd64/elide serve backend/server.ts
 ```
 
 ### Run Integration Tests

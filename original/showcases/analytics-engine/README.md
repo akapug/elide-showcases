@@ -294,7 +294,7 @@ Get analytics engine statistics.
 
 ### Start the Server
 ```bash
-elide run server.ts
+elide serve server.ts
 ```
 
 The server starts with 1000 minutes of sample data for 5 metrics across 5 hosts and 3 regions.

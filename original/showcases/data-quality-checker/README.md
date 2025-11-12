@@ -325,7 +325,7 @@ Get a specific dataset.
 
 ### Start the Server
 ```bash
-elide run server.ts
+elide serve server.ts
 ```
 
 ### Validate Customer Data

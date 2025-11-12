@@ -287,7 +287,7 @@ Authenticated requests automatically include:
 ## Running the Gateway
 
 ```bash
-elide run server.ts
+elide serve server.ts
 ```
 
 The API Gateway will start on `http://localhost:3000`.

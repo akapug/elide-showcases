@@ -348,137 +348,136 @@ export default async function fetch(req: Request): Promise<Response> {
   }
 
   try {
-      // Health check
-      if (path === "/health" || path === "/") {
-        return new Response(
-          JSON.stringify({
-            status: "healthy",
-            service: "LLM Inference Server",
-            uptime: process.uptime(),
-            models: registry.listModels().filter((m) => m.loaded).length,
-          }),
-          {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          }
-        );
-      }
-
-      // List models
-      if (path === "/v1/models" && req.method === "GET") {
-        const models = registry.listModels();
-        return new Response(
-          JSON.stringify({
-            object: "list",
-            data: models.map((m) => ({
-              id: m.id,
-              object: "model",
-              created: m.loadedAt?.getTime() || Date.now(),
-              owned_by: "elide",
-              permission: [],
-              root: m.id,
-              parent: null,
-            })),
-          }),
-          {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          }
-        );
-      }
-
-      // Model management
-      if (path.startsWith("/v1/models/") && req.method === "POST") {
-        const modelId = path.split("/")[3];
-        const action = url.searchParams.get("action");
-
-        if (action === "load") {
-          const success = registry.loadModel(modelId);
-          return new Response(
-            JSON.stringify({ success, model: modelId }),
-            {
-              headers: { ...corsHeaders, "Content-Type": "application/json" },
-            }
-          );
-        } else if (action === "unload") {
-          const success = registry.unloadModel(modelId);
-          return new Response(
-            JSON.stringify({ success, model: modelId }),
-            {
-              headers: { ...corsHeaders, "Content-Type": "application/json" },
-            }
-          );
-        }
-      }
-
-      // Chat completions
-      if (path === "/v1/chat/completions" && req.method === "POST") {
-        const body = await req.json();
-        const request = body as ChatCompletionRequest;
-
-        // Validate request
-        if (!request.model || !request.messages || request.messages.length === 0) {
-          return new Response(
-            JSON.stringify({ error: "Invalid request: model and messages required" }),
-            {
-              status: 400,
-              headers: { ...corsHeaders, "Content-Type": "application/json" },
-            }
-          );
-        }
-
-        // Streaming response
-        if (request.stream) {
-          const stream = new ReadableStream({
-            async start(controller) {
-              try {
-                for await (const chunk of engine.completeStream(request)) {
-                  const data = `data: ${JSON.stringify(chunk)}\n\n`;
-                  controller.enqueue(new TextEncoder().encode(data));
-                }
-                controller.enqueue(new TextEncoder().encode("data: [DONE]\n\n"));
-                controller.close();
-              } catch (error) {
-                controller.error(error);
-              }
-            },
-          });
-
-          return new Response(stream, {
-            headers: {
-              ...corsHeaders,
-              "Content-Type": "text/event-stream",
-              "Cache-Control": "no-cache",
-              "Connection": "keep-alive",
-            },
-          });
-        }
-
-        // Non-streaming response
-        const response = await engine.complete(request);
-        return new Response(JSON.stringify(response), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-
-      // Not found
-      return new Response(JSON.stringify({ error: "Not found" }), {
-        status: 404,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    } catch (error) {
-      console.error("Error:", error);
+    // Health check
+    if (path === "/health" || path === "/") {
       return new Response(
         JSON.stringify({
-          error: {
-            message: error instanceof Error ? error.message : "Internal server error",
-            type: "server_error",
-          },
+          status: "healthy",
+          service: "LLM Inference Server",
+          uptime: process.uptime(),
+          models: registry.listModels().filter((m) => m.loaded).length,
         }),
         {
-          status: 500,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         }
       );
     }
+
+    // List models
+    if (path === "/v1/models" && req.method === "GET") {
+      const models = registry.listModels();
+      return new Response(
+        JSON.stringify({
+          object: "list",
+          data: models.map((m) => ({
+            id: m.id,
+            object: "model",
+            created: m.loadedAt?.getTime() || Date.now(),
+            owned_by: "elide",
+            permission: [],
+            root: m.id,
+            parent: null,
+          })),
+        }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // Model management
+    if (path.startsWith("/v1/models/") && req.method === "POST") {
+      const modelId = path.split("/")[3];
+      const action = url.searchParams.get("action");
+
+      if (action === "load") {
+        const success = registry.loadModel(modelId);
+        return new Response(
+          JSON.stringify({ success, model: modelId }),
+          {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      } else if (action === "unload") {
+        const success = registry.unloadModel(modelId);
+        return new Response(
+          JSON.stringify({ success, model: modelId }),
+          {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+    }
+
+    // Chat completions
+    if (path === "/v1/chat/completions" && req.method === "POST") {
+      const body = await req.json();
+      const request = body as ChatCompletionRequest;
+
+      // Validate request
+      if (!request.model || !request.messages || request.messages.length === 0) {
+        return new Response(
+          JSON.stringify({ error: "Invalid request: model and messages required" }),
+          {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+
+      // Streaming response
+      if (request.stream) {
+        const stream = new ReadableStream({
+          async start(controller) {
+            try {
+              for await (const chunk of engine.completeStream(request)) {
+                const data = `data: ${JSON.stringify(chunk)}\n\n`;
+                controller.enqueue(new TextEncoder().encode(data));
+              }
+              controller.enqueue(new TextEncoder().encode("data: [DONE]\n\n"));
+              controller.close();
+            } catch (error) {
+              controller.error(error);
+            }
+          },
+        });
+
+        return new Response(stream, {
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "text/event-stream",
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+          },
+        });
+      }
+
+      // Non-streaming response
+      const response = await engine.complete(request);
+      return new Response(JSON.stringify(response), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Not found
+    return new Response(JSON.stringify({ error: "Not found" }), {
+      status: 404,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: error instanceof Error ? error.message : "Internal server error",
+          type: "server_error",
+        },
+      }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      }
+    );
   }
 }
 

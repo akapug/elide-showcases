@@ -14,7 +14,7 @@
  * - Team collaboration
  * - Zero vendor lock-in
  *
- * Run with: elide run server.ts
+ * Run with: elide serve server.ts
  */
 
 import { createServer } from "http";

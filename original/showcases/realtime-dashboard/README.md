@@ -96,7 +96,7 @@ realtime-dashboard/
 
 ```bash
 # Start the metrics server
-elide run backend/server.ts
+elide serve backend/server.ts
 
 # The server will:
 # - Start collecting metrics every 2 seconds

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elide KPI Dashboard - HTTP GA Readiness</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 1.2em;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #10b981;
+      color: white;
+      border-radius: 20px;
+      font-weight: bold;
+      margin-top: 10px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .metric-card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .metric-title {
+      font-size: 0.9em;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .metric-value {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #667eea;
+      margin-bottom: 5px;
+    }
+
+    .metric-subtitle {
+      color: #999;
+      font-size: 0.9em;
+    }
+
+    .chart-container {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .chart-title {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .chart-wrapper {
+      position: relative;
+      height: 400px;
+    }
+
+    .comparison-table {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    tr:hover {
+      background: #f8f9fa;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .status-ga {
+      background: #10b981;
+    }
+
+    .status-beta {
+      background: #f59e0b;
+    }
+
+    .status-alpha {
+      background: #ef4444;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.3s ease;
+    }
+
+    footer {
+      text-align: center;
+      color: white;
+      margin-top: 40px;
+      opacity: 0.8;
+    }
+
+    .live-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: #10b981;
+      border-radius: 50%;
+      margin-right: 8px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0.3; }
+    }
+
+    .ws-status {
+      display: inline-block;
+      padding: 5px 12px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: white;
+      font-size: 0.9em;
+      margin-left: 15px;
+    }
+
+    .error-message {
+      background: #fee;
+      border: 1px solid #fcc;
+      color: #c33;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Elide KPI Dashboard</h1>
+      <p class="subtitle">HTTP GA Readiness & Performance Metrics</p>
+      <span class="status-badge">
+        <span class="live-indicator"></span>
+        LIVE
+      </span>
+      <span class="ws-status" id="wsStatus">Connecting...</span>
+    </header>
+
+    <div id="errorContainer"></div>
+
+    <!-- Key Performance Indicators -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-title">HTTP GA Readiness</div>
+        <div class="metric-value" id="gaReadiness">--</div>
+        <div class="metric-subtitle">Production Ready Score</div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="gaProgress" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-title">Polyglot Overhead</div>
+        <div class="metric-value" id="polyglotOverhead">--</div>
+        <div class="metric-subtitle">Cross-language call latency</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-title">Cold Start</div>
+        <div class="metric-value" id="coldStart">--</div>
+        <div class="metric-subtitle">vs Node.js, Java, Python</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-title">Memory Efficiency</div>
+        <div class="metric-value" id="memoryEfficiency">--</div>
+        <div class="metric-subtitle">Current heap usage</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-title">Throughput</div>
+        <div class="metric-value" id="throughput">--</div>
+        <div class="metric-subtitle">Requests per second</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-title">Compatibility</div>
+        <div class="metric-value" id="compatibility">--</div>
+        <div class="metric-subtitle">Web standards compliance</div>
+      </div>
+    </div>
+
+    <!-- Cold Start Comparison Chart -->
+    <div class="chart-container">
+      <h2 class="chart-title">Cold Start Performance Comparison</h2>
+      <div class="chart-wrapper">
+        <canvas id="coldStartChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Throughput Comparison Chart -->
+    <div class="chart-container">
+      <h2 class="chart-title">Throughput Comparison (Requests/sec)</h2>
+      <div class="chart-wrapper">
+        <canvas id="throughputChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Memory Usage Chart -->
+    <div class="chart-container">
+      <h2 class="chart-title">Memory Efficiency Under Load</h2>
+      <div class="chart-wrapper">
+        <canvas id="memoryChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Compatibility Matrix -->
+    <div class="comparison-table">
+      <h2 class="chart-title">Compatibility Matrix</h2>
+      <table id="compatibilityTable">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Status</th>
+            <th>Coverage</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="compatibilityBody">
+          <tr>
+            <td colspan="4" style="text-align: center; color: #999;">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer>
+      <p>Elide Runtime - Next Generation Polyglot Application Platform</p>
+      <p>Real-time metrics updated every 2 seconds via WebSocket</p>
+    </footer>
+  </div>
+
+  <script>
+    let ws;
+    let charts = {};
+
+    // Initialize charts
+    function initCharts(benchmarks) {
+      // Cold Start Chart
+      charts.coldStart = new Chart(document.getElementById('coldStartChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Elide', 'Node.js', 'Java', 'Python'],
+          datasets: [{
+            label: 'Cold Start Time (ms)',
+            data: [
+              benchmarks.coldStart.elide.average,
+              benchmarks.coldStart.nodejs.average,
+              benchmarks.coldStart.java.average,
+              benchmarks.coldStart.python.average,
+            ],
+            backgroundColor: [
+              'rgba(102, 126, 234, 0.8)',
+              'rgba(255, 159, 64, 0.8)',
+              'rgba(255, 99, 132, 0.8)',
+              'rgba(75, 192, 192, 0.8)',
+            ],
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+          },
+          scales: {
+            y: { beginAtZero: true, title: { display: true, text: 'Milliseconds' } }
+          }
+        }
+      });
+
+      // Throughput Chart
+      charts.throughput = new Chart(document.getElementById('throughputChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Elide', 'Node.js', 'Java', 'Python'],
+          datasets: [{
+            label: 'Requests/sec',
+            data: [
+              benchmarks.throughput.elide.rps,
+              benchmarks.throughput.nodejs.rps,
+              benchmarks.throughput.java.rps,
+              benchmarks.throughput.python.rps,
+            ],
+            backgroundColor: [
+              'rgba(102, 126, 234, 0.8)',
+              'rgba(255, 159, 64, 0.8)',
+              'rgba(255, 99, 132, 0.8)',
+              'rgba(75, 192, 192, 0.8)',
+            ],
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+          },
+          scales: {
+            y: { beginAtZero: true, title: { display: true, text: 'Requests/sec' } }
+          }
+        }
+      });
+
+      // Memory Chart
+      charts.memory = new Chart(document.getElementById('memoryChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Elide', 'Node.js', 'Java', 'Python'],
+          datasets: [
+            {
+              label: 'Baseline (MB)',
+              data: [
+                benchmarks.memory.elide.baseline,
+                benchmarks.memory.nodejs.baseline,
+                benchmarks.memory.java.baseline,
+                benchmarks.memory.python.baseline,
+              ],
+              backgroundColor: 'rgba(102, 126, 234, 0.5)',
+            },
+            {
+              label: 'Under Load (MB)',
+              data: [
+                benchmarks.memory.elide.under_load,
+                benchmarks.memory.nodejs.under_load,
+                benchmarks.memory.java.under_load,
+                benchmarks.memory.python.under_load,
+              ],
+              backgroundColor: 'rgba(102, 126, 234, 0.8)',
+            },
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true, title: { display: true, text: 'Memory (MB)' } }
+          }
+        }
+      });
+    }
+
+    // Update metrics display
+    function updateMetrics(data) {
+      const kpis = data.kpis;
+
+      // HTTP GA Readiness
+      const gaScore = Math.round(kpis.httpGaReadiness);
+      document.getElementById('gaReadiness').textContent = gaScore + '%';
+      document.getElementById('gaProgress').style.width = gaScore + '%';
+
+      // Polyglot Overhead
+      document.getElementById('polyglotOverhead').textContent =
+        (kpis.polyglotOverhead * 1000).toFixed(0) + 'μs';
+
+      // Cold Start
+      const coldStart = kpis.coldStartPerformance;
+      document.getElementById('coldStart').textContent = coldStart.elide + 'ms';
+
+      // Memory Efficiency
+      const memory = kpis.memoryEfficiency;
+      document.getElementById('memoryEfficiency').textContent =
+        memory.used + 'MB';
+
+      // Throughput
+      const throughput = kpis.throughput;
+      document.getElementById('throughput').textContent =
+        throughput.requests_per_second.toFixed(1);
+
+      // Compatibility
+      document.getElementById('compatibility').textContent =
+        kpis.compatibilityScore + '%';
+    }
+
+    // Update compatibility table
+    function updateCompatibilityTable(compatibility) {
+      const tbody = document.getElementById('compatibilityBody');
+      tbody.innerHTML = '';
+
+      const categories = [
+        { name: 'HTTP Support', data: compatibility.httpSupport },
+        { name: 'Languages', data: compatibility.languages },
+        { name: 'Standards', data: compatibility.standards },
+        { name: 'Deployment', data: compatibility.deployment },
+      ];
+
+      categories.forEach(category => {
+        Object.entries(category.data).forEach(([key, value]) => {
+          const row = document.createElement('tr');
+
+          const statusClass = `status-${value.status}`;
+          const statusDot = `<span class="status-indicator ${statusClass}"></span>`;
+
+          row.innerHTML = `
+            <td><strong>${key.replace(/_/g, ' ').toUpperCase()}</strong></td>
+            <td>${statusDot}${value.status.toUpperCase()}</td>
+            <td>
+              ${value.coverage}%
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: ${value.coverage}%"></div>
+              </div>
+            </td>
+            <td>${value.notes}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      });
+    }
+
+    // Show error message
+    function showError(message) {
+      const container = document.getElementById('errorContainer');
+      container.innerHTML = `
+        <div class="error-message">
+          <strong>Error:</strong> ${message}
+        </div>
+      `;
+    }
+
+    // Connect to WebSocket
+    function connectWebSocket() {
+      const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = `${wsProtocol}//${window.location.host}/api/ws`;
+
+      ws = new WebSocket(wsUrl);
+
+      ws.onopen = () => {
+        console.log('WebSocket connected');
+        document.getElementById('wsStatus').textContent = 'Connected';
+        document.getElementById('wsStatus').style.background = 'rgba(16, 185, 129, 0.3)';
+      };
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === 'metrics_update') {
+          updateMetrics(data);
+        }
+      };
+
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+        document.getElementById('wsStatus').textContent = 'Error';
+        document.getElementById('wsStatus').style.background = 'rgba(239, 68, 68, 0.3)';
+      };
+
+      ws.onclose = () => {
+        console.log('WebSocket disconnected, reconnecting...');
+        document.getElementById('wsStatus').textContent = 'Reconnecting...';
+        document.getElementById('wsStatus').style.background = 'rgba(245, 158, 11, 0.3)';
+        setTimeout(connectWebSocket, 3000);
+      };
+    }
+
+    // Fetch initial data
+    async function fetchInitialData() {
+      try {
+        // Fetch benchmarks
+        const benchmarksResponse = await fetch('/api/benchmarks');
+        const benchmarks = await benchmarksResponse.json();
+        initCharts(benchmarks);
+
+        // Fetch compatibility
+        const compatibilityResponse = await fetch('/api/compatibility');
+        const compatibility = await compatibilityResponse.json();
+        updateCompatibilityTable(compatibility);
+
+        // Fetch initial metrics
+        const metricsResponse = await fetch('/api/metrics');
+        const metrics = await metricsResponse.json();
+        updateMetrics(metrics);
+
+        // Connect WebSocket for live updates
+        connectWebSocket();
+      } catch (error) {
+        console.error('Failed to fetch initial data:', error);
+        showError('Failed to load dashboard data. Please refresh the page.');
+      }
+    }
+
+    // Initialize dashboard
+    fetchInitialData();
+  </script>
+</body>
+</html>
