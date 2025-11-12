@@ -1,4 +1,5 @@
 /**
+import { createServer, IncomingMessage, ServerResponse } from "http";
  * Smart Contract Monitor
  *
  * A production-grade smart contract monitoring service with event listening,
@@ -9,18 +10,7 @@ import { URL } from 'url';
 import { EventEmitter } from 'events';
 
 // Type definitions for HTTP handlers
-interface IncomingMessage {
-  url?: string;
-  headers: { host?: string };
-  method?: string;
-  on(event: string, callback: (chunk: any) => void): void;
-}
 
-interface ServerResponse {
-  setHeader(name: string, value: string): void;
-  writeHead(statusCode: number, headers?: Record<string, string>): void;
-  end(data?: string): void;
-}
 
 // ============================================================================
 // Type Definitions
@@ -756,7 +746,16 @@ async function main() {
   console.log(`  GET  /api/stats?contract={addr} - Get monitoring statistics`);
 }
 
-main().catch(err => {
-  console.error('Fatal error:', err);
-  process.exit(1);
+
+// ============================================================================
+// HTTP Server Setup
+// ============================================================================
+
+const PORT = Number(process.env.PORT) || 3000;
+const server = createServer((req, res) => {
+  url.handleRequest(req, res);
+});
+
+server.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });

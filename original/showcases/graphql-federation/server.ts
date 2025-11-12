@@ -11,7 +11,7 @@
  * @module graphql-federation
  */
 
-import { serve } from "elide/http";
+// Native Elide beta11-rc1 HTTP - No imports needed for fetch handler
 
 /**
  * Subgraph configuration
@@ -406,9 +406,12 @@ class FederationGateway {
 }
 
 /**
- * HTTP request handler
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ *
+ * Export a default fetch function that handles HTTP requests.
+ * Run with: elide serve --port 3000 server.ts
  */
-async function handleRequest(request: Request): Promise<Response> {
+export default async function fetch(request: Request): Promise<Response> {
   const url = new URL(request.url);
 
   // Health check
@@ -503,13 +506,10 @@ async function handleRequest(request: Request): Promise<Response> {
   return new Response('Not found', { status: 404 });
 }
 
-// Start server
-serve({
-  port: 3000,
-  fetch: handleRequest
-});
-
-console.log('GraphQL Federation Gateway running on http://localhost:3000');
-console.log('GraphQL endpoint: http://localhost:3000/graphql');
-console.log('Health check: http://localhost:3000/health');
-console.log('Schema: http://localhost:3000/schema');
+// Log server info on startup
+if (import.meta.url.includes("server.ts")) {
+  console.log('GraphQL Federation Gateway running on http://localhost:3000');
+  console.log('GraphQL endpoint: http://localhost:3000/graphql');
+  console.log('Health check: http://localhost:3000/health');
+  console.log('Schema: http://localhost:3000/schema');
+}

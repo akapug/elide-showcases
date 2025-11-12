@@ -16,7 +16,7 @@
  * - Multi-document support
  */
 
-import { serve } from "elide/http/server";
+// Native Elide beta11-rc1 HTTP - No imports needed for fetch handler
 
 // Types
 interface Document {
@@ -478,9 +478,13 @@ class RAGStats {
 const pipeline = new RAGPipeline();
 const stats = new RAGStats();
 
-serve({
-  port: 8083,
-  fetch: async (req: Request): Promise<Response> => {
+/**
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ *
+ * Export a default fetch function that handles HTTP requests.
+ * Run with: elide serve --port 8083 server.ts
+ */
+export default async function fetch(req: Request): Promise<Response> {
     const url = new URL(req.url);
     const path = url.pathname;
 
@@ -663,16 +667,19 @@ serve({
         }
       );
     }
-  },
-});
+  }
+}
 
-console.log("RAG Service running on http://localhost:8083");
-console.log("Endpoints:");
-console.log("  POST   /v1/ingest - Ingest documents");
-console.log("  POST   /v1/query - Query with RAG");
-console.log("  GET    /v1/documents - List documents");
-console.log("  GET    /v1/documents/{id} - Get document");
-console.log("  DELETE /v1/documents/{id} - Delete document");
-console.log("  POST   /v1/clear - Clear all data");
-console.log("  GET    /v1/stats - Service statistics");
-console.log("  GET    /health - Health check");
+// Log server info on startup
+if (import.meta.url.includes("server.ts")) {
+  console.log("RAG Service running on http://localhost:8083");
+  console.log("Endpoints:");
+  console.log("  POST   /v1/ingest - Ingest documents");
+  console.log("  POST   /v1/query - Query with RAG");
+  console.log("  GET    /v1/documents - List documents");
+  console.log("  GET    /v1/documents/{id} - Get document");
+  console.log("  DELETE /v1/documents/{id} - Delete document");
+  console.log("  POST   /v1/clear - Clear all data");
+  console.log("  GET    /v1/stats - Service statistics");
+  console.log("  GET    /health - Health check");
+}

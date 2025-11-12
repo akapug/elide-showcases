@@ -12,7 +12,7 @@
  * @module oauth2-provider
  */
 
-import { serve } from "elide/http";
+// Native Elide beta11-rc1 HTTP - No imports needed for fetch handler
 
 /**
  * OAuth2 grant types
@@ -743,9 +743,12 @@ class OAuth2Provider {
 const oauth2Provider = new OAuth2Provider();
 
 /**
- * HTTP request handler
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ *
+ * Export a default fetch function that handles HTTP requests.
+ * Run with: elide serve --port 3000 server.ts
  */
-async function handleRequest(request: Request): Promise<Response> {
+export default async function fetch(request: Request): Promise<Response> {
   const url = new URL(request.url);
 
   // Authorization endpoint
@@ -849,15 +852,12 @@ async function handleRequest(request: Request): Promise<Response> {
   return new Response('Not found', { status: 404 });
 }
 
-// Start server
-serve({
-  port: 3000,
-  fetch: handleRequest
-});
-
-console.log('OAuth2/OIDC Provider running on http://localhost:3000');
-console.log('Authorization: http://localhost:3000/oauth/authorize');
-console.log('Token: http://localhost:3000/oauth/token');
-console.log('UserInfo: http://localhost:3000/oauth/userinfo');
-console.log('JWKS: http://localhost:3000/.well-known/jwks.json');
-console.log('OpenID Config: http://localhost:3000/.well-known/openid-configuration');
+// Log server info on startup
+if (import.meta.url.includes("server.ts")) {
+  console.log('OAuth2/OIDC Provider running on http://localhost:3000');
+  console.log('Authorization: http://localhost:3000/oauth/authorize');
+  console.log('Token: http://localhost:3000/oauth/token');
+  console.log('UserInfo: http://localhost:3000/oauth/userinfo');
+  console.log('JWKS: http://localhost:3000/.well-known/jwks.json');
+  console.log('OpenID Config: http://localhost:3000/.well-known/openid-configuration');
+}

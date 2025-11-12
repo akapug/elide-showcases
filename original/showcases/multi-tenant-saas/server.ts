@@ -12,7 +12,7 @@
  * @module multi-tenant-saas
  */
 
-import { serve } from "elide/http";
+// Native Elide beta11-rc1 HTTP - No imports needed for fetch handler
 
 /**
  * Tenant subscription plans
@@ -800,14 +800,17 @@ function getTenantFromRequest(request: Request): Tenant | null {
 }
 
 /**
- * HTTP request handler
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ *
+ * Export a default fetch function that handles HTTP requests.
+ * Run with: elide serve --port 3000 server.ts
  */
-async function handleRequest(request: Request): Promise<Response> {
+export default async function fetch(request: Request): Promise<Response> {
   const url = new URL(request.url);
 
   // Admin API endpoints
   if (url.pathname.startsWith('/admin')) {
-    return handleAdminRequest(request);
+    return await handleAdminRequest(request);
   }
 
   // Tenant API endpoints
@@ -843,7 +846,7 @@ async function handleRequest(request: Request): Promise<Response> {
     });
   }
 
-  return handleTenantRequest(request, tenant);
+  return await handleTenantRequest(request, tenant);
 }
 
 /**
@@ -976,20 +979,17 @@ async function handleTenantRequest(request: Request, tenant: Tenant): Promise<Re
   return new Response('Not found', { status: 404 });
 }
 
-// Start server
-serve({
-  port: 3000,
-  fetch: handleRequest
-});
-
-console.log('Multi-Tenant SaaS Backend running on http://localhost:3000');
-console.log('\nAdmin endpoints:');
-console.log('  GET    /admin/tenants');
-console.log('  POST   /admin/tenants');
-console.log('  GET    /admin/tenants/:id');
-console.log('  PUT    /admin/tenants/:id/subscription');
-console.log('  GET    /admin/tenants/:id/usage');
-console.log('  GET    /admin/tenants/:id/invoices');
-console.log('\nTenant endpoints (requires X-Tenant-Id header):');
-console.log('  GET    /api/tenant');
-console.log('  GET    /api/usage');
+// Log server info on startup
+if (import.meta.url.includes("server.ts")) {
+  console.log('Multi-Tenant SaaS Backend running on http://localhost:3000');
+  console.log('\nAdmin endpoints:');
+  console.log('  GET    /admin/tenants');
+  console.log('  POST   /admin/tenants');
+  console.log('  GET    /admin/tenants/:id');
+  console.log('  PUT    /admin/tenants/:id/subscription');
+  console.log('  GET    /admin/tenants/:id/usage');
+  console.log('  GET    /admin/tenants/:id/invoices');
+  console.log('\nTenant endpoints (requires X-Tenant-Id header):');
+  console.log('  GET    /api/tenant');
+  console.log('  GET    /api/usage');
+}

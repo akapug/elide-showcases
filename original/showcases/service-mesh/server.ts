@@ -56,7 +56,7 @@ class ServiceRegistry {
 
     this.services.set(service.name, instances);
     console.log(`Service registered: ${service.name} (${service.id})`);
-  }
+}
 
   deregister(serviceName: string, instanceId: string): void {
     const instances = this.services.get(serviceName);
@@ -65,16 +65,16 @@ class ServiceRegistry {
       this.services.set(serviceName, filtered);
       console.log(`Service deregistered: ${serviceName} (${instanceId})`);
     }
-  }
+}
 
   getHealthyInstances(serviceName: string): ServiceInstance[] {
     const instances = this.services.get(serviceName) || [];
     return instances.filter(s => s.healthy);
-  }
+}
 
   getAllServices(): Map<string, ServiceInstance[]> {
     return new Map(this.services);
-  }
+}
 
   getServiceInstance(serviceName: string, strategy: 'round-robin' | 'least-conn' = 'round-robin'): ServiceInstance | null {
     const instances = this.getHealthyInstances(serviceName);
@@ -90,7 +90,7 @@ class ServiceRegistry {
         curr.requestCount < prev.requestCount ? curr : prev
       );
     }
-  }
+}
 }
 
 class CircuitBreaker {
@@ -107,11 +107,11 @@ class CircuitBreaker {
       successCount: 0,
       nextRetryTime: 0
     };
-  }
+}
 
   getState(): CircuitBreakerState {
     return { ...this.state };
-  }
+}
 
   async execute<T>(fn: () => Promise<T>): Promise<T> {
     if (this.state.status === 'OPEN') {
@@ -130,7 +130,7 @@ class CircuitBreaker {
       this.onFailure();
       throw error;
     }
-  }
+}
 
   private onSuccess(): void {
     if (this.state.status === 'HALF_OPEN') {
@@ -144,7 +144,7 @@ class CircuitBreaker {
     } else {
       this.state.failureCount = 0;
     }
-  }
+}
 
   private onFailure(): void {
     this.state.failureCount++;
@@ -156,7 +156,7 @@ class CircuitBreaker {
       this.state.successCount = 0;
       console.log(`Circuit breaker OPEN for ${this.serviceName}`);
     }
-  }
+}
 }
 
 class MetricsCollector {
@@ -178,15 +178,15 @@ class MetricsCollector {
     } else {
       this.metrics.failedRequests++;
     }
-  }
+}
 
   updateCircuitBreakerState(serviceName: string, state: CircuitBreakerState): void {
     this.metrics.circuitBreakers.set(serviceName, state);
-  }
+}
 
   updateServiceHealth(serviceName: string, healthy: boolean): void {
     this.metrics.serviceHealth.set(serviceName, healthy);
-  }
+}
 
   getMetrics(): any {
     const avgLatency = this.metrics.totalRequests > 0
@@ -204,7 +204,7 @@ class MetricsCollector {
       circuitBreakers: Object.fromEntries(this.metrics.circuitBreakers),
       serviceHealth: Object.fromEntries(this.metrics.serviceHealth)
     };
-  }
+}
 }
 
 class ServiceMesh {
@@ -217,14 +217,14 @@ class ServiceMesh {
     this.registry = new ServiceRegistry();
     this.circuitBreakers = new Map();
     this.metricsCollector = new MetricsCollector();
-  }
+}
 
   registerService(service: ServiceInstance): void {
     this.registry.register(service);
     if (!this.circuitBreakers.has(service.name)) {
       this.circuitBreakers.set(service.name, new CircuitBreaker(service.name));
     }
-  }
+}
 
   async callService(
     serviceName: string,
@@ -290,7 +290,7 @@ class ServiceMesh {
     this.metricsCollector.updateCircuitBreakerState(serviceName, circuitBreaker.getState());
 
     throw new Error(`Failed to call ${serviceName} after ${retries + 1} attempts: ${lastError?.message}`);
-  }
+}
 
   startHealthChecks(intervalMs: number = 10000): void {
     this.healthCheckInterval = setInterval(async () => {
@@ -330,7 +330,7 @@ class ServiceMesh {
     }, intervalMs);
 
     console.log(`Health checks started (interval: ${intervalMs}ms)`);
-  }
+}
 
   stopHealthChecks(): void {
     if (this.healthCheckInterval) {
@@ -338,23 +338,23 @@ class ServiceMesh {
       this.healthCheckInterval = null;
       console.log('Health checks stopped');
     }
-  }
+}
 
   getMetrics(): any {
     return this.metricsCollector.getMetrics();
-  }
+}
 
   getServiceRegistry(): Map<string, ServiceInstance[]> {
     return this.registry.getAllServices();
-  }
+}
 }
 
 // Create service mesh instance
 const serviceMesh = new ServiceMesh();
 
 // Elide server implementation
-Elide.serve({
-  port: 3000,
+export default async function fetch(request: Request): Promise<Response> {
+
 
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url);
@@ -426,8 +426,8 @@ Elide.serve({
     }
 
     return new Response('Service Mesh - Not Found', { status: 404 });
-  }
-});
+}
+
 
 // Start health checks
 serviceMesh.startHealthChecks(10000);
@@ -437,5 +437,8 @@ console.log('Endpoints:');
 console.log('  POST /register - Register a service instance');
 console.log('  POST /invoke - Invoke a service through the mesh');
 console.log('  GET /metrics - View service mesh metrics');
-console.log('  GET /services - List all registered services');
-console.log('  GET /health - Health check endpoint');
+
+if (import.meta.url.includes("server.ts")) {
+  console.log('🕸️  Service Mesh ready on port 3000');
+  console.log('Features: Service Discovery | Circuit Breaker | Load Balancing');
+}

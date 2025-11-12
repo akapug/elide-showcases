@@ -15,7 +15,7 @@
  * - Translation to English
  */
 
-import { serve } from "elide/http/server";
+// Native Elide beta11-rc1 HTTP - No imports needed for fetch handler
 
 // Transcription Types
 interface TranscriptionRequest {
@@ -353,9 +353,13 @@ class TranscriptionStats {
 const engine = new TranscriptionEngine();
 const stats = new TranscriptionStats();
 
-serve({
-  port: 8081,
-  fetch: async (req: Request): Promise<Response> => {
+/**
+ * Native Elide beta11-rc1 HTTP Server - Fetch Handler Pattern
+ *
+ * Export a default fetch function that handles HTTP requests.
+ * Run with: elide serve --port 8081 server.ts
+ */
+export default async function fetch(req: Request): Promise<Response> {
     const url = new URL(req.url);
     const path = url.pathname;
 
@@ -509,13 +513,16 @@ serve({
         }
       );
     }
-  },
-});
+  }
+}
 
-console.log("Whisper Transcription Service running on http://localhost:8081");
-console.log("Endpoints:");
-console.log("  POST /v1/audio/transcriptions - Transcribe audio");
-console.log("  POST /v1/audio/translations - Translate audio to English");
-console.log("  GET  /v1/languages - List supported languages");
-console.log("  GET  /v1/stats - Service statistics");
-console.log("  GET  /health - Health check");
+// Log server info on startup
+if (import.meta.url.includes("server.ts")) {
+  console.log("Whisper Transcription Service running on http://localhost:8081");
+  console.log("Endpoints:");
+  console.log("  POST /v1/audio/transcriptions - Transcribe audio");
+  console.log("  POST /v1/audio/translations - Translate audio to English");
+  console.log("  GET  /v1/languages - List supported languages");
+  console.log("  GET  /v1/stats - Service statistics");
+  console.log("  GET  /health - Health check");
+}
