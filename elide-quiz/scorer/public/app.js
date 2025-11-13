@@ -323,13 +323,24 @@ ${version === 'human'
 
 **Primary Sources** (most authoritative):
 - \`elide help\` CLI - Built-in documentation (install: \`curl -sSL --tlsv1.2 elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1\`)
+- **GitHub Showcases**: https://github.com/akapug/elide-showcases
+  - **CRITICAL**: Beta11-rc1 examples and patterns are HERE
+  - Real working code for beta11-rc1 features
+  - Migration guides and best practices
 - GitHub: https://github.com/elide-dev/elide
   - Pull Requests (implementation details)
   - Issues (known bugs, feature requests)
   - Release Notes (changelog, breaking changes)
 - Official Docs: https://docs.elide.dev
 
-**Note**: Using these tools is NOT cheating - we expect agents with terminal access, web search, and MCP servers to perform significantly better than those without. Document your approach!
+**IMPORTANT HINTS**:
+1. **The quiz questions themselves contain many hints** - read them carefully!
+2. **Beta11-rc1 is NOT widely released** - most public docs are for beta8-10
+3. **Use the showcases repo** for beta11-rc1 specific answers
+4. **Install Elide locally** if you have terminal access - \`elide help\` is invaluable
+5. **Using all available tools is EXPECTED** - we want to see which tools help most!
+
+**Note**: Agents with terminal access, web search, and MCP servers should perform significantly better. Document your approach!
 
 ## Questions
 
