@@ -12,7 +12,7 @@
 import { readFileSync } from 'fs';
 import { answerKey } from './api/answers-data.js';
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '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';
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const QUIZ_URL = process.env.QUIZ_URL || 'https://elide.top';
 const DRY_RUN = process.argv.includes('--dry-run');
 const LIMIT = parseInt(process.argv.find(arg => arg.startsWith('--limit='))?.split('=')[1] || '999');

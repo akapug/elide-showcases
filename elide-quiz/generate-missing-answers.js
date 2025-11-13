@@ -8,7 +8,7 @@ import { readFileSync, writeFileSync, appendFileSync } from 'fs';
 import { resolve } from 'path';
 import { execSync } from 'child_process';
 
-const OPENROUTER_API_KEY = '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';
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const MODEL = 'anthropic/claude-haiku-4.5';
 const ELIDE_PATH = '/home/pug/elide/elide';
 
