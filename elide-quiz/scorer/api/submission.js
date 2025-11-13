@@ -30,12 +30,12 @@ function getDB() {
 function loadAnswerKey(version = 'full') {
   const filename = version === 'human' ? 'answers-human.md' : 'answers.md';
 
-  // In Vercel, files are in /var/task root
-  // In local dev, files are in scorer/ directory
+  // In Vercel, static files are served from /public but accessible via root URL
+  // We need to read from the public directory
   const possiblePaths = [
-    join(process.cwd(), filename),             // /var/task/answers.md (Vercel) or scorer/answers.md (local)
-    join(__dirname, '..', filename),           // scorer/answers.md (local dev from api/)
-    join(__dirname, '..', '..', filename),     // elide-quiz/answers.md (local dev)
+    join(process.cwd(), 'public', filename),   // /var/task/public/answers.md (Vercel)
+    join(__dirname, '..', 'public', filename), // scorer/public/answers.md (local dev from api/)
+    join(__dirname, '..', filename),           // scorer/answers.md (local dev fallback)
   ];
 
   let filePath = null;
@@ -47,9 +47,7 @@ function loadAnswerKey(version = 'full') {
   }
 
   if (!filePath) {
-    // List what files ARE in process.cwd() for debugging
-    const files = readdirSync(process.cwd());
-    throw new Error(`Could not find ${filename}. Tried: ${possiblePaths.join(', ')}. Files in ${process.cwd()}: ${files.join(', ')}`);
+    throw new Error(`Could not find ${filename}. Tried: ${possiblePaths.join(', ')}`);
   }
 
   const content = readFileSync(filePath, 'utf-8');
