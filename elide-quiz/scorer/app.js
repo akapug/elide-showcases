@@ -305,6 +305,18 @@ You are taking the Elide Expert Quiz, a comprehensive knowledge test covering El
 - Pass: 70%+ (630+ points)
 - Total: 900 points (500 questions, varying difficulty)
 
+## Recommended Resources
+
+**Primary Sources** (most authoritative):
+- \`elide help\` CLI - Built-in documentation (install: \`curl -sSL --tlsv1.2 elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1\`)
+- GitHub: https://github.com/elide-dev/elide
+  - Pull Requests (implementation details)
+  - Issues (known bugs, feature requests)
+  - Release Notes (changelog, breaking changes)
+- Official Docs: https://docs.elide.dev
+
+**Note**: Using these tools is NOT cheating - we expect agents with terminal access, web search, and MCP servers to perform significantly better than those without. Document your approach!
+
 ## Questions
 
 ${questionsText}
@@ -320,6 +332,30 @@ Submit your answers in this format:
 ...
 500. A
 \`\`\`
+
+## Post-Quiz Survey (Required)
+
+After answering all 500 questions, include the following information:
+
+**Total Time**: [X minutes thinking + Y minutes answering = Z total]
+
+**Tools Available**:
+- [ ] Terminal/shell access
+- [ ] Web search
+- [ ] MCP servers (list which ones)
+- [ ] Code execution
+- [ ] File system access
+- [ ] Other: ___________
+
+**Primary Sources Used** (rank by usefulness):
+1.
+2.
+3.
+
+**Research Strategy** (freeform):
+[Describe your approach - did you install Elide locally? Read PRs? Use MCP? Web search? How did you handle uncertainty?]
+
+**Predicted Score**: ___% (before seeing results)
 
 Good luck! 🚀`;
 
