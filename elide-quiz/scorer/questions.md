@@ -2094,15 +2094,12 @@ S7. [Max tokens] (e.g., "4096")
 
 **End of Questions**
 
-Total: 500 questions
-- Easy: 200 questions (1 point each) = 200 points
-- Medium: 200 questions (2 points each) = 400 points
-- Hard: 100 questions (3 points each) = 300 points
-- **Total possible points: 900**
+Total: 500 questions (all multiple choice)
+- **Total possible points: 500** (1 point each)
 
 Scoring:
-- Pass: 630+ (70%)
-- Expert: 765+ (85%)
-- Master: 855+ (95%)
+- Pass: 350+ (70%)
+- Expert: 425+ (85%)
+- Master: 475+ (95%)
 
 
