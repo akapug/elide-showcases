@@ -63,38 +63,40 @@ function parseAnswers(text) {
 // Submit quiz
 document.getElementById('quiz-form').addEventListener('submit', async (e) => {
   e.preventDefault();
-  
+
   const name = document.getElementById('name').value;
+  const quizVersion = document.getElementById('quiz-version').value;
   const answersText = document.getElementById('answers').value;
   const answers = parseAnswers(answersText);
-  
+
   // Show loading
   document.getElementById('quiz-form').style.display = 'none';
   document.getElementById('results').innerHTML = '<div class="loading">Scoring your answers...</div>';
   document.getElementById('results').style.display = 'block';
-  
+
   try {
     // Score answers
     const response = await fetch('/api/score', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ answers })
+      body: JSON.stringify({ answers, version: quizVersion })
     });
-    
+
     const data = await response.json();
-    
+
     if (!data.success) {
       throw new Error(data.error || 'Scoring failed');
     }
-    
+
     const results = data.results;
-    
+    results.version = quizVersion; // Add version to results
+
     // Save to leaderboard
     await saveToLeaderboard(name, results);
-    
+
     // Display results
     displayResults(results);
-    
+
   } catch (error) {
     console.error('Error:', error);
     document.getElementById('results').innerHTML = `
@@ -273,15 +275,22 @@ function renderLeaderboardChart(submissions, container) {
 // Load questions and LLM prompt
 async function loadQuestions() {
   try {
-    // Fetch questions.md from GitHub (public, always available)
-    const response = await fetch('https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/questions.md');
+    // Get selected version
+    const version = document.getElementById('questions-version')?.value || 'full';
+    const questionsFile = version === 'human' ? 'questions-human.md' : 'questions.md';
+    const totalQuestions = version === 'human' ? 50 : 500;
+    const totalPoints = version === 'human' ? 75 : 900;
+
+    // Fetch questions from GitHub (public, always available)
+    const response = await fetch(`https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/${questionsFile}`);
     const questionsText = await response.text();
 
     // Set questions textarea
     document.getElementById('all-questions').value = questionsText;
 
     // Create LLM prompt
-    const llmPrompt = `# Elide Expert Quiz - 500 Questions
+    const quizTitle = version === 'human' ? 'Human Edition - 50 Questions' : '500 Questions';
+    const llmPrompt = `# Elide Expert Quiz - ${quizTitle}
 
 You are taking the Elide Expert Quiz, a comprehensive knowledge test covering Elide v1.0.0-beta11-rc1.
 
@@ -300,10 +309,15 @@ You are taking the Elide Expert Quiz, a comprehensive knowledge test covering El
 6. **Predict your score** before seeing results (optional but encouraged!)
 
 ## Grading Scale
-- Master: 95%+ (855+ points)
+${version === 'human'
+  ? `- Master: 95%+ (71+ points)
+- Expert: 85%+ (64+ points)
+- Pass: 70%+ (53+ points)
+- Total: 75 points (50 questions, varying difficulty)`
+  : `- Master: 95%+ (855+ points)
 - Expert: 85%+ (765+ points)
 - Pass: 70%+ (630+ points)
-- Total: 900 points (500 questions, varying difficulty)
+- Total: 900 points (500 questions, varying difficulty)`}
 
 ## Recommended Resources
 
@@ -330,7 +344,7 @@ Submit your answers in this format:
 3. elide serve
 4. B
 ...
-500. A
+${totalQuestions}. A
 \`\`\`
 
 ## Post-Quiz Survey (Required)

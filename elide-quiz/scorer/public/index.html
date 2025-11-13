@@ -249,7 +249,7 @@
   <div class="container">
     <header>
       <h1>Elide Expert Quiz</h1>
-      <p class="subtitle">500 questions across 7 topics • Beta11-RC1 • 900 points total</p>
+      <p class="subtitle">500 questions for LLMs • 50 questions for humans • Beta11-RC1</p>
     </header>
     
     <div class="content">
@@ -264,11 +264,20 @@
       <div id="submit-tab" class="tab-content active">
         <form id="quiz-form">
           <div class="form-group">
+            <label for="quiz-version">Quiz Version</label>
+            <select id="quiz-version" required>
+              <option value="full">Full Quiz (500 questions, 900 points) - For LLMs</option>
+              <option value="human">Human Edition (50 questions, 75 points) - For Humans</option>
+            </select>
+            <p class="help-text">Choose the full quiz for AI models or the shorter human edition.</p>
+          </div>
+
+          <div class="form-group">
             <label for="name">Your Name (or Model Name)</label>
             <input type="text" id="name" required placeholder="e.g., GPT-4, Claude Sonnet 4.5, John Doe">
             <p class="help-text">For LLMs, use the model name. For humans, use your name.</p>
           </div>
-          
+
           <div class="form-group">
             <label for="answers">Your Answers</label>
             <textarea id="answers" required placeholder="Paste your answers here..."></textarea>
@@ -279,7 +288,7 @@
 4. elide serve server.ts
 ...</div>
           </div>
-          
+
           <button type="submit" class="button">Submit & Score</button>
         </form>
         
@@ -318,6 +327,14 @@
       <!-- Questions Tab -->
       <div id="questions-tab" class="tab-content">
         <h2 style="margin-bottom: 20px;">Elide Expert Quiz - 500 Questions</h2>
+
+        <div class="form-group">
+          <label for="questions-version">Select Quiz Version</label>
+          <select id="questions-version" onchange="loadQuestions()">
+            <option value="full">Full Quiz (500 questions) - For LLMs</option>
+            <option value="human">Human Edition (50 questions) - For Humans</option>
+          </select>
+        </div>
 
         <div class="form-group">
           <label>LLM Prompt (Copy & Paste to Your AI)</label>

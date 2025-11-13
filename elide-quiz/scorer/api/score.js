@@ -7,7 +7,7 @@
  * Returns: { score, percentage, grade, byTopic, ... }
  */
 
-import { scoreAnswers } from '../score.js';
+import { scoreAnswersWithVersion } from '../score.js';
 
 // Helper for response (works with both Node.js and Vercel)
 function sendJSON(res, statusCode, data) {
@@ -45,7 +45,7 @@ export default function handler(req, res) {
   }
 
   try {
-    const { answers } = req.body;
+    const { answers, version = 'full' } = req.body;
 
     if (!answers || typeof answers !== 'object') {
       sendJSON(res, 400, { error: 'Invalid request body. Expected { answers: { "1": "B", ... } }' });
@@ -58,7 +58,7 @@ export default function handler(req, res) {
       userAnswers[parseInt(key)] = value;
     }
 
-    const results = scoreAnswers(userAnswers);
+    const results = scoreAnswersWithVersion(userAnswers, version);
 
     sendJSON(res, 200, {
       success: true,
