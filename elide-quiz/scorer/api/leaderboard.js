@@ -11,17 +11,22 @@ import { kv } from '@vercel/kv';
 
 const LEADERBOARD_KEY = 'elide-quiz:leaderboard';
 
+// Check if Redis is available
+function isRedisAvailable() {
+  return !!(process.env.KV_REST_API_URL || process.env.REDIS_URL || process.env.KV_URL);
+}
+
 // Read submissions from Redis
 async function readSubmissions() {
   try {
-    // Check if KV is available (production)
-    if (process.env.KV_REST_API_URL) {
+    // Check if Redis is available (production)
+    if (isRedisAvailable()) {
       const data = await kv.get(LEADERBOARD_KEY);
       return data || { submissions: [] };
     }
 
     // Fallback for local dev (no Redis)
-    console.log('KV not available, using in-memory storage');
+    console.log('Redis not available, using in-memory storage');
     return { submissions: [] };
   } catch (error) {
     console.error('Error reading submissions from Redis:', error);
@@ -32,14 +37,15 @@ async function readSubmissions() {
 // Write submissions to Redis
 async function writeSubmissions(data) {
   try {
-    // Check if KV is available (production)
-    if (process.env.KV_REST_API_URL) {
+    // Check if Redis is available (production)
+    if (isRedisAvailable()) {
       await kv.set(LEADERBOARD_KEY, data);
+      console.log('Saved to Redis:', LEADERBOARD_KEY);
       return true;
     }
 
     // Fallback for local dev (no Redis)
-    console.log('KV not available, skipping write');
+    console.log('Redis not available, skipping write');
     return false;
   } catch (error) {
     console.error('Error writing submissions to Redis:', error);
