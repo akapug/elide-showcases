@@ -6,7 +6,7 @@
  */
 
 import { createClient } from '@libsql/client';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -48,7 +48,6 @@ function loadAnswerKey(version = 'full') {
 
   if (!filePath) {
     // List what files ARE in process.cwd() for debugging
-    const { readdirSync } = require('fs');
     const files = readdirSync(process.cwd());
     throw new Error(`Could not find ${filename}. Tried: ${possiblePaths.join(', ')}. Files in ${process.cwd()}: ${files.join(', ')}`);
   }
