@@ -4,31 +4,45 @@
  * GET /api/leaderboard - Get all submissions
  * POST /api/leaderboard - Add new submission
  *
- * Storage: Vercel KV (Redis)
+ * Storage: Vercel Redis (via @vercel/kv)
  */
 
 import { kv } from '@vercel/kv';
 
 const LEADERBOARD_KEY = 'elide-quiz:leaderboard';
 
-// Read submissions from KV
+// Read submissions from Redis
 async function readSubmissions() {
   try {
-    const data = await kv.get(LEADERBOARD_KEY);
-    return data || { submissions: [] };
+    // Check if KV is available (production)
+    if (process.env.KV_REST_API_URL) {
+      const data = await kv.get(LEADERBOARD_KEY);
+      return data || { submissions: [] };
+    }
+
+    // Fallback for local dev (no Redis)
+    console.log('KV not available, using in-memory storage');
+    return { submissions: [] };
   } catch (error) {
-    console.error('Error reading submissions from KV:', error);
+    console.error('Error reading submissions from Redis:', error);
     return { submissions: [] };
   }
 }
 
-// Write submissions to KV
+// Write submissions to Redis
 async function writeSubmissions(data) {
   try {
-    await kv.set(LEADERBOARD_KEY, data);
-    return true;
+    // Check if KV is available (production)
+    if (process.env.KV_REST_API_URL) {
+      await kv.set(LEADERBOARD_KEY, data);
+      return true;
+    }
+
+    // Fallback for local dev (no Redis)
+    console.log('KV not available, skipping write');
+    return false;
   } catch (error) {
-    console.error('Error writing submissions to KV:', error);
+    console.error('Error writing submissions to Redis:', error);
     return false;
   }
 }

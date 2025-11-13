@@ -1,26 +1,29 @@
-# Vercel KV Setup for Elide Quiz Leaderboard
+# Vercel Redis Setup for Elide Quiz Leaderboard
 
-## Quick Setup (5 minutes)
+## Quick Setup (2 minutes)
 
-### 1. Create Vercel KV Database
+### 1. Connect Redis to Project
+
+You already created a Redis database! Now just connect it:
 
 Go to: https://vercel.com/m-v/scorer/stores
 
-1. Click **"Create Database"**
-2. Select **"KV"** (Redis)
-3. Name it: `elide-quiz-leaderboard`
-4. Region: Choose closest to your users (e.g., `us-east-1`)
-5. Click **"Create"**
+1. Find your Redis database in the list
+2. Click on it
+3. Click **"Connect Project"**
+4. Select the `scorer` project
+5. Click **"Connect"**
 
-### 2. Connect to Project
+### 2. Verify Environment Variables
 
-The KV database will automatically inject these environment variables into your project:
-- `KV_URL`
+The Redis database will automatically inject these environment variables:
 - `KV_REST_API_URL`
 - `KV_REST_API_TOKEN`
 - `KV_REST_API_READ_ONLY_TOKEN`
 
-No manual configuration needed! The `@vercel/kv` package will automatically use these.
+Check at: https://vercel.com/m-v/scorer/settings/environment-variables
+
+You should see the KV variables listed there.
 
 ### 3. Deploy
 
@@ -39,8 +42,8 @@ Submit a quiz result and check the leaderboard tab.
 
 ### Storage
 
-- **Production**: Vercel KV (Redis) - persistent, fast, global
-- **Local Dev**: Falls back to in-memory storage (for testing)
+- **Production**: Vercel Redis (via @vercel/kv) - persistent, fast, global
+- **Local Dev**: Falls back to in-memory storage (no Redis needed for testing)
 
 ### Data Structure
 
@@ -68,18 +71,18 @@ Submit a quiz result and check the leaderboard tab.
 
 ### Limits
 
-- Keeps last 100 submissions (configurable)
-- Vercel KV Free Tier: 256MB storage, 10K commands/day
-- Should be plenty for this use case
+- Keeps last 100 submissions (configurable in code)
+- Vercel Redis Free Tier: 256MB storage, 10K commands/day
+- Perfect for this use case (leaderboard is tiny)
 
 ## Troubleshooting
 
 ### "Missing required environment variables"
 
-The KV database isn't connected to the project. Go to:
+The Redis database isn't connected to the project. Go to:
 https://vercel.com/m-v/scorer/stores
 
-And connect the KV database to the project.
+Find your Redis database and click "Connect Project" → select `scorer`.
 
 ### "Failed to save submission"
 
@@ -92,24 +95,30 @@ vercel logs --token eIXrxr7HctmPlBEGyrrxFUOe
 
 For local dev, the leaderboard will use in-memory storage (resets on restart).
 
-To test with real KV locally:
+To test with real Redis locally:
 ```bash
 vercel env pull .env.local --token eIXrxr7HctmPlBEGyrrxFUOe
 ```
 
-Then run your dev server with those env vars.
+Then run your dev server - it will use the Redis connection from `.env.local`.
 
 ## Migration from /tmp
 
 The old implementation used `/tmp/leaderboard.json` which was ephemeral (reset on every deploy).
 
-The new implementation uses Vercel KV which is:
+The new implementation uses Vercel Redis which is:
 - ✅ Persistent across deploys
-- ✅ Fast (Redis)
-- ✅ Global (replicated)
-- ✅ Free tier available
+- ✅ Fast (Redis is designed for this)
+- ✅ Global (replicated across regions)
+- ✅ Free tier (256MB, 10K commands/day)
 
 All existing submissions in `/tmp` will be lost, but that's expected since they were ephemeral anyway.
+
+**Why Redis is perfect for this**:
+- Leaderboard data is small (~10KB for 100 submissions)
+- Needs fast reads/writes
+- Simple key-value storage
+- No complex queries needed
 
 ## Next Steps
 
