@@ -67,7 +67,6 @@ document.getElementById('quiz-form').addEventListener('submit', async (e) => {
   const name = document.getElementById('name').value;
   const quizVersion = document.getElementById('quiz-version').value;
   const answersText = document.getElementById('answers').value;
-  const answers = parseAnswers(answersText);
 
   // Show loading
   document.getElementById('quiz-form').style.display = 'none';
@@ -76,16 +75,12 @@ document.getElementById('quiz-form').addEventListener('submit', async (e) => {
 
   try {
     // Score answers (send raw text for AI parsing)
-    const answersText = Object.entries(answers)
-      .map(([num, ans]) => `${num}. ${ans}`)
-      .join('\n');
-
     const response = await fetch('/api/score', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name: name,
-        answers: answersText, // Send as raw text for AI parsing
+        answers: answersText, // Send raw text for AI parsing
         version: quizVersion
       })
     });
@@ -99,8 +94,11 @@ document.getElementById('quiz-form').addEventListener('submit', async (e) => {
     const results = data.results;
     results.version = quizVersion; // Add version to results
 
+    // Parse answers from text for leaderboard storage
+    const parsedAnswers = parseAnswers(answersText);
+
     // Save to leaderboard
-    await saveToLeaderboard(name, results, answers, quizVersion);
+    await saveToLeaderboard(name, results, parsedAnswers, quizVersion);
 
     // Display results
     displayResults(results);
