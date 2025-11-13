@@ -2,14 +2,20 @@
  * Vercel Serverless Function for Elide Quiz Scoring
  *
  * POST /api/score
- * Body: { answers: { "1": "B", "2": "A,C", ... }, version: "full" | "human" }
+ * Body: {
+ *   name: string,
+ *   answers: { "1": "B", "2": "A,C", ... } OR raw text string,
+ *   version: "full" | "human",
+ *   metadata?: { model, thinkingTime, tools, etc. }
+ * }
  *
  * Returns: { score, percentage, grade, byTopic, ... }
  *
- * Uses AI-powered scoring via OpenRouter (Gemini 2.0 Flash or Grok-beta)
+ * Uses single AI call to parse submission and extract metadata
  */
 
-import { batchScoreWithAI } from './ai-scorer.js';
+import { parseSubmissionWithAI, scoreAnswers } from './single-call-parser.js';
+import { createClient } from '@libsql/client';
 
 // Load answer key from server-side modules
 async function loadAnswerKey(version = 'full') {
@@ -58,26 +64,80 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { answers, version = 'full' } = req.body;
+    const { name, answers, version = 'full', metadata = {} } = req.body;
 
-    if (!answers || typeof answers !== 'object') {
-      sendJSON(res, 400, { error: 'Invalid request body. Expected { answers: { "1": "B", ... } }' });
+    if (!name || typeof name !== 'string') {
+      sendJSON(res, 400, { error: 'Missing required field: name' });
       return;
     }
 
-    // Convert string keys to numbers
-    const userAnswers = {};
-    for (const [key, value] of Object.entries(answers)) {
-      userAnswers[parseInt(key)] = value;
+    if (!answers) {
+      sendJSON(res, 400, { error: 'Missing required field: answers' });
+      return;
     }
 
     // Load answer key
     const answerKey = await loadAnswerKey(version);
 
-    // Score with AI
-    console.log(`Scoring ${Object.keys(userAnswers).length} answers with AI...`);
-    const results = await batchScoreWithAI(userAnswers, answerKey);
+    let parsedAnswers;
+    let extractedMetadata = metadata;
+
+    // Check if answers is a string (raw submission) or object (pre-parsed)
+    if (typeof answers === 'string') {
+      console.log('Parsing raw submission with AI...');
+      const parsed = await parseSubmissionWithAI(answers, answerKey);
+      parsedAnswers = parsed.answers;
+      extractedMetadata = { ...metadata, ...parsed.metadata };
+      console.log(`Extracted ${Object.keys(parsedAnswers).length} answers and metadata`);
+    } else if (typeof answers === 'object') {
+      // Already parsed - convert string keys to numbers
+      parsedAnswers = {};
+      for (const [key, value] of Object.entries(answers)) {
+        parsedAnswers[key] = value;
+      }
+    } else {
+      sendJSON(res, 400, { error: 'Invalid answers format. Expected object or string.' });
+      return;
+    }
+
+    // Score answers
+    console.log(`Scoring ${Object.keys(parsedAnswers).length} answers...`);
+    const results = scoreAnswers(parsedAnswers, answerKey);
     console.log(`Scoring complete: ${results.correct} correct, ${results.incorrect} incorrect, ${results.missing} missing`);
+
+    // Save to database
+    try {
+      const db = createClient({
+        url: process.env.TURSO_DATABASE_URL,
+        authToken: process.env.TURSO_AUTH_TOKEN,
+      });
+
+      await db.execute({
+        sql: `INSERT INTO submissions (
+          name, quiz_version, score, total_points, percentage, grade,
+          correct_count, incorrect_count, missing_count,
+          metadata, answers, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))`,
+        args: [
+          name,
+          version,
+          results.earnedPoints,
+          results.totalPoints,
+          parseFloat(results.percentage),
+          results.grade,
+          results.correct,
+          results.incorrect,
+          results.missing,
+          JSON.stringify(extractedMetadata),
+          JSON.stringify(parsedAnswers),
+        ],
+      });
+
+      console.log('Saved to database');
+    } catch (dbError) {
+      console.error('Database error:', dbError);
+      // Don't fail the request if DB save fails
+    }
 
     sendJSON(res, 200, {
       success: true,
@@ -89,7 +149,8 @@ export default async function handler(req, res) {
         correct: results.correct,
         incorrect: results.incorrect,
         missing: results.missing,
-        byTopic: results.byTopic
+        byTopic: results.byTopic,
+        metadata: extractedMetadata
       }
     });
 

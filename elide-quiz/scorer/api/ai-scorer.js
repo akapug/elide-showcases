@@ -204,12 +204,14 @@ export async function batchScoreWithAI(userAnswers, answerKey) {
     results.totalPoints += data.points || 1;
   }
 
-  // Score each question
-  const scoringPromises = [];
+  // Score each question with intelligent batching
+  const BATCH_SIZE = 20; // Process 20 questions at a time to avoid rate limits
+  const questionsToScore = [];
+
   for (const [qNum, data] of Object.entries(answerKey)) {
     const questionNum = parseInt(qNum);
     const userAnswer = userAnswers[questionNum];
-    
+
     if (!userAnswer || userAnswer.trim() === '') {
       results.missing++;
       results.details.push({
@@ -223,52 +225,98 @@ export async function batchScoreWithAI(userAnswers, answerKey) {
       continue;
     }
 
-    // Score with AI (in parallel)
-    const promise = scoreAnswerWithAI(
-      questionNum,
-      userAnswer,
-      data.answer,
-      data.explanation || '',
-      data.type || 'multiple-choice'
-    ).then(aiResult => {
-      const points = aiResult.isCorrect ? (data.points || 1) : 0;
-      
-      if (aiResult.isCorrect) {
-        results.correct++;
-        results.earnedPoints += points;
-      } else {
-        results.incorrect++;
-      }
+    // Check for exact match first (skip AI for obvious matches)
+    const normalizedUser = normalizeAnswer(userAnswer);
+    const normalizedCorrect = normalizeAnswer(data.answer);
 
-      // Track by topic
+    if (normalizedUser === normalizedCorrect) {
+      // Exact match - no AI needed
+      const points = data.points || 1;
+      results.correct++;
+      results.earnedPoints += points;
+
       const topic = data.topic || 'Other';
       if (!results.byTopic[topic]) {
         results.byTopic[topic] = { correct: 0, total: 0, points: 0, maxPoints: 0 };
       }
       results.byTopic[topic].total++;
       results.byTopic[topic].maxPoints += data.points || 1;
-      if (aiResult.isCorrect) {
-        results.byTopic[topic].correct++;
-        results.byTopic[topic].points += points;
-      }
+      results.byTopic[topic].correct++;
+      results.byTopic[topic].points += points;
 
       results.details.push({
         question: questionNum,
         userAnswer: userAnswer,
-        extractedAnswer: aiResult.extractedAnswer,
+        extractedAnswer: normalizedUser,
         correctAnswer: data.answer,
-        isCorrect: aiResult.isCorrect,
-        confidence: aiResult.confidence,
+        isCorrect: true,
+        confidence: 1.0,
         points: points,
         maxPoints: data.points || 1
       });
-    });
-
-    scoringPromises.push(promise);
+    } else {
+      // Needs AI scoring
+      questionsToScore.push({ questionNum, userAnswer, data });
+    }
   }
 
-  // Wait for all scoring to complete
-  await Promise.all(scoringPromises);
+  console.log(`Exact matches: ${results.correct}, Need AI scoring: ${questionsToScore.length}`);
+
+  // Score remaining questions with AI in batches
+  for (let i = 0; i < questionsToScore.length; i += BATCH_SIZE) {
+    const batch = questionsToScore.slice(i, i + BATCH_SIZE);
+    console.log(`Scoring batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(questionsToScore.length / BATCH_SIZE)} (${batch.length} questions)...`);
+
+    const batchPromises = batch.map(({ questionNum, userAnswer, data }) =>
+      scoreAnswerWithAI(
+        questionNum,
+        userAnswer,
+        data.answer,
+        data.explanation || '',
+        data.type || 'multiple-choice'
+      ).then(aiResult => {
+        const points = aiResult.isCorrect ? (data.points || 1) : 0;
+
+        if (aiResult.isCorrect) {
+          results.correct++;
+          results.earnedPoints += points;
+        } else {
+          results.incorrect++;
+        }
+
+        // Track by topic
+        const topic = data.topic || 'Other';
+        if (!results.byTopic[topic]) {
+          results.byTopic[topic] = { correct: 0, total: 0, points: 0, maxPoints: 0 };
+        }
+        results.byTopic[topic].total++;
+        results.byTopic[topic].maxPoints += data.points || 1;
+        if (aiResult.isCorrect) {
+          results.byTopic[topic].correct++;
+          results.byTopic[topic].points += points;
+        }
+
+        results.details.push({
+          question: questionNum,
+          userAnswer: userAnswer,
+          extractedAnswer: aiResult.extractedAnswer,
+          correctAnswer: data.answer,
+          isCorrect: aiResult.isCorrect,
+          confidence: aiResult.confidence,
+          points: points,
+          maxPoints: data.points || 1
+        });
+      })
+    );
+
+    // Wait for this batch to complete before starting next batch
+    await Promise.all(batchPromises);
+
+    // Small delay between batches to avoid rate limits
+    if (i + BATCH_SIZE < questionsToScore.length) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+  }
 
   // Calculate percentage and grade
   results.percentage = results.totalPoints > 0 
