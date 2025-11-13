@@ -491,6 +491,56 @@ async function showSubmissionDetails(submissionId) {
         </div>
       </div>
 
+      ${submission.metadata ? `
+        <h3 style="margin-bottom: 15px;">Survey Metadata</h3>
+        <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            ${submission.metadata.tools ? `
+              <div>
+                <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Tools Available</div>
+                <div style="font-weight: 500;">${submission.metadata.tools}</div>
+              </div>
+            ` : ''}
+            ${submission.metadata.time ? `
+              <div>
+                <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Time (minutes)</div>
+                <div style="font-weight: 500;">${submission.metadata.time}</div>
+              </div>
+            ` : ''}
+            ${submission.metadata.strategy ? `
+              <div>
+                <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Research Strategy</div>
+                <div style="font-weight: 500;">${submission.metadata.strategy}</div>
+              </div>
+            ` : ''}
+            ${submission.metadata.model ? `
+              <div>
+                <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Model Name</div>
+                <div style="font-weight: 500;">${submission.metadata.model}</div>
+              </div>
+            ` : ''}
+            ${submission.metadata.version ? `
+              <div>
+                <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Model Version</div>
+                <div style="font-weight: 500;">${submission.metadata.version}</div>
+              </div>
+            ` : ''}
+            ${submission.metadata.temperature ? `
+              <div>
+                <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Temperature</div>
+                <div style="font-weight: 500;">${submission.metadata.temperature}</div>
+              </div>
+            ` : ''}
+            ${submission.metadata.maxTokens ? `
+              <div>
+                <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Max Tokens</div>
+                <div style="font-weight: 500;">${submission.metadata.maxTokens}</div>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      ` : ''}
+
       <h3 style="margin-bottom: 15px;">Answer Comparison</h3>
       <div id="comparison-list" style="max-height: 500px; overflow-y: auto;"></div>
     `;
