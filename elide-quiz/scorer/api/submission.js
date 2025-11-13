@@ -6,13 +6,6 @@
  */
 
 import { createClient } from '@libsql/client';
-import { readFileSync, existsSync, readdirSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-// Get __dirname equivalent in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 // Initialize Turso client
 let db = null;
@@ -26,60 +19,15 @@ function getDB() {
   return db;
 }
 
-// Load answer key
+// Load answer key from server-side modules (not exposed to web)
 async function loadAnswerKey(version = 'full') {
-  const filename = version === 'human' ? 'answers-human.md' : 'answers.md';
-
-  // Try local filesystem first (for local dev)
-  const localPaths = [
-    join(__dirname, '..', 'public', filename), // scorer/public/answers.md (local dev from api/)
-    join(__dirname, '..', filename),           // scorer/answers.md (local dev fallback)
-  ];
-
-  for (const path of localPaths) {
-    if (existsSync(path)) {
-      return readFileSync(path, 'utf-8');
-    }
+  if (version === 'human') {
+    const { answerKey } = await import('./answers-human-data.js');
+    return answerKey;
+  } else {
+    const { answerKey } = await import('./answers-data.js');
+    return answerKey;
   }
-
-  // In Vercel, fetch from public URL (static files are served but not in filesystem)
-  const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : 'http://localhost:3000';
-
-  const url = `${baseUrl}/${filename}`;
-
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    const content = await response.text();
-    return content;
-  } catch (error) {
-    throw new Error(`Could not load ${filename} from ${url}: ${error.message}`);
-  }
-}
-
-// Parse answer key content
-function parseAnswerKey(content) {
-
-  const answers = {};
-  const lines = content.split('\n');
-
-  for (const line of lines) {
-    // Match pattern: "123. **ANSWER** - explanation"
-    const match = line.match(/^(\d+)\.\s+\*\*(.+?)\*\*\s+-\s+(.+)$/);
-    if (match) {
-      const [, num, answer, explanation] = match;
-      answers[parseInt(num)] = {
-        answer: answer.trim(),
-        explanation: explanation.trim()
-      };
-    }
-  }
-
-  return answers;
 }
 
 // Helper for response
@@ -148,8 +96,7 @@ export default async function handler(req, res) {
     const byTopic = submission.byTopic ? JSON.parse(submission.byTopic) : null;
 
     // Load correct answers
-    const content = await loadAnswerKey(submission.version);
-    const answerKey = parseAnswerKey(content);
+    const answerKey = await loadAnswerKey(submission.version);
 
     // Build comparison
     const comparison = [];
