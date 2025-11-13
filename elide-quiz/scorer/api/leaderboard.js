@@ -27,6 +27,7 @@ async function initDB() {
   if (!client) return false;
 
   try {
+    // Create table if it doesn't exist
     await client.execute(`
       CREATE TABLE IF NOT EXISTS submissions (
         id TEXT PRIMARY KEY,
@@ -36,18 +37,35 @@ async function initDB() {
         totalPoints INTEGER NOT NULL,
         grade TEXT NOT NULL,
         version TEXT DEFAULT 'full',
-        timestamp TEXT NOT NULL,
-        correct INTEGER DEFAULT 0,
-        incorrect INTEGER DEFAULT 0,
-        missing INTEGER DEFAULT 0,
-        byTopic TEXT,
-        timeSpent INTEGER,
-        toolsUsed TEXT,
-        primarySources TEXT,
-        researchStrategy TEXT,
-        userAnswers TEXT
+        timestamp TEXT NOT NULL
       )
     `);
+
+    // Add new columns if they don't exist (SQLite doesn't have IF NOT EXISTS for ALTER)
+    // We'll try to add them and ignore errors if they already exist
+    const newColumns = [
+      'ALTER TABLE submissions ADD COLUMN correct INTEGER DEFAULT 0',
+      'ALTER TABLE submissions ADD COLUMN incorrect INTEGER DEFAULT 0',
+      'ALTER TABLE submissions ADD COLUMN missing INTEGER DEFAULT 0',
+      'ALTER TABLE submissions ADD COLUMN byTopic TEXT',
+      'ALTER TABLE submissions ADD COLUMN timeSpent INTEGER',
+      'ALTER TABLE submissions ADD COLUMN toolsUsed TEXT',
+      'ALTER TABLE submissions ADD COLUMN primarySources TEXT',
+      'ALTER TABLE submissions ADD COLUMN researchStrategy TEXT',
+      'ALTER TABLE submissions ADD COLUMN userAnswers TEXT'
+    ];
+
+    for (const sql of newColumns) {
+      try {
+        await client.execute(sql);
+      } catch (error) {
+        // Ignore "duplicate column" errors
+        if (!error.message.includes('duplicate column')) {
+          console.error('Error adding column:', error.message);
+        }
+      }
+    }
+
     return true;
   } catch (error) {
     console.error('Error initializing database:', error);
