@@ -1,49 +1,34 @@
 /**
  * Vercel Serverless Function for Leaderboard
- * 
+ *
  * GET /api/leaderboard - Get all submissions
  * POST /api/leaderboard - Add new submission
- * 
- * Storage: GitHub Gist (public, append-only)
+ *
+ * Storage: Vercel KV (Redis)
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { kv } from '@vercel/kv';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const LEADERBOARD_KEY = 'elide-quiz:leaderboard';
 
-// Storage file path (in /tmp for Vercel, or local for dev)
-const STORAGE_FILE = process.env.VERCEL
-  ? '/tmp/leaderboard.json'
-  : join(__dirname, '../../public/leaderboard.json');
-
-// Initialize storage
-function initStorage() {
-  if (!existsSync(STORAGE_FILE)) {
-    writeFileSync(STORAGE_FILE, JSON.stringify({ submissions: [] }), 'utf-8');
-  }
-}
-
-// Read submissions
-function readSubmissions() {
+// Read submissions from KV
+async function readSubmissions() {
   try {
-    initStorage();
-    const data = readFileSync(STORAGE_FILE, 'utf-8');
-    return JSON.parse(data);
+    const data = await kv.get(LEADERBOARD_KEY);
+    return data || { submissions: [] };
   } catch (error) {
-    console.error('Error reading submissions:', error);
+    console.error('Error reading submissions from KV:', error);
     return { submissions: [] };
   }
 }
 
-// Write submissions
-function writeSubmissions(data) {
+// Write submissions to KV
+async function writeSubmissions(data) {
   try {
-    writeFileSync(STORAGE_FILE, JSON.stringify(data, null, 2), 'utf-8');
+    await kv.set(LEADERBOARD_KEY, data);
     return true;
   } catch (error) {
-    console.error('Error writing submissions:', error);
+    console.error('Error writing submissions to KV:', error);
     return false;
   }
 }
@@ -61,7 +46,7 @@ function sendJSON(res, statusCode, data) {
 }
 
 // Main handler
-export default function handler(req, res) {
+export default async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -80,7 +65,7 @@ export default function handler(req, res) {
 
   // GET - Retrieve leaderboard
   if (req.method === 'GET') {
-    const data = readSubmissions();
+    const data = await readSubmissions();
     sendJSON(res, 200, {
       success: true,
       submissions: data.submissions
@@ -103,7 +88,7 @@ export default function handler(req, res) {
       }
 
       // Read current data
-      const data = readSubmissions();
+      const data = await readSubmissions();
 
       // Add new submission
       data.submissions.push({
@@ -118,7 +103,7 @@ export default function handler(req, res) {
       }
 
       // Write back
-      const success = writeSubmissions(data);
+      const success = await writeSubmissions(data);
 
       if (success) {
         sendJSON(res, 200, {
