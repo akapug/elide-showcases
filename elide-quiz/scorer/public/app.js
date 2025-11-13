@@ -273,8 +273,8 @@ function renderLeaderboardChart(submissions, container) {
 // Load questions and LLM prompt
 async function loadQuestions() {
   try {
-    // Fetch questions.md as a static file from public directory
-    const response = await fetch('/questions.md');
+    // Fetch questions.md from GitHub (public, always available)
+    const response = await fetch('https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/questions.md');
     const questionsText = await response.text();
 
     // Set questions textarea
