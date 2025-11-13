@@ -92,7 +92,7 @@ document.getElementById('quiz-form').addEventListener('submit', async (e) => {
     results.version = quizVersion; // Add version to results
 
     // Save to leaderboard
-    await saveToLeaderboard(name, results);
+    await saveToLeaderboard(name, results, answers, quizVersion);
 
     // Display results
     displayResults(results);
@@ -163,7 +163,7 @@ function displayResults(results) {
 }
 
 // Save to leaderboard
-async function saveToLeaderboard(name, results) {
+async function saveToLeaderboard(name, results, userAnswers, version) {
   try {
     const submission = {
       name,
@@ -172,9 +172,15 @@ async function saveToLeaderboard(name, results) {
       totalPoints: results.totalPoints,
       grade: results.grade,
       timestamp: new Date().toISOString(),
-      byTopic: results.byTopic
+      correct: results.correct,
+      incorrect: results.incorrect,
+      missing: results.missing,
+      byTopic: results.byTopic,
+      version: version || 'full',
+      // Store answers for detailed view
+      userAnswers: userAnswers
     };
-    
+
     await fetch('/api/leaderboard', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -241,7 +247,7 @@ function renderLeaderboardChart(submissions, container) {
         <span style="font-size: 1.1rem;">${submission.name}</span>
         <span style="color: #666;">${submission.points}/${submission.totalPoints} points</span>
       </div>
-      <div style="
+      <div class="leaderboard-bar" data-submission-id="${submission.id}" style="
         height: ${barHeight}px;
         background: ${barColor};
         width: ${(submission.percentage / maxPercentage) * 100}%;
@@ -254,6 +260,8 @@ function renderLeaderboardChart(submissions, container) {
         font-weight: bold;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         position: relative;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
       ">
         <span>${submission.percentage.toFixed(2)}%</span>
         <span style="
@@ -267,7 +275,21 @@ function renderLeaderboardChart(submissions, container) {
         ${new Date(submission.timestamp).toLocaleString()}
       </div>
     `;
-    
+
+    // Add click handler
+    const barElement = bar.querySelector('.leaderboard-bar');
+    barElement.addEventListener('mouseenter', () => {
+      barElement.style.transform = 'scale(1.02)';
+      barElement.style.boxShadow = '0 6px 16px rgba(0,0,0,0.2)';
+    });
+    barElement.addEventListener('mouseleave', () => {
+      barElement.style.transform = 'scale(1)';
+      barElement.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+    });
+    barElement.addEventListener('click', () => {
+      showSubmissionDetails(submission.id);
+    });
+
     chartContainer.appendChild(bar);
   });
 }
@@ -393,7 +415,142 @@ Good luck! 🚀`;
   }
 }
 
+// Show submission details in modal
+async function showSubmissionDetails(submissionId) {
+  try {
+    const response = await fetch(`/api/submission?id=${submissionId}`);
+    const data = await response.json();
+
+    if (!data.success) {
+      alert('Failed to load submission details');
+      return;
+    }
+
+    const { submission, comparison } = data;
+
+    // Create modal
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    `;
+
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+      background: white;
+      border-radius: 12px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+    `;
+
+    modalContent.innerHTML = `
+      <button id="close-modal" style="
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #ef4444;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 16px;
+        cursor: pointer;
+        font-weight: 600;
+      ">Close</button>
+
+      <h2 style="margin-bottom: 20px;">${submission.name} - Detailed Results</h2>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px;">
+        <div style="background: #f3f4f6; padding: 15px; border-radius: 8px;">
+          <div style="font-size: 0.85rem; color: #666;">Score</div>
+          <div style="font-size: 1.5rem; font-weight: bold; color: #667eea;">${submission.percentage.toFixed(2)}%</div>
+        </div>
+        <div style="background: #f3f4f6; padding: 15px; border-radius: 8px;">
+          <div style="font-size: 0.85rem; color: #666;">Points</div>
+          <div style="font-size: 1.5rem; font-weight: bold;">${submission.points}/${submission.totalPoints}</div>
+        </div>
+        <div style="background: #f3f4f6; padding: 15px; border-radius: 8px;">
+          <div style="font-size: 0.85rem; color: #666;">Correct</div>
+          <div style="font-size: 1.5rem; font-weight: bold; color: #10b981;">${submission.correct}</div>
+        </div>
+        <div style="background: #f3f4f6; padding: 15px; border-radius: 8px;">
+          <div style="font-size: 0.85rem; color: #666;">Incorrect</div>
+          <div style="font-size: 1.5rem; font-weight: bold; color: #ef4444;">${submission.incorrect}</div>
+        </div>
+        <div style="background: #f3f4f6; padding: 15px; border-radius: 8px;">
+          <div style="font-size: 0.85rem; color: #666;">Missing</div>
+          <div style="font-size: 1.5rem; font-weight: bold; color: #f59e0b;">${submission.missing}</div>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom: 15px;">Answer Comparison</h3>
+      <div id="comparison-list" style="max-height: 500px; overflow-y: auto;"></div>
+    `;
+
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+
+    // Render comparison
+    const comparisonList = document.getElementById('comparison-list');
+    comparison.forEach(item => {
+      const itemDiv = document.createElement('div');
+      itemDiv.style.cssText = `
+        border: 2px solid ${item.isCorrect ? '#10b981' : '#ef4444'};
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        background: ${item.isCorrect ? '#f0fdf4' : '#fef2f2'};
+      `;
+
+      itemDiv.innerHTML = `
+        <div style="font-weight: bold; margin-bottom: 10px; color: ${item.isCorrect ? '#10b981' : '#ef4444'};">
+          Question ${item.question} ${item.isCorrect ? '✓' : '✗'}
+        </div>
+        <div style="margin-bottom: 8px;">
+          <strong>Your Answer:</strong> <code style="background: white; padding: 2px 6px; border-radius: 4px;">${item.userAnswer}</code>
+        </div>
+        <div style="margin-bottom: 8px;">
+          <strong>Correct Answer:</strong> <code style="background: white; padding: 2px 6px; border-radius: 4px;">${item.correctAnswer}</code>
+        </div>
+        <div style="font-size: 0.9rem; color: #666;">
+          ${item.explanation}
+        </div>
+      `;
+
+      comparisonList.appendChild(itemDiv);
+    });
+
+    // Close modal handlers
+    document.getElementById('close-modal').addEventListener('click', () => {
+      document.body.removeChild(modal);
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        document.body.removeChild(modal);
+      }
+    });
+
+  } catch (error) {
+    console.error('Error loading submission details:', error);
+    alert('Failed to load submission details');
+  }
+}
+
 // Load leaderboard on page load if on that tab
+// Updated: 2025-01-12 - Added submission details modal
 if (window.location.hash === '#leaderboard') {
   showTab('leaderboard');
 }
