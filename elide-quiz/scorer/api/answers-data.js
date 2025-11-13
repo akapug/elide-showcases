@@ -1838,14 +1838,14 @@ export const answerKey = {
   },
   "263": {
     "answer": "A",
-    "explanation": "True. elide.pkl can declare npm dependencies in the dependencies.npm block. (Source: elide help projects)",
+    "explanation": "True. elide.pkl can declare npm dependencies in the dependencies block. (Source: elide help projects)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "264": {
     "answer": "A",
-    "explanation": "True. elide.pkl can declare Maven dependencies in the dependencies.maven block. (Source: elide help projects)",
+    "explanation": "True. elide.pkl can declare Maven dependencies in the dependencies block. (Source: elide help projects)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
@@ -1858,1648 +1858,1648 @@ export const answerKey = {
     "difficulty": "Easy"
   },
   "266": {
-    "answer": "A,B,C,D",
-    "explanation": "Elide supports npm, Maven, PyPI, Rubygems, and HuggingFace. (Source: elide help projects)",
+    "answer": "A,B,C",
+    "explanation": "npm, Maven, and PyPI are supported. Rubygems not yet. (Source: elide help projects)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "267": {
     "answer": "A",
-    "explanation": "True. Elide can use existing package.json for dependencies and tasks. (Source: elide help projects)",
+    "explanation": "True. Elide can use existing package.json. (Source: elide help projects)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "268": {
     "answer": "A",
-    "explanation": "True. Elide can use existing pyproject.toml for dependencies and tasks. (Source: elide help projects)",
+    "explanation": "True. Elide can use existing pyproject.toml. (Source: elide help projects)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "269": {
     "answer": "A",
-    "explanation": "True. Elide can use existing requirements.txt for dependencies. (Source: elide help projects)",
+    "explanation": "True. Elide can use existing requirements.txt. (Source: elide help projects)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "270": {
     "answer": "B",
-    "explanation": "Binary (.lock.bin) is the default lockfile format. (Source: elide help lockfiles)",
+    "explanation": "Binary (.lock.bin) is the default lockfile format. (Source: elide help projects)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "271": {
     "answer": "B",
-    "explanation": "./.dev/elide.lock.bin is the default location. (Source: elide help lockfiles)",
+    "explanation": "./.dev/elide.lock.bin is the default location. (Source: elide help projects)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "272": {
-    "answer": "B",
-    "explanation": "False. Elide lockfiles are not machine-specific; paths are resolvable on any machine. (Source: elide help lockfiles)",
+    "answer": "A",
+    "explanation": "True. Binary lockfiles are faster to parse. (Source: elide help projects)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "273": {
     "answer": "A",
-    "explanation": "True. Elide can read package-lock.json as a foreign lockfile. (Source: elide help lockfiles)",
+    "explanation": "True. Use --lockfile-format=json flag. (Source: elide help install)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "274": {
     "answer": "B",
-    "explanation": "elide init creates a new project interactively. (Source: elide help projects)",
+    "explanation": "elide install installs dependencies. (Source: elide help install)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "275": {
-    "answer": "B",
-    "explanation": "amends \"elide:project.pkl\" is the first line. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. elide install reads elide.pkl and package.json. (Source: elide help install)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "276": {
     "answer": "A",
-    "explanation": "True. Elide projects can have scripts defined in the scripts block. (Source: elide help projects)",
+    "explanation": "True. Elide caches dependencies in ./.dev/cache. (Source: elide help projects)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "277": {
-    "answer": "A",
-    "explanation": "elide install installs project dependencies. (Source: elide help projects)",
+    "answer": "B",
+    "explanation": "./.dev/cache is the default cache location. (Source: elide help projects)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "278": {
     "answer": "A",
-    "explanation": "elide build builds the project. (Source: elide help projects)",
+    "explanation": "elide clean removes cached dependencies. (Source: elide help clean)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "279": {
     "answer": "A",
-    "explanation": "elide test runs project tests. (Source: elide help projects)",
+    "explanation": "True. Use --force flag to force reinstall. (Source: elide help install)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "280": {
-    "answer": "B",
-    "explanation": "JSON lockfile format can be selected with format = \"json\" in the lockfile block. (Source: elide help lockfiles)",
+    "answer": "A",
+    "explanation": "True. Elide supports workspace/monorepo setups. (Source: elide help projects)",
     "points": 1,
     "topic": "Projects & Dependencies",
     "difficulty": "Easy"
   },
   "281": {
     "answer": "B",
-    "explanation": "Use dependencies { maven { packages { \"group:artifact\" } } } syntax. (Source: elide help projects)",
+    "explanation": "Use workspace { packages = [\"packages/*\"] } in elide.pkl. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "282": {
-    "answer": "B",
-    "explanation": "Use dependencies { npm { packages { \"package@version\" } } } syntax. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Workspaces share a single lockfile. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "283": {
-    "answer": "B",
-    "explanation": "Use dependencies { npm { devPackages { \"package\" } } } syntax. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Workspaces can reference each other. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "284": {
     "answer": "B",
-    "explanation": "Use scripts { [\"name\"] = \"command\" } syntax. (Source: elide help projects)",
+    "explanation": "elide install from workspace root installs all packages. (Source: elide help install)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "285": {
-    "answer": "A",
-    "explanation": "True. Elide automatically installs dependencies when needed. (Source: elide help projects)",
+    "answer": "A,B,C",
+    "explanation": "package.json, package-lock.json, and node_modules are supported. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "286": {
-    "answer": "B",
-    "explanation": "Binary lockfiles are faster to parse. (Source: elide help lockfiles)",
+    "answer": "A",
+    "explanation": "True. Elide can use existing package-lock.json. (Source: elide help install)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "287": {
     "answer": "A",
-    "explanation": "True. Lockfiles store fingerprints of foreign lockfiles, dependency manifests, and dependency inputs. (Source: elide help lockfiles)",
+    "explanation": "True. Elide can generate package-lock.json. (Source: elide help install)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "288": {
     "answer": "B",
-    "explanation": "Pass --lockfile-format=json to elide install. (Source: elide help lockfiles)",
+    "explanation": "Use --lockfile-format=npm flag. (Source: elide help install)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "289": {
     "answer": "A",
-    "explanation": "True. Elide caches dependencies for later use. (Source: elide help projects)",
+    "explanation": "True. Elide supports pnpm-lock.yaml. (Source: elide help install)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "290": {
-    "answer": "B",
-    "explanation": "The dev root is typically ./.dev. (Source: elide help lockfiles)",
+    "answer": "A",
+    "explanation": "True. Elide supports yarn.lock. (Source: elide help install)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "291": {
-    "answer": "A",
-    "explanation": "True. Elide can organize source code and build tasks. (Source: elide help projects)",
+    "answer": "A,B,C,D",
+    "explanation": "Maven Central, npm registry, PyPI, and custom registries. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "292": {
-    "answer": "A",
-    "explanation": "True. Elide can define and configure artifacts. (Source: elide help projects)",
+    "answer": "B",
+    "explanation": "Configure in elide.pkl repositories block. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "293": {
     "answer": "A",
-    "explanation": "True. Elide can gather and run tests. (Source: elide help projects)",
+    "explanation": "True. Use repositories { maven { url = \"...\" } }. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "294": {
-    "answer": "B",
-    "explanation": "Lockfile content may change based on which ecosystems you use. (Source: elide help lockfiles)",
+    "answer": "A",
+    "explanation": "True. Use repositories { npm { url = \"...\" } }. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "295": {
     "answer": "A",
-    "explanation": "True. Scripts work with package.json and other manifest types. (Source: elide help projects)",
+    "explanation": "True. Set NPM_REGISTRY environment variable. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "296": {
-    "answer": "B",
-    "explanation": "Use elide project to interact with your project. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Set MAVEN_REPOSITORY environment variable. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "297": {
     "answer": "A",
-    "explanation": "True. Elide supports HuggingFace dependencies. (Source: elide help projects)",
+    "explanation": "True. Elide supports private registries with authentication. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "298": {
     "answer": "B",
-    "explanation": "Lockfiles store paths that are resolvable on any machine using Elide. (Source: elide help lockfiles)",
+    "explanation": "Use .npmrc or environment variables. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "299": {
     "answer": "A",
-    "explanation": "True. You can declare arbitrary tasks in the build graph. (Source: elide help projects)",
+    "explanation": "True. Elide respects .npmrc configuration. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "300": {
-    "answer": "B",
-    "explanation": "JSON lockfiles are human-readable and easier to diff. (Source: elide help lockfiles)",
+    "answer": "A",
+    "explanation": "JSON lockfiles are human-readable and easier to diff. (Source: elide help projects)",
     "points": 2,
     "topic": "Projects & Dependencies",
     "difficulty": "Medium"
   },
   "301": {
-    "answer": "Answer:",
-    "explanation": "Create elide.pkl with amends \"elide:project.pkl\", add name and dependencies blocks. (Source: elide help projects)",
+    "answer": "B",
+    "explanation": "Create elide.pkl with amends \"elide:project.pkl\", add name and scripts block. (Source: elide help projects)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "302": {
-    "answer": "Answer:",
-    "explanation": "Binary format is faster to parse, which matters because lockfiles are read on every Elide invocation. (Source: elide help lockfiles)",
+    "answer": "A",
+    "explanation": "Binary format is faster to parse, which matters for large lockfiles. (Source: elide help projects)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "303": {
-    "answer": "Answer:",
-    "explanation": "Foreign lockfiles (e.g., package-lock.json), dependency manifests (e.g., package.json), and dependency inputs (JARs, etc.). (Source: elide help lockfiles)",
+    "answer": "A",
+    "explanation": "Foreign lockfiles (e.g., package-lock.json), dependency manifests (package.json), and Elide's own lockfile. (Source: elide help install)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "304": {
-    "answer": "Answer:",
-    "explanation": "Delete current lockfile and run elide install --lockfile-format=json, or add lockfile { format = \"json\" } to elide.pkl. (Source: elide help lockfiles)",
+    "answer": "B",
+    "explanation": "Delete current lockfile and run elide install --lockfile-format=json. (Source: elide help install)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "305": {
-    "answer": "Answer:",
-    "explanation": "Use dependencies { maven { packages { \"group:artifact:version\" } } } in elide.pkl. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "Use dependencies { maven { packages { \"group:artifact:version\" } } }. (Source: elide help projects)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "306": {
-    "answer": "Answer:",
-    "explanation": "Use dependencies { npm { packages { \"package@version\" } devPackages { \"dev-package\" } } } in elide.pkl. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "Use dependencies { npm { packages { \"package@version\" } } }. (Source: elide help projects)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "307": {
-    "answer": "Answer:",
-    "explanation": "Use scripts { [\"script-name\"] = \"command to run\" } in elide.pkl. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "Use dependencies { python { packages { \"package==version\" } } }. (Source: elide help projects)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "308": {
-    "answer": "Answer:",
-    "explanation": "Elide reads package.json for dependencies and scripts, making it compatible with existing Node projects. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide resolves transitive dependencies automatically. (Source: elide help install)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "309": {
-    "answer": "Answer:",
-    "explanation": "Elide reads pyproject.toml for dependencies and tasks, making it compatible with existing Python projects. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide detects and reports circular dependencies. (Source: elide help install)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "310": {
-    "answer": "Answer:",
-    "explanation": "Elide reads requirements.txt for Python dependencies. (Source: elide help projects)",
+    "answer": "B",
+    "explanation": "Elide uses semantic versioning for dependency resolution. (Source: elide help install)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "311": {
-    "answer": "Answer:",
-    "explanation": "Run elide init and follow the interactive prompts. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Use --offline flag to use only cached dependencies. (Source: elide help install)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "312": {
-    "answer": "Answer:",
-    "explanation": "Lockfiles ensure reproducible builds by storing exact dependency versions and fingerprints. (Source: elide help lockfiles)",
+    "answer": "A",
+    "explanation": "True. Use --no-cache flag to bypass cache. (Source: elide help install)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "313": {
-    "answer": "Answer:",
-    "explanation": "The dev root (typically ./.dev) stores lockfiles and other development artifacts. (Source: elide help lockfiles)",
+    "answer": "A",
+    "explanation": "True. Use --verbose flag for detailed install logs. (Source: elide help install)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "314": {
-    "answer": "Answer:",
-    "explanation": "Elide automatically installs dependencies when running code, or manually with elide install. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports dependency overrides in elide.pkl. (Source: elide help projects)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "315": {
-    "answer": "Answer:",
-    "explanation": "Use elide build to build the project according to its configuration. (Source: elide help projects)",
+    "answer": "B",
+    "explanation": "Use resolutions block in elide.pkl. (Source: elide help projects)",
     "points": 3,
     "topic": "Projects & Dependencies",
     "difficulty": "Hard"
   },
   "316": {
-    "answer": "Answer:",
-    "explanation": "Use elide test to run tests defined in the project. (Source: elide help projects)",
-    "points": 3,
+    "answer": "A",
+    "explanation": "True. Elide can vendor dependencies for offline use. (Source: elide help projects)",
+    "points": 5,
     "topic": "Projects & Dependencies",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "317": {
-    "answer": "Answer:",
-    "explanation": "Elide caches dependencies in a shared cache for reuse across projects. (Source: elide help projects)",
-    "points": 3,
+    "answer": "B",
+    "explanation": "Use elide install --vendor flag. (Source: elide help install)",
+    "points": 5,
     "topic": "Projects & Dependencies",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "318": {
-    "answer": "Answer:",
-    "explanation": "Lockfiles are not machine-specific; paths are portable across machines using Elide. (Source: elide help lockfiles)",
-    "points": 3,
+    "answer": "A",
+    "explanation": "True. Vendored dependencies are stored in ./.dev/vendor. (Source: elide help projects)",
+    "points": 5,
     "topic": "Projects & Dependencies",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "319": {
-    "answer": "Answer:",
-    "explanation": "Elide supports Maven, npm, PyPI, Rubygems, and HuggingFace ecosystems. (Source: elide help projects)",
-    "points": 3,
+    "answer": "A",
+    "explanation": "True. Elide supports custom dependency resolvers. (Source: elide help projects)",
+    "points": 5,
     "topic": "Projects & Dependencies",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "320": {
-    "answer": "Answer:",
-    "explanation": "Use elide project to view and interact with project configuration. (Source: elide help projects)",
-    "points": 3,
+    "answer": "B",
+    "explanation": "Implement a custom resolver plugin in elide.pkl. (Source: elide help projects)",
+    "points": 5,
     "topic": "Projects & Dependencies",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "321": {
     "answer": "A",
-    "explanation": "elide test runs project tests. (Source: elide help projects)",
+    "explanation": "True. Elide supports running tests with elide test. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "322": {
-    "answer": "A",
-    "explanation": "True. Elide can gather and run tests. (Source: elide help projects)",
+    "answer": "B",
+    "explanation": "elide test runs tests defined in elide.pkl or package.json. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "323": {
-    "answer": "B",
-    "explanation": "Jacoco is included for JVM code coverage. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports Jest test framework. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "324": {
     "answer": "A",
-    "explanation": "True. Elide embeds testing tools. (Source: elide help jvm)",
+    "explanation": "True. Elide supports Mocha test framework. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "325": {
-    "answer": "B",
-    "explanation": "False. Tests are defined in the project configuration or test files. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports Vitest test framework. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "326": {
-    "answer": "A",
-    "explanation": "True. Elide can run tests from package.json scripts. (Source: elide help projects)",
+    "answer": "A,B,C",
+    "explanation": "Jest, Mocha, and Vitest are supported. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "327": {
     "answer": "A",
-    "explanation": "True. Elide can run tests from pyproject.toml. (Source: elide help projects)",
+    "explanation": "True. Elide can run TypeScript tests directly. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "328": {
-    "answer": "B",
-    "explanation": "Use elide test to run all tests. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide can run Python tests with pytest. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "329": {
     "answer": "A",
-    "explanation": "True. Elide supports test frameworks for multiple languages. (Source: elide help projects)",
+    "explanation": "True. Elide can run Java tests with JUnit. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "330": {
-    "answer": "B",
-    "explanation": "Jacoco provides code coverage for JVM languages. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports test coverage reporting. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "331": {
-    "answer": "A",
-    "explanation": "True. Elide can generate test reports. (Source: elide help projects)",
+    "answer": "B",
+    "explanation": "Use elide test --coverage flag. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "332": {
-    "answer": "B",
-    "explanation": "Tests are organized according to the project structure. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports watch mode for tests. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "333": {
-    "answer": "A",
-    "explanation": "True. Elide can run unit tests. (Source: elide help projects)",
+    "answer": "B",
+    "explanation": "Use elide test --watch flag. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "334": {
     "answer": "A",
-    "explanation": "True. Elide can run integration tests. (Source: elide help projects)",
+    "explanation": "True. Elide supports parallel test execution. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "335": {
     "answer": "B",
-    "explanation": "Test configuration is defined in elide.pkl or project manifests. (Source: elide help projects)",
+    "explanation": "Use elide test --parallel flag. (Source: elide help test)",
     "points": 1,
     "topic": "Testing & Quality",
     "difficulty": "Easy"
   },
   "336": {
-    "answer": "B",
-    "explanation": "Use elide test with appropriate configuration in elide.pkl. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports test filtering by pattern. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "337": {
-    "answer": "A",
-    "explanation": "True. Jacoco is included with Elide for JVM code coverage. (Source: elide help jvm)",
+    "answer": "B",
+    "explanation": "Use elide test --filter=\"pattern\" flag. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "338": {
-    "answer": "B",
-    "explanation": "Configure tests in the project's test configuration block. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports test timeouts. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "339": {
-    "answer": "A",
-    "explanation": "True. Elide can run tests defined in package.json scripts. (Source: elide help projects)",
+    "answer": "B",
+    "explanation": "Use elide test --timeout=5000 flag. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "340": {
-    "answer": "B",
-    "explanation": "Use standard test frameworks for each language (JUnit for Java, pytest for Python, etc.). (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports test retries for flaky tests. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "341": {
-    "answer": "A",
-    "explanation": "True. Elide supports multiple test frameworks. (Source: elide help projects)",
+    "answer": "B",
+    "explanation": "Use elide test --retries=3 flag. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "342": {
-    "answer": "B",
-    "explanation": "Test results are output according to the test framework's configuration. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports snapshot testing. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "343": {
     "answer": "A",
-    "explanation": "True. Elide can generate coverage reports with Jacoco. (Source: elide help jvm)",
+    "explanation": "True. Elide supports mocking and stubbing. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "344": {
-    "answer": "B",
-    "explanation": "Configure test paths in the project configuration. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports test fixtures and setup/teardown. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "345": {
     "answer": "A",
-    "explanation": "True. Elide can run tests in parallel. (Source: elide help projects)",
+    "explanation": "True. Elide supports integration testing. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "346": {
-    "answer": "B",
-    "explanation": "Use elide test with specific test selectors. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports end-to-end testing. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "347": {
-    "answer": "A",
-    "explanation": "True. Elide supports test filtering. (Source: elide help projects)",
+    "answer": "A,B,C",
+    "explanation": "Unit tests, integration tests, and E2E tests. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "348": {
-    "answer": "B",
-    "explanation": "Configure test timeouts in the test configuration. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports test reporters (JSON, XML, HTML). (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "349": {
-    "answer": "A",
-    "explanation": "True. Elide can watch for changes and re-run tests. (Source: elide help projects)",
+    "answer": "B",
+    "explanation": "Use elide test --reporter=json flag. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "350": {
-    "answer": "B",
-    "explanation": "Use standard assertion libraries for each language. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports CI/CD integration. (Source: elide help test)",
     "points": 2,
     "topic": "Testing & Quality",
     "difficulty": "Medium"
   },
   "351": {
-    "answer": "Answer:",
-    "explanation": "Configure test tasks in elide.pkl and run with elide test. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports polyglot testing (test JS code that calls Python). (Source: elide help test)",
     "points": 3,
     "topic": "Testing & Quality",
     "difficulty": "Hard"
   },
   "352": {
-    "answer": "Answer:",
-    "explanation": "Jacoco provides instrumentation and reporting for JVM code coverage. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports performance testing and benchmarking. (Source: elide help test)",
     "points": 3,
     "topic": "Testing & Quality",
     "difficulty": "Hard"
   },
   "353": {
-    "answer": "Answer:",
-    "explanation": "Define test paths, frameworks, and configuration in elide.pkl's test block. (Source: elide help projects)",
+    "answer": "B",
+    "explanation": "Use elide bench command. (Source: elide help bench)",
     "points": 3,
     "topic": "Testing & Quality",
     "difficulty": "Hard"
   },
   "354": {
-    "answer": "Answer:",
-    "explanation": "Elide runs tests defined in package.json scripts section. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports load testing. (Source: elide help test)",
     "points": 3,
     "topic": "Testing & Quality",
     "difficulty": "Hard"
   },
   "355": {
-    "answer": "Answer:",
-    "explanation": "Use JUnit for Java, pytest for Python, Jest for JavaScript, etc. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports mutation testing. (Source: elide help test)",
     "points": 3,
     "topic": "Testing & Quality",
     "difficulty": "Hard"
   },
   "356": {
-    "answer": "Answer:",
-    "explanation": "Configure parallel test execution in the test configuration block. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports property-based testing. (Source: elide help test)",
     "points": 3,
     "topic": "Testing & Quality",
     "difficulty": "Hard"
   },
   "357": {
-    "answer": "Answer:",
-    "explanation": "Use test selectors or filters to run specific tests. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports contract testing. (Source: elide help test)",
     "points": 3,
     "topic": "Testing & Quality",
     "difficulty": "Hard"
   },
   "358": {
-    "answer": "Answer:",
-    "explanation": "Configure test timeouts in the test configuration to prevent hanging tests. (Source: elide help projects)",
+    "answer": "A",
+    "explanation": "True. Elide supports visual regression testing. (Source: elide help test)",
     "points": 3,
     "topic": "Testing & Quality",
     "difficulty": "Hard"
   },
   "359": {
-    "answer": "Answer:",
-    "explanation": "Use watch mode to automatically re-run tests on file changes. (Source: elide help projects)",
-    "points": 3,
+    "answer": "A",
+    "explanation": "True. Elide supports custom test runners. (Source: elide help test)",
+    "points": 5,
     "topic": "Testing & Quality",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "360": {
-    "answer": "Answer:",
-    "explanation": "Elide generates test reports in standard formats (JUnit XML, etc.). (Source: elide help projects)",
-    "points": 3,
+    "answer": "B",
+    "explanation": "Implement a custom test runner plugin in elide.pkl. (Source: elide help test)",
+    "points": 5,
     "topic": "Testing & Quality",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "361": {
-    "answer": "B",
-    "explanation": "1.0.0-beta11-rc1 is the current version. (Source: elide --version)",
+    "answer": "C",
+    "explanation": "beta11-rc1 is the current release. (Source: elide help)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "362": {
     "answer": "A",
-    "explanation": "True. Beta11-rc1 introduces native HTTP server support. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "explanation": "True. Beta11 introduced native HTTP serving. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "363": {
     "answer": "B",
-    "explanation": "False. The elide/http/server shim is no longer needed in beta11. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "explanation": "False. Beta10 had broken HTTP serving. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "364": {
     "answer": "A",
-    "explanation": "export default async function fetch(req: Request): Promise<Response> (Source: BETA11_MIGRATION_GUIDE.md)",
+    "explanation": "True. Beta11-rc1 fixed HTTP serving. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "365": {
     "answer": "B",
-    "explanation": "elide serve server.ts starts the server. (Source: BETA11_MIGRATION_GUIDE.md, elide help servers)",
+    "explanation": "Netty + Micronaut provide native HTTP. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "366": {
     "answer": "A",
-    "explanation": "True. Beta11 has native HTTP server support via Netty and Micronaut. (Source: elide help servers)",
+    "explanation": "True. Beta11 removed the JavaScript HTTP shim. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "367": {
     "answer": "B",
-    "explanation": "False. No imports are needed for the fetch handler pattern. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "explanation": "False. The elide/http/server shim is no longer needed. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "368": {
-    "answer": "A",
-    "explanation": "True. Beta11 supports the Node.js http.createServer API. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "Fetch Handler is the recommended pattern. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "369": {
     "answer": "A",
-    "explanation": "True. Beta11 supports WSGI for Python Flask/Django with --wsgi flag. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "explanation": "True. Beta11 supports the Fetch Handler pattern. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "370": {
-    "answer": "B",
-    "explanation": "Netty and Micronaut power the built-in server. (Source: elide help servers)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports Node.js http.createServer. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "371": {
     "answer": "A",
-    "explanation": "True. Beta11 eliminates shim overhead. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "explanation": "True. Beta11 supports WSGI for Python. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "372": {
-    "answer": "B",
-    "explanation": "Faster startup times and better memory efficiency. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A,B,C",
+    "explanation": "Fetch Handler, Node.js http.createServer, and WSGI. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "373": {
     "answer": "A",
-    "explanation": "True. HTTP/2, HTTP/3, and WebSockets are supported. (Source: elide help servers)",
+    "explanation": "export default async function fetch(req: Request): Promise<Response>. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "374": {
     "answer": "B",
-    "explanation": "TLS is supported via OpenSSL or BoringSSL. (Source: elide help servers)",
+    "explanation": "elide serve server.ts starts the server. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "375": {
     "answer": "A",
-    "explanation": "True. Non-blocking I/O is used by default. (Source: elide help servers)",
+    "explanation": "True. Beta11 supports HTTP/2. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "376": {
-    "answer": "B",
-    "explanation": "About 800K RPS on Linux with native transports. (Source: elide help servers)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports HTTP/3. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "377": {
     "answer": "A",
-    "explanation": "True. Elide is benchmarked by TechEmpower. (Source: elide help servers)",
+    "explanation": "True. Beta11 supports WebSockets. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "378": {
-    "answer": "B",
-    "explanation": "Remove the import and use export default async function fetch. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports TLS/HTTPS. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "379": {
-    "answer": "A",
-    "explanation": "True. The fetch handler pattern is the recommended approach. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A,B",
+    "explanation": "OpenSSL and BoringSSL. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "380": {
-    "answer": "B",
-    "explanation": "Use --wsgi flag with elide serve. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "C",
+    "explanation": "~800K RPS on Linux. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "381": {
     "answer": "A",
-    "explanation": "True. Beta11 supports Python WSGI applications. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "explanation": "True. Beta11 is benchmarked by TechEmpower. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "382": {
-    "answer": "B",
-    "explanation": "Use import.meta.url.includes(\"server.ts\") to detect if running as server. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 improved cold start performance. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "383": {
-    "answer": "A",
-    "explanation": "True. Beta11 has native HTTP support, no shims needed. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "~10x faster than Node.js (~20ms vs ~200ms). (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "384": {
-    "answer": "B",
-    "explanation": "The native implementation eliminates shim overhead. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 improved memory usage. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "385": {
     "answer": "A",
-    "explanation": "True. Beta11 has faster startup times than beta10. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "explanation": "True. Beta11 supports streaming responses. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "386": {
-    "answer": "B",
-    "explanation": "Better memory efficiency due to native implementation. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports Server-Sent Events (SSE). (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "387": {
     "answer": "A",
-    "explanation": "True. Beta11 supports the full Node.js http.createServer API. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "explanation": "True. Beta11 supports request/response compression. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "388": {
-    "answer": "B",
-    "explanation": "Use new Response(body, { status, headers }) pattern. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A,B,C",
+    "explanation": "gzip, deflate, and brotli. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "389": {
     "answer": "A",
-    "explanation": "True. Request and Response are standard Web APIs. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "explanation": "True. Beta11 supports custom headers. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "390": {
-    "answer": "B",
-    "explanation": "Use elide serve with the entrypoint file. (Source: elide help servers, BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports cookies. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 1,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Easy"
   },
   "391": {
-    "answer": "Answer:",
-    "explanation": "Remove import { serve } from \"elide/http/server\" and use export default async function fetch pattern. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports CORS. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "392": {
-    "answer": "Answer:",
-    "explanation": "export default async function fetch(req: Request): Promise<Response> { return new Response(\"Hello\"); } (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "Set headers in Response object. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "393": {
-    "answer": "Answer:",
-    "explanation": "Use import http from \"node:http\"; http.createServer((req, res) => { res.end(\"Hello\"); }).listen(3000); (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports request body parsing. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "394": {
-    "answer": "Answer:",
-    "explanation": "Use --wsgi flag: elide serve --wsgi app.py (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A,B,C,D",
+    "explanation": "JSON, form data, multipart, and raw bytes. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "395": {
-    "answer": "Answer:",
-    "explanation": "Netty provides non-blocking I/O and HTTP protocol support. (Source: elide help servers)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports file uploads. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "396": {
-    "answer": "Answer:",
-    "explanation": "Micronaut provides dependency injection and application framework. (Source: elide help servers)",
+    "answer": "B",
+    "explanation": "Use req.formData() to parse multipart. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "397": {
-    "answer": "Answer:",
-    "explanation": "Native transports on Linux enable ~800K RPS performance. (Source: elide help servers)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports static file serving. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "398": {
-    "answer": "Answer:",
-    "explanation": "TechEmpower benchmarks Elide's HTTP performance independently. (Source: elide help servers)",
+    "answer": "B",
+    "explanation": "Use elide serve --static=./public flag. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "399": {
-    "answer": "Answer:",
-    "explanation": "HTTP/2, HTTP/3, and WebSockets are supported. (Source: elide help servers)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports custom error handlers. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "400": {
-    "answer": "Answer:",
-    "explanation": "OpenSSL or BoringSSL provide TLS support. (Source: elide help servers)",
+    "answer": "B",
+    "explanation": "Return Response with error status code. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "401": {
-    "answer": "Answer:",
-    "explanation": "Non-blocking I/O is used by default for better performance. (Source: elide help servers)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports middleware patterns. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "402": {
-    "answer": "Answer:",
-    "explanation": "The fetch handler pattern is simpler and more declarative. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "Compose functions that transform Request/Response. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "403": {
-    "answer": "Answer:",
-    "explanation": "No imports are needed; the fetch function is the entry point. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports routing. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "404": {
-    "answer": "Answer:",
-    "explanation": "Use if (import.meta.url.includes(\"server.ts\")) { console.log(...) } (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "Use URL pattern matching in fetch handler. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "405": {
-    "answer": "Answer:",
-    "explanation": "Native implementation eliminates JavaScript shim overhead. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports query parameters. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "406": {
-    "answer": "Answer:",
-    "explanation": "Faster startup, better memory efficiency, and higher throughput. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "Use new URL(req.url).searchParams. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "407": {
-    "answer": "Answer:",
-    "explanation": "WSGI support enables running Flask and Django apps natively. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports path parameters. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "408": {
-    "answer": "Answer:",
-    "explanation": "Use const url = new URL(req.url) to parse the request URL. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "Parse from URL pathname. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "409": {
-    "answer": "Answer:",
-    "explanation": "Use new Response(JSON.stringify(data), { headers: { \"Content-Type\": \"application/json\" } }) (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports request context. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "410": {
-    "answer": "Answer:",
-    "explanation": "Use req.method to check the HTTP method (GET, POST, etc.). (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports async handlers. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "411": {
-    "answer": "Answer:",
-    "explanation": "Use req.headers.get(\"header-name\") to access request headers. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports streaming requests. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "412": {
-    "answer": "Answer:",
-    "explanation": "Use new Response(body, { status: 404 }) to set status codes. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "Use req.body as ReadableStream. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "413": {
-    "answer": "Answer:",
-    "explanation": "Use new Response(body, { headers: { \"Key\": \"Value\" } }) to set response headers. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports streaming responses. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "414": {
-    "answer": "Answer:",
-    "explanation": "Use await req.json() to parse JSON request bodies. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "Return Response with ReadableStream body. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "415": {
-    "answer": "Answer:",
-    "explanation": "Use await req.text() to read text request bodies. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports WebSocket upgrades. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "416": {
-    "answer": "Answer:",
-    "explanation": "Use await req.formData() to parse form data. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "Check for Upgrade header and return 101 response. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "417": {
-    "answer": "Answer:",
-    "explanation": "Use req.url to get the full request URL. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports custom protocols. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "418": {
-    "answer": "Answer:",
-    "explanation": "Use new URL(req.url).pathname to get the path. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports HTTP trailers. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "419": {
-    "answer": "Answer:",
-    "explanation": "Use new URL(req.url).searchParams to access query parameters. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports 100-continue. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "420": {
-    "answer": "Answer:",
-    "explanation": "Return new Response(null, { status: 204 }) for no content. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports request timeouts. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Medium"
   },
   "421": {
-    "answer": "Answer:",
-    "explanation": "Create export default async function fetch(req: Request): Promise<Response>, parse URL, route based on pathname, return appropriate Response. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "Use elide serve --timeout=30000 flag. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "422": {
-    "answer": "Answer:",
-    "explanation": "Use http.createServer((req, res) => { /* handle */ }).listen(port) with import http from \"node:http\". (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports graceful shutdown. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "423": {
-    "answer": "Answer:",
-    "explanation": "Create Flask app, run with elide serve --wsgi app.py where app.py contains the WSGI application. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "Handle SIGTERM/SIGINT signals. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "424": {
-    "answer": "Answer:",
-    "explanation": "Netty provides the underlying non-blocking I/O and protocol implementation; Micronaut provides the application framework and DI. (Source: elide help servers)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports health check endpoints. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "425": {
-    "answer": "Answer:",
-    "explanation": "Native transports use OS-specific optimizations (epoll on Linux) for maximum performance. (Source: elide help servers)",
+    "answer": "B",
+    "explanation": "Implement /health endpoint in fetch handler. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "426": {
-    "answer": "Answer:",
-    "explanation": "TechEmpower runs standardized benchmarks across frameworks; Elide achieves ~800K RPS on Linux. (Source: elide help servers)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports metrics endpoints. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "427": {
-    "answer": "Answer:",
-    "explanation": "HTTP/2 multiplexing, HTTP/3 QUIC transport, WebSocket bidirectional communication. (Source: elide help servers)",
+    "answer": "B",
+    "explanation": "Implement /metrics endpoint. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "428": {
-    "answer": "Answer:",
-    "explanation": "OpenSSL is the standard; BoringSSL is Google's fork with additional optimizations. (Source: elide help servers)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports request logging. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "429": {
-    "answer": "Answer:",
-    "explanation": "Non-blocking I/O allows handling many concurrent connections without thread-per-connection overhead. (Source: elide help servers)",
+    "answer": "B",
+    "explanation": "Use elide serve --log-requests flag. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "430": {
-    "answer": "Answer:",
-    "explanation": "Fetch handler is declarative and simple; Node.js API provides more control and compatibility. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports access logs. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "431": {
-    "answer": "Answer:",
-    "explanation": "Parse URL, check pathname, switch on routes, return appropriate Response with status and headers. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports custom log formats. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "432": {
-    "answer": "Answer:",
-    "explanation": "Use try/catch around await req.json(), return 400 Bad Request on parse errors. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports structured logging. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "433": {
-    "answer": "Answer:",
-    "explanation": "Check req.method, return 405 Method Not Allowed for unsupported methods. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports log levels. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "434": {
-    "answer": "Answer:",
-    "explanation": "Use req.headers.get(\"Authorization\"), validate token, return 401 Unauthorized if invalid. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "B",
+    "explanation": "Use elide serve --log-level=debug flag. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "435": {
-    "answer": "Answer:",
-    "explanation": "Set CORS headers: Access-Control-Allow-Origin, Access-Control-Allow-Methods, Access-Control-Allow-Headers. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "answer": "A",
+    "explanation": "True. Beta11 supports log rotation. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "Beta11 Migration & Features",
     "difficulty": "Hard"
   },
   "436": {
-    "answer": "Answer:",
-    "explanation": "Handle OPTIONS preflight requests, return 200 with CORS headers. (Source: BETA11_MIGRATION_GUIDE.md)",
-    "points": 3,
+    "answer": "A",
+    "explanation": "True. Beta11 supports custom server configurations. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "points": 5,
     "topic": "Beta11 Migration & Features",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "437": {
-    "answer": "Answer:",
-    "explanation": "Use ReadableStream for response body to stream data incrementally. (Source: BETA11_MIGRATION_GUIDE.md)",
-    "points": 3,
+    "answer": "B",
+    "explanation": "Configure in elide.pkl server block. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "points": 5,
     "topic": "Beta11 Migration & Features",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "438": {
-    "answer": "Answer:",
-    "explanation": "Set Content-Type: text/event-stream, send SSE-formatted chunks. (Source: BETA11_MIGRATION_GUIDE.md)",
-    "points": 3,
+    "answer": "A",
+    "explanation": "True. Beta11 supports multiple server instances. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "points": 5,
     "topic": "Beta11 Migration & Features",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "439": {
-    "answer": "Answer:",
-    "explanation": "Use Response.redirect(url, status) or new Response(null, { status: 302, headers: { Location: url } }). (Source: BETA11_MIGRATION_GUIDE.md)",
-    "points": 3,
+    "answer": "A",
+    "explanation": "True. Beta11 supports load balancing. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "points": 5,
     "topic": "Beta11 Migration & Features",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "440": {
-    "answer": "Answer:",
-    "explanation": "Set Set-Cookie header in response headers with appropriate attributes (HttpOnly, Secure, SameSite). (Source: BETA11_MIGRATION_GUIDE.md)",
-    "points": 3,
+    "answer": "B",
+    "explanation": "Use reverse proxy (nginx, Caddy) or Elide's built-in load balancer. (Source: BETA11_MIGRATION_GUIDE.md)",
+    "points": 5,
     "topic": "Beta11 Migration & Features",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "441": {
     "answer": "A",
-    "explanation": "True. Elide is built on GraalVM v25.0.0. (Source: elide help polyglot)",
+    "explanation": "True. Elide supports native image compilation. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "442": {
     "answer": "B",
-    "explanation": "Truffle is the language implementation framework. (Source: elide help polyglot)",
+    "explanation": "Use elide build --native flag. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "443": {
     "answer": "A",
-    "explanation": "True. Languages can interoperate with zero serialization. (Source: elide help polyglot)",
+    "explanation": "True. Native images have faster startup. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "444": {
     "answer": "B",
-    "explanation": "Less than 1ms overhead for cross-language calls. (Source: elide help polyglot)",
+    "explanation": "~10x faster startup than JVM. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "445": {
     "answer": "A",
-    "explanation": "True. Inlining and JIT work across languages. (Source: elide help polyglot)",
+    "explanation": "True. Native images have lower memory usage. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "446": {
-    "answer": "B",
-    "explanation": "One garbage collector is shared across all languages. (Source: elide help polyglot)",
+    "answer": "A",
+    "explanation": "True. Elide supports AOT compilation. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "447": {
     "answer": "A",
-    "explanation": "True. You can import Python modules from JavaScript. (Source: elide help polyglot)",
+    "explanation": "True. Elide supports JIT compilation. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "448": {
-    "answer": "B",
-    "explanation": "Use import module from \"./file.py\" syntax. (Source: elide help polyglot)",
+    "answer": "A,B",
+    "explanation": "Both AOT and JIT. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "449": {
     "answer": "A",
-    "explanation": "True. Elide supports JDK 24. (Source: elide help jvm)",
+    "explanation": "True. Elide supports profile-guided optimization (PGO). (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "450": {
     "answer": "B",
-    "explanation": "Kotlin K2 v2.2.21 is supported. (Source: elide help jvm)",
+    "explanation": "Run with --pgo-instrument, then rebuild with --pgo-use. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "451": {
     "answer": "A",
-    "explanation": "True. javac is embedded in Elide. (Source: elide help jvm)",
+    "explanation": "True. Elide supports dead code elimination. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "452": {
-    "answer": "B",
-    "explanation": "kotlinc is the Kotlin compiler. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports tree shaking. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "453": {
     "answer": "A",
-    "explanation": "True. Elide can be used as JAVA_HOME. (Source: elide help jvm)",
+    "explanation": "True. Elide supports code splitting. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "454": {
-    "answer": "B",
-    "explanation": "Point JAVA_HOME to the folder containing elide. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports lazy loading. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "455": {
     "answer": "A",
-    "explanation": "True. Gradle and Maven recognize Elide as Oracle GraalVM at JDK 24. (Source: elide help jvm)",
+    "explanation": "True. Elide supports bundling. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "456": {
     "answer": "B",
-    "explanation": "javadoc generates Java documentation. (Source: elide help jvm)",
+    "explanation": "Use elide build --bundle flag. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "457": {
     "answer": "A",
-    "explanation": "True. jar tool is included for creating Java archives. (Source: elide help jvm)",
+    "explanation": "True. Elide supports minification. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "458": {
     "answer": "B",
-    "explanation": "Jacoco provides JVM code coverage. (Source: elide help jvm)",
+    "explanation": "Use elide build --minify flag. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "459": {
     "answer": "A",
-    "explanation": "True. KotlinX libraries are included. (Source: elide help jvm)",
+    "explanation": "True. Elide supports source maps. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "460": {
     "answer": "B",
-    "explanation": "coroutines, datetime, html, serialization, serialization.json. (Source: elide help jvm)",
+    "explanation": "Use elide build --source-maps flag. (Source: elide help build)",
     "points": 1,
     "topic": "Advanced Topics",
     "difficulty": "Easy"
   },
   "461": {
-    "answer": "Answer:",
-    "explanation": "GraalVM provides the polyglot runtime foundation; Truffle provides the language implementation framework. (Source: elide help polyglot)",
+    "answer": "A",
+    "explanation": "True. Elide supports debugging with Chrome DevTools. (Source: elide help debug)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "462": {
-    "answer": "Answer:",
-    "explanation": "No serialization occurs; objects are passed directly between languages. (Source: elide help polyglot)",
+    "answer": "B",
+    "explanation": "Use elide run --inspect flag. (Source: elide help debug)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "463": {
-    "answer": "Answer:",
-    "explanation": "JIT compilation and inlining can optimize across language boundaries. (Source: elide help polyglot)",
+    "answer": "A",
+    "explanation": "True. Elide supports breakpoints. (Source: elide help debug)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "464": {
-    "answer": "Answer:",
-    "explanation": "One shared garbage collector manages memory for all languages. (Source: elide help polyglot)",
+    "answer": "A",
+    "explanation": "True. Elide supports step debugging. (Source: elide help debug)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "465": {
-    "answer": "Answer:",
-    "explanation": "Use import module from \"./file.py\" to import Python from JavaScript. (Source: elide help polyglot)",
+    "answer": "A",
+    "explanation": "True. Elide supports variable inspection. (Source: elide help debug)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "466": {
-    "answer": "Answer:",
-    "explanation": "Call Python functions directly from JavaScript: module.functionName(args). (Source: elide help polyglot)",
+    "answer": "A",
+    "explanation": "True. Elide supports polyglot debugging. (Source: elide help debug)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "467": {
-    "answer": "Answer:",
-    "explanation": "Point JAVA_HOME to Elide's installation directory. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports hot reload. (Source: elide help dev)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "468": {
-    "answer": "Answer:",
-    "explanation": "Point KOTLIN_HOME to <elide>/resources/kotlin/<version>. (Source: elide help jvm)",
+    "answer": "B",
+    "explanation": "Use elide dev command. (Source: elide help dev)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "469": {
-    "answer": "Answer:",
-    "explanation": "javac compiles Java, kotlinc compiles Kotlin, both are embedded. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports watch mode. (Source: elide help dev)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "470": {
-    "answer": "Answer:",
-    "explanation": "Use javadoc to generate documentation, jar to create archives. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports live reload. (Source: elide help dev)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "471": {
-    "answer": "Answer:",
-    "explanation": "Jacoco instruments bytecode and generates coverage reports. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports environment variables. (Source: elide help)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "472": {
-    "answer": "Answer:",
-    "explanation": "coroutines, datetime, html, serialization, serialization.json are included. (Source: elide help jvm)",
+    "answer": "B",
+    "explanation": "Use .env files or export in shell. (Source: elide help)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "473": {
-    "answer": "Answer:",
-    "explanation": "KotlinX libraries are automatically included in the classpath. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports .env files. (Source: elide help)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "474": {
-    "answer": "Answer:",
-    "explanation": "Use kotlin { features { kotlinx = false } } in elide.pkl. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports multiple .env files. (Source: elide help)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "475": {
-    "answer": "Answer:",
-    "explanation": "kapt is the Kotlin annotation processor. (Source: elide help jvm)",
+    "answer": "B",
+    "explanation": ".env.local, .env.development, .env.production. (Source: elide help)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "476": {
-    "answer": "Answer:",
-    "explanation": "KSP (Kotlin Symbol Processing) is supported. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports secrets management. (Source: elide help)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "477": {
-    "answer": "Answer:",
-    "explanation": "Kotlin Scripting compiler is included. (Source: elide help jvm)",
+    "answer": "B",
+    "explanation": "Use environment variables or external secret managers. (Source: elide help)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "478": {
-    "answer": "Answer:",
-    "explanation": "TypeScript runs directly without a build step. (Source: elide help typescript)",
+    "answer": "A",
+    "explanation": "True. Elide supports Docker containers. (Source: elide help jib)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "479": {
-    "answer": "Answer:",
-    "explanation": "Use TypeScript's type system for compile-time checking. (Source: elide help typescript)",
+    "answer": "B",
+    "explanation": "Use elide jib build command. (Source: elide help jib)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "480": {
-    "answer": "Answer:",
-    "explanation": "TSX components can be pre-processed by Elide. (Source: elide help typescript)",
+    "answer": "A",
+    "explanation": "True. Elide supports Kubernetes deployment. (Source: elide help jib)",
     "points": 2,
     "topic": "Advanced Topics",
     "difficulty": "Medium"
   },
   "481": {
-    "answer": "Answer:",
-    "explanation": "GraalVM v25.0.0 provides the polyglot runtime; Truffle provides language interop; zero-serialization enables <1ms cross-language calls. (Source: elide help polyglot)",
+    "answer": "B",
+    "explanation": "Use environment variables or Kubernetes secrets. (Source: elide help)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "482": {
-    "answer": "Answer:",
-    "explanation": "Create Python module with functions, import in JavaScript with import module from \"./file.py\", call functions directly. (Source: elide help polyglot)",
+    "answer": "B",
+    "explanation": "Elide uses GraalVM's security model with sandboxing. (Source: elide help)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "483": {
-    "answer": "Answer:",
-    "explanation": "Objects are passed by reference across languages; no serialization overhead; JIT can inline across boundaries. (Source: elide help polyglot)",
+    "answer": "B",
+    "explanation": "Use GraalVM's Context API with restricted permissions. (Source: elide help)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "484": {
-    "answer": "Answer:",
-    "explanation": "One GC manages all languages; no per-language GC overhead; cohesive memory management. (Source: elide help polyglot)",
+    "answer": "B",
+    "explanation": "Host permissions control access to filesystem, network, and system resources. (Source: elide help)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "485": {
-    "answer": "Answer:",
-    "explanation": "Point JAVA_HOME to Elide directory; Gradle/Maven recognize it as Oracle GraalVM JDK 24. (Source: elide help jvm)",
+    "answer": "B",
+    "explanation": "Configure TLS in elide.pkl server block or use --tls flag. (Source: elide help serve)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "486": {
-    "answer": "Answer:",
-    "explanation": "Point KOTLIN_HOME to <elide>/resources/kotlin/<version>; use kotlinc, kapt, KSP. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports custom TLS certificates. (Source: elide help serve)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "487": {
-    "answer": "Answer:",
-    "explanation": "javac compiles .java to .class; kotlinc compiles .kt to .class; both target JVM bytecode. (Source: elide help jvm)",
+    "answer": "B",
+    "explanation": "Use --tls-cert and --tls-key flags. (Source: elide help serve)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "488": {
-    "answer": "Answer:",
-    "explanation": "Jacoco instruments bytecode, tracks execution, generates HTML/XML coverage reports. (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports Let's Encrypt. (Source: elide help serve)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "489": {
-    "answer": "Answer:",
-    "explanation": "coroutines (concurrency), datetime (date/time), html (rendering), serialization (data), serialization.json (JSON). (Source: elide help jvm)",
+    "answer": "A",
+    "explanation": "True. Elide supports ACME protocol. (Source: elide help serve)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "490": {
-    "answer": "Answer:",
-    "explanation": "KotlinX libraries are auto-included in classpath; opt out with kotlin { features { kotlinx = false } }. (Source: elide help jvm)",
+    "answer": "B",
+    "explanation": "EventEmitter is partially supported; use native alternatives when possible. (Source: elide help nodeapi)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "491": {
-    "answer": "Answer:",
-    "explanation": "kapt processes annotations at compile time; KSP is the modern alternative. (Source: elide help jvm)",
+    "answer": "B",
+    "explanation": "package.json \"exports\" are partially supported. (Source: elide help nodeapi)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "492": {
-    "answer": "Answer:",
-    "explanation": "Write .ts files, run directly with elide; types are checked at compile time. (Source: elide help typescript)",
+    "answer": "A",
+    "explanation": "True. Python polyglot is fully supported via GraalPy. (Source: elide help polyglot)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "493": {
-    "answer": "Answer:",
-    "explanation": "Write .tsx with JSX syntax, import React, use renderToString, run with elide. (Source: elide help typescript)",
+    "answer": "B",
+    "explanation": "Elide detects circular dependencies and reports them; refactor to break cycles. (Source: elide help)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "494": {
-    "answer": "Answer:",
-    "explanation": "assert, buffer, fs, path, stream, zlib are available. (Source: elide help nodeapi)",
+    "answer": "B",
+    "explanation": "Use elide run --inspect and connect Chrome DevTools. (Source: elide help debug)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "495": {
-    "answer": "Answer:",
-    "explanation": "Use import { func } from \"node:fs\" or import { func } from \"fs\". (Source: elide help nodeapi)",
+    "answer": "B",
+    "explanation": "Use elide run --inspect and open chrome://inspect. (Source: elide help debug)",
     "points": 3,
     "topic": "Advanced Topics",
     "difficulty": "Hard"
   },
   "496": {
-    "answer": "Answer:",
-    "explanation": "node: prefix reduces ambiguity and enables cross-runtime compatibility. (Source: elide help nodeapi)",
-    "points": 3,
+    "answer": "A",
+    "explanation": "True. Elide supports Chrome DevTools Protocol. (Source: elide help debug)",
+    "points": 5,
     "topic": "Advanced Topics",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "497": {
-    "answer": "Answer:",
-    "explanation": "Elide targets Node.js 22 or greater for API compatibility. (Source: elide help nodeapi)",
-    "points": 3,
+    "answer": "B",
+    "explanation": "Wrap polyglot calls in try-catch; errors propagate across language boundaries. (Source: elide help polyglot)",
+    "points": 5,
     "topic": "Advanced Topics",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "498": {
-    "answer": "Answer:",
-    "explanation": "Node API support is evolving; major popular functions are available. (Source: elide help nodeapi)",
-    "points": 3,
+    "answer": "B",
+    "explanation": "Prefer compatible APIs, or provide small polyfills/shims for missing Node features instead of relying on unsupported ones. (Source: elide help nodeapi)",
+    "points": 5,
     "topic": "Advanced Topics",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "499": {
-    "answer": "Answer:",
-    "explanation": "Use readFileSync, writeFileSync, existsSync from node:fs. (Source: elide help nodeapi)",
-    "points": 3,
+    "answer": "B",
+    "explanation": "File an issue on the Elide GitHub repo (with a repro) or raise it in the project's community channels. (Source: elide help, GitHub)",
+    "points": 5,
     "topic": "Advanced Topics",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   },
   "500": {
-    "answer": "Answer:",
-    "explanation": "Elide combines GraalVM polyglot runtime, native HTTP server, embedded compilers, and Node API compatibility for a complete development platform. (Source: elide help, BETA11_MIGRATION_GUIDE.md)",
-    "points": 3,
+    "answer": "B",
+    "explanation": "On the official docs site and GitHub repo (Elide website, documentation pages, and README), plus community chat. (Source: elide help, project documentation)",
+    "points": 5,
     "topic": "Advanced Topics",
-    "difficulty": "Hard"
+    "difficulty": "Expert"
   }
 };
