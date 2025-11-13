@@ -550,6 +550,7 @@ async function showSubmissionDetails(submissionId) {
 }
 
 // Load leaderboard on page load if on that tab
+// Updated: 2025-01-12 - Added submission details modal
 if (window.location.hash === '#leaderboard') {
   showTab('leaderboard');
 }
