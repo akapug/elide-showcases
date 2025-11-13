@@ -2,7 +2,7 @@
 
 Comprehensive knowledge test for Elide v1.0.0-beta11-rc1 with 500 questions.
 
-🌐 **Live Quiz**: https://scorer-qvkzppkm1-m-v.vercel.app (will be at elide.top soon)
+🌐 **Live Quiz**: https://scorer-7i3m515v1-m-v.vercel.app (will be at elide.top soon)
 
 ## Quick Start
 
