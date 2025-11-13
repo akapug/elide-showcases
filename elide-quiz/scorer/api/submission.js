@@ -1,4 +1,6 @@
 /**
+export const config = { runtime: 'nodejs' };
+
  * Vercel Serverless Function for Submission Details
  *
  * GET /api/submission?id=<submission_id>
