@@ -93,6 +93,16 @@ async function writeSubmission(submission) {
 
   try {
     await initDB();
+
+    // Log what we're trying to insert
+    console.log('Attempting to insert submission:', {
+      id: submission.id,
+      name: submission.name,
+      percentage: submission.percentage,
+      points: submission.points,
+      totalPoints: submission.totalPoints
+    });
+
     await client.execute({
       sql: `INSERT INTO submissions (
         id, name, percentage, points, totalPoints, grade, version, timestamp,
@@ -118,10 +128,11 @@ async function writeSubmission(submission) {
         submission.userAnswers ? JSON.stringify(submission.userAnswers) : null
       ]
     });
-    console.log('Saved to Turso:', submission.id);
+    console.log('Successfully saved to Turso:', submission.id);
     return true;
   } catch (error) {
     console.error('Error writing submission to Turso:', error);
+    console.error('Error details:', error.message, error.stack);
     return false;
   }
 }
@@ -193,12 +204,14 @@ export default async function handler(req, res) {
       if (success) {
         sendJSON(res, 200, {
           success: true,
-          message: 'Submission saved'
+          message: 'Submission saved',
+          id: newSubmission.id
         });
       } else {
+        console.error('writeSubmission returned false for:', newSubmission.id);
         sendJSON(res, 500, {
           success: false,
-          error: 'Failed to save submission'
+          error: 'Failed to save submission - check server logs'
         });
       }
 
