@@ -91,9 +91,21 @@ export default async function handler(req, res) {
 
     const submission = result.rows[0];
 
-    // Parse JSON fields
-    const userAnswers = submission.userAnswers ? JSON.parse(submission.userAnswers) : {};
-    const byTopic = submission.byTopic ? JSON.parse(submission.byTopic) : null;
+    // Parse JSON fields (tolerate legacy formats)
+    let userAnswers = {};
+    try {
+      if (submission.userAnswers) {
+        userAnswers = typeof submission.userAnswers === 'string' ? JSON.parse(submission.userAnswers) : submission.userAnswers;
+        if (typeof userAnswers !== 'object' || Array.isArray(userAnswers)) userAnswers = {};
+      }
+    } catch { userAnswers = {}; }
+
+    let byTopic = null;
+    try {
+      if (submission.byTopic) {
+        byTopic = typeof submission.byTopic === 'string' ? JSON.parse(submission.byTopic) : submission.byTopic;
+      }
+    } catch { byTopic = null; }
 
     // Load correct answers
     const answerKey = await loadAnswerKey(submission.version);
