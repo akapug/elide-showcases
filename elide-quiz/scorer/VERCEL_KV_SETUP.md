@@ -1,29 +1,48 @@
 # Vercel Redis Setup for Elide Quiz Leaderboard
 
-## Quick Setup (2 minutes)
+## Current Status
 
-### 1. Connect Redis to Project
+✅ Redis database created: `elide-quiz-leaderboard`
+✅ Connected to project (shows in Vercel UI)
+✅ Environment variable `REDIS_URL` is set
+❌ **Leaderboard save failing with 500 error**
 
-You already created a Redis database! Now just connect it:
+## Issue
 
-Go to: https://vercel.com/m-v/scorer/stores
+The `@vercel/kv` package expects specific Vercel KV environment variables (`KV_REST_API_URL`, `KV_REST_API_TOKEN`), but Vercel Redis only provides `REDIS_URL`.
 
-1. Find your Redis database in the list
-2. Click on it
-3. Click **"Connect Project"**
-4. Select the `scorer` project
-5. Click **"Connect"**
+## Solution Options
 
-### 2. Verify Environment Variables
+### Option 1: Use Vercel KV (Recommended)
 
-The Redis database will automatically inject these environment variables:
-- `KV_REST_API_URL`
-- `KV_REST_API_TOKEN`
-- `KV_REST_API_READ_ONLY_TOKEN`
+Vercel KV is the newer, simpler Redis offering. To use it:
 
-Check at: https://vercel.com/m-v/scorer/settings/environment-variables
+1. Go to: https://vercel.com/m-v/scorer/stores
+2. Delete the current Redis database
+3. Create a new **KV** database (not Redis)
+4. Name it: `elide-quiz-leaderboard`
+5. Connect to project
+6. Redeploy
 
-You should see the KV variables listed there.
+This will inject the correct env vars that `@vercel/kv` expects.
+
+### Option 2: Use Generic Redis Client
+
+Replace `@vercel/kv` with the standard `redis` package:
+
+```bash
+npm uninstall @vercel/kv
+npm install redis
+```
+
+Then update `api/leaderboard.js` to use the `redis` client with `REDIS_URL`.
+
+### Option 3: Check Marketplace
+
+Vercel mentioned KV moved to marketplace. Check:
+https://vercel.com/integrations
+
+Look for "Vercel KV" or "Upstash Redis" integration.
 
 ### 3. Deploy
 
