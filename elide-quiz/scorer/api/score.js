@@ -14,7 +14,7 @@
  * Uses single AI call to parse submission and extract metadata
  */
 
-import { parseSubmissionWithAI, scoreAnswers } from './single-call-parser.js';
+import { parseSubmission, scoreAnswers } from './simple-parser.js';
 import { createClient } from '@libsql/client';
 
 // Load answer key from server-side modules
@@ -84,8 +84,8 @@ export default async function handler(req, res) {
 
     // Check if answers is a string (raw submission) or object (pre-parsed)
     if (typeof answers === 'string') {
-      console.log('Parsing raw submission with AI...');
-      const parsed = await parseSubmissionWithAI(answers, answerKey);
+      console.log('Parsing raw submission (instant - no AI!)...');
+      const parsed = parseSubmission(answers);
       parsedAnswers = parsed.answers;
       extractedMetadata = { ...metadata, ...parsed.metadata };
       console.log(`Extracted ${Object.keys(parsedAnswers).length} answers and metadata`);

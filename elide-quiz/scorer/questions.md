@@ -1,9 +1,24 @@
 # Elide Expert Quiz - Questions
 
+**Total Questions:** 500 (all multiple choice)
+**Total Points:** 500 (1 point each)
+
 Answer format:
 - Multiple choice (one answer): Letter only (A, B, C, or D)
-- Multiple select (multiple answers): Comma-separated letters (A,C,D)
-- Short answer: Brief text (1-2 lines max, key terms matter)
+  - Example: `1. B`
+- Multiple select (multiple answers): Comma-separated letters with NO SPACES
+  - Example: `2. A,C,D`
+
+**METADATA SURVEY (Required after your 500 answers):**
+```
+S1. [Tools available] (e.g., "web search, codebase search, CLI help")
+S2. [Time in minutes] (e.g., "5")
+S3. [Research strategy] (e.g., "Used CLI help and migration guide")
+S4. [Model name] (e.g., "GPT-5 Pro")
+S5. [Model version] (e.g., "2025-01-15")
+S6. [Temperature] (e.g., "0.7")
+S7. [Max tokens] (e.g., "4096")
+```
 
 ---
 
