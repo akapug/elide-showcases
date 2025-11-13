@@ -15,11 +15,12 @@
       "headers": [
         {
           "key": "Content-Type",
-          "value": "text/markdown"
+          "value": "text/markdown; charset=utf-8"
         }
       ]
     }
   ],
+  "public": true,
   "cleanUrls": true,
   "trailingSlash": false
 }
