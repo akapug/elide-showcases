@@ -91,19 +91,20 @@ export default async function handler(req, res) {
 
     const submission = result.rows[0];
 
-    // Parse JSON fields (tolerate legacy formats)
+    // Parse JSON fields (tolerate legacy and double-encoded formats)
     let userAnswers = {};
     try {
       if (submission.userAnswers) {
-        userAnswers = typeof submission.userAnswers === 'string' ? JSON.parse(submission.userAnswers) : submission.userAnswers;
-        if (typeof userAnswers !== 'object' || Array.isArray(userAnswers)) userAnswers = {};
+        const parsed = deepParse(submission.userAnswers);
+        userAnswers = (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) ? parsed : {};
       }
     } catch { userAnswers = {}; }
 
     let byTopic = null;
     try {
       if (submission.byTopic) {
-        byTopic = typeof submission.byTopic === 'string' ? JSON.parse(submission.byTopic) : submission.byTopic;
+        const parsedTopic = deepParse(submission.byTopic);
+        byTopic = (parsedTopic && typeof parsedTopic === 'object') ? parsedTopic : null;
       }
     } catch { byTopic = null; }
 
@@ -155,6 +156,20 @@ export default async function handler(req, res) {
 // Helpers
 function safeParse(val) {
   try { return JSON.parse(val); } catch { return val; }
+}
+
+function deepParse(val, maxDepth = 3) {
+  let out = val;
+  for (let i = 0; i < maxDepth; i++) {
+    if (typeof out === 'string') {
+      const s = out.trim();
+      if ((s.startsWith('{') && s.endsWith('}')) || (s.startsWith('[') && s.endsWith(']')) || (s.startsWith('"') && s.endsWith('"'))) {
+        try { out = JSON.parse(s); continue; } catch { /* stop */ }
+      }
+    }
+    break;
+  }
+  return out;
 }
 
 function normalizeChoices(s) {
