@@ -67,7 +67,6 @@ document.getElementById('quiz-form').addEventListener('submit', async (e) => {
   const name = document.getElementById('name').value;
   const quizVersion = document.getElementById('quiz-version').value;
   const answersText = document.getElementById('answers').value;
-  const answers = parseAnswers(answersText);
 
   // Show loading
   document.getElementById('quiz-form').style.display = 'none';
@@ -75,11 +74,15 @@ document.getElementById('quiz-form').addEventListener('submit', async (e) => {
   document.getElementById('results').style.display = 'block';
 
   try {
-    // Score answers
+    // Score answers (send raw text for AI parsing)
     const response = await fetch('/api/score', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ answers, version: quizVersion })
+      body: JSON.stringify({
+        name: name,
+        answers: answersText, // Send raw text for AI parsing
+        version: quizVersion
+      })
     });
 
     const data = await response.json();
@@ -91,8 +94,11 @@ document.getElementById('quiz-form').addEventListener('submit', async (e) => {
     const results = data.results;
     results.version = quizVersion; // Add version to results
 
+    // Parse answers from text for leaderboard storage
+    const parsedAnswers = parseAnswers(answersText);
+
     // Save to leaderboard
-    await saveToLeaderboard(name, results, answers, quizVersion);
+    await saveToLeaderboard(name, results, parsedAnswers, quizVersion);
 
     // Display results
     displayResults(results);
@@ -168,33 +174,24 @@ async function saveToLeaderboard(name, results, userAnswers, version) {
     const submission = {
       name,
       percentage: parseFloat(results.percentage),
-      points: results.earnedPoints || 0,
-      totalPoints: results.totalPoints || 980,
-      grade: results.grade || 'Fail',
+      points: results.earnedPoints,
+      totalPoints: results.totalPoints,
+      grade: results.grade,
       timestamp: new Date().toISOString(),
-      correct: results.correct || 0,
-      incorrect: results.incorrect || 0,
-      missing: results.missing || 0,
-      byTopic: results.byTopic || null,
-      timeSpent: results.timeSpent || null,
-      toolsUsed: results.toolsUsed || null,
-      primarySources: results.primarySources || null,
-      researchStrategy: results.researchStrategy || null,
+      correct: results.correct,
+      incorrect: results.incorrect,
+      missing: results.missing,
+      byTopic: results.byTopic,
       version: version || 'full',
       // Store answers for detailed view
-      userAnswers: userAnswers || {}
+      userAnswers: userAnswers
     };
 
-    const response = await fetch('/api/leaderboard', {
+    await fetch('/api/leaderboard', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(submission)
     });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Failed to save to leaderboard:', errorData);
-    }
   } catch (error) {
     console.error('Failed to save to leaderboard:', error);
   }
