@@ -1,12 +1,21 @@
-import { readFileSync } from 'fs';
-import { join } from 'path';
-
-export default function handler(req, res) {
+/**
+ * Serve questions as plain text
+ * Reads from GitHub raw URL since Vercel doesn't include .md files in deployment
+ */
+export default async function handler(req, res) {
   try {
     const version = req.query.version || 'full';
     const filename = version === 'human' ? 'questions-human.md' : 'questions.md';
-    const questionsPath = join(process.cwd(), filename);
-    const questions = readFileSync(questionsPath, 'utf-8');
+
+    // Fetch from GitHub (always available, always up-to-date)
+    const url = `https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/scorer/${filename}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`GitHub fetch failed: ${response.status}`);
+    }
+
+    const questions = await response.text();
 
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.setHeader('Access-Control-Allow-Origin', '*');
