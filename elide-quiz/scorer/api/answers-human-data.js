@@ -163,6 +163,13 @@ export const answerKey = {
     "topic": "HTTP & Servers",
     "difficulty": "Easy"
   },
+  "25": {
+    "answer": "Response.json({ key: \"value\" })",
+    "explanation": "or **new Response(JSON.stringify(data), { headers: { \"Content-Type\": \"application/json\" } })**",
+    "points": 1,
+    "topic": "HTTP & Servers",
+    "difficulty": "Easy"
+  },
   "26": {
     "answer": "B",
     "explanation": "--wsgi",
@@ -187,6 +194,13 @@ export const answerKey = {
   "29": {
     "answer": "A",
     "explanation": "True",
+    "points": 1,
+    "topic": "HTTP & Servers",
+    "difficulty": "Easy"
+  },
+  "30": {
+    "answer": "elide run --wsgi app.py",
+    "explanation": "or **elide serve --wsgi app.py**",
     "points": 1,
     "topic": "HTTP & Servers",
     "difficulty": "Easy"
@@ -292,6 +306,13 @@ export const answerKey = {
   "47": {
     "answer": "C",
     "explanation": "22",
+    "points": 1,
+    "topic": "Beta11 Features",
+    "difficulty": "Easy"
+  },
+  "48": {
+    "answer": "No shims needed, faster startup, lower memory overhead, native performance",
+    "explanation": "(accept variations mentioning performance/memory/no shims)",
     "points": 1,
     "topic": "Beta11 Features",
     "difficulty": "Easy"

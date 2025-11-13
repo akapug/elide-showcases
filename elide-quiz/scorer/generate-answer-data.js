@@ -31,13 +31,13 @@ function parseAnswersFile(filePath) {
   
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
-    
+
     // Detect topic headers (## Topic Name)
     if (line.startsWith('## ')) {
       currentTopic = line.replace('## ', '').split('(')[0].trim();
       continue;
     }
-    
+
     // Detect difficulty headers (### Easy, ### Medium, etc.)
     if (line.startsWith('### ')) {
       const diffMatch = line.match(/### (Easy|Medium|Hard|Expert)/);
@@ -46,14 +46,34 @@ function parseAnswersFile(filePath) {
       }
       continue;
     }
-    
-    // Parse answer lines (format: "1. **B** - Explanation")
-    const answerMatch = line.match(/^(\d+)\.\s+\*\*(.+?)\*\*\s+-\s+(.+)$/);
+
+    // Parse answer lines (format: "1. **B** - Explanation" or "1. **Answer:** Explanation")
+    const answerMatch = line.match(/^(\d+)\.\s+\*\*(.+?)\*\*\s*[-:]?\s*(.*)$/);
     if (answerMatch) {
       const questionNum = answerMatch[1];
-      const answer = answerMatch[2].trim();
-      const explanation = answerMatch[3].trim();
-      
+      let answer = answerMatch[2].trim();
+      let explanation = answerMatch[3].trim();
+
+      // Handle "Answer:" format - collect multi-line explanations
+      if (answer === 'Answer' && !explanation) {
+        // Look ahead for the actual answer on next lines
+        let j = i + 1;
+        const explanationLines = [];
+        while (j < lines.length && !lines[j].trim().match(/^\d+\./)) {
+          const nextLine = lines[j].trim();
+          if (nextLine && !nextLine.startsWith('#')) {
+            explanationLines.push(nextLine);
+          }
+          j++;
+          if (explanationLines.length > 0 && lines[j]?.trim().match(/^\d+\./)) break;
+        }
+        explanation = explanationLines.join(' ');
+        answer = explanation.split('.')[0].trim(); // Use first sentence as answer
+      }
+
+      // Skip if no explanation
+      if (!explanation) continue;
+
       answerKey[questionNum] = {
         answer: answer,
         explanation: explanation,
@@ -84,7 +104,7 @@ function generateJSModule(answerKey, outputPath) {
   for (const qNum of sortedKeys) {
     const data = answerKey[qNum];
     lines.push(`  "${qNum}": {`);
-    lines.push(`    "answer": "${data.answer}",`);
+    lines.push(`    "answer": "${data.answer.replace(/"/g, '\\"')}",`);
     lines.push(`    "explanation": "${data.explanation.replace(/"/g, '\\"')}",`);
     lines.push(`    "points": ${data.points},`);
     lines.push(`    "topic": "${data.topic}",`);
