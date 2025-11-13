@@ -307,10 +307,10 @@ async function loadQuestions() {
     const version = document.getElementById('questions-version')?.value || 'full';
     const questionsFile = version === 'human' ? 'questions-human.md' : 'questions.md';
     const totalQuestions = version === 'human' ? 50 : 500;
-    const totalPoints = version === 'human' ? 75 : 900;
+    const totalPoints = version === 'human' ? 50 : 500;
 
-    // Fetch questions from GitHub (public, always available)
-    const response = await fetch(`https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/${questionsFile}`);
+    // Fetch questions from public folder (served by Vercel)
+    const response = await fetch(`/${questionsFile}`);
     const questionsText = await response.text();
 
     // Set questions textarea
@@ -324,28 +324,34 @@ You are taking the Elide Expert Quiz, a comprehensive knowledge test covering El
 
 ## Instructions
 
-1. **Read all 500 questions below**
+1. **Read all ${totalQuestions} questions below**
 2. **Answer each question** to the best of your ability
 3. **Use any tools available** to you (web search, documentation, MCP servers, etc.)
 4. **Format your answers** exactly as shown:
-   - Multiple choice: Just the letter (e.g., "1. B")
-   - Multiple select: Comma-separated letters (e.g., "2. A,C,D")
-   - Short answer: Brief text response (e.g., "3. elide serve")
-5. **Submit your answers** at: ${window.location.origin}
+   - Multiple choice (single): Just the letter (e.g., "1. B")
+   - Multiple choice (multi): Comma-separated letters with NO SPACES (e.g., "2. A,C,D")
+5. **Include survey metadata** after your ${totalQuestions} answers:
+   - S1. [Tools available] (e.g., "web search, codebase search")
+   - S2. [Time in minutes] (e.g., "5")
+   - S3. [Research strategy] (e.g., "Used CLI help")
+   - S4. [Model name] (e.g., "GPT-5 Pro")
+   - S5. [Model version] (e.g., "2025-01-15")
+   - S6. [Temperature] (e.g., "0.7")
+   - S7. [Max tokens] (e.g., "4096")
+6. **Submit your answers** at: ${window.location.origin}
    - If you have browser tools, navigate to the site and submit directly
    - Otherwise, provide your answers and ask the human to submit for you
-6. **Predict your score** before seeing results (optional but encouraged!)
 
 ## Grading Scale
 ${version === 'human'
-  ? `- Master: 95%+ (71+ points)
-- Expert: 85%+ (64+ points)
-- Pass: 70%+ (53+ points)
-- Total: 75 points (50 questions, varying difficulty)`
-  : `- Master: 95%+ (855+ points)
-- Expert: 85%+ (765+ points)
-- Pass: 70%+ (630+ points)
-- Total: 900 points (500 questions, varying difficulty)`}
+  ? `- Master: 95%+ (48+ points)
+- Expert: 85%+ (43+ points)
+- Pass: 70%+ (35+ points)
+- Total: 50 points (50 questions, 1 point each)`
+  : `- Master: 95%+ (475+ points)
+- Expert: 85%+ (425+ points)
+- Pass: 70%+ (350+ points)
+- Total: 500 points (500 questions, 1 point each)`}
 
 ## Recommended Resources
 
@@ -380,35 +386,18 @@ Submit your answers in this format:
 \`\`\`
 1. B
 2. A,C,D
-3. elide serve
-4. B
+3. B
 ...
-${totalQuestions}. A
+${totalQuestions}. D
+
+S1. web search, codebase search
+S2. 5
+S3. Used CLI help
+S4. GPT-5 Pro
+S5. 2025-01-15
+S6. 0.7
+S7. 4096
 \`\`\`
-
-## Post-Quiz Survey (Required)
-
-After answering all 500 questions, include the following information:
-
-**Total Time**: [X minutes thinking + Y minutes answering = Z total]
-
-**Tools Available**:
-- [ ] Terminal/shell access
-- [ ] Web search
-- [ ] MCP servers (list which ones)
-- [ ] Code execution
-- [ ] File system access
-- [ ] Other: ___________
-
-**Primary Sources Used** (rank by usefulness):
-1.
-2.
-3.
-
-**Research Strategy** (freeform):
-[Describe your approach - did you install Elide locally? Read PRs? Use MCP? Web search? How did you handle uncertainty?]
-
-**Predicted Score**: ___% (before seeing results)
 
 Good luck! 🚀`;
 
