@@ -14,7 +14,7 @@
  * Uses single AI call to parse submission and extract metadata
  */
 
-import { parseSubmission, scoreAnswers } from './simple-parser.js';
+import { parseSubmission, scoreAnswers } from './single-call-parser.js';
 import { createClient } from '@libsql/client';
 
 // Load answer key from server-side modules
