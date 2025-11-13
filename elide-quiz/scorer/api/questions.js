@@ -7,8 +7,9 @@ export default async function handler(req, res) {
     const version = req.query.version || 'full';
     const filename = version === 'human' ? 'questions-human.md' : 'questions.md';
 
-    // Fetch from GitHub (always available, always up-to-date)
-    const url = `https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/scorer/${filename}`;
+    // Fetch from GitHub with cache-busting (always up-to-date)
+    const cacheBust = Date.now();
+    const url = `https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/scorer/${filename}?cb=${cacheBust}`;
     const response = await fetch(url);
 
     if (!response.ok) {
