@@ -273,7 +273,7 @@ function renderLeaderboardChart(submissions, container) {
 // Load questions and LLM prompt
 async function loadQuestions() {
   try {
-    const response = await fetch('/questions.md');
+    const response = await fetch('/api/questions');
     const questionsText = await response.text();
 
     // Set questions textarea
