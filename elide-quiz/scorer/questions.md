@@ -1230,107 +1230,259 @@ S7. [Max tokens] (e.g., "4096")
 
 ### Medium (30q)
 
-211. Write the minimal Fetch Handler pattern for beta11-rc1.
-
-212. Write the minimal Node.js http.createServer pattern for beta11-rc1.
-
+211. What is the minimal Fetch Handler pattern for beta11-rc1?
+    A. export default async function fetch(req: Request): Promise<Response> { return new Response("OK"); }
+    B. import { serve } from "elide/http/server"; serve((req,res)=>res.end("OK"));
+    C. const app = express(); app.get('/', (req,res)=>res.send('OK'));
+    D. Deno.serve((req)=>new Response('OK'));
+212. What is the minimal Node.js http.createServer pattern?
+    A. export default async function fetch(req: Request) { return new Response('OK'); }
+    B. import { createServer } from 'node:http'; createServer((req,res)=>{ res.statusCode=200; res.end('OK'); }).listen(8080);
+    C. app.get('/', (req,res)=>res.send('OK'));
+    D. elide serve server.ts;
 213. How do you return JSON in a Fetch Handler?
-
+    A. return new Response('{"ok":true}');
+    B. return Response.json({ ok: true });
+    C. res.json({ ok: true });
+    D. return new Response(JSON.stringify({ ok: true }), { headers: { 'X-Type': 'json' } });
 214. How do you parse request body in a Fetch Handler?
-
+    A. const data = await request.body();
+    B. const data = await req.json();
+    C. const data = req.body;
+    D. const data = await req.params();
 215. How do you get the request URL in a Fetch Handler?
-
+    A. req.href
+    B. new URL(req.url)
+    C. request.location
+    D. req.path
 216. How do you set response headers in a Fetch Handler?
-
+    A. res.setHeader('X-Test','1')
+    B. return new Response('ok', { headers: { 'X-Test': '1' } })
+    C. Response.headers['X-Test']='1'
+    D. setHeader('X-Test','1')
 217. How do you return a 404 in a Fetch Handler?
-
+    A. return new Response('Not Found', { status: 404 })
+    B. res.writeHead(404).end('Not Found')
+    C. throw new NotFound()
+    D. return Response.error()
 218. How do you handle POST requests in a Fetch Handler?
-
+    A. if (req.url === '/post') { /* ... */ }
+    B. if (req.method === 'POST') { /* ... */ }
+    C. switch (req.route) { case 'POST': ... }
+    D. req.on('post', handler)
 219. How do you create a streaming response in a Fetch Handler?
-
+    A. const s = new ReadableStream({start(c){ c.enqueue(new TextEncoder().encode('chunk')); c.close(); }}); return new Response(s);
+    B. return new Response(stream());
+    C. res.stream('chunk')
+    D. Response.pipe(stream)
 220. How do you run a Flask app with Elide?
-
+    A. elide flask run app.py
+    B. elide run --wsgi app.py
+    C. elide run app.py
+    D. elide serve --node app.py
 221. What is the default Flask port with Elide?
-
+    A. 3000
+    B. 8080
+    C. 5000
+    D. 9229
 222. How do you test a Flask health endpoint with curl?
-
+    A. curl http://localhost:8080/health
+    B. curl http://localhost:5000/healthz
+    C. curl -X POST http://localhost:8080/health
+    D. curl https://localhost/health
 223. How do you combine Flask (Python) with TypeScript orchestration?
-
+    A. Run Flask separately and proxy from Node
+    B. Run Flask with --wsgi and call Python from TS via polyglot imports
+    C. Use Express with Python middleware
+    D. Only via HTTP calls between processes
 224. What was the old beta10 HTTP pattern that's now deprecated?
-
+    A. export default async function fetch(req: Request)
+    B. import { serve } from 'elide/http/server'
+    C. elide run --http=beta10
+    D. app.get('/', ...)
 225. What import statement is removed in beta11-rc1 migration?
-
+    A. import http from 'node:http'
+    B. import { serve } from 'elide/http/server'
+    C. import { createServer } from 'http'
+    D. import { Response } from 'web'
 226. How do you wrap console.log in Fetch Handler to avoid module evaluation issues?
-
+    A. Use globalThis.console
+    B. Use Response.log()
+    C. Call console.log inside the fetch() function, not at top level
+    D. Wrap with setTimeout(0)
 227. What is the performance improvement of beta11-rc1 native HTTP vs beta10 shim?
-
+    A. Same throughput and memory
+    B. Faster cold start, higher throughput, lower memory
+    C. Slower but simpler
+    D. Only faster on macOS
 228. How many showcases were converted to beta11-rc1 native HTTP?
-
+    A. 8
+    B. 22
+    C. 50
+    D. 2
 229. Which showcase demonstrates Flask + TypeScript polyglot?
-
+    A. node-http-basic
+    B. flask-typescript-polyglot
+    C. ts-python-math
+    D. http2-push-demo
 230. What is the key benefit of Elide's WSGI support?
-
+    A. Run Flask/Django via a Node shim
+    B. Native Python web frameworks with zero-serialization TS interop
+    C. Requires separate Python process
+    D. Only for dev mode
 231. How do you handle request body in Node.js http.createServer?
-
+    A. Accumulate chunks via 'data'/'end' events
+    B. await req.json()
+    C. req.body
+    D. req.params.body
 232. How do you set status code in Node.js http.createServer?
-
+    A. res.status(404)
+    B. res.writeHead(404)
+    C. return new Response('', { status: 404 })
+    D. setStatus(404)
 233. How do you listen on a custom port in Node.js http.createServer?
-
+    A. res.listen(5000)
+    B. server.listen(5000)
+    C. http.listen(5000)
+    D. node.listen(5000)
 234. What is the difference between Fetch Handler and Node.js http patterns?
-
+    A. Both are identical
+    B. Fetch is declarative export; Node is imperative server lifecycle
+    C. Node is declarative; Fetch is imperative
+    D. Fetch requires Express
 235. Which pattern gives more control: Fetch Handler or Node.js http?
-
+    A. Node.js http
+    B. Fetch Handler
+    C. Both equal
+    D. Neither
 236. Which pattern is more concise: Fetch Handler or Node.js http?
-
+    A. Fetch Handler
+    B. Node.js http
+    C. Both equal
+    D. Neither
 237. How do you enable TLS in Elide server?
-
+    A. Use express-ssl
+    B. Configure TLS in elide.pkl
+    C. Node --https flag
+    D. Not supported
 238. How do you configure TLS cert and key in elide.pkl?
-
+    A. tls { pem = "cert.pem" }
+    B. server { tls { certFile = "cert.pem"; keyFile = "key.pem" } }
+    C. http { cert = "cert.pem" key = "key.pem" }
+    D. secrets { tls = true }
 239. What is the benefit of Elide's native HTTP vs shims?
-
+    A. More middleware support
+    B. No shim overhead; faster and leaner
+    C. Better Express compatibility
+    D. None
 240. What is the memory overhead reduction in beta11-rc1 vs beta10?
+    A. 1MB
+    B. 10MB
+    C. 100MB
+    D. No change
 
 ### Hard (20q)
 
-241. Explain the migration path from beta10 elide/http/server shim to beta11-rc1 Fetch Handler.
-
+241. Which migration step is correct when moving from beta10 shim to beta11-rc1?
+    A. Keep using import { serve } from 'elide/http/server'
+    B. Remove shim import and export default async function fetch(req: Request): Promise<Response>
+    C. Replace with Express.js
+    D. Switch to Deno.serve
 242. What is the internal HTTP server implementation in Elide?
-
-243. How does Elide achieve 800K RPS on Linux?
-
-244. What is the role of Netty in Elide's HTTP stack?
-
-245. What is the role of Micronaut in Elide's HTTP stack?
-
-246. How does Elide handle HTTP/2 protocol negotiation?
-
-247. What is ALPN and how does Elide use it?
-
-248. How does Elide support HTTP/3?
-
-249. What is h2c and does Elide support it?
-
-250. How does Elide's WSGI implementation achieve zero-serialization overhead?
-
-251. What is the performance characteristic of Python-TypeScript calls in Elide?
-
-252. How do you implement a polyglot service with Flask backend and TypeScript frontend?
-
-253. What is the limitation of running multiple concurrent servers in Elide?
-
-254. How does Elide handle WebSocket connections?
-
-255. What is the status of WebSocket support in beta11-rc1?
-
-256. How do you implement Server-Sent Events in Elide?
-
-257. What is the benefit of ReadableStream for large responses?
-
-258. How do you implement backpressure in Elide streaming responses?
-
-259. What is the chunked transfer encoding support in Elide?
-
-260. How do you configure HTTP/2 push in Elide?
+    A. Express + Koa
+    B. Netty + Micronaut
+    C. Node built-in http only
+    D. Rust Hyper
+243. How does Elide achieve ~800K RPS on Linux?
+    A. Blocking I/O with threads
+    B. Non-blocking Netty, native transports, zero-copy buffers, GraalVM optimizations
+    C. Express cluster mode
+    D. Python Gunicorn workers
+244. What is Netty's role in Elide's HTTP stack?
+    A. Dependency injection and routing
+    B. High-performance non-blocking I/O and native transports
+    C. Template rendering engine
+    D. Database connection pooling
+245. What is Micronaut's role in Elide's HTTP stack?
+    A. HTTP protocol handling, routing, server lifecycle
+    B. Network sockets and epoll
+    C. ORM layer
+    D. Frontend bundling
+246. How is HTTP/2 negotiated?
+    A. CORS
+    B. ALPN during TLS handshake
+    C. HSTS
+    D. DNS SRV
+247. What is ALPN used for in Elide?
+    A. Client authentication
+    B. Negotiating HTTP/1.1 vs HTTP/2
+    C. Enabling gzip compression
+    D. Selecting cipher suites only
+248. What is Elide's HTTP/3 support in beta11-rc1?
+    A. Fully GA and enabled by default
+    B. Removed entirely
+    C. Only via Node adapters
+    D. Experimental/Not supported in beta11
+249. What is h2c and is it supported?
+    A. HTTP/2 over TLS only; unsupported
+    B. HTTP/2 over cleartext; supported by Elide
+    C. HTTP/3 over TCP; supported
+    D. Not related to HTTP/2
+250. What is the key benefit of Python WSGI interop with TypeScript in Elide?
+    A. Communicate only via HTTP between processes
+    B. Same process/heap with Truffle interop; zero serialization
+    C. Requires JSON over sockets
+    D. Uses MessagePack for speed
+251. Typical overhead of a Python->TS call?
+    A. >50ms
+    B. <1ms overhead typical
+    C. ~10ms fixed
+    D. Only synchronous
+252. How to build a polyglot Flask + TypeScript service?
+    A. Separate processes with HTTP calls
+    B. Run Flask with --wsgi and orchestrate from TS via imports in the same process
+    C. Use Node cluster workers
+    D. Only Express middleware
+253. Why not run Node http and Fetch Handler on same port?
+    A. Only one server can bind to a port; use different ports or a single server+router
+    B. Built-in unlimited multiplexer makes it fine
+    C. Each language needs its own hostname
+    D. Not applicable to Linux
+254. How are WebSocket connections handled?
+    A. Not supported
+    B. Python only
+    C. Via HTTP upgrade; Netty handles frames
+    D. Requires browser polyfill
+255. Are WebSockets supported in beta11-rc1?
+    A. GA stable
+    B. Supported via Netty/Micronaut
+    C. Removed
+    D. Only SSE
+256. How to implement Server-Sent Events (SSE)?
+    A. res.sse('msg')
+    B. Return new Response(ReadableStream, { headers: { 'Content-Type': 'text/event-stream' } }) with SSE-formatted chunks
+    C. postMessage from server
+    D. WebRTC data channel
+257. Why use ReadableStream for response bodies?
+    A. Higher memory use
+    B. Backpressure + lower memory footprint for large responses
+    C. Faster CPU performance
+    D. Automatic CDN caching
+258. How to implement backpressure in streaming responses?
+    A. No backpressure support
+    B. Use ReadableStream controller signals; pause enqueue when consumer is slow
+    C. setTimeout loops
+    D. Only Node streams support it
+259. What about chunked transfer encoding?
+    A. Must set headers manually; not automatic
+    B. Automatic with streaming responses
+    C. Not supported
+    D. Node only
+260. How should HTTP/2 push be configured today?
+    A. server { http2push = on }
+    B. setHeader('Link', '</x>; rel=preload; nopush')
+    C. enablePush = true
+    D. HTTP/2 push is deprecated; prefer preload links
 
 ---
 
@@ -1436,35 +1588,63 @@ S7. [Max tokens] (e.g., "4096")
 
 ### Medium (25q)
 
-281. Write the elide.pkl syntax to add React 18 as an npm dependency.
-
-282. Write the elide.pkl syntax to add TypeScript as a dev dependency.
-
-283. Write the elide.pkl syntax to add Guava as a Maven dependency.
-
-284. Write the elide.pkl syntax to add requests as a PyPI dependency.
-
-285. Write the elide.pkl syntax to define a "dev" script that runs elide serve.
-
-286. Write the elide.pkl syntax to define a "build" task.
-
-287. How do you set the project name and version in elide.pkl?
-
-288. How do you configure the lockfile format to JSON in elide.pkl?
-
-289. How do you disable KotlinX libraries in elide.pkl?
-
-290. How do you set Kotlin language level in elide.pkl?
-
-291. How do you configure TLS cert and key in elide.pkl?
-
-292. How do you add multiple npm packages in one block?
-
-293. How do you add both regular and dev npm packages?
-
-294. How do you specify a specific npm package version?
-
-295. How do you specify a Maven package with group:artifact format?
+281. How do you declare a workspace of packages in elide.pkl?
+    A. packages { paths = ["**/*"] }
+    B. workspace { packages = ["packages/*"] }
+    C. workspaces = true
+    D. npm { workspaces = ["*"] }
+282. Workspaces share a single lockfile.
+    A. True
+    B. False
+283. Workspaces can reference each other directly.
+    A. True
+    B. False
+284. How do you install all workspace packages?
+    A. elide build --all
+    B. elide install (run from the workspace root)
+    C. npm ci --workspaces
+    D. elide install --per-package
+285. Which foreign files are recognized by Elide workspaces? (multiple select)
+    A. package.json
+    B. package-lock.json
+    C. node_modules
+    D. yarn-error.log
+286. Elide can use an existing package-lock.json.
+    A. True
+    B. False
+287. Elide can generate a new package-lock.json when needed.
+    A. True
+    B. False
+288. How do you switch lockfile format to npm via CLI?
+    A. elide install --format=json
+    B. elide install --lockfile-format=npm
+    C. elide lock --npm
+    D. elide configure --lockfile=npm
+289. Elide supports pnpm-lock.yaml files.
+    A. True
+    B. False
+290. Elide supports yarn.lock files.
+    A. True
+    B. False
+291. Which registries are supported? (multiple select)
+    A. Maven Central
+    B. npm registry
+    C. PyPI
+    D. Custom registries
+292. Where do you configure custom registries?
+    A. In package.json only
+    B. In elide.pkl repositories block
+    C. In .npmrc exclusively
+    D. In lockfile.json
+293. repositories { maven { url = "https://example" } } is valid elide.pkl.
+    A. True
+    B. False
+294. repositories { npm { url = "https://registry.npmjs.org" } } is valid elide.pkl.
+    A. True
+    B. False
+295. You can set NPM_REGISTRY environment variable for npm registry.
+    A. True
+    B. False
 
 296. What is stored in Elide's lockfile? (multiple select)
      A. Foreign lockfiles (package-lock.json, etc.)
@@ -1602,15 +1782,25 @@ S7. [Max tokens] (e.g., "4096")
 
 ### Medium (20q)
 
-336. Write the TypeScript syntax to import a Python module named "math.py".
-
-337. Write the TypeScript syntax to call a Python function "add(5, 3)" from imported module.
-
-338. How do you import a Java class in TypeScript with Elide?
-
-339. How do you import a Kotlin class in TypeScript with Elide?
-
-340. What is the syntax for importing with the node: prefix?
+336. Elide supports test filtering by pattern.
+    A. True
+    B. False
+337. How do you filter tests by name/pattern?
+    A. elide test --grep "pattern"
+    B. elide test --filter="pattern"
+    C. elide test --only "pattern"
+    D. elide test --pattern
+338. Elide supports per-test timeouts.
+    A. True
+    B. False
+339. How do you set a global test timeout to 5000ms?
+    A. elide test --global-timeout=5000
+    B. elide test --timeout=5000
+    C. elide test --max=5000
+    D. elide timeout 5000
+340. Elide supports retries for flaky tests.
+    A. True
+    B. False
 
 341. Why is the node: prefix recommended for Node.js modules?
 
@@ -1920,23 +2110,37 @@ S7. [Max tokens] (e.g., "4096")
 
 ### Medium (20q)
 
-431. Write the beta11-rc1 Fetch Handler pattern (minimal example).
-
-432. Write the beta11-rc1 Node.js http.createServer pattern (minimal example).
-
-433. What import statement do you remove when migrating from beta10 to beta11-rc1?
-
-434. How do you wrap console.log in Fetch Handler to avoid module evaluation issues?
-
-435. How do you return JSON in beta11-rc1 Fetch Handler?
-
-436. How do you parse request body in beta11-rc1 Fetch Handler?
-
-437. How do you handle POST requests in beta11-rc1 Fetch Handler?
-
-438. How do you return a 404 in beta11-rc1 Fetch Handler?
-
-439. How do you set custom headers in beta11-rc1 Fetch Handler?
+431. Beta11 supports custom log formats.
+    A. True
+    B. False
+432. Beta11 supports structured logging.
+    A. True
+    B. False
+433. Beta11 supports log levels.
+    A. True
+    B. False
+434. How do you set the server log level to debug?
+    A. elide run --debug-logs
+    B. elide serve --log-level=debug
+    C. elide serve --verbose
+    D. elide logs --level=debug
+435. Beta11 supports log rotation.
+    A. True
+    B. False
+436. Beta11 supports custom server configurations.
+    A. True
+    B. False
+437. Where do you configure custom server settings?
+    A. Only via CLI flags
+    B. In elide.pkl server block
+    C. In package.json scripts
+    D. In .env
+438. Beta11 supports running multiple server instances.
+    A. True
+    B. False
+439. Beta11 supports load balancing.
+    A. True
+    B. False
 
 440. How do you create a streaming response in beta11-rc1 Fetch Handler?
 

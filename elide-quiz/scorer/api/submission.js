@@ -1,6 +1,6 @@
 /**
  * Vercel Serverless Function for Submission Details
- * 
+ *
  * GET /api/submission?id=<submission_id>
  * Returns detailed submission with user answers vs correct answers
  */
@@ -90,7 +90,7 @@ export default async function handler(req, res) {
     }
 
     const submission = result.rows[0];
-    
+
     // Parse JSON fields
     const userAnswers = submission.userAnswers ? JSON.parse(submission.userAnswers) : {};
     const byTopic = submission.byTopic ? JSON.parse(submission.byTopic) : null;
@@ -98,13 +98,13 @@ export default async function handler(req, res) {
     // Load correct answers
     const answerKey = await loadAnswerKey(submission.version);
 
-    // Build comparison
+    // Build comparison (tolerant to order/spacing on multi-select)
     const comparison = [];
     for (const [qNum, correctData] of Object.entries(answerKey)) {
       const questionNum = parseInt(qNum);
       const userAnswer = userAnswers[questionNum] || '';
-      const isCorrect = normalizeAnswer(userAnswer) === normalizeAnswer(correctData.answer);
-      
+      const isCorrect = compareAnswers(userAnswer, correctData.answer);
+
       comparison.push({
         question: questionNum,
         userAnswer: userAnswer || '(no answer)',
@@ -113,6 +113,12 @@ export default async function handler(req, res) {
         isCorrect
       });
     }
+
+    // Rebuild metadata object from columns if present
+    const meta = {};
+    if (submission.toolsUsed) meta.tools = safeParse(submission.toolsUsed);
+    if (submission.timeSpent !== undefined && submission.timeSpent !== null) meta.time = submission.timeSpent;
+    if (submission.researchStrategy) meta.strategy = submission.researchStrategy;
 
     sendJSON(res, 200, {
       success: true,
@@ -128,10 +134,37 @@ export default async function handler(req, res) {
         correct: submission.correct,
         incorrect: submission.incorrect,
         missing: submission.missing,
-        byTopic
+        byTopic,
+        metadata: Object.keys(meta).length ? meta : null
       },
       comparison
     });
+
+// Helpers
+function safeParse(val) {
+  try { return JSON.parse(val); } catch { return val; }
+}
+
+function normalizeChoices(s) {
+  if (!s) return '';
+  // Split on commas or whitespace, uppercase, trim, sort, join with commas
+  const parts = s.toString()
+    .replace(/\s+/g, '')
+    .toUpperCase()
+    .split(',')
+    .filter(Boolean)
+    .sort();
+  return parts.join(',');
+}
+
+function compareAnswers(user, correct) {
+  const nu = normalizeChoices(user);
+  const nc = normalizeChoices(correct);
+  if (nu && nc) return nu === nc; // multi/select or single letter
+  // fallback simple compare
+  return (user || '').toString().trim().toLowerCase() === (correct || '').toString().trim().toLowerCase();
+}
+
 
   } catch (error) {
     console.error('Error fetching submission:', error);

@@ -1473,350 +1473,350 @@ export const answerKey = {
     "difficulty": "Easy"
   },
   "211": {
-    "answer": "Answer:",
+    "answer": "A",
     "explanation": "export default async function fetch(req: Request): Promise<Response> { return new Response(\"Hello!\", { status: 200 }); } (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "212": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "import { createServer } from \"http\"; const server = createServer((req, res) => { res.writeHead(200); res.end(\"Hello!\"); }); server.listen(3000); (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "213": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "return new Response(JSON.stringify({ key: \"value\" }), { headers: { \"Content-Type\": \"application/json\" } }); or use Response.json({ key: \"value\" })",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "214": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "const body = await req.json(); or await req.text() for text.",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "215": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "const url = new URL(req.url);",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "216": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "return new Response(\"...\", { headers: { \"X-Custom\": \"value\" } });",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "217": {
-    "answer": "Answer:",
+    "answer": "A",
     "explanation": "return new Response(\"Not Found\", { status: 404 });",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "218": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "if (req.method === \"POST\") { const body = await req.json(); /* handle POST */ }",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "219": {
-    "answer": "Answer:",
+    "answer": "A",
     "explanation": "const stream = new ReadableStream({ start(controller) { controller.enqueue(new TextEncoder().encode(\"chunk\")); controller.close(); } }); return new Response(stream);",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "220": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "elide run --wsgi app.py or elide serve --wsgi app.py",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "221": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "8080 (default Elide port)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "222": {
-    "answer": "Answer:",
+    "answer": "A",
     "explanation": "curl http://localhost:8080/health",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "223": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Run Flask with `--wsgi`, import Python module from TypeScript, call Flask functions from TS orchestration layer. (Source: flask-typescript-polyglot showcase)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "224": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "`import { serve } from \"elide/http/server\"` with callback pattern. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "225": {
-    "answer": "Answer:",
+    "answer": "A",
     "explanation": "`import { serve } from \"elide/http/server\"` (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "226": {
-    "answer": "Answer:",
+    "answer": "C",
     "explanation": "Wrap in function to avoid top-level execution: export default async function fetch(req: Request): Promise<Response> { console.log(\"Request received\"); return new Response(\"OK\"); }",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "227": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "50% faster cold start, 20% higher throughput, 10MB less memory. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "228": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "22 showcases (Source: BETA11_MIGRATION_GUIDE.md, README.md)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "229": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "flask-typescript-polyglot (Source: showcases directory)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "230": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Run Python web frameworks (Flask, Django) natively with zero-serialization TypeScript interop. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "231": {
-    "answer": "Answer:",
+    "answer": "A",
     "explanation": "let body = ''; req.on('data', chunk => { body += chunk; }); req.on('end', () => { /* process body */ });",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "232": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "res.writeHead(404);",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "233": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "server.listen(5000);",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "234": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Fetch Handler is declarative (export function), Node.js http is imperative (createServer). (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "235": {
-    "answer": "Answer:",
+    "answer": "A",
     "explanation": "Node.js http (imperative, more control over server lifecycle)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "236": {
-    "answer": "Answer:",
+    "answer": "A",
     "explanation": "Fetch Handler (declarative, less boilerplate)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "237": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Configure TLS cert and key in elide.pkl, Elide handles TLS automatically.",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "238": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "server { tls { cert = \"/path/to/cert.pem\" key = \"/path/to/key.pem\" } } in elide.pkl",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "239": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "No shim overhead, faster cold start, lower memory, higher throughput. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "240": {
-    "answer": "Answer:",
+    "answer": "B"}
     "explanation": "10MB reduction (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 2,
     "topic": "HTTP & Servers",
     "difficulty": "Medium"
   },
   "241": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Remove `import { serve } from \"elide/http/server\"`, replace callback pattern with `export default async function fetch(req: Request): Promise<Response>`, update request/response handling to use Web APIs. (Source: BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "242": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Netty for I/O, Micronaut for HTTP protocol handling, GraalVM for runtime. (Source: elide help servers)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "243": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Non-blocking I/O via Netty, native transports (epoll on Linux), zero-copy buffers, GraalVM optimizations. (Source: elide help servers, benchmarks)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "244": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Netty provides high-performance non-blocking I/O and native transports. (Source: elide help servers)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "245": {
-    "answer": "Answer:",
+    "answer": "A",
     "explanation": "Micronaut provides HTTP protocol handling, routing, and server lifecycle. (Source: elide help servers)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "246": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "ALPN (Application-Layer Protocol Negotiation) during TLS handshake. (Source: HTTP/2 spec, Netty docs)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "247": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "ALPN is TLS extension for protocol negotiation; Elide uses it to negotiate HTTP/2 vs HTTP/1.1. (Source: TLS/HTTP/2 specs)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "248": {
-    "answer": "Answer:",
+    "answer": "D",
     "explanation": "HTTP/3 over QUIC protocol, using Netty's QUIC support. (Source: elide help servers)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "249": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "h2c is HTTP/2 over cleartext (no TLS); Elide supports it. (Source: HTTP/2 spec, Netty capabilities)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "250": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Python WSGI app runs in same GraalVM process as TypeScript, shared heap, Truffle interop for zero-serialization calls. (Source: BETA11_MIGRATION_GUIDE.md, GraalVM architecture)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "251": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "<1ms overhead, zero serialization. (Source: README.md, BETA11_MIGRATION_GUIDE.md)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "252": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Create Flask app in Python, run with `--wsgi`, import Flask module from TypeScript, call Flask functions for orchestration, use Fetch Handler or Node.js http for TypeScript endpoints. (Source: flask-typescript-polyglot showcase)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "253": {
-    "answer": "Answer:",
+    "answer": "A",
     "explanation": "Only one server can bind to a port at a time; use different ports or single server with routing. (Source: OS networking limitations)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "254": {
-    "answer": "Answer:",
+    "answer": "C",
     "explanation": "WebSocket upgrade via HTTP, Netty handles WebSocket frames, bidirectional communication. (Source: elide help servers, WebSocket spec)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "255": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Supported via Netty/Micronaut. (Source: elide help servers)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "256": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Use streaming Response with `Content-Type: text/event-stream`, send SSE-formatted chunks. (Source: SSE spec, streaming response pattern)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "257": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Avoids loading entire response in memory, enables backpressure, reduces memory footprint. (Source: Streams API spec)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "258": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "ReadableStream controller provides backpressure signals; pause enqueue when consumer is slow. (Source: Streams API spec)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "259": {
-    "answer": "Answer:",
+    "answer": "B",
     "explanation": "Automatic with `Transfer-Encoding: chunked` header for streaming responses. (Source: HTTP spec, Netty behavior)",
     "points": 3,
     "topic": "HTTP & Servers",
     "difficulty": "Hard"
   },
   "260": {
-    "answer": "Answer:",
+    "answer": "D",
     "explanation": "HTTP/2 push is deprecated in browsers; not recommended. Use preload links instead. (Source: HTTP/2 spec, browser deprecations)",
     "points": 3,
     "topic": "HTTP & Servers",

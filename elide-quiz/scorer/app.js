@@ -94,11 +94,7 @@ document.getElementById('quiz-form').addEventListener('submit', async (e) => {
     const results = data.results;
     results.version = quizVersion; // Add version to results
 
-    // Parse answers from text for leaderboard storage
-    const parsedAnswers = parseAnswers(answersText);
-
-    // Save to leaderboard
-    await saveToLeaderboard(name, results, parsedAnswers, quizVersion);
+    // Leaderboard entry is written by /api/score now (unified schema). No double-write.
 
     // Display results
     displayResults(results);
@@ -325,23 +321,14 @@ You are taking the Elide Expert Quiz, a comprehensive knowledge test covering El
 
 ## Instructions
 
-1. **Read all ${totalQuestions} questions below**
-2. **Answer each question** to the best of your ability
-3. **Use any tools available** to you (web search, documentation, MCP servers, etc.)
-4. **Format your answers** exactly as shown:
-   - Multiple choice (single): Just the letter (e.g., "1. B")
-   - Multiple choice (multi): Comma-separated letters with NO SPACES (e.g., "2. A,C,D")
-5. **Include survey metadata** after your ${totalQuestions} answers:
-   - S1. [Tools available] (e.g., "web search, codebase search")
-   - S2. [Time in minutes] (e.g., "5")
-   - S3. [Research strategy] (e.g., "Used CLI help")
-   - S4. [Model name] (e.g., "GPT-5 Pro")
-   - S5. [Model version] (e.g., "2025-01-15")
-   - S6. [Temperature] (e.g., "0.7")
-   - S7. [Max tokens] (e.g., "4096")
-6. **Submit your answers** at: ${window.location.origin}
-   - If you have browser tools, navigate to the site and submit directly
-   - Otherwise, provide your answers and ask the human to submit for you
+1. Read all ${totalQuestions} questions below
+2. Answer each question to the best of your ability
+3. Use any tools available to you (web search, documentation, MCP servers, etc.)
+4. Submission format (JSON strongly recommended):
+   - Preferred: submit a single JSON object with answers and metadata (see below)
+   - Fallback: plain text lines like "1. B" and S1..S7 metadata (we will parse it)
+5. Include survey metadata after your ${totalQuestions} answers (S1-S7)
+6. Submit at: ${window.location.origin}
 
 ## Grading Scale
 ${version === 'human'
@@ -357,33 +344,42 @@ ${version === 'human'
 ## Recommended Resources
 
 **Primary Sources** (most authoritative):
-- \`elide help\` CLI - Built-in documentation (install: \`curl -sSL --tlsv1.2 elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1\`)
-- **GitHub Showcases**: https://github.com/akapug/elide-showcases
-  - **CRITICAL**: Beta11-rc1 examples and patterns are HERE
-  - Real working code for beta11-rc1 features
-  - Migration guides and best practices
-- GitHub: https://github.com/elide-dev/elide
-  - Pull Requests (implementation details)
-  - Issues (known bugs, feature requests)
-  - Release Notes (changelog, breaking changes)
+- \`elide help\` CLI (install: \`curl -sSL --tlsv1.2 elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1\`)
+- GitHub Showcases: https://github.com/akapug/elide-showcases
+- Elide repo: https://github.com/elide-dev/elide
 - Official Docs: https://docs.elide.dev
 
-**IMPORTANT HINTS**:
-1. **The quiz questions themselves contain many hints** - read them carefully!
-2. **Beta11-rc1 is NOT widely released** - most public docs are for beta8-10
-3. **Use the showcases repo** for beta11-rc1 specific answers
-4. **Install Elide locally** if you have terminal access - \`elide help\` is invaluable
-5. **Using all available tools is EXPECTED** - we want to see which tools help most!
-
-**Note**: Agents with terminal access, web search, and MCP servers should perform significantly better. Document your approach!
+IMPORTANT: Many beta11-rc1 patterns only exist in the showcases repo.
 
 ## Questions
 
 ${questionsText}
 
-## Submission Format
+## Submission Format (JSON)
 
-Submit your answers in this format:
+Return exactly this JSON structure (no markdown):
+\`\`\`json
+{
+  "answers": {
+    "1": "B",
+    "2": "A,C,D",
+    "3": "B",
+    "...": "...",
+    "${totalQuestions}": "D"
+  },
+  "metadata": {
+    "S1": "web search, codebase search",
+    "S2": "5",
+    "S3": "Used CLI help",
+    "S4": "GPT-5 Pro",
+    "S5": "2025-01-15",
+    "S6": "0.7",
+    "S7": "4096"
+  }
+}
+\`\`\`
+
+## Submission Format (Plain Text Fallback)
 \`\`\`
 1. B
 2. A,C,D
