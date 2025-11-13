@@ -65,6 +65,7 @@ export default async function handler(req, res) {
   }
 
   try {
+    let stage = 'start';
     const { id } = req.query;
 
     if (!id) {
@@ -72,6 +73,7 @@ export default async function handler(req, res) {
       return;
     }
 
+    stage = 'db-connect';
     const client = getDB();
     if (!client) {
       sendJSON(res, 500, { error: 'Database not available' });
@@ -79,6 +81,7 @@ export default async function handler(req, res) {
     }
 
     // Get submission
+    stage = 'db-query';
     const result = await client.execute({
       sql: 'SELECT * FROM submissions WHERE id = ?',
       args: [id]
@@ -89,6 +92,7 @@ export default async function handler(req, res) {
       return;
     }
 
+    stage = 'parse-json-fields';
     const submission = result.rows[0];
 
     // Parse JSON fields (tolerate legacy and double-encoded formats)
@@ -108,9 +112,11 @@ export default async function handler(req, res) {
       }
     } catch { byTopic = null; }
 
+    stage = 'load-answer-key';
     // Load correct answers
     const answerKey = await loadAnswerKey(submission.version);
 
+    stage = 'build-comparison';
     // Build comparison (tolerant to order/spacing on multi-select)
     const comparison = [];
     for (const [qNum, correctData] of Object.entries(answerKey)) {
@@ -127,6 +133,7 @@ export default async function handler(req, res) {
       });
     }
 
+    stage = 'shape-response';
     // Rebuild metadata object from columns if present
     const meta = {};
     if (submission.toolsUsed) meta.tools = safeParse(submission.toolsUsed);
@@ -197,7 +204,8 @@ function compareAnswers(user, correct) {
     console.error('Error fetching submission:', error);
     sendJSON(res, 500, {
       error: 'Internal server error',
-      message: error.message
+      message: error.message,
+      stage: typeof stage !== 'undefined' ? stage : 'unknown'
     });
   }
 }
