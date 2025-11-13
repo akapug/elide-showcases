@@ -1,13 +1,15 @@
 /**
  * AI-Powered Answer Scoring using OpenRouter
- * 
+ *
  * Uses google/gemini-2.0-flash-exp:free as primary model
- * Falls back to x-ai/grok-beta as backup if rate limited
+ * Falls back to anthropic/claude-haiku-4.5 if rate limited
+ * Falls back to x-ai/grok-4-fast if both fail
  */
 
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const PRIMARY_MODEL = 'google/gemini-2.0-flash-exp:free';
-const BACKUP_MODEL = 'x-ai/grok-beta';
+const BACKUP_MODEL = 'anthropic/claude-haiku-4.5';
+const TERTIARY_MODEL = 'x-ai/grok-4-fast';
 
 /**
  * Score a single answer using AI
@@ -36,14 +38,27 @@ export async function scoreAnswerWithAI(questionNum, userAnswer, correctAnswer, 
   } catch (error) {
     console.error(`[Q${questionNum}] Primary model error:`, error.message);
     if (error.message.includes('rate limit') || error.message.includes('429')) {
-      console.log(`[Q${questionNum}] Rate limited on ${PRIMARY_MODEL}, trying backup ${BACKUP_MODEL}`);
+      console.log(`[Q${questionNum}] Rate limited on ${PRIMARY_MODEL}, trying ${BACKUP_MODEL}`);
       try {
         const result = await callOpenRouter(prompt, BACKUP_MODEL);
         console.log(`[Q${questionNum}] Backup AI result: ${result.isCorrect ? '✓' : '✗'}`);
         return result;
       } catch (backupError) {
-        console.error(`[Q${questionNum}] Both models failed, falling back to exact match:`, backupError.message);
-        return fallbackScoring(userAnswer, correctAnswer);
+        console.error(`[Q${questionNum}] Backup model error:`, backupError.message);
+        if (backupError.message.includes('rate limit') || backupError.message.includes('429')) {
+          console.log(`[Q${questionNum}] Rate limited on ${BACKUP_MODEL}, trying ${TERTIARY_MODEL}`);
+          try {
+            const result = await callOpenRouter(prompt, TERTIARY_MODEL);
+            console.log(`[Q${questionNum}] Tertiary AI result: ${result.isCorrect ? '✓' : '✗'}`);
+            return result;
+          } catch (tertiaryError) {
+            console.error(`[Q${questionNum}] All models failed, falling back to exact match:`, tertiaryError.message);
+            return fallbackScoring(userAnswer, correctAnswer);
+          }
+        } else {
+          console.error(`[Q${questionNum}] Backup failed, falling back to exact match:`, backupError.message);
+          return fallbackScoring(userAnswer, correctAnswer);
+        }
       }
     } else {
       console.error(`[Q${questionNum}] AI scoring failed, falling back to exact match:`, error.message);
