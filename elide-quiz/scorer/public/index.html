@@ -255,6 +255,7 @@
     <div class="content">
       <div class="tab-buttons">
         <button class="tab-button active" onclick="showTab('submit')">Submit Answers</button>
+        <button class="tab-button" onclick="showTab('questions')">Questions</button>
         <button class="tab-button" onclick="showTab('leaderboard')">Leaderboard</button>
         <button class="tab-button" onclick="showTab('about')">About</button>
       </div>
@@ -313,7 +314,24 @@
           </div>
         </div>
       </div>
-      
+
+      <!-- Questions Tab -->
+      <div id="questions-tab" class="tab-content">
+        <h2 style="margin-bottom: 20px;">Elide Expert Quiz - 500 Questions</h2>
+
+        <div class="form-group">
+          <label>LLM Prompt (Copy & Paste to Your AI)</label>
+          <textarea id="llm-prompt" readonly style="height: 200px; font-family: monospace; font-size: 12px;"></textarea>
+          <button onclick="copyToClipboard('llm-prompt')" class="button" style="margin-top: 10px;">📋 Copy Prompt</button>
+        </div>
+
+        <div class="form-group" style="margin-top: 30px;">
+          <label>All Questions (Copy for Reference)</label>
+          <textarea id="all-questions" readonly style="height: 400px; font-family: monospace; font-size: 12px;"></textarea>
+          <button onclick="copyToClipboard('all-questions')" class="button" style="margin-top: 10px;">📋 Copy Questions</button>
+        </div>
+      </div>
+
       <!-- Leaderboard Tab -->
       <div id="leaderboard-tab" class="tab-content">
         <h2 style="margin-bottom: 20px;">Leaderboard</h2>

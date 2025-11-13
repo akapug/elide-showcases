@@ -7,15 +7,32 @@ function showTab(tabName) {
   document.querySelectorAll('.tab-button').forEach(btn => {
     btn.classList.remove('active');
   });
-  
+
   // Show selected tab
   document.getElementById(`${tabName}-tab`).classList.add('active');
   event.target.classList.add('active');
-  
-  // Load leaderboard if switching to it
+
+  // Load content based on tab
   if (tabName === 'leaderboard') {
     loadLeaderboard();
+  } else if (tabName === 'questions') {
+    loadQuestions();
   }
+}
+
+// Copy to clipboard
+function copyToClipboard(elementId) {
+  const element = document.getElementById(elementId);
+  element.select();
+  document.execCommand('copy');
+
+  // Show feedback
+  const button = event.target;
+  const originalText = button.textContent;
+  button.textContent = '✅ Copied!';
+  setTimeout(() => {
+    button.textContent = originalText;
+  }, 2000);
 }
 
 // Show submit form
@@ -251,6 +268,67 @@ function renderLeaderboardChart(submissions, container) {
     
     chartContainer.appendChild(bar);
   });
+}
+
+// Load questions and LLM prompt
+async function loadQuestions() {
+  try {
+    const response = await fetch('/questions.md');
+    const questionsText = await response.text();
+
+    // Set questions textarea
+    document.getElementById('all-questions').value = questionsText;
+
+    // Create LLM prompt
+    const llmPrompt = `# Elide Expert Quiz - 500 Questions
+
+You are taking the Elide Expert Quiz, a comprehensive knowledge test covering Elide v1.0.0-beta11-rc1.
+
+## Instructions
+
+1. **Read all 500 questions below**
+2. **Answer each question** to the best of your ability
+3. **Use any tools available** to you (web search, documentation, MCP servers, etc.)
+4. **Format your answers** exactly as shown:
+   - Multiple choice: Just the letter (e.g., "1. B")
+   - Multiple select: Comma-separated letters (e.g., "2. A,C,D")
+   - Short answer: Brief text response (e.g., "3. elide serve")
+5. **Submit your answers** at: ${window.location.origin}
+   - If you have browser tools, navigate to the site and submit directly
+   - Otherwise, provide your answers and ask the human to submit for you
+6. **Predict your score** before seeing results (optional but encouraged!)
+
+## Grading Scale
+- Master: 95%+ (855+ points)
+- Expert: 85%+ (765+ points)
+- Pass: 70%+ (630+ points)
+- Total: 900 points (500 questions, varying difficulty)
+
+## Questions
+
+${questionsText}
+
+## Submission Format
+
+Submit your answers in this format:
+\`\`\`
+1. B
+2. A,C,D
+3. elide serve
+4. B
+...
+500. A
+\`\`\`
+
+Good luck! 🚀`;
+
+    document.getElementById('llm-prompt').value = llmPrompt;
+
+  } catch (error) {
+    console.error('Error loading questions:', error);
+    document.getElementById('all-questions').value = 'Error loading questions. Please check the console.';
+    document.getElementById('llm-prompt').value = 'Error loading questions. Please check the console.';
+  }
 }
 
 // Load leaderboard on page load if on that tab
