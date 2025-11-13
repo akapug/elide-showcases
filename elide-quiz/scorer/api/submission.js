@@ -5,12 +5,12 @@
  * Returns detailed submission with user answers vs correct answers
  */
 
-import { createClient } from '@libsql/client';
-
-// Initialize Turso client
+// Initialize Turso client (lazy to avoid bundler/runtime issues)
 let db = null;
-function getDB() {
-  if (!db && process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN) {
+async function getDB() {
+  if (!process.env.TURSO_DATABASE_URL || !process.env.TURSO_AUTH_TOKEN) return null;
+  if (!db) {
+    const { createClient } = await import('@libsql/client');
     db = createClient({
       url: process.env.TURSO_DATABASE_URL,
       authToken: process.env.TURSO_AUTH_TOKEN,
@@ -74,7 +74,7 @@ export default async function handler(req, res) {
     }
 
     stage = 'db-connect';
-    const client = getDB();
+    const client = await getDB();
     if (!client) {
       sendJSON(res, 500, { error: 'Database not available' });
       return;
