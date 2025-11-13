@@ -85,34 +85,44 @@ export default async function handler(req, res) {
 
 
     if (req.method === 'GET') {
-      // Try DB first
-      const result = await db.execute({ sql: 'SELECT questions_md FROM quiz_content WHERE version = ?', args: [version] });
-      if (result.rows.length > 0) return ok(res, result.rows[0].questions_md);
-
-      // Seed once from local file if available, else GitHub fallback, then persist to DB
-      const filename = version === 'human' ? 'questions-human.md' : 'questions.md';
-      let qs = '';
       try {
-        const { readFileSync } = await import('node:fs');
-        const { fileURLToPath } = await import('node:url');
-        const { dirname, join } = await import('node:path');
-        const __filename = fileURLToPath(import.meta.url);
-        const __dirname = dirname(__filename);
-        // ../questions.md relative to this file
-        const filePath = join(__dirname, '..', filename);
-        qs = readFileSync(filePath, 'utf8');
+        // Try DB first
+        const result = await db.execute({ sql: 'SELECT questions_md FROM quiz_content WHERE version = ?', args: [version] });
+        if (result.rows.length > 0) return ok(res, result.rows[0].questions_md);
+
+        // Seed once from local file if available, else GitHub fallback, then persist to DB
+        const filename = version === 'human' ? 'questions-human.md' : 'questions.md';
+        let qs = '';
+        try {
+          const { readFileSync } = await import('node:fs');
+          const { fileURLToPath } = await import('node:url');
+          const { dirname, join } = await import('node:path');
+          const __filename = fileURLToPath(import.meta.url);
+          const __dirname = dirname(__filename);
+          // ../questions.md relative to this file
+          const filePath = join(__dirname, '..', filename);
+          qs = readFileSync(filePath, 'utf8');
+        } catch (e) {
+          // Fallback to GitHub one-time seed
+          const url = `https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/scorer/${filename}`;
+          const gh = await fetch(url);
+          if (!gh.ok) throw new Error(`Seed fetch failed: ${gh.status}`);
+          qs = await gh.text();
+        }
+        await db.execute({
+          sql: 'INSERT OR REPLACE INTO quiz_content (version, questions_md, updated_at) VALUES (?, ?, datetime(''now''))',
+          args: [version, qs]
+        });
+        return ok(res, qs);
       } catch (e) {
-        // Fallback to GitHub one-time seed
+        console.error('DB path failed, falling back to GitHub:', e.message);
+        const filename = version === 'human' ? 'questions-human.md' : 'questions.md';
         const url = `https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/scorer/${filename}`;
         const gh = await fetch(url);
-        if (!gh.ok) throw new Error(`Seed fetch failed: ${gh.status}`);
-        qs = await gh.text();
+        if (!gh.ok) return json(res, gh.status, { error: 'GitHub fetch failed' });
+        const qs = await gh.text();
+        return ok(res, qs);
       }
-      await db.execute({
-        sql: 'INSERT OR REPLACE INTO quiz_content (version, questions_md, updated_at) VALUES (?, ?, datetime(''now''))',
-        args: [version, qs]
-      });
-      return ok(res, qs);
     }
 
     if (req.method === 'POST') {
