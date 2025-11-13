@@ -48,7 +48,18 @@ export default async function handler(req, res) {
 
   try {
     const db = getDB();
-    if (!db) throw new Error('Database not available');
+    // If DB not available, serve directly from GitHub as a safe fallback
+    if (!db) {
+      if (req.method === 'GET') {
+        const filename = version === 'human' ? 'questions-human.md' : 'questions.md';
+        const url = `https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/scorer/${filename}`;
+        const gh = await fetch(url);
+        if (!gh.ok) throw new Error(`Seed fetch failed: ${gh.status}`);
+        const qs = await gh.text();
+        return ok(res, qs);
+      }
+      throw new Error('Database not available');
+    }
     await initDB(db);
     // Optional refresh from local file when requested
     if (req.method === 'GET' && req.query.refresh === '1') {
