@@ -26,9 +26,18 @@ async function initDB(db) {
 }
 
 function ok(res, text) {
-  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.status(200).send(text);
+  if (res.status) {
+    // Vercel/Express-style
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    return res.status(200).send(text);
+  }
+  // Node HTTP
+  res.writeHead(200, {
+    'Content-Type': 'text/plain; charset=utf-8',
+    'Access-Control-Allow-Origin': '*'
+  });
+  res.end(text);
 }
 
 function json(res, status, data) {
