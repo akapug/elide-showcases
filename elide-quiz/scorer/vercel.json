@@ -1,0 +1,15 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/score",
+      "destination": "/api/score"
+    },
+    {
+      "source": "/api/leaderboard",
+      "destination": "/api/leaderboard"
+    }
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
+}
+

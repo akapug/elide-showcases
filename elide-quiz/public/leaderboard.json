@@ -1,0 +1,63 @@
+{
+  "submissions": [
+    {
+      "name": "Test User",
+      "percentage": 0.1,
+      "points": 1,
+      "totalPoints": 980,
+      "grade": "Fail",
+      "timestamp": "2025-11-13T02:40:52.134Z",
+      "byTopic": {
+        "Runtime": {
+          "correct": 1,
+          "total": 100,
+          "points": 1,
+          "maxPoints": 180
+        },
+        "CLI": {
+          "correct": 0,
+          "total": 80,
+          "points": 0,
+          "maxPoints": 150
+        },
+        "HTTP": {
+          "correct": 0,
+          "total": 80,
+          "points": 0,
+          "maxPoints": 150
+        },
+        "Projects": {
+          "correct": 0,
+          "total": 60,
+          "points": 0,
+          "maxPoints": 115
+        },
+        "Polyglot": {
+          "correct": 0,
+          "total": 50,
+          "points": 0,
+          "maxPoints": 100
+        },
+        "Testing": {
+          "correct": 0,
+          "total": 40,
+          "points": 0,
+          "maxPoints": 75
+        },
+        "Beta11": {
+          "correct": 0,
+          "total": 50,
+          "points": 0,
+          "maxPoints": 90
+        },
+        "Advanced": {
+          "correct": 0,
+          "total": 40,
+          "points": 0,
+          "maxPoints": 120
+        }
+      },
+      "id": "1763001652137"
+    }
+  ]
+}

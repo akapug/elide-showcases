@@ -1,0 +1,16 @@
+{
+  "name": "elide-quiz-scorer",
+  "version": "1.0.0",
+  "description": "Scoring tool for Elide Expert Quiz",
+  "type": "module",
+  "scripts": {
+    "score": "node score.js",
+    "dev": "node dev-server.js",
+    "test": "node test.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
+

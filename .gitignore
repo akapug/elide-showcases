@@ -2,3 +2,8 @@
 # Local environment
 .env.local
 .env
+
+# Quiz answers (keep secret from LLMs!)
+elide-quiz/answers.md
+elide-quiz/scorer/score.js
+elide-quiz/sample-answers.txt
