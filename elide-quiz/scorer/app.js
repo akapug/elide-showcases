@@ -309,8 +309,9 @@ async function loadQuestions() {
     const totalQuestions = version === 'human' ? 50 : 500;
     const totalPoints = version === 'human' ? 50 : 500;
 
-    // Fetch questions from API
-    const response = await fetch(`/api/questions?version=${version}`);
+    // Fetch questions from API with cache-busting
+    const cacheBust = Date.now();
+    const response = await fetch(`/api/questions?version=${version}&cb=${cacheBust}`);
     const questionsText = await response.text();
 
     // Set questions textarea
