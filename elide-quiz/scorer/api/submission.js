@@ -29,8 +29,8 @@ function getDB() {
 // Load answer key
 function loadAnswerKey(version = 'full') {
   const filename = version === 'human' ? 'answers-human.md' : 'answers.md';
-  // Look in parent directory of api/ folder
-  const filePath = join(__dirname, '..', filename);
+  // Look in grandparent directory (elide-quiz/) - two levels up from api/
+  const filePath = join(__dirname, '..', '..', filename);
   const content = readFileSync(filePath, 'utf-8');
 
   const answers = {};
