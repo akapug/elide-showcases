@@ -7,7 +7,12 @@
 
 import { createClient } from '@libsql/client';
 import { readFileSync } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Initialize Turso client
 let db = null;
@@ -24,12 +29,13 @@ function getDB() {
 // Load answer key
 function loadAnswerKey(version = 'full') {
   const filename = version === 'human' ? 'answers-human.md' : 'answers.md';
-  const filePath = join(process.cwd(), '..', filename);
+  // Look in parent directory of api/ folder
+  const filePath = join(__dirname, '..', filename);
   const content = readFileSync(filePath, 'utf-8');
-  
+
   const answers = {};
   const lines = content.split('\n');
-  
+
   for (const line of lines) {
     // Match pattern: "123. **ANSWER** - explanation"
     const match = line.match(/^(\d+)\.\s+\*\*(.+?)\*\*\s+-\s+(.+)$/);
@@ -41,7 +47,7 @@ function loadAnswerKey(version = 'full') {
       };
     }
   }
-  
+
   return answers;
 }
 
