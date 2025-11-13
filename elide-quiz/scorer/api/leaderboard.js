@@ -4,51 +4,94 @@
  * GET /api/leaderboard - Get all submissions
  * POST /api/leaderboard - Add new submission
  *
- * Storage: Vercel Redis (via @vercel/kv)
+ * Storage: Turso (SQLite over HTTP)
  */
 
-import { kv } from '@vercel/kv';
+import { createClient } from '@libsql/client';
 
-const LEADERBOARD_KEY = 'elide-quiz:leaderboard';
-
-// Check if Redis is available
-function isRedisAvailable() {
-  return !!(process.env.KV_REST_API_URL || process.env.REDIS_URL || process.env.KV_URL);
+// Initialize Turso client
+let db = null;
+function getDB() {
+  if (!db && process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN) {
+    db = createClient({
+      url: process.env.TURSO_DATABASE_URL,
+      authToken: process.env.TURSO_AUTH_TOKEN,
+    });
+  }
+  return db;
 }
 
-// Read submissions from Redis
-async function readSubmissions() {
-  try {
-    // Check if Redis is available (production)
-    if (isRedisAvailable()) {
-      const data = await kv.get(LEADERBOARD_KEY);
-      return data || { submissions: [] };
-    }
+// Initialize database schema
+async function initDB() {
+  const client = getDB();
+  if (!client) return false;
 
-    // Fallback for local dev (no Redis)
-    console.log('Redis not available, using in-memory storage');
-    return { submissions: [] };
+  try {
+    await client.execute(`
+      CREATE TABLE IF NOT EXISTS submissions (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        percentage REAL NOT NULL,
+        points INTEGER NOT NULL,
+        totalPoints INTEGER NOT NULL,
+        grade TEXT NOT NULL,
+        version TEXT DEFAULT 'full',
+        timestamp TEXT NOT NULL
+      )
+    `);
+    return true;
   } catch (error) {
-    console.error('Error reading submissions from Redis:', error);
+    console.error('Error initializing database:', error);
+    return false;
+  }
+}
+
+// Read submissions from Turso
+async function readSubmissions() {
+  const client = getDB();
+  if (!client) {
+    console.log('Turso not available, using in-memory storage');
+    return { submissions: [] };
+  }
+
+  try {
+    await initDB();
+    const result = await client.execute('SELECT * FROM submissions ORDER BY percentage DESC LIMIT 100');
+    return { submissions: result.rows };
+  } catch (error) {
+    console.error('Error reading submissions from Turso:', error);
     return { submissions: [] };
   }
 }
 
-// Write submissions to Redis
-async function writeSubmissions(data) {
-  try {
-    // Check if Redis is available (production)
-    if (isRedisAvailable()) {
-      await kv.set(LEADERBOARD_KEY, data);
-      console.log('Saved to Redis:', LEADERBOARD_KEY);
-      return true;
-    }
-
-    // Fallback for local dev (no Redis)
-    console.log('Redis not available, skipping write');
+// Write submission to Turso
+async function writeSubmission(submission) {
+  const client = getDB();
+  if (!client) {
+    console.log('Turso not available, skipping write');
     return false;
+  }
+
+  try {
+    await initDB();
+    await client.execute({
+      sql: `INSERT INTO submissions (id, name, percentage, points, totalPoints, grade, version, timestamp)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      args: [
+        submission.id,
+        submission.name,
+        submission.percentage,
+        submission.points || 0,
+        submission.totalPoints || 980,
+        submission.grade || 'Fail',
+        submission.version || 'full',
+        submission.timestamp
+      ]
+    });
+    console.log('Saved to Turso:', submission.id);
+    return true;
   } catch (error) {
-    console.error('Error writing submissions to Redis:', error);
+    console.error('Error writing submission to Turso:', error);
     return false;
   }
 }
@@ -107,23 +150,15 @@ export default async function handler(req, res) {
         return;
       }
 
-      // Read current data
-      const data = await readSubmissions();
-
-      // Add new submission
-      data.submissions.push({
+      // Create submission object
+      const newSubmission = {
         ...submission,
         id: Date.now().toString(),
         timestamp: submission.timestamp || new Date().toISOString()
-      });
+      };
 
-      // Keep only last 100 submissions
-      if (data.submissions.length > 100) {
-        data.submissions = data.submissions.slice(-100);
-      }
-
-      // Write back
-      const success = await writeSubmissions(data);
+      // Write to database
+      const success = await writeSubmission(newSubmission);
 
       if (success) {
         sendJSON(res, 200, {
