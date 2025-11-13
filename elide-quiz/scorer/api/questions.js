@@ -1,3 +1,5 @@
+export const config = { runtime: 'nodejs20.x' };
+
 /**
  * Serve questions from database (no external cache dependencies)
  *
