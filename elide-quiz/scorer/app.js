@@ -75,11 +75,19 @@ document.getElementById('quiz-form').addEventListener('submit', async (e) => {
   document.getElementById('results').style.display = 'block';
 
   try {
-    // Score answers
+    // Score answers (send raw text for AI parsing)
+    const answersText = Object.entries(answers)
+      .map(([num, ans]) => `${num}. ${ans}`)
+      .join('\n');
+
     const response = await fetch('/api/score', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ answers, version: quizVersion })
+      body: JSON.stringify({
+        name: name,
+        answers: answersText, // Send as raw text for AI parsing
+        version: quizVersion
+      })
     });
 
     const data = await response.json();
