@@ -6,7 +6,7 @@
  */
 
 import { createClient } from '@libsql/client';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -29,8 +29,28 @@ function getDB() {
 // Load answer key
 function loadAnswerKey(version = 'full') {
   const filename = version === 'human' ? 'answers-human.md' : 'answers.md';
-  // Look in parent directory (scorer/) - one level up from api/
-  const filePath = join(__dirname, '..', filename);
+
+  // Try multiple possible locations
+  const possiblePaths = [
+    join(__dirname, '..', filename),           // scorer/answers.md (local dev)
+    join(__dirname, '..', '..', filename),     // elide-quiz/answers.md (local dev)
+    join(process.cwd(), filename),             // /var/task/answers.md (Vercel)
+    join(process.cwd(), '..', filename),       // /var/answers.md (Vercel)
+    join('/var/task', filename),               // Absolute Vercel path
+  ];
+
+  let filePath = null;
+  for (const path of possiblePaths) {
+    if (existsSync(path)) {
+      filePath = path;
+      break;
+    }
+  }
+
+  if (!filePath) {
+    throw new Error(`Could not find ${filename} in any of: ${possiblePaths.join(', ')}`);
+  }
+
   const content = readFileSync(filePath, 'utf-8');
 
   const answers = {};
