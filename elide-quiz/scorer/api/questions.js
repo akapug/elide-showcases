@@ -61,25 +61,20 @@ export default async function handler(req, res) {
       throw new Error('Database not available');
     }
     await initDB(db);
-    // Optional refresh from local file when requested
+    // Optional refresh from GitHub when requested (force update DB)
     if (req.method === 'GET' && req.query.refresh === '1') {
       const filename = version === 'human' ? 'questions-human.md' : 'questions.md';
-      let qs = '';
-      try {
-        const { readFileSync } = await import('node:fs');
-        const { fileURLToPath } = await import('node:url');
-        const { dirname, join } = await import('node:path');
-        const __filename = fileURLToPath(import.meta.url);
-        const __dirname = dirname(__filename);
-        const filePath = join(__dirname, '..', filename);
-        qs = readFileSync(filePath, 'utf8');
+      const url = `https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/scorer/${filename}`;
+      const gh = await fetch(url);
+      if (gh.ok) {
+        const qs = await gh.text();
         await db.execute({
           sql: 'INSERT OR REPLACE INTO quiz_content (version, questions_md, updated_at) VALUES (?, ?, datetime(''now''))',
           args: [version, qs]
         });
         return ok(res, qs);
-      } catch (e) {
-        console.warn('Local refresh failed, continuing to normal flow:', e.message);
+      } else {
+        console.warn('Refresh fetch failed:', gh.status);
       }
     }
 
@@ -92,23 +87,11 @@ export default async function handler(req, res) {
 
         // Seed once from local file if available, else GitHub fallback, then persist to DB
         const filename = version === 'human' ? 'questions-human.md' : 'questions.md';
-        let qs = '';
-        try {
-          const { readFileSync } = await import('node:fs');
-          const { fileURLToPath } = await import('node:url');
-          const { dirname, join } = await import('node:path');
-          const __filename = fileURLToPath(import.meta.url);
-          const __dirname = dirname(__filename);
-          // ../questions.md relative to this file
-          const filePath = join(__dirname, '..', filename);
-          qs = readFileSync(filePath, 'utf8');
-        } catch (e) {
-          // Fallback to GitHub one-time seed
-          const url = `https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/scorer/${filename}`;
-          const gh = await fetch(url);
-          if (!gh.ok) throw new Error(`Seed fetch failed: ${gh.status}`);
-          qs = await gh.text();
-        }
+        // One-time seed from GitHub raw (we persist immediately to DB)
+        const url = `https://raw.githubusercontent.com/akapug/elide-showcases/master/elide-quiz/scorer/${filename}`;
+        const gh = await fetch(url);
+        if (!gh.ok) throw new Error(`Seed fetch failed: ${gh.status}`);
+        const qs = await gh.text();
         await db.execute({
           sql: 'INSERT OR REPLACE INTO quiz_content (version, questions_md, updated_at) VALUES (?, ?, datetime(''now''))',
           args: [version, qs]
