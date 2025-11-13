@@ -309,8 +309,8 @@ async function loadQuestions() {
     const totalQuestions = version === 'human' ? 50 : 500;
     const totalPoints = version === 'human' ? 50 : 500;
 
-    // Fetch questions from public folder (served by Vercel)
-    const response = await fetch(`/${questionsFile}`);
+    // Fetch questions from API
+    const response = await fetch(`/api/questions?version=${version}`);
     const questionsText = await response.text();
 
     // Set questions textarea
