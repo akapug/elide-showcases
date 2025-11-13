@@ -9,6 +9,17 @@
       "destination": "/api/leaderboard"
     }
   ],
+  "headers": [
+    {
+      "source": "/questions.md",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/markdown"
+        }
+      ]
+    }
+  ],
   "cleanUrls": true,
   "trailingSlash": false
 }
