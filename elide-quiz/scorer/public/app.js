@@ -168,24 +168,33 @@ async function saveToLeaderboard(name, results, userAnswers, version) {
     const submission = {
       name,
       percentage: parseFloat(results.percentage),
-      points: results.earnedPoints,
-      totalPoints: results.totalPoints,
-      grade: results.grade,
+      points: results.earnedPoints || 0,
+      totalPoints: results.totalPoints || 980,
+      grade: results.grade || 'Fail',
       timestamp: new Date().toISOString(),
-      correct: results.correct,
-      incorrect: results.incorrect,
-      missing: results.missing,
-      byTopic: results.byTopic,
+      correct: results.correct || 0,
+      incorrect: results.incorrect || 0,
+      missing: results.missing || 0,
+      byTopic: results.byTopic || null,
+      timeSpent: results.timeSpent || null,
+      toolsUsed: results.toolsUsed || null,
+      primarySources: results.primarySources || null,
+      researchStrategy: results.researchStrategy || null,
       version: version || 'full',
       // Store answers for detailed view
-      userAnswers: userAnswers
+      userAnswers: userAnswers || {}
     };
 
-    await fetch('/api/leaderboard', {
+    const response = await fetch('/api/leaderboard', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(submission)
     });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Failed to save to leaderboard:', errorData);
+    }
   } catch (error) {
     console.error('Failed to save to leaderboard:', error);
   }
