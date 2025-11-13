@@ -27,30 +27,42 @@ function getDB() {
 }
 
 // Load answer key
-function loadAnswerKey(version = 'full') {
+async function loadAnswerKey(version = 'full') {
   const filename = version === 'human' ? 'answers-human.md' : 'answers.md';
 
-  // In Vercel, static files are served from /public but accessible via root URL
-  // We need to read from the public directory
-  const possiblePaths = [
-    join(process.cwd(), 'public', filename),   // /var/task/public/answers.md (Vercel)
+  // Try local filesystem first (for local dev)
+  const localPaths = [
     join(__dirname, '..', 'public', filename), // scorer/public/answers.md (local dev from api/)
     join(__dirname, '..', filename),           // scorer/answers.md (local dev fallback)
   ];
 
-  let filePath = null;
-  for (const path of possiblePaths) {
+  for (const path of localPaths) {
     if (existsSync(path)) {
-      filePath = path;
-      break;
+      return readFileSync(path, 'utf-8');
     }
   }
 
-  if (!filePath) {
-    throw new Error(`Could not find ${filename}. Tried: ${possiblePaths.join(', ')}`);
-  }
+  // In Vercel, fetch from public URL (static files are served but not in filesystem)
+  const baseUrl = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000';
 
-  const content = readFileSync(filePath, 'utf-8');
+  const url = `${baseUrl}/${filename}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    const content = await response.text();
+    return content;
+  } catch (error) {
+    throw new Error(`Could not load ${filename} from ${url}: ${error.message}`);
+  }
+}
+
+// Parse answer key content
+function parseAnswerKey(content) {
 
   const answers = {};
   const lines = content.split('\n');
@@ -134,10 +146,11 @@ export default async function handler(req, res) {
     // Parse JSON fields
     const userAnswers = submission.userAnswers ? JSON.parse(submission.userAnswers) : {};
     const byTopic = submission.byTopic ? JSON.parse(submission.byTopic) : null;
-    
+
     // Load correct answers
-    const answerKey = loadAnswerKey(submission.version);
-    
+    const content = await loadAnswerKey(submission.version);
+    const answerKey = parseAnswerKey(content);
+
     // Build comparison
     const comparison = [];
     for (const [qNum, correctData] of Object.entries(answerKey)) {
