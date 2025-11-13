@@ -36,7 +36,16 @@ async function initDB() {
         totalPoints INTEGER NOT NULL,
         grade TEXT NOT NULL,
         version TEXT DEFAULT 'full',
-        timestamp TEXT NOT NULL
+        timestamp TEXT NOT NULL,
+        correct INTEGER DEFAULT 0,
+        incorrect INTEGER DEFAULT 0,
+        missing INTEGER DEFAULT 0,
+        byTopic TEXT,
+        timeSpent INTEGER,
+        toolsUsed TEXT,
+        primarySources TEXT,
+        researchStrategy TEXT,
+        userAnswers TEXT
       )
     `);
     return true;
@@ -57,7 +66,17 @@ async function readSubmissions() {
   try {
     await initDB();
     const result = await client.execute('SELECT * FROM submissions ORDER BY percentage DESC LIMIT 100');
-    return { submissions: result.rows };
+
+    // Parse JSON fields
+    const submissions = result.rows.map(row => ({
+      ...row,
+      byTopic: row.byTopic ? JSON.parse(row.byTopic) : null,
+      toolsUsed: row.toolsUsed ? JSON.parse(row.toolsUsed) : null,
+      primarySources: row.primarySources ? JSON.parse(row.primarySources) : null,
+      userAnswers: row.userAnswers ? JSON.parse(row.userAnswers) : null
+    }));
+
+    return { submissions };
   } catch (error) {
     console.error('Error reading submissions from Turso:', error);
     return { submissions: [] };
@@ -75,8 +94,10 @@ async function writeSubmission(submission) {
   try {
     await initDB();
     await client.execute({
-      sql: `INSERT INTO submissions (id, name, percentage, points, totalPoints, grade, version, timestamp)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      sql: `INSERT INTO submissions (
+        id, name, percentage, points, totalPoints, grade, version, timestamp,
+        correct, incorrect, missing, byTopic, timeSpent, toolsUsed, primarySources, researchStrategy, userAnswers
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       args: [
         submission.id,
         submission.name,
@@ -85,7 +106,16 @@ async function writeSubmission(submission) {
         submission.totalPoints || 980,
         submission.grade || 'Fail',
         submission.version || 'full',
-        submission.timestamp
+        submission.timestamp,
+        submission.correct || 0,
+        submission.incorrect || 0,
+        submission.missing || 0,
+        submission.byTopic ? JSON.stringify(submission.byTopic) : null,
+        submission.timeSpent || null,
+        submission.toolsUsed ? JSON.stringify(submission.toolsUsed) : null,
+        submission.primarySources ? JSON.stringify(submission.primarySources) : null,
+        submission.researchStrategy || null,
+        submission.userAnswers ? JSON.stringify(submission.userAnswers) : null
       ]
     });
     console.log('Saved to Turso:', submission.id);
