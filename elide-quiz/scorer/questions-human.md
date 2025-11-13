@@ -1,11 +1,23 @@
-# Elide Expert Quiz - Human Edition (50 Questions)
+# Elide Expert Quiz - Human Edition
 
-A curated subset of the full 500-question quiz, designed for humans to complete in ~15-30 minutes.
+**Total Questions:** 50 (all multiple choice)
+**Total Points:** 50 (1 point each)
+**Time:** ~15-30 minutes
+
+A curated subset of the full 500-question quiz, designed for humans.
 
 Answer format:
 - Multiple choice (one answer): Letter only (A, B, C, or D)
-- Multiple select (multiple answers): Comma-separated letters (A,C,D)
-- Short answer: Brief text (1-2 lines max, key terms matter)
+  - Example: `1. B`
+- Multiple select (multiple answers): Comma-separated letters with NO SPACES
+  - Example: `2. A,C,D`
+
+**SURVEY (Optional - helps us understand your background):**
+```
+S1. [Your background] (e.g., "Software engineer, 5 years experience")
+S2. [Time spent] (e.g., "20 minutes")
+S3. [Resources used] (e.g., "Memory only" or "Checked docs")
+```
 
 ---
 

@@ -249,7 +249,7 @@
   <div class="container">
     <header>
       <h1>Elide Expert Quiz</h1>
-      <p class="subtitle">500 questions (945 pts) for LLMs • 47 questions (47 pts) for humans • Beta11-RC1</p>
+      <p class="subtitle">500 questions (500 pts) for LLMs • 50 questions (50 pts) for humans • Beta11-RC1</p>
     </header>
     
     <div class="content">
@@ -266,8 +266,8 @@
           <div class="form-group">
             <label for="quiz-version">Quiz Version</label>
             <select id="quiz-version" required>
-              <option value="full">Full Quiz (500 questions, 945 points) - For LLMs</option>
-              <option value="human">Human Edition (47 questions, 47 points) - For Humans</option>
+              <option value="full">Full Quiz (500 questions, 500 points) - For LLMs</option>
+              <option value="human">Human Edition (50 questions, 50 points) - For Humans</option>
             </select>
             <p class="help-text">Choose the full quiz for AI models or the shorter human edition.</p>
           </div>
@@ -281,12 +281,20 @@
           <div class="form-group">
             <label for="answers">Your Answers</label>
             <textarea id="answers" required placeholder="Paste your answers here..."></textarea>
-            <p class="help-text">Format: One answer per line, question number followed by answer.</p>
+            <p class="help-text">Format: One answer per line, question number followed by answer. Include survey at the end.</p>
             <div class="example">1. B
 2. A,C,D
-3. export default async function fetch(req: Request): Promise&lt;Response&gt;
-4. elide serve server.ts
-...</div>
+3. B
+...
+500. D
+
+S1. web search, docs
+S2. 5
+S3. Used CLI help
+S4. GPT-5 Pro
+S5. 2025-01-15
+S6. 0.7
+S7. 4096</div>
           </div>
 
           <button type="submit" class="button">Submit & Score</button>

@@ -73,38 +73,42 @@ function createQuizPrompt() {
 
   return `You are taking the Elide Expert Quiz - a comprehensive test of knowledge about Elide v1.0.0-beta11-rc1, a polyglot runtime built on GraalVM.
 
-This quiz has ${totalQuestions} questions worth ${totalPoints} total points.
+This quiz has ${totalQuestions} multiple choice questions (1 point each = ${totalQuestions} total points).
 
 ${questionsText}
 
 IMPORTANT INSTRUCTIONS:
 - Answer ALL ${totalQuestions} questions
+- All questions are multiple choice
 - Format: One answer per line, question number followed by answer
-- Multiple choice (one answer): Letter only (A, B, C, or D)
+- Single answer: Letter only (A, B, C, or D)
   Example: 1. B
-- Multiple select (multiple answers): Comma-separated letters with NO SPACES
+- Multiple answers: Comma-separated letters with NO SPACES
   Example: 2. A,C,D
-- Short answer: Brief text (1-2 lines max, key terms matter most)
-  Example: 3. export default async function fetch(req: Request): Promise<Response>
-  Example: 4. elide serve server.ts
 
-METADATA (include at the end of your submission):
-After your answers, please include:
-- Tools/APIs you had access to (e.g., "Tools: web search, codebase search, CLI help")
-- Time spent thinking/researching (e.g., "Time: 5 minutes")
-- Research strategy (e.g., "Strategy: Used CLI help docs and migration guide")
+SURVEY (Required after your ${totalQuestions} answers):
+S1. [Tools available] (e.g., "web search, codebase search")
+S2. [Time in minutes] (e.g., "5")
+S3. [Research strategy] (e.g., "Used CLI help")
+S4. [Model name] (leave blank, will be filled automatically)
+S5. [Model version] (leave blank, will be filled automatically)
+S6. [Temperature] (e.g., "0.7")
+S7. [Max tokens] (e.g., "4096")
 
 Example submission format:
 1. B
 2. A,C,D
-3. export default async function fetch(req: Request): Promise<Response>
-4. elide serve server.ts
+3. B
 ...
-${totalQuestions}. GraalVM polyglot runtime with native HTTP server
+${totalQuestions}. D
 
-Tools: web search, codebase search, documentation
-Time: 10 minutes
-Strategy: Focused on beta11 migration guide and CLI help
+S1. web search, codebase search
+S2. 5
+S3. Used CLI help
+S4. (auto-filled)
+S5. (auto-filled)
+S6. 0.7
+S7. 4096
 
 Begin your answers now:`;
 }
