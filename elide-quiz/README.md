@@ -1,8 +1,8 @@
 # Elide Expert Quiz
 
-Comprehensive knowledge test for Elide v1.0.0-beta11-rc1 with 500 questions.
+Comprehensive knowledge test for Elide v1.0.0-beta11-rc1.
 
-🌐 **Live Quiz**: https://scorer-7i3m515v1-m-v.vercel.app (will be at elide.top soon)
+🌐 **Live Quiz**: https://elide.top
 
 ## Quick Start
 
@@ -15,11 +15,11 @@ npm run dev
 
 ## What's Included
 
-- **500 questions** across 7 topics (Runtime, CLI, HTTP, Projects, Polyglot, Testing, Beta11, Advanced)
-- **Web UI** with scoring, leaderboard, and SWE-bench style visualization
-- **LLM-ready prompt** - copy questions + instructions directly from the Questions tab
+- **500 questions** (all multiple choice, 1 point each = 500 total points)
+- **50 human questions** (curated subset, 1 point each = 50 total points)
+- **Web UI** with instant scoring, leaderboard, and detailed results
+- **LLM-ready** - structured format with S1-S7 metadata survey
 - **Grading**: Master (95%+), Expert (85%+), Pass (70%+)
-- **900 total points** (Easy 1pt, Medium 2pt, Hard 3pt)
 
 ## For LLMs
 
@@ -38,10 +38,12 @@ npm run dev
 
 ## Files
 
-- `questions.md` - All 500 questions (56KB markdown)
+- `scorer/questions.md` - All 500 questions (source of truth)
+- `scorer/questions-human.md` - 50 human questions (source of truth)
+- `scorer/answers.md` - Full answer key (source of truth)
+- `scorer/answers-human.md` - Human answer key (source of truth)
+- `scorer/public/*` - Auto-copied from above for web serving
 - `scorer/` - Web UI + scoring logic
-- `answers.md` - Answer key (gitignored to prevent LLM cheating)
-- ✅ **Summary**: [SUMMARY.md](SUMMARY.md)
 
 ## Question Breakdown
 
