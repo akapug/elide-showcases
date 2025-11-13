@@ -24,24 +24,29 @@ export async function scoreAnswerWithAI(questionNum, userAnswer, correctAnswer, 
     return fallbackScoring(userAnswer, correctAnswer);
   }
 
+  console.log(`[Q${questionNum}] Scoring with AI: "${userAnswer.substring(0, 50)}..." vs "${correctAnswer}"`);
   const prompt = buildScoringPrompt(questionNum, userAnswer, correctAnswer, explanation, questionType);
-  
+
   try {
     // Try primary model first
+    console.log(`[Q${questionNum}] Calling ${PRIMARY_MODEL}...`);
     const result = await callOpenRouter(prompt, PRIMARY_MODEL);
+    console.log(`[Q${questionNum}] AI result: ${result.isCorrect ? '✓' : '✗'} (extracted: "${result.extractedAnswer}")`);
     return result;
   } catch (error) {
+    console.error(`[Q${questionNum}] Primary model error:`, error.message);
     if (error.message.includes('rate limit') || error.message.includes('429')) {
-      console.log(`Rate limited on ${PRIMARY_MODEL}, trying backup ${BACKUP_MODEL}`);
+      console.log(`[Q${questionNum}] Rate limited on ${PRIMARY_MODEL}, trying backup ${BACKUP_MODEL}`);
       try {
         const result = await callOpenRouter(prompt, BACKUP_MODEL);
+        console.log(`[Q${questionNum}] Backup AI result: ${result.isCorrect ? '✓' : '✗'}`);
         return result;
       } catch (backupError) {
-        console.error('Both models failed, falling back to exact match:', backupError.message);
+        console.error(`[Q${questionNum}] Both models failed, falling back to exact match:`, backupError.message);
         return fallbackScoring(userAnswer, correctAnswer);
       }
     } else {
-      console.error('AI scoring failed, falling back to exact match:', error.message);
+      console.error(`[Q${questionNum}] AI scoring failed, falling back to exact match:`, error.message);
       return fallbackScoring(userAnswer, correctAnswer);
     }
   }
