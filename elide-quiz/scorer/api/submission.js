@@ -30,13 +30,12 @@ function getDB() {
 function loadAnswerKey(version = 'full') {
   const filename = version === 'human' ? 'answers-human.md' : 'answers.md';
 
-  // Try multiple possible locations
+  // In Vercel, files are in /var/task root
+  // In local dev, files are in scorer/ directory
   const possiblePaths = [
-    join(__dirname, '..', filename),           // scorer/answers.md (local dev)
+    join(process.cwd(), filename),             // /var/task/answers.md (Vercel) or scorer/answers.md (local)
+    join(__dirname, '..', filename),           // scorer/answers.md (local dev from api/)
     join(__dirname, '..', '..', filename),     // elide-quiz/answers.md (local dev)
-    join(process.cwd(), filename),             // /var/task/answers.md (Vercel)
-    join(process.cwd(), '..', filename),       // /var/answers.md (Vercel)
-    join('/var/task', filename),               // Absolute Vercel path
   ];
 
   let filePath = null;
@@ -48,7 +47,10 @@ function loadAnswerKey(version = 'full') {
   }
 
   if (!filePath) {
-    throw new Error(`Could not find ${filename} in any of: ${possiblePaths.join(', ')}`);
+    // List what files ARE in process.cwd() for debugging
+    const { readdirSync } = require('fs');
+    const files = readdirSync(process.cwd());
+    throw new Error(`Could not find ${filename}. Tried: ${possiblePaths.join(', ')}. Files in ${process.cwd()}: ${files.join(', ')}`);
   }
 
   const content = readFileSync(filePath, 'utf-8');
