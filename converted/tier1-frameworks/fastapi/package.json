@@ -1,0 +1,74 @@
+{
+  "name": "@elide/fastapi",
+  "version": "1.0.0",
+  "description": "FastAPI on Elide - Modern Python web framework with TypeScript superpowers",
+  "main": "src/fastapi.ts",
+  "types": "src/fastapi.ts",
+  "keywords": [
+    "fastapi",
+    "web",
+    "framework",
+    "api",
+    "rest",
+    "http",
+    "pydantic",
+    "validation",
+    "openapi",
+    "swagger",
+    "async",
+    "typescript",
+    "python",
+    "polyglot",
+    "elide",
+    "graalvm"
+  ],
+  "author": "Elide Team",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases.git",
+    "directory": "converted/tier1-frameworks/fastapi"
+  },
+  "scripts": {
+    "start": "elide run examples/basic-api.ts",
+    "dev": "elide run --watch examples/basic-api.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "build": "tsc",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write \"src/**/*.ts\" \"examples/**/*.ts\"",
+    "example:basic": "elide run examples/basic-api.ts",
+    "example:validation": "elide run examples/pydantic-validation.ts",
+    "example:async": "elide run examples/async-endpoints.ts",
+    "example:polyglot": "elide run examples/polyglot-business-logic.ts",
+    "example:ml": "elide run examples/ml-inference-api.ts",
+    "example:production": "elide run examples/production-api.ts",
+    "benchmark": "cd benchmarks && ./run-benchmarks.sh"
+  },
+  "dependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^29.0.0",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "src/",
+    "python/",
+    "README.md",
+    "BENCHMARKS.md",
+    "POLYGLOT_GUIDE.md",
+    "API_REFERENCE.md"
+  ]
+}

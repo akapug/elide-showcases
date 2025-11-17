@@ -1,0 +1,28 @@
+{
+  "name": "@elide/yup-showcase",
+  "version": "1.0.0",
+  "description": "Yup schema validation for Elide - 100% API compatible",
+  "main": "src/yup.ts",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "bench": "node benchmarks/validation-bench.js"
+  },
+  "keywords": [
+    "yup",
+    "validation",
+    "schema",
+    "elide",
+    "polyglot"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  }
+}

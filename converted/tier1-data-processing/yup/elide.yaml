@@ -1,0 +1,217 @@
+# Elide Configuration for Yup Showcase
+# Enables polyglot validation across TypeScript, Python, and Ruby
+
+version: 1
+
+# Runtime configuration
+runtime:
+  # Enable polyglot support
+  polyglot:
+    enabled: true
+    languages:
+      - javascript
+      - python
+      - ruby
+
+    # Shared modules
+    shared:
+      - name: "yup"
+        languages: ["javascript", "python", "ruby"]
+        path: "./src/yup.ts"
+
+      - name: "YupBridge"
+        languages: ["javascript", "python"]
+        path: "./bridges/python-bridge.ts"
+
+      - name: "YupRubyBridge"
+        languages: ["javascript", "ruby"]
+        path: "./bridges/ruby-bridge.ts"
+
+  # JavaScript/TypeScript runtime
+  javascript:
+    engine: "graalvm"
+    version: "latest"
+
+    # Module resolution
+    modules:
+      resolver: "node"
+      paths:
+        - "./src"
+        - "./bridges"
+        - "./node_modules"
+
+    # Performance optimizations
+    optimization:
+      jit: true
+      inline: true
+      escape_analysis: true
+
+  # Python runtime
+  python:
+    version: "3.11"
+
+    # Module paths
+    paths:
+      - "./bridges"
+
+    # Integration with JavaScript
+    interop:
+      access_js: true
+      access_ruby: false
+
+  # Ruby runtime
+  ruby:
+    version: "3.2"
+
+    # Module paths
+    paths:
+      - "./bridges"
+
+    # Integration with JavaScript
+    interop:
+      access_js: true
+      access_python: false
+
+# Package configuration
+package:
+  name: "@elide/yup"
+  version: "1.0.0"
+  description: "Yup schema validation for Elide - 100% API compatible"
+
+  # Entry points
+  exports:
+    ".": "./src/yup.ts"
+    "./python": "./bridges/yup.py"
+    "./ruby": "./bridges/yup.rb"
+
+  # Dependencies
+  dependencies: []
+
+  # Development dependencies
+  devDependencies:
+    - "@types/jest"
+    - "jest"
+    - "typescript"
+
+# Build configuration
+build:
+  # Source files
+  sources:
+    - "./src/**/*.ts"
+    - "./bridges/**/*.ts"
+
+  # Output directory
+  output: "./dist"
+
+  # TypeScript compilation
+  typescript:
+    enabled: true
+    target: "ES2022"
+    module: "ESNext"
+    declaration: true
+
+  # Optimization
+  optimize:
+    minify: false
+    tree_shake: true
+    dead_code_elimination: true
+
+# Test configuration
+test:
+  framework: "jest"
+
+  # Test files
+  files:
+    - "./tests/**/*.test.ts"
+
+  # Coverage
+  coverage:
+    enabled: true
+    threshold:
+      lines: 80
+      functions: 80
+      branches: 75
+
+  # Environment
+  environment:
+    NODE_ENV: "test"
+
+# Performance profiling
+profiling:
+  enabled: true
+
+  # Metrics to collect
+  metrics:
+    - "validation_time"
+    - "memory_usage"
+    - "throughput"
+
+  # Benchmarks
+  benchmarks:
+    - "./benchmarks/validation-bench.ts"
+
+# Deployment configuration
+deployment:
+  # Target platforms
+  targets:
+    - platform: "serverless"
+      runtime: "elide"
+      memory: "256MB"
+      timeout: "30s"
+
+    - platform: "container"
+      runtime: "elide"
+      image: "elide/runtime:latest"
+
+    - platform: "native"
+      runtime: "elide"
+      binary: true
+
+# Examples and demos
+examples:
+  - name: "Basic Validation"
+    path: "./examples/basic-validation.ts"
+    languages: ["javascript"]
+
+  - name: "Form Validation"
+    path: "./examples/form-validation.ts"
+    languages: ["javascript"]
+
+  - name: "Polyglot Forms"
+    path: "./examples/polyglot-forms.ts"
+    languages: ["javascript", "python", "ruby"]
+
+  - name: "Enterprise Demo"
+    path: "./demos/enterprise-form-validation"
+    languages: ["javascript", "python", "ruby"]
+
+# Documentation
+documentation:
+  - "./README.md"
+  - "./API_REFERENCE.md"
+  - "./MIGRATION_GUIDE.md"
+  - "./POLYGLOT_GUIDE.md"
+  - "./BENCHMARKS.md"
+  - "./TROUBLESHOOTING.md"
+
+# Metadata
+metadata:
+  keywords:
+    - "validation"
+    - "schema"
+    - "yup"
+    - "polyglot"
+    - "elide"
+    - "typescript"
+    - "python"
+    - "ruby"
+
+  categories:
+    - "data-processing"
+    - "validation"
+    - "enterprise"
+
+  tags:
+    - "tier1"
+    - "high-priority"
+    - "polyglot-ready"
