@@ -1,0 +1,35 @@
+{
+  "name": "@example/my-library",
+  "version": "1.0.0",
+  "description": "Example library built with Rollup Clone",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js",
+      "browser": "./dist/index.umd.js"
+    }
+  },
+  "scripts": {
+    "build": "rollup-clone -c",
+    "watch": "rollup-clone -c --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "library",
+    "rollup",
+    "elide",
+    "example"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "@elide/rollup-clone": "^1.0.0"
+  }
+}

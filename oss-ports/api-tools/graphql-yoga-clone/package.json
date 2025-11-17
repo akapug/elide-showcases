@@ -1,0 +1,45 @@
+{
+  "name": "@elide/graphql-yoga-clone",
+  "version": "1.0.0",
+  "description": "Feature-complete GraphQL server implementation in Elide with schema-first approach, subscriptions, and plugins",
+  "main": "src/server/yoga.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "elide run examples/basic-server.ts",
+    "dev:advanced": "elide run examples/advanced-features.ts",
+    "build": "elide build",
+    "test": "elide test",
+    "lint": "elide lint"
+  },
+  "keywords": [
+    "graphql",
+    "yoga",
+    "server",
+    "subscriptions",
+    "websocket",
+    "elide",
+    "typescript",
+    "api",
+    "schema",
+    "resolvers"
+  ],
+  "author": "Elide",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "typescript": "latest"
+  },
+  "exports": {
+    ".": "./src/server/yoga.ts",
+    "./schema": "./src/schema/builder.ts",
+    "./pubsub": "./src/pubsub/pubsub.ts",
+    "./plugins/auth": "./src/plugins/auth.ts",
+    "./plugins/logger": "./src/plugins/logger.ts",
+    "./plugins/persisted-operations": "./src/plugins/persisted-operations.ts",
+    "./errors": "./src/errors/formatter.ts",
+    "./utils/dataloader": "./src/utils/dataloader.ts"
+  }
+}

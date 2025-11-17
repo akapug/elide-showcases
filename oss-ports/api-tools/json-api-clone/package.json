@@ -1,0 +1,32 @@
+{
+  "name": "@elide/json-api-clone",
+  "version": "1.0.0",
+  "description": "Complete JSON:API 1.1 implementation with resource routing, relationships, filtering, and pagination",
+  "main": "src/server/jsonapi-server.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "elide run examples/basic-api.ts",
+    "build": "elide build",
+    "test": "elide test",
+    "lint": "elide lint"
+  },
+  "keywords": [
+    "jsonapi",
+    "json-api",
+    "rest",
+    "api",
+    "resources",
+    "relationships",
+    "elide",
+    "typescript"
+  ],
+  "author": "Elide",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "typescript": "latest"
+  }
+}

@@ -1,0 +1,1058 @@
+# Complete Kubernetes Operator Setup
+# This file contains everything needed to deploy a production-ready operator
+
+---
+# ============================================================================
+# Namespace
+# ============================================================================
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: operator-system
+  labels:
+    app: my-operator
+    environment: production
+
+---
+# ============================================================================
+# Custom Resource Definitions
+# ============================================================================
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: applications.example.com
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.0
+spec:
+  group: example.com
+  names:
+    kind: Application
+    listKind: ApplicationList
+    plural: applications
+    singular: application
+    shortNames:
+      - app
+      - apps
+  scope: Namespaced
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              required:
+                - replicas
+                - image
+              properties:
+                replicas:
+                  type: integer
+                  minimum: 1
+                  maximum: 100
+                  description: Number of application replicas
+                image:
+                  type: string
+                  description: Container image
+                port:
+                  type: integer
+                  minimum: 1
+                  maximum: 65535
+                  default: 8080
+                  description: Application port
+                resources:
+                  type: object
+                  properties:
+                    limits:
+                      type: object
+                      properties:
+                        cpu:
+                          type: string
+                          pattern: '^[0-9]+m?$'
+                        memory:
+                          type: string
+                          pattern: '^[0-9]+(Mi|Gi)$'
+                    requests:
+                      type: object
+                      properties:
+                        cpu:
+                          type: string
+                          pattern: '^[0-9]+m?$'
+                        memory:
+                          type: string
+                          pattern: '^[0-9]+(Mi|Gi)$'
+                env:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - value
+                    properties:
+                      name:
+                        type: string
+                      value:
+                        type: string
+                ingress:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                      default: false
+                    host:
+                      type: string
+                    path:
+                      type: string
+                      default: /
+                    tls:
+                      type: boolean
+                      default: false
+                    annotations:
+                      type: object
+                      additionalProperties:
+                        type: string
+                persistence:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                      default: false
+                    size:
+                      type: string
+                      pattern: '^[0-9]+(Mi|Gi|Ti)$'
+                    storageClass:
+                      type: string
+                    mountPath:
+                      type: string
+                autoscaling:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                      default: false
+                    minReplicas:
+                      type: integer
+                      minimum: 1
+                    maxReplicas:
+                      type: integer
+                      minimum: 1
+                    targetCPUUtilization:
+                      type: integer
+                      minimum: 1
+                      maximum: 100
+                    targetMemoryUtilization:
+                      type: integer
+                      minimum: 1
+                      maximum: 100
+                healthCheck:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                      default: true
+                    livenessProbe:
+                      type: object
+                      properties:
+                        path:
+                          type: string
+                          default: /health
+                        port:
+                          type: integer
+                        initialDelaySeconds:
+                          type: integer
+                          default: 30
+                        periodSeconds:
+                          type: integer
+                          default: 10
+                    readinessProbe:
+                      type: object
+                      properties:
+                        path:
+                          type: string
+                          default: /ready
+                        port:
+                          type: integer
+                        initialDelaySeconds:
+                          type: integer
+                          default: 5
+                        periodSeconds:
+                          type: integer
+                          default: 5
+            status:
+              type: object
+              properties:
+                phase:
+                  type: string
+                  enum:
+                    - Pending
+                    - Running
+                    - Failed
+                    - Scaling
+                    - Updating
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - type
+                      - status
+                      - lastTransitionTime
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                        enum:
+                          - "True"
+                          - "False"
+                          - "Unknown"
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+                      observedGeneration:
+                        type: integer
+                observedGeneration:
+                  type: integer
+                replicas:
+                  type: integer
+                readyReplicas:
+                  type: integer
+                unavailableReplicas:
+                  type: integer
+                endpoint:
+                  type: string
+                lastUpdateTime:
+                  type: string
+                  format: date-time
+      subresources:
+        status: {}
+        scale:
+          specReplicasPath: .spec.replicas
+          statusReplicasPath: .status.replicas
+      additionalPrinterColumns:
+        - name: Phase
+          type: string
+          jsonPath: .status.phase
+        - name: Replicas
+          type: integer
+          jsonPath: .spec.replicas
+        - name: Ready
+          type: integer
+          jsonPath: .status.readyReplicas
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+
+---
+# ============================================================================
+# Database CRD
+# ============================================================================
+
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: databases.example.com
+spec:
+  group: example.com
+  names:
+    kind: Database
+    listKind: DatabaseList
+    plural: databases
+    singular: database
+    shortNames:
+      - db
+  scope: Namespaced
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              required:
+                - engine
+                - version
+                - storage
+              properties:
+                engine:
+                  type: string
+                  enum:
+                    - postgres
+                    - mysql
+                    - mongodb
+                    - redis
+                version:
+                  type: string
+                storage:
+                  type: string
+                  pattern: '^[0-9]+(Mi|Gi|Ti)$'
+                replicas:
+                  type: integer
+                  minimum: 1
+                  default: 1
+                backup:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                      default: false
+                    schedule:
+                      type: string
+                      pattern: '^(@(annually|yearly|monthly|weekly|daily|hourly))|(@every (\d+(ns|us|µs|ms|s|m|h))+)|((((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*) ?){5,7})$'
+                    retention:
+                      type: integer
+                      minimum: 1
+                      default: 7
+                    storageClass:
+                      type: string
+                resources:
+                  type: object
+                  properties:
+                    limits:
+                      type: object
+                      properties:
+                        cpu:
+                          type: string
+                        memory:
+                          type: string
+                    requests:
+                      type: object
+                      properties:
+                        cpu:
+                          type: string
+                        memory:
+                          type: string
+            status:
+              type: object
+              properties:
+                phase:
+                  type: string
+                  enum:
+                    - Pending
+                    - Creating
+                    - Running
+                    - Failed
+                    - Backup
+                endpoint:
+                  type: string
+                lastBackupTime:
+                  type: string
+                  format: date-time
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string
+                      lastTransitionTime:
+                        type: string
+                        format: date-time
+      subresources:
+        status: {}
+      additionalPrinterColumns:
+        - name: Engine
+          type: string
+          jsonPath: .spec.engine
+        - name: Version
+          type: string
+          jsonPath: .spec.version
+        - name: Phase
+          type: string
+          jsonPath: .status.phase
+        - name: Endpoint
+          type: string
+          jsonPath: .status.endpoint
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
+
+---
+# ============================================================================
+# Service Account
+# ============================================================================
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: operator-controller
+  namespace: operator-system
+  labels:
+    app: my-operator
+
+---
+# ============================================================================
+# RBAC - Cluster Role
+# ============================================================================
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: operator-controller-role
+rules:
+  # Custom resources
+  - apiGroups:
+      - example.com
+    resources:
+      - applications
+      - databases
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+
+  # Custom resource status
+  - apiGroups:
+      - example.com
+    resources:
+      - applications/status
+      - databases/status
+    verbs:
+      - get
+      - update
+      - patch
+
+  # Custom resource finalizers
+  - apiGroups:
+      - example.com
+    resources:
+      - applications/finalizers
+      - databases/finalizers
+    verbs:
+      - update
+
+  # Deployments
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+      - statefulsets
+      - replicasets
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+
+  # Services
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - endpoints
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+
+  # ConfigMaps & Secrets
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+
+  # PersistentVolumeClaims
+  - apiGroups:
+      - ""
+    resources:
+      - persistentvolumeclaims
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+
+  # Ingress
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+
+  # HorizontalPodAutoscaler
+  - apiGroups:
+      - autoscaling
+    resources:
+      - horizontalpodautoscalers
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+
+  # Events
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
+
+  # Pods (for logs and exec)
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+      - pods/exec
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Leader election
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+
+  # Metrics
+  - apiGroups:
+      - metrics.k8s.io
+    resources:
+      - pods
+      - nodes
+    verbs:
+      - get
+      - list
+
+---
+# ============================================================================
+# RBAC - Cluster Role Binding
+# ============================================================================
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: operator-controller-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: operator-controller-role
+subjects:
+  - kind: ServiceAccount
+    name: operator-controller
+    namespace: operator-system
+
+---
+# ============================================================================
+# Leader Election Role
+# ============================================================================
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: operator-leader-election-role
+  namespace: operator-system
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
+
+---
+# ============================================================================
+# Leader Election Role Binding
+# ============================================================================
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: operator-leader-election-rolebinding
+  namespace: operator-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: operator-leader-election-role
+subjects:
+  - kind: ServiceAccount
+    name: operator-controller
+    namespace: operator-system
+
+---
+# ============================================================================
+# Operator Deployment
+# ============================================================================
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: operator-controller
+  namespace: operator-system
+  labels:
+    app: my-operator
+    control-plane: controller
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-operator
+      control-plane: controller
+  template:
+    metadata:
+      labels:
+        app: my-operator
+        control-plane: controller
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: operator-controller
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+        - name: manager
+          image: my-operator:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /elide
+            - operator.ts
+          args:
+            - --leader-elect
+            - --metrics-bind-address=:8080
+            - --health-probe-bind-address=:8081
+          env:
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "my-operator"
+          ports:
+            - name: metrics
+              containerPort: 8080
+              protocol: TCP
+            - name: health
+              containerPort: 8081
+              protocol: TCP
+            - name: webhook
+              containerPort: 9443
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: health
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: health
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: cert
+              mountPath: /tmp/k8s-webhook-server/serving-certs
+              readOnly: true
+      volumes:
+        - name: cert
+          secret:
+            secretName: webhook-server-cert
+            optional: true
+      terminationGracePeriodSeconds: 10
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: my-operator
+                topologyKey: kubernetes.io/hostname
+
+---
+# ============================================================================
+# Metrics Service
+# ============================================================================
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: operator-controller-metrics
+  namespace: operator-system
+  labels:
+    app: my-operator
+spec:
+  selector:
+    app: my-operator
+    control-plane: controller
+  ports:
+    - name: metrics
+      port: 8080
+      targetPort: metrics
+      protocol: TCP
+
+---
+# ============================================================================
+# Webhook Service
+# ============================================================================
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: operator-webhook-service
+  namespace: operator-system
+  labels:
+    app: my-operator
+spec:
+  selector:
+    app: my-operator
+    control-plane: controller
+  ports:
+    - name: webhook
+      port: 443
+      targetPort: webhook
+      protocol: TCP
+
+---
+# ============================================================================
+# Validating Webhook Configuration
+# ============================================================================
+
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: operator-validating-webhook
+webhooks:
+  - name: applications.example.com
+    clientConfig:
+      service:
+        name: operator-webhook-service
+        namespace: operator-system
+        path: /validate-applications
+    rules:
+      - apiGroups:
+          - example.com
+        apiVersions:
+          - v1
+        resources:
+          - applications
+        operations:
+          - CREATE
+          - UPDATE
+    failurePolicy: Fail
+    sideEffects: None
+    admissionReviewVersions:
+      - v1
+      - v1beta1
+
+  - name: databases.example.com
+    clientConfig:
+      service:
+        name: operator-webhook-service
+        namespace: operator-system
+        path: /validate-databases
+    rules:
+      - apiGroups:
+          - example.com
+        apiVersions:
+          - v1
+        resources:
+          - databases
+        operations:
+          - CREATE
+          - UPDATE
+    failurePolicy: Fail
+    sideEffects: None
+    admissionReviewVersions:
+      - v1
+      - v1beta1
+
+---
+# ============================================================================
+# ServiceMonitor for Prometheus
+# ============================================================================
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: operator-controller-metrics
+  namespace: operator-system
+  labels:
+    app: my-operator
+spec:
+  selector:
+    matchLabels:
+      app: my-operator
+  endpoints:
+    - port: metrics
+      interval: 30s
+      path: /metrics
+
+---
+# ============================================================================
+# Example Application Resource
+# ============================================================================
+
+apiVersion: example.com/v1
+kind: Application
+metadata:
+  name: sample-app
+  namespace: default
+spec:
+  replicas: 3
+  image: nginx:latest
+  port: 80
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  env:
+    - name: APP_ENV
+      value: production
+    - name: LOG_LEVEL
+      value: info
+  ingress:
+    enabled: true
+    host: app.example.com
+    path: /
+    tls: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: standard
+    mountPath: /data
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilization: 70
+    targetMemoryUtilization: 80
+  healthCheck:
+    enabled: true
+    livenessProbe:
+      path: /health
+      port: 80
+      initialDelaySeconds: 30
+      periodSeconds: 10
+    readinessProbe:
+      path: /ready
+      port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+---
+# ============================================================================
+# Example Database Resource
+# ============================================================================
+
+apiVersion: example.com/v1
+kind: Database
+metadata:
+  name: sample-db
+  namespace: default
+spec:
+  engine: postgres
+  version: "14"
+  storage: 20Gi
+  replicas: 1
+  backup:
+    enabled: true
+    schedule: "0 2 * * *"
+    retention: 7
+    storageClass: standard
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+
+---
+# ============================================================================
+# Network Policy
+# ============================================================================
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: operator-network-policy
+  namespace: operator-system
+spec:
+  podSelector:
+    matchLabels:
+      app: my-operator
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 9443
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 443
+        - protocol: TCP
+          port: 6443
+
+---
+# ============================================================================
+# PodDisruptionBudget
+# ============================================================================
+
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: operator-controller-pdb
+  namespace: operator-system
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: my-operator
+      control-plane: controller
+
+---
+# ============================================================================
+# ConfigMap for Operator Configuration
+# ============================================================================
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: operator-config
+  namespace: operator-system
+data:
+  config.yaml: |
+    leaderElection:
+      enabled: true
+      leaseDuration: 15s
+      renewDeadline: 10s
+      retryPeriod: 2s
+    metrics:
+      bindAddress: :8080
+    health:
+      bindAddress: :8081
+    webhook:
+      port: 9443
+      certDir: /tmp/k8s-webhook-server/serving-certs
+    logging:
+      level: info
+      format: json
+    reconciliation:
+      maxConcurrent: 5
+      timeout: 60s
+    retryBackoff:
+      initial: 5s
+      max: 5m
+      multiplier: 2

@@ -1,0 +1,34 @@
+{
+  "name": "@elide/nodemon-clone",
+  "version": "1.0.0",
+  "description": "Production-ready file watcher and auto-reloader for Elide, inspired by Nodemon",
+  "main": "nodemon.ts",
+  "bin": {
+    "nodemon": "./nodemon.ts"
+  },
+  "scripts": {
+    "start": "elide run nodemon.ts",
+    "test": "elide test tests/**/*.test.ts",
+    "build": "gradle build",
+    "lint": "eslint nodemon.ts"
+  },
+  "keywords": [
+    "elide",
+    "nodemon",
+    "watcher",
+    "auto-reload",
+    "development",
+    "devops",
+    "file-watcher"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@jest/globals": "^29.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "elide": ">=1.0.0"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@elide/koa-clone",
+  "version": "1.0.0",
+  "description": "Middleware-focused web framework for Elide - Full Koa API compatibility",
+  "main": "src/koa.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "elide run examples/basic.ts",
+    "test": "elide test tests/",
+    "bench": "elide run benchmarks/compare.ts"
+  },
+  "keywords": [
+    "elide",
+    "koa",
+    "web",
+    "framework",
+    "middleware",
+    "http",
+    "context",
+    "async"
+  ],
+  "author": "Elide Showcases",
+  "license": "MIT",
+  "engines": {
+    "elide": ">=1.0.0-beta11-rc1"
+  }
+}

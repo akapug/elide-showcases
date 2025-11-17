@@ -1,0 +1,679 @@
+version: '3.8'
+
+# Full Stack Application with Microservices
+# Complete production-ready setup with monitoring, logging, and security
+
+services:
+  # ============================================================================
+  # Frontend Services
+  # ============================================================================
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./nginx/html:/usr/share/nginx/html:ro
+      - nginx-cache:/var/cache/nginx
+    depends_on:
+      - api-gateway
+      - webapp
+    networks:
+      - frontend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "com.docker.compose.project=fullstack"
+      - "service.type=proxy"
+
+  webapp:
+    build:
+      context: ./webapp
+      dockerfile: Dockerfile
+      args:
+        - NODE_VERSION=18
+        - BUILD_ENV=production
+      target: production
+    container_name: webapp
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - API_URL=http://api-gateway:8000
+      - NEXT_PUBLIC_API_URL=https://api.example.com
+      - NEXT_TELEMETRY_DISABLED=1
+    volumes:
+      - ./webapp/.next/cache:/app/.next/cache
+    networks:
+      - frontend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
+
+  # ============================================================================
+  # API Gateway
+  # ============================================================================
+
+  api-gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - PORT=8000
+      - AUTH_SERVICE_URL=http://auth-service:4001
+      - USER_SERVICE_URL=http://user-service:4002
+      - PRODUCT_SERVICE_URL=http://product-service:4003
+      - ORDER_SERVICE_URL=http://order-service:4004
+      - REDIS_URL=redis://redis:6379
+      - RATE_LIMIT=1000
+      - JWT_SECRET=${JWT_SECRET}
+      - CORS_ORIGIN=https://example.com
+    depends_on:
+      redis:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+    networks:
+      - frontend
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+
+  # ============================================================================
+  # Microservices
+  # ============================================================================
+
+  auth-service:
+    build:
+      context: ./services/auth
+      dockerfile: Dockerfile
+    container_name: auth-service
+    ports:
+      - "4001:4001"
+    environment:
+      - NODE_ENV=production
+      - PORT=4001
+      - DB_HOST=auth-db
+      - DB_PORT=5432
+      - DB_NAME=auth
+      - DB_USER=auth_user
+      - DB_PASSWORD=${AUTH_DB_PASSWORD}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRY=24h
+      - REFRESH_TOKEN_EXPIRY=7d
+      - BCRYPT_ROUNDS=12
+    depends_on:
+      auth-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4001/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
+  user-service:
+    build:
+      context: ./services/user
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - "4002:4002"
+    environment:
+      - NODE_ENV=production
+      - PORT=4002
+      - DB_HOST=user-db
+      - DB_PORT=5432
+      - DB_NAME=users
+      - DB_USER=user_service
+      - DB_PASSWORD=${USER_DB_PASSWORD}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - S3_BUCKET=user-avatars
+      - S3_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    depends_on:
+      user-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4002/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  product-service:
+    build:
+      context: ./services/product
+      dockerfile: Dockerfile
+    container_name: product-service
+    ports:
+      - "4003:4003"
+    environment:
+      - NODE_ENV=production
+      - PORT=4003
+      - DB_HOST=product-db
+      - DB_PORT=5432
+      - DB_NAME=products
+      - DB_USER=product_service
+      - DB_PASSWORD=${PRODUCT_DB_PASSWORD}
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
+      - S3_BUCKET=product-images
+      - S3_REGION=us-east-1
+    depends_on:
+      product-db:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4003/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  order-service:
+    build:
+      context: ./services/order
+      dockerfile: Dockerfile
+    container_name: order-service
+    ports:
+      - "4004:4004"
+    environment:
+      - NODE_ENV=production
+      - PORT=4004
+      - DB_HOST=order-db
+      - DB_PORT=5432
+      - DB_NAME=orders
+      - DB_USER=order_service
+      - DB_PASSWORD=${ORDER_DB_PASSWORD}
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      - PAYMENT_SERVICE_URL=http://payment-service:4005
+      - INVENTORY_SERVICE_URL=http://inventory-service:4006
+    depends_on:
+      order-db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4004/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  payment-service:
+    build:
+      context: ./services/payment
+      dockerfile: Dockerfile
+    container_name: payment-service
+    ports:
+      - "4005:4005"
+    environment:
+      - NODE_ENV=production
+      - PORT=4005
+      - DB_HOST=payment-db
+      - DB_PORT=5432
+      - DB_NAME=payments
+      - DB_USER=payment_service
+      - DB_PASSWORD=${PAYMENT_DB_PASSWORD}
+      - STRIPE_API_KEY=${STRIPE_API_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - PAYPAL_CLIENT_ID=${PAYPAL_CLIENT_ID}
+      - PAYPAL_SECRET=${PAYPAL_SECRET}
+    depends_on:
+      payment-db:
+        condition: service_healthy
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4005/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  inventory-service:
+    build:
+      context: ./services/inventory
+      dockerfile: Dockerfile
+    container_name: inventory-service
+    ports:
+      - "4006:4006"
+    environment:
+      - NODE_ENV=production
+      - PORT=4006
+      - DB_HOST=inventory-db
+      - DB_PORT=5432
+      - DB_NAME=inventory
+      - DB_USER=inventory_service
+      - DB_PASSWORD=${INVENTORY_DB_PASSWORD}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      inventory-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4006/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # ============================================================================
+  # Databases
+  # ============================================================================
+
+  auth-db:
+    image: postgres:14
+    container_name: auth-db
+    environment:
+      - POSTGRES_DB=auth
+      - POSTGRES_USER=auth_user
+      - POSTGRES_PASSWORD=${AUTH_DB_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+      - ./databases/auth/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auth_user -d auth"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  user-db:
+    image: postgres:14
+    container_name: user-db
+    environment:
+      - POSTGRES_DB=users
+      - POSTGRES_USER=user_service
+      - POSTGRES_PASSWORD=${USER_DB_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+      - ./databases/user/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user_service -d users"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  product-db:
+    image: postgres:14
+    container_name: product-db
+    environment:
+      - POSTGRES_DB=products
+      - POSTGRES_USER=product_service
+      - POSTGRES_PASSWORD=${PRODUCT_DB_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - product-db-data:/var/lib/postgresql/data
+      - ./databases/product/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U product_service -d products"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  order-db:
+    image: postgres:14
+    container_name: order-db
+    environment:
+      - POSTGRES_DB=orders
+      - POSTGRES_USER=order_service
+      - POSTGRES_PASSWORD=${ORDER_DB_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - order-db-data:/var/lib/postgresql/data
+      - ./databases/order/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U order_service -d orders"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  payment-db:
+    image: postgres:14
+    container_name: payment-db
+    environment:
+      - POSTGRES_DB=payments
+      - POSTGRES_USER=payment_service
+      - POSTGRES_PASSWORD=${PAYMENT_DB_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - payment-db-data:/var/lib/postgresql/data
+      - ./databases/payment/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U payment_service -d payments"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  inventory-db:
+    image: postgres:14
+    container_name: inventory-db
+    environment:
+      - POSTGRES_DB=inventory
+      - POSTGRES_USER=inventory_service
+      - POSTGRES_PASSWORD=${INVENTORY_DB_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - inventory-db-data:/var/lib/postgresql/data
+      - ./databases/inventory/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U inventory_service -d inventory"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================================================
+  # Cache & Message Queue
+  # ============================================================================
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+      - RABBITMQ_DEFAULT_VHOST=/
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # Search & Analytics
+  # ============================================================================
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  # ============================================================================
+  # Monitoring & Logging
+  # ============================================================================
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - monitoring
+    restart: unless-stopped
+    profiles:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-piechart-panel
+      - GF_SERVER_ROOT_URL=https://monitoring.example.com
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+    restart: unless-stopped
+    profiles:
+      - monitoring
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./monitoring/loki/loki-config.yml:/etc/loki/local-config.yaml:ro
+      - loki-data:/loki
+    networks:
+      - monitoring
+    restart: unless-stopped
+    profiles:
+      - monitoring
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    volumes:
+      - ./monitoring/promtail/promtail-config.yml:/etc/promtail/config.yml:ro
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+    networks:
+      - monitoring
+    restart: unless-stopped
+    profiles:
+      - monitoring
+
+  # ============================================================================
+  # Backup & Utilities
+  # ============================================================================
+
+  backup:
+    image: prodrigestivill/postgres-backup-local
+    container_name: backup
+    environment:
+      - POSTGRES_HOST=auth-db,user-db,product-db,order-db,payment-db,inventory-db
+      - POSTGRES_DB=auth,users,products,orders,payments,inventory
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - SCHEDULE=@daily
+      - BACKUP_KEEP_DAYS=7
+      - BACKUP_KEEP_WEEKS=4
+      - BACKUP_KEEP_MONTHS=6
+    volumes:
+      - ./backups:/backups
+    networks:
+      - backend
+    restart: unless-stopped
+    profiles:
+      - backup
+
+# ============================================================================
+# Networks
+# ============================================================================
+
+networks:
+  frontend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+  backend:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+
+  monitoring:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16
+
+# ============================================================================
+# Volumes
+# ============================================================================
+
+volumes:
+  auth-db-data:
+    driver: local
+  user-db-data:
+    driver: local
+  product-db-data:
+    driver: local
+  order-db-data:
+    driver: local
+  payment-db-data:
+    driver: local
+  inventory-db-data:
+    driver: local
+  redis-data:
+    driver: local
+  rabbitmq-data:
+    driver: local
+  elasticsearch-data:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+  loki-data:
+    driver: local
+  nginx-cache:
+    driver: local

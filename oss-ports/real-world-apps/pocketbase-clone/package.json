@@ -1,0 +1,55 @@
+{
+  "name": "@elide/pocketbase-clone",
+  "version": "1.0.0",
+  "description": "Production-ready all-in-one backend inspired by PocketBase, built with Elide",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "elide-pocket": "./cli/bin.js"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc && node build-single-file.js",
+    "start": "node dist/index.js",
+    "cli": "tsx cli/bin.ts",
+    "migrate": "tsx cli/bin.ts migrate",
+    "serve": "tsx cli/bin.ts serve"
+  },
+  "keywords": [
+    "elide",
+    "pocketbase",
+    "backend",
+    "baas",
+    "sqlite",
+    "rest-api",
+    "realtime",
+    "auth",
+    "cms"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "latest",
+    "@elide/http": "latest",
+    "@elide/sqlite": "latest",
+    "better-sqlite3": "^9.2.2",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^9.0.1",
+    "mime-types": "^2.1.35",
+    "sharp": "^0.33.2",
+    "aws-sdk": "^2.1529.0",
+    "zod": "^3.22.4",
+    "nanoid": "^5.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "@types/better-sqlite3": "^7.6.8",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/uuid": "^9.0.7",
+    "@types/mime-types": "^2.1.4",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}

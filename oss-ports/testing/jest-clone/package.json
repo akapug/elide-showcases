@@ -1,0 +1,40 @@
+{
+  "name": "@elide/jest-clone",
+  "version": "1.0.0",
+  "description": "Delightful testing framework for Elide - A production-ready Jest port",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "jest": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "elide build",
+    "test": "elide jest",
+    "coverage": "elide jest --coverage",
+    "watch": "elide jest --watch",
+    "benchmark": "elide run benchmarks/index.ts"
+  },
+  "keywords": [
+    "elide",
+    "testing",
+    "jest",
+    "test-framework",
+    "unit-testing",
+    "snapshot-testing",
+    "mocking",
+    "coverage",
+    "tdd",
+    "bdd"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^1.0.0-beta11"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "elide": ">=1.0.0-beta11"
+  }
+}

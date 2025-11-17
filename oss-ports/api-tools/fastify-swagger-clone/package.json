@@ -1,0 +1,32 @@
+{
+  "name": "@elide/fastify-swagger-clone",
+  "version": "1.0.0",
+  "description": "Fastify OpenAPI plugin for auto-generating documentation from route schemas",
+  "main": "src/plugins/swagger.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "elide run examples/basic-server.ts",
+    "build": "elide build",
+    "test": "elide test",
+    "lint": "elide lint"
+  },
+  "keywords": [
+    "fastify",
+    "swagger",
+    "openapi",
+    "documentation",
+    "api",
+    "elide",
+    "plugin",
+    "validation"
+  ],
+  "author": "Elide",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "typescript": "latest"
+  }
+}

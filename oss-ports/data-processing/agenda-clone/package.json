@@ -1,0 +1,24 @@
+{
+  "name": "@elide/agenda-clone",
+  "version": "1.0.0",
+  "description": "Production-ready MongoDB-based job scheduling for Elide - feature-complete Agenda port",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "elide build",
+    "test": "elide test",
+    "dev": "elide dev"
+  },
+  "keywords": [
+    "elide",
+    "agenda",
+    "job",
+    "scheduling",
+    "cron",
+    "mongodb",
+    "task-scheduler",
+    "background-jobs"
+  ],
+  "author": "Elide Team",
+  "license": "MIT"
+}

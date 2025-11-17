@@ -1,0 +1,28 @@
+{
+  "name": "@elide/turbopack-clone",
+  "version": "1.0.0",
+  "description": "Incremental bundler with Rust-like performance powered by Elide",
+  "keywords": ["elide", "turbopack", "bundler", "incremental", "fast", "hmr"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "turbopack-clone": "./bin/turbopack-clone.js"
+  },
+  "files": ["dist", "bin"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@elide/runtime": ">=1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "tsup": "^7.1.0",
+    "typescript": "^5.1.6"
+  }
+}

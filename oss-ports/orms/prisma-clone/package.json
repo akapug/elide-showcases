@@ -1,0 +1,41 @@
+{
+  "name": "@elide/prisma-clone",
+  "version": "1.0.0",
+  "description": "Next-generation ORM for Elide - Prisma-inspired type-safe database client",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "elide build",
+    "test": "elide test",
+    "dev": "elide dev",
+    "migrate": "elide run migrate",
+    "studio": "elide run studio",
+    "generate": "elide run generate",
+    "benchmark": "elide run benchmark"
+  },
+  "keywords": [
+    "elide",
+    "orm",
+    "prisma",
+    "database",
+    "typescript",
+    "postgresql",
+    "mysql",
+    "sqlite",
+    "mongodb",
+    "type-safe",
+    "migrations",
+    "query-builder"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "elide": ">=1.0.0"
+  }
+}

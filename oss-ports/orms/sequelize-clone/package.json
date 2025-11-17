@@ -1,0 +1,36 @@
+{
+  "name": "@elide/sequelize-clone",
+  "version": "1.0.0",
+  "description": "Promise-based ORM for Elide with associations and hooks",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "elide build",
+    "test": "elide test",
+    "dev": "elide dev",
+    "migrate": "elide run migrate",
+    "seed": "elide run seed"
+  },
+  "keywords": [
+    "elide",
+    "orm",
+    "sequelize",
+    "promise",
+    "associations",
+    "hooks",
+    "transactions",
+    "migrations",
+    "postgresql",
+    "mysql",
+    "sqlite",
+    "mssql"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  }
+}

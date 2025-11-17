@@ -1,0 +1,9 @@
+{
+  "name": "@elide/hapi-clone",
+  "version": "1.0.0",
+  "description": "Configuration-centric framework for Elide with plugin system and validation",
+  "main": "src/hapi.ts",
+  "type": "module",
+  "keywords": ["elide", "hapi", "plugins", "validation", "config"],
+  "license": "MIT"
+}

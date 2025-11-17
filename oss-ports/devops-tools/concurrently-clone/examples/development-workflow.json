@@ -1,0 +1,77 @@
+{
+  "name": "Development Workflow Example",
+  "description": "Complete development workflow configuration for concurrently",
+  "commands": [
+    {
+      "command": "npm run typecheck:watch",
+      "name": "typecheck",
+      "prefixColor": "blue",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      "command": "npm run lint:watch",
+      "name": "lint",
+      "prefixColor": "yellow",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      "command": "npm run test:watch",
+      "name": "test",
+      "prefixColor": "green",
+      "env": {
+        "NODE_ENV": "test",
+        "CI": "false"
+      }
+    },
+    {
+      "command": "npm run dev:api",
+      "name": "api",
+      "prefixColor": "magenta",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": "3000",
+        "DB_HOST": "localhost",
+        "DB_PORT": "5432"
+      }
+    },
+    {
+      "command": "npm run dev:web",
+      "name": "web",
+      "prefixColor": "cyan",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": "3001",
+        "API_URL": "http://localhost:3000"
+      }
+    },
+    {
+      "command": "npm run dev:worker",
+      "name": "worker",
+      "prefixColor": "brightGreen",
+      "env": {
+        "NODE_ENV": "development",
+        "QUEUE_URL": "redis://localhost:6379"
+      }
+    },
+    {
+      "command": "npm run storybook",
+      "name": "storybook",
+      "prefixColor": "brightMagenta",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": "6006"
+      }
+    }
+  ],
+  "prefix": "[{name}]",
+  "killOthers": ["failure"],
+  "restartTries": 3,
+  "restartDelay": 1000,
+  "successCondition": "all",
+  "raw": false,
+  "timestampFormat": "HH:mm:ss"
+}

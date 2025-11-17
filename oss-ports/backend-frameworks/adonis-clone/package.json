@@ -1,0 +1,9 @@
+{
+  "name": "@elide/adonis-clone",
+  "version": "1.0.0",
+  "description": "Full-featured MVC framework with ORM, Auth, and CLI",
+  "main": "src/adonis.ts",
+  "type": "module",
+  "keywords": ["elide", "adonis", "mvc", "orm", "lucid", "validator"],
+  "license": "MIT"
+}

@@ -1,0 +1,99 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": 1337,
+    "bodyLimit": "10mb",
+    "ssl": false
+  },
+  "database": {
+    "client": "sqlite",
+    "connection": {
+      "filename": "./data/database.db"
+    },
+    "useNullAsDefault": true,
+    "pool": {
+      "min": 2,
+      "max": 10
+    }
+  },
+  "auth": {
+    "jwtSecret": "change-this-in-production",
+    "jwtExpiration": "30d",
+    "apiTokenSalt": "change-this-in-production",
+    "providers": {
+      "local": {
+        "enabled": true
+      },
+      "google": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": ""
+      },
+      "github": {
+        "enabled": false,
+        "clientId": "",
+        "clientSecret": ""
+      }
+    }
+  },
+  "admin": {
+    "path": "/admin",
+    "jwtSecret": "change-this-in-production",
+    "autoOpen": false,
+    "watchIgnoreFiles": ["**/node_modules/**", "**/.git/**"],
+    "host": "localhost",
+    "port": 1337,
+    "serveAdminPanel": true
+  },
+  "permissions": {
+    "enabled": true,
+    "defaultRole": "authenticated",
+    "roles": [
+      "public",
+      "authenticated",
+      "admin",
+      "super-admin"
+    ]
+  },
+  "cors": {
+    "enabled": true,
+    "origin": ["http://localhost:3000", "http://localhost:1337"],
+    "credentials": true,
+    "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    "headers": ["Content-Type", "Authorization", "X-Frame-Options"]
+  },
+  "rateLimit": {
+    "enabled": true,
+    "max": 100,
+    "windowMs": 60000,
+    "message": "Too many requests, please try again later"
+  },
+  "plugins": [],
+  "contentTypes": [],
+  "webhooks": {
+    "enabled": true,
+    "maxRetries": 3,
+    "timeout": 5000
+  },
+  "media": {
+    "provider": "local",
+    "providerOptions": {
+      "directory": "./public/uploads"
+    },
+    "sizeLimit": 10485760,
+    "allowedFormats": ["image", "video", "audio", "file"]
+  },
+  "i18n": {
+    "enabled": true,
+    "defaultLocale": "en",
+    "locales": ["en", "fr", "es", "de"]
+  },
+  "graphql": {
+    "enabled": true,
+    "endpoint": "/graphql",
+    "playgroundEnabled": true,
+    "depthLimit": 10,
+    "amountLimit": 100,
+    "shadowCRUD": true
+  }
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="{{site.lang}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{tag.name}} - {{site.title}}</title>
+  <meta name="description" content="{{tag.description}}">
+
+  <link rel="stylesheet" href="{{asset 'css/style.css'}}">
+
+  {{#if site.icon}}
+    <link rel="icon" href="{{site.icon}}">
+  {{/if}}
+</head>
+<body class="tag-template">
+  {{> header}}
+
+  <main class="site-main">
+    <div class="tag-header">
+      <div class="container">
+        <h1>{{tag.name}}</h1>
+        {{#if tag.description}}
+          <p>{{tag.description}}</p>
+        {{/if}}
+        <p class="tag-count">{{tag.post_count}} {{plural tag.post_count 'post' 'posts'}}</p>
+      </div>
+    </div>
+
+    <div class="container">
+      {{#if posts}}
+        <div class="post-feed">
+          {{#each posts}}
+            {{> post-card}}
+          {{/each}}
+        </div>
+
+        {{#if pagination}}
+          <nav class="pagination">
+            {{#if pagination.prev}}
+              <a href="/tag/{{tag.slug}}?page={{pagination.prev}}" class="pagination-prev">← Newer Posts</a>
+            {{/if}}
+
+            <span class="pagination-info">
+              Page {{pagination.page}} of {{pagination.pages}}
+            </span>
+
+            {{#if pagination.next}}
+              <a href="/tag/{{tag.slug}}?page={{pagination.next}}" class="pagination-next">Older Posts →</a>
+            {{/if}}
+          </nav>
+        {{/if}}
+      {{else}}
+        <div class="no-posts">
+          <h2>No posts with this tag yet</h2>
+        </div>
+      {{/if}}
+    </div>
+  </main>
+
+  {{> footer}}
+
+  <script src="{{asset 'js/main.js'}}"></script>
+</body>
+</html>

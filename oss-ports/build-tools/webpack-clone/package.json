@@ -1,0 +1,28 @@
+{
+  "name": "@elide/webpack-clone",
+  "version": "1.0.0",
+  "description": "Module bundler with loaders and plugins powered by Elide",
+  "keywords": ["elide", "webpack", "bundler", "loaders", "plugins", "module"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "webpack-clone": "./bin/webpack-clone.js"
+  },
+  "files": ["dist", "bin"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@elide/runtime": ">=1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "tsup": "^7.1.0",
+    "typescript": "^5.1.6"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@elide/fastify-clone",
+  "version": "1.0.0",
+  "description": "Ultra-fast web framework for Elide - Full Fastify API compatibility",
+  "main": "src/fastify.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "elide run examples/basic.ts",
+    "test": "elide test tests/",
+    "bench": "elide run benchmarks/compare.ts"
+  },
+  "keywords": [
+    "elide",
+    "fastify",
+    "web",
+    "framework",
+    "http",
+    "rest",
+    "api",
+    "server",
+    "fast",
+    "performant"
+  ],
+  "author": "Elide Showcases",
+  "license": "MIT",
+  "engines": {
+    "elide": ">=1.0.0-beta11-rc1"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "@elide/drizzle-clone",
+  "version": "1.0.0",
+  "description": "TypeScript ORM with SQL-like syntax and zero dependencies",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "elide build",
+    "test": "elide test",
+    "dev": "elide dev",
+    "generate": "elide run generate",
+    "migrate": "elide run migrate",
+    "push": "elide run push",
+    "studio": "elide run studio"
+  },
+  "keywords": [
+    "elide",
+    "orm",
+    "drizzle",
+    "typescript",
+    "type-safe",
+    "sql",
+    "zero-dependencies",
+    "migrations",
+    "postgresql",
+    "mysql",
+    "sqlite"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  }
+}

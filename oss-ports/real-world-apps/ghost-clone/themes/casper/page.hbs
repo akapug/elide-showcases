@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="{{site.lang}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{page.title}} - {{site.title}}</title>
+  <meta name="description" content="{{page.meta_description}}">
+
+  <link rel="stylesheet" href="{{asset 'css/style.css'}}">
+
+  {{#if site.icon}}
+    <link rel="icon" href="{{site.icon}}">
+  {{/if}}
+</head>
+<body class="page-template">
+  {{> header}}
+
+  <main class="site-main">
+    <article class="page">
+      <header class="page-header">
+        <div class="container">
+          <h1 class="page-title">{{page.title}}</h1>
+        </div>
+      </header>
+
+      {{#if page.feature_image}}
+        <div class="page-image">
+          <img src="{{page.feature_image}}" alt="{{page.title}}">
+        </div>
+      {{/if}}
+
+      <div class="page-content container">
+        {{{page.html}}}
+      </div>
+    </article>
+  </main>
+
+  {{> footer}}
+
+  <script src="{{asset 'js/main.js'}}"></script>
+</body>
+</html>

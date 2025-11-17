@@ -1,0 +1,101 @@
+{
+  "env": "development",
+  "dev": true,
+
+  "server": {
+    "host": "localhost",
+    "port": 3000,
+    "allowOrigin": "*"
+  },
+
+  "database": {
+    "path": "./data/ghost.db",
+    "backup": "./data/backups"
+  },
+
+  "auth": {
+    "secret": "development-secret-change-in-production",
+    "expiresIn": "7d",
+    "refreshExpiresIn": "30d",
+    "passwordMinLength": 10
+  },
+
+  "media": {
+    "uploadPath": "./content/images",
+    "maxFileSize": 10485760,
+    "allowedTypes": [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/webp"
+    ],
+    "imageProcessing": {
+      "enabled": true,
+      "sizes": {
+        "thumbnail": {
+          "width": 150,
+          "height": 150
+        },
+        "small": {
+          "width": 400,
+          "height": 400
+        },
+        "medium": {
+          "width": 800,
+          "height": 800
+        },
+        "large": {
+          "width": 1200,
+          "height": 1200
+        }
+      }
+    }
+  },
+
+  "themes": {
+    "active": "casper",
+    "path": "./themes"
+  },
+
+  "cache": {
+    "enabled": false,
+    "ttl": 60,
+    "maxSize": 50
+  },
+
+  "seo": {
+    "titleSuffix": " - My Ghost Blog",
+    "description": "A modern publishing platform",
+    "twitterCard": "summary_large_image",
+    "ogType": "website"
+  },
+
+  "email": {
+    "enabled": false,
+    "from": "noreply@localhost",
+    "transport": "smtp",
+    "smtp": {
+      "host": "localhost",
+      "port": 25
+    }
+  },
+
+  "features": {
+    "amp": true,
+    "comments": true,
+    "socialSharing": true,
+    "search": true,
+    "rss": true,
+    "webhooks": true
+  },
+
+  "cdn": {
+    "enabled": false,
+    "url": ""
+  },
+
+  "analytics": {
+    "enabled": true,
+    "retention": 90
+  }
+}

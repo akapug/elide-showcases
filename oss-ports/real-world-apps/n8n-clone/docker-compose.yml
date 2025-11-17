@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: elide-workflow-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: elide_workflow
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  workflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: elide-workflow
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: elide_workflow
+      DB_USER: postgres
+      DB_PASSWORD: password
+      PORT: 5678
+      HOST: 0.0.0.0
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+
+  editor:
+    build:
+      context: ./editor
+      dockerfile: Dockerfile.editor
+    container_name: elide-workflow-editor
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    environment:
+      VITE_API_URL: http://localhost:5678/api
+    depends_on:
+      - workflow
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  default:
+    name: elide-workflow-network

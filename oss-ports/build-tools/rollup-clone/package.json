@@ -1,0 +1,41 @@
+{
+  "name": "@elide/rollup-clone",
+  "version": "1.0.0",
+  "description": "JavaScript module bundler powered by Elide with advanced tree-shaking",
+  "keywords": ["elide", "rollup", "bundler", "tree-shaking", "esm", "javascript"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "rollup-clone": "./bin/rollup-clone.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": ["dist", "bin"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest"
+  },
+  "peerDependencies": {
+    "@elide/runtime": ">=1.0.0"
+  },
+  "dependencies": {
+    "acorn": "^8.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "tsup": "^7.1.0",
+    "typescript": "^5.1.6",
+    "vitest": "^0.34.0"
+  }
+}

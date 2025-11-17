@@ -1,0 +1,47 @@
+{
+  "name": "@elide/headless-cms",
+  "version": "1.0.0",
+  "description": "Production-ready headless CMS built with Elide - Strapi alternative",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "elide serve --watch",
+    "build": "elide build",
+    "start": "elide run",
+    "admin": "elide run admin/server.js",
+    "migrate": "elide run database/migrate.js",
+    "create-plugin": "elide run cli/create-plugin.js",
+    "create-content-type": "elide run cli/create-content-type.js",
+    "generate-api": "elide run cli/generate-api.js",
+    "test": "elide test",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "cms",
+    "headless-cms",
+    "content-management",
+    "api-generation",
+    "graphql",
+    "rest-api",
+    "elide",
+    "strapi-alternative"
+  ],
+  "engines": {
+    "elide": ">=1.0.0",
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@elide/core": "^1.0.0",
+    "@elide/sql": "^1.0.0",
+    "@elide/http": "^1.0.0",
+    "@elide/graphql": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  },
+  "author": "Elide Team",
+  "license": "MIT"
+}

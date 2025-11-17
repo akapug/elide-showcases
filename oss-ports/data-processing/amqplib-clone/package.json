@@ -1,0 +1,30 @@
+{
+  "name": "@elide/amqplib-clone",
+  "version": "1.0.0",
+  "description": "Production-ready RabbitMQ/AMQP client for Elide - feature-complete amqplib port",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "elide build",
+    "test": "elide test",
+    "dev": "elide dev"
+  },
+  "keywords": [
+    "elide",
+    "rabbitmq",
+    "amqp",
+    "amqplib",
+    "messaging",
+    "queue",
+    "data-processing"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^1.0.0"
+  },
+  "devDependencies": {
+    "@elide/test": "^1.0.0",
+    "typescript": "^5.0.0"
+  }
+}

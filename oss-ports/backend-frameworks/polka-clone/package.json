@@ -1,0 +1,15 @@
+{
+  "name": "@elide/polka-clone",
+  "version": "1.0.0",
+  "description": "Micro web server for Elide - Express-compatible, extremely fast and tiny",
+  "main": "src/polka.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "elide run examples/basic.ts",
+    "test": "elide test tests/",
+    "bench": "elide run benchmarks/compare.ts"
+  },
+  "keywords": ["elide", "polka", "express", "micro", "fast", "tiny", "http"],
+  "author": "Elide Showcases",
+  "license": "MIT"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@elide/mysql2",
+  "version": "1.0.0",
+  "description": "Production-ready MySQL driver for Elide",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": ["elide", "mysql", "mysql2", "database", "driver", "sql"],
+  "author": "Elide Team",
+  "license": "Apache-2.0"
+}

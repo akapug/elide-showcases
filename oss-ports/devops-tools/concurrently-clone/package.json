@@ -1,0 +1,34 @@
+{
+  "name": "@elide/concurrently-clone",
+  "version": "1.0.0",
+  "description": "Production-ready tool for running multiple commands concurrently with Elide, inspired by Concurrently",
+  "main": "concurrently.ts",
+  "bin": {
+    "concurrently": "./concurrently.ts"
+  },
+  "scripts": {
+    "start": "elide run concurrently.ts",
+    "test": "elide test tests/**/*.test.ts",
+    "build": "gradle build",
+    "lint": "eslint concurrently.ts"
+  },
+  "keywords": [
+    "elide",
+    "concurrently",
+    "parallel",
+    "commands",
+    "devops",
+    "cli",
+    "multi-process"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@jest/globals": "^29.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "elide": ">=1.0.0"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "@elide/pm2-clone",
+  "version": "1.0.0",
+  "description": "Production-ready process manager for Elide, inspired by PM2",
+  "main": "pm2.ts",
+  "bin": {
+    "pm2": "./pm2.ts"
+  },
+  "scripts": {
+    "start": "elide run pm2.ts",
+    "test": "elide test tests/**/*.test.ts",
+    "build": "gradle build",
+    "lint": "eslint pm2.ts"
+  },
+  "keywords": [
+    "elide",
+    "pm2",
+    "process-manager",
+    "cluster",
+    "devops",
+    "daemon",
+    "monitoring"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@jest/globals": "^29.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "elide": ">=1.0.0"
+  }
+}
