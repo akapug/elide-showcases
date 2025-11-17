@@ -1,0 +1,96 @@
+{
+  "name": "@elide/cross-env",
+  "version": "1.0.0",
+  "description": "Cross-platform environment variable setter powered by Elide - 10-100x faster than Node.js",
+  "main": "index.ts",
+  "type": "module",
+  "bin": {
+    "cross-env": "./cli.ts"
+  },
+  "scripts": {
+    "build": "elide build --output cross-env",
+    "build:all": "npm run build:linux && npm run build:macos && npm run build:windows",
+    "build:linux": "elide build --platform linux-x64 --output dist/cross-env-linux-x64",
+    "build:macos": "elide build --platform darwin-arm64 --output dist/cross-env-macos-arm64",
+    "build:windows": "elide build --platform win32-x64 --output dist/cross-env-windows-x64.exe",
+    "test": "elide test",
+    "bench": "elide run benchmarks/startup-time.ts",
+    "example:cli": "bash examples/cli-usage.sh",
+    "example:programmatic": "elide run examples/programmatic-usage.ts",
+    "example:python": "python3 examples/polyglot-cli-wrapper.py",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run build:all"
+  },
+  "keywords": [
+    "elide",
+    "cross-env",
+    "environment",
+    "variables",
+    "env",
+    "cross-platform",
+    "windows",
+    "mac",
+    "linux",
+    "cli",
+    "command-line",
+    "fast",
+    "performance",
+    "native"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/cross-env.git"
+  },
+  "bugs": {
+    "url": "https://github.com/elide-dev/cross-env/issues"
+  },
+  "homepage": "https://github.com/elide-dev/cross-env#readme",
+  "npm": {
+    "original": "cross-env",
+    "downloads": "10.3M/week",
+    "url": "https://www.npmjs.com/package/cross-env"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": true,
+    "standalone": true,
+    "platforms": [
+      "linux-x64",
+      "linux-arm64",
+      "darwin-x64",
+      "darwin-arm64",
+      "win32-x64"
+    ],
+    "binary": {
+      "name": "cross-env",
+      "outputPath": "dist"
+    },
+    "optimization": {
+      "stripDebug": true,
+      "minify": true,
+      "bundleMode": "standalone"
+    }
+  },
+  "files": [
+    "index.ts",
+    "cli.ts",
+    "README.md",
+    "BENCHMARKS.md",
+    "DISTRIBUTION.md",
+    "examples/",
+    "dist/"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "elide": ">=1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0"
+  }
+}

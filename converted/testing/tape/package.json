@@ -1,0 +1,46 @@
+{
+  "name": "@elide/tape",
+  "version": "1.0.0",
+  "description": "Tape testing framework for Elide - Minimal TAP-producing test harness with blazing speed",
+  "main": "index.ts",
+  "type": "module",
+  "bin": {
+    "tape": "./cli.ts"
+  },
+  "keywords": [
+    "elide",
+    "tape",
+    "testing",
+    "test",
+    "tap",
+    "harness",
+    "minimal",
+    "polyglot",
+    "fast",
+    "typescript"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases"
+  },
+  "npm": {
+    "original": "tape",
+    "downloads": "1.2M/week",
+    "url": "https://www.npmjs.com/package/tape"
+  },
+  "elide": {
+    "polyglot": true,
+    "languages": ["javascript", "typescript", "python", "ruby", "java"],
+    "ready": true,
+    "performance": {
+      "startup": "45x faster",
+      "execution": "15-35x faster",
+      "memory": "68% less"
+    }
+  },
+  "scripts": {
+    "test": "elide run cli.ts demo-tests/**/*.ts"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "@elide/cssnano",
+  "version": "1.0.0",
+  "description": "cssnano for Elide - A modular CSS minifier built on PostCSS",
+  "main": "index.ts",
+  "type": "module",
+  "bin": {
+    "cssnano": "./cli.ts"
+  },
+  "keywords": [
+    "elide",
+    "cssnano",
+    "css",
+    "minify",
+    "postcss",
+    "optimizer",
+    "compress",
+    "build-tool",
+    "polyglot"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases"
+  },
+  "npm": {
+    "original": "cssnano",
+    "downloads": "11.2M/week",
+    "url": "https://www.npmjs.com/package/cssnano"
+  },
+  "elide": {
+    "polyglot": true,
+    "languages": ["javascript", "typescript", "python", "ruby", "java"],
+    "ready": true,
+    "performance": {
+      "speedup": "9-14x",
+      "coldStart": "~40ms",
+      "memoryUsage": "65% less"
+    }
+  },
+  "dependencies": {
+    "postcss": "^8.4.0"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "name": "@elide/through2",
+  "version": "1.0.0",
+  "description": "High-performance stream transformation utility powered by Elide",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "module": "index.mjs",
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "types": "./index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "bench": "node --experimental-specifier-resolution=node benchmarks/run.js",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\"",
+    "prepublishOnly": "npm run build && npm test",
+    "examples:basic": "ts-node examples/basic-usage.ts",
+    "examples:pipeline": "ts-node examples/stream-pipeline.ts",
+    "examples:large": "ts-node examples/large-file-example.ts",
+    "examples:all": "npm run examples:basic && npm run examples:pipeline"
+  },
+  "keywords": [
+    "through",
+    "through2",
+    "stream",
+    "transform",
+    "elide",
+    "performance",
+    "data",
+    "processing",
+    "wrapper"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases.git",
+    "directory": "converted/data-processing/through2"
+  },
+  "bugs": {
+    "url": "https://github.com/elide-dev/elide-showcases/issues"
+  },
+  "homepage": "https://github.com/elide-dev/elide-showcases/tree/main/converted/data-processing/through2#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.2.4",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "@elide/runtime": "^1.0.0"
+  },
+  "files": [
+    "index.js",
+    "index.mjs",
+    "index.d.ts",
+    "README.md",
+    "LICENSE",
+    "BENCHMARKS.md"
+  ]
+}
