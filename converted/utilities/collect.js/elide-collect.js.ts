@@ -1,12 +1,16 @@
 /**
- * Collect.js - Collections Library for Elide
- * NPM: 200K+ downloads/week
+ * Collect.js - Collections
+ *
+ * Convenient and dependency-free wrapper for working with arrays and objects.
+ * **POLYGLOT SHOWCASE**: One collections lib for ALL languages on Elide!
+ *
+ * Based on https://www.npmjs.com/package/collect.js (~50K+ downloads/week)
  */
 
 export class Collection<T> {
   constructor(private items: T[]) {}
 
-  static collect<T>(items: T[]): Collection<T> {
+  static make<T>(items: T[]): Collection<T> {
     return new Collection(items);
   }
 
@@ -30,6 +34,10 @@ export class Collection<T> {
     return this.items[this.items.length - 1];
   }
 
+  count(): number {
+    return this.items.length;
+  }
+
   pluck<K extends keyof T>(key: K): Collection<T[K]> {
     return new Collection(this.items.map(item => item[key]));
   }
@@ -38,24 +46,36 @@ export class Collection<T> {
     return new Collection(Array.from(new Set(this.items)));
   }
 
-  count(): number {
-    return this.items.length;
+  chunk(size: number): Collection<T[]> {
+    const chunks: T[][] = [];
+    for (let i = 0; i < this.items.length; i += size) {
+      chunks.push(this.items.slice(i, i + size));
+    }
+    return new Collection(chunks);
   }
 
-  toArray(): T[] {
-    return this.items;
+  flatten(): Collection<any> {
+    return new Collection(this.items.flat(Infinity));
   }
 }
 
-export const collect = Collection.collect;
+export default Collection;
 
-if (import.meta.url.includes("collect.js")) {
-  console.log("🎯 Collect.js for Elide - Collections Made Easy\n");
-  const result = collect([1, 2, 3, 4, 5])
-    .map(x => x * 2)
-    .filter(x => x > 5)
-    .toArray();
-  console.log("Result:", result);
+if (import.meta.url === `file://${process.argv[1]}`) {
+  console.log("📦 Collect.js - Collections for Elide (POLYGLOT!)\n");
+
+  const collection = Collection.make([1, 2, 3, 4, 5]);
+  console.log("map:", collection.map(x => x * 2).all());
+  console.log("filter:", collection.filter(x => x % 2 === 0).all());
+  console.log("first:", collection.first());
+  console.log("last:", collection.last());
+
+  const users = Collection.make([
+    { name: "Alice", age: 25 },
+    { name: "Bob", age: 30 }
+  ]);
+  console.log("pluck:", users.pluck('name').all());
+
+  console.log("\n🌐 Works in all languages via Elide!");
+  console.log("🚀 ~50K+ downloads/week on npm");
 }
-
-export default collect;

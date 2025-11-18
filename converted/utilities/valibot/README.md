@@ -1,14 +1,32 @@
-# Valibot - Elide Polyglot Showcase
+# valibot - Elide Polyglot Showcase
 
-> **One schema library for ALL languages** - TypeScript, Python, Ruby, and Java
-
-Modular and type-safe schema library.
+> **Schema-based validation for ALL languages** - TypeScript, Python, Ruby, and Java
 
 ## Features
 
-- Modular design
-- Type-safe schemas
-- **~500K downloads/week on npm**
+- Schema-based validation with type safety
+- Custom validation rules
+- Async validation support
+- Error message customization
+- **~50K+ downloads/week on npm**
+
+## Quick Start
+
+```typescript
+import { createValidator } from './elide-valibot.ts';
+
+const validator = createValidator({
+  email: { required: true, email: true },
+  age: { required: true, min: 18 },
+});
+
+const result = validator.validate({ email: 'test@example.com', age: 25 });
+console.log(result.valid); // true
+```
+
+## Links
+
+- [Original npm package](https://www.npmjs.com/package/valibot)
 
 ---
 

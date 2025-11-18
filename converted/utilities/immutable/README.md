@@ -1,35 +1,17 @@
-# immutable - Elide Polyglot Showcase
+# Immutable - Immutable Collections
 
-> **One immutable implementation for ALL languages** - TypeScript, Python, Ruby, and Java
+Immutable persistent data collections on Elide.
 
-Persistent immutable data structures with structural sharing.
-
-## ✨ Features
-
-- ✅ Immutable List, Map, Set
-- ✅ Structural sharing for performance
-- ✅ Persistent data structures
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-- ✅ Zero dependencies
-
-## 🚀 Quick Start
+## Quick Start
 
 ```typescript
-import { List, Map, Set } from './elide-immutable.ts';
+import { List, Map } from './elide-immutable.ts';
 
-const list1 = List.of(1, 2, 3);
-const list2 = list1.push(4); // Original unchanged
+const list = new List([1, 2, 3]);
+const list2 = list.push(4);
 
-const map1 = Map.of({ a: 1 });
-const map2 = map1.set('b', 2); // Original unchanged
+const map = new Map([["a", 1]]);
+const map2 = map.set("b", 2);
 ```
 
-## 📝 Package Stats
-
-- **npm downloads**: 15M+/week
-- **Use case**: State management, immutable data
-- **Polyglot score**: 46/50 (S-Tier)
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+Based on https://www.npmjs.com/package/immutable (~2M+ downloads/week)

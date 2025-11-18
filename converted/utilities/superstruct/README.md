@@ -1,28 +1,32 @@
-# Superstruct - Elide Polyglot Showcase
+# superstruct - Elide Polyglot Showcase
 
-> **One data validator for ALL languages** - TypeScript, Python, Ruby, and Java
-
-A simple and composable way to validate data.
+> **Composable data validation for ALL languages** - TypeScript, Python, Ruby, and Java
 
 ## Features
 
-- Composable structs
-- Type coercion
-- Custom validators
-- **~2M downloads/week on npm**
+- Schema-based validation with type safety
+- Custom validation rules
+- Async validation support
+- Error message customization
+- **~300K+ downloads/week on npm**
 
 ## Quick Start
 
 ```typescript
-import superstruct from './elide-superstruct.ts';
+import { createValidator } from './elide-superstruct.ts';
 
-const User = superstruct.object({
-  name: superstruct.string(),
-  age: superstruct.number()
+const validator = createValidator({
+  email: { required: true, email: true },
+  age: { required: true, min: 18 },
 });
 
-const user = User.validate({ name: "Alice", age: 25 });
+const result = validator.validate({ email: 'test@example.com', age: 25 });
+console.log(result.valid); // true
 ```
+
+## Links
+
+- [Original npm package](https://www.npmjs.com/package/superstruct)
 
 ---
 

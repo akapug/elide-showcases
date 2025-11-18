@@ -1,17 +1,44 @@
-# Fetch Retry - Fetch with Retry Logic - Elide Polyglot Showcase
+# Fetch Retry - Elide Polyglot Showcase
 
-> **One retry wrapper for ALL languages** - TypeScript, Python, Ruby, and Java
+> **One fetch retry library for ALL languages** - TypeScript, Python, Ruby, and Java
 
-## ✨ Features
+Extends fetch with configurable retry and exponential backoff.
 
-- ✅ Automatic retries
-- ✅ Exponential backoff
-- ✅ **Polyglot**: Works across all languages
+## Features
 
-## 📝 Package Stats
+- Fetch with retry
+- Exponential backoff
+- Configurable retries
+- Custom retry logic
+- Status code handling
+- Zero dependencies
+- **~200K downloads/week on npm**
 
-- **npm downloads**: ~3M/week
-- **Polyglot score**: 44/50 (A-Tier)
+## Quick Start
+
+```typescript
+import fetchRetry from './elide-fetch-retry.ts';
+
+const response = await fetchRetry('https://api.example.com/data', {
+  retries: 5,
+  retryDelay: (attempt) => Math.pow(2, attempt) * 1000,
+  retryOn: [408, 429, 500, 502, 503, 504]
+});
+
+const data = await response.json();
+```
+
+## Documentation
+
+Run the demo:
+
+```bash
+elide run elide-fetch-retry.ts
+```
+
+## Links
+
+- [Original npm package](https://www.npmjs.com/package/fetch-retry)
 
 ---
 

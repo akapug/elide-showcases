@@ -1,12 +1,16 @@
-# collect.js - Elide Polyglot Showcase
+# Collect.js - Collections
 
-> Convenient and dependency-free wrapper for working with arrays and objects.
+Convenient wrapper for arrays and objects.
 
-## 📝 Package Stats
+Based on [collect.js](https://www.npmjs.com/package/collect.js) (~50K+ downloads/week)
 
-- **npm downloads**: 200K+/week
-- **Polyglot score**: 42/50 (A-Tier)
+```typescript
+import Collection from './elide-collect.js.ts';
 
----
+Collection.make([1, 2, 3])
+  .map(x => x * 2)
+  .filter(x => x > 3)
+  .all(); // [4, 6]
+```
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Run: `elide run elide-collect.js.ts`

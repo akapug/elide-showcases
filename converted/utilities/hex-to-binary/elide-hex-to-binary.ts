@@ -1,37 +1,57 @@
 /**
  * hex-to-binary - Hex to Binary Conversion
  *
- * Convert hexadecimal strings to binary strings.
+ * Convert hexadecimal strings to binary representation.
+ * **POLYGLOT SHOWCASE**: Hex conversion across ALL languages on Elide!
  *
- * Package has ~2M+ downloads/week on npm!
+ * Based on https://www.npmjs.com/package/hex-to-binary (~50K+ downloads/week)
+ *
+ * Package has ~50K+ downloads/week on npm!
  */
 
-function hexToBinary(hex: string): string {
-  return hex
-    .split('')
-    .map(char => parseInt(char, 16).toString(2).padStart(4, '0'))
-    .join('');
+export function hexToBinary(hex: string): string {
+  hex = hex.replace(/[^0-9a-f]/gi, '');
+  let result = '';
+  
+  for (let i = 0; i < hex.length; i++) {
+    const byte = parseInt(hex[i], 16);
+    result += byte.toString(2).padStart(4, '0');
+  }
+  
+  return result;
 }
 
-function binaryToHex(binary: string): string {
-  let hex = '';
+export function binaryToHex(binary: string): string {
+  binary = binary.replace(/[^01]/g, '');
+  let result = '';
+  
   for (let i = 0; i < binary.length; i += 4) {
-    const chunk = binary.substring(i, i + 4);
-    hex += parseInt(chunk, 2).toString(16);
+    const nibble = binary.substr(i, 4).padEnd(4, '0');
+    result += parseInt(nibble, 2).toString(16);
   }
-  return hex;
+  
+  return result;
 }
 
 export default hexToBinary;
-export { hexToBinary, binaryToHex };
 
-if (import.meta.url.includes("elide-hex-to-binary.ts")) {
-  console.log("🔤 hex-to-binary - Hex/Binary Conversion\n");
-  const hex = "a3f5";
+// CLI Demo
+if (import.meta.url === \`file://\${process.argv[1]}\`) {
+  console.log("🔢 hex-to-binary (POLYGLOT!)\\n");
+  
+  console.log("=== Hex to Binary ===");
+  const hex = "DEADBEEF";
   const binary = hexToBinary(hex);
-  const backToHex = binaryToHex(binary);
   console.log("Hex:", hex);
   console.log("Binary:", binary);
-  console.log("Back to Hex:", backToHex);
-  console.log("\n🚀 ~2M+ downloads/week on npm");
+  console.log();
+  
+  console.log("=== Binary to Hex ===");
+  const bin = "11011110101011011011111011101111";
+  const hexResult = binaryToHex(bin);
+  console.log("Binary:", bin);
+  console.log("Hex:", hexResult);
+  console.log();
+  
+  console.log("🚀 ~50K+ downloads/week on npm!");
 }

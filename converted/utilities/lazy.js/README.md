@@ -1,12 +1,17 @@
-# lazy.js - Elide Polyglot Showcase
+# Lazy.js - Lazy Evaluation
 
-> Lazy evaluation for better performance.
+Lazy evaluation library for JavaScript.
 
-## 📝 Package Stats
+Based on [lazy.js](https://www.npmjs.com/package/lazy.js) (~100K+ downloads/week)
 
-- **npm downloads**: 100K+/week
-- **Polyglot score**: 42/50 (A-Tier)
+```typescript
+import Lazy from './elide-lazy.js.ts';
 
----
+Lazy.from([1, 2, 3, 4, 5])
+  .map(x => x * 2)
+  .filter(x => x > 5)
+  .take(2)
+  .toArray(); // [6, 8]
+```
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Run: `elide run elide-lazy.js.ts`

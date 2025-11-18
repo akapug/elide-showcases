@@ -1,69 +1,84 @@
 /**
- * base58 - Base58 Encoding/Decoding
+ * base58 - Base58 Encoding
  *
- * Base58 encoding (Bitcoin-style).
+ * Base58 encoding used in Bitcoin and other cryptocurrencies.
+ * **POLYGLOT SHOWCASE**: Base58 across ALL languages on Elide!
  *
- * Package has ~8M+ downloads/week on npm!
+ * Based on https://www.npmjs.com/package/base58 (~500K+ downloads/week)
+ *
+ * Package has ~500K+ downloads/week on npm!
  */
 
 const ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+const BASE = 58;
 
-function encode(input: Uint8Array | string): string {
-  const bytes = typeof input === 'string' ? new TextEncoder().encode(input) : input;
-
-  let num = 0n;
-  for (const byte of bytes) {
-    num = num * 256n + BigInt(byte);
+export function encode(source: Uint8Array | number[]): string {
+  if (Array.isArray(source)) {
+    source = new Uint8Array(source);
   }
-
-  let encoded = '';
-  while (num > 0n) {
-    encoded = ALPHABET[Number(num % 58n)] + encoded;
-    num = num / 58n;
+  
+  if (source.length === 0) return '';
+  
+  const digits = [0];
+  for (let i = 0; i < source.length; i++) {
+    let carry = source[i];
+    for (let j = 0; j < digits.length; j++) {
+      carry += digits[j] << 8;
+      digits[j] = carry % BASE;
+      carry = (carry / BASE) | 0;
+    }
+    while (carry > 0) {
+      digits.push(carry % BASE);
+      carry = (carry / BASE) | 0;
+    }
   }
-
-  // Leading zeros
-  for (const byte of bytes) {
-    if (byte !== 0) break;
-    encoded = ALPHABET[0] + encoded;
+  
+  let result = '';
+  for (let i = 0; source[i] === 0 && i < source.length - 1; i++) {
+    result += ALPHABET[0];
   }
-
-  return encoded || ALPHABET[0];
+  for (let i = digits.length - 1; i >= 0; i--) {
+    result += ALPHABET[digits[i]];
+  }
+  
+  return result;
 }
 
-function decode(input: string): Uint8Array {
-  let num = 0n;
-  for (const char of input) {
-    const idx = ALPHABET.indexOf(char);
-    if (idx === -1) throw new Error('Invalid Base58 character');
-    num = num * 58n + BigInt(idx);
+export function decode(source: string): Uint8Array {
+  if (source.length === 0) return new Uint8Array(0);
+  
+  const bytes = [0];
+  for (let i = 0; i < source.length; i++) {
+    const value = ALPHABET.indexOf(source[i]);
+    if (value === -1) throw new Error('Invalid character');
+    
+    let carry = value;
+    for (let j = 0; j < bytes.length; j++) {
+      carry += bytes[j] * BASE;
+      bytes[j] = carry & 0xff;
+      carry >>= 8;
+    }
+    while (carry > 0) {
+      bytes.push(carry & 0xff);
+      carry >>= 8;
+    }
   }
-
-  const bytes: number[] = [];
-  while (num > 0n) {
-    bytes.unshift(Number(num % 256n));
-    num = num / 256n;
+  
+  for (let i = 0; source[i] === ALPHABET[0] && i < source.length - 1; i++) {
+    bytes.push(0);
   }
-
-  // Leading zeros
-  for (const char of input) {
-    if (char !== ALPHABET[0]) break;
-    bytes.unshift(0);
-  }
-
-  return new Uint8Array(bytes);
+  
+  return new Uint8Array(bytes.reverse());
 }
 
 export default { encode, decode };
-export { encode, decode };
 
-if (import.meta.url.includes("elide-base58.ts")) {
-  console.log("🔤 base58 - Base58 Encoding (Bitcoin-style)\n");
-  const text = "Hello!";
-  const encoded = encode(text);
-  const decoded = new TextDecoder().decode(decode(encoded));
-  console.log("Original:", text);
-  console.log("Base58:", encoded);
-  console.log("Decoded:", decoded);
-  console.log("\n🚀 ~8M+ downloads/week on npm");
+// CLI Demo
+if (import.meta.url === \`file://\${process.argv[1]}\`) {
+  console.log("₿ base58 (POLYGLOT!)\\n");
+  const data = new Uint8Array([1, 2, 3, 4, 5]);
+  const encoded = encode(data);
+  console.log("Encoded:", encoded);
+  console.log("Decoded:", decode(encoded));
+  console.log("\\n🚀 ~500K+ downloads/week on npm!");
 }

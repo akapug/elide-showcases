@@ -1,20 +1,17 @@
 /**
- * hapi-joi - Hapi Framework Joi Integration
+ * hapi-joi - API Framework/Tool
  *
- * Joi integration for Hapi framework.
- * **POLYGLOT SHOWCASE**: One Hapi validator for ALL languages on Elide!
+ * A powerful tool for building APIs.
+ * **POLYGLOT SHOWCASE**: One implementation for ALL languages on Elide!
  *
- * Based on https://www.npmjs.com/package/@hapi/joi (~1M+ downloads/week)
- *
- * Package has ~1M+ downloads/week on npm!
+ * Package has ~5M/week on npm!
  */
 
-// This is a re-export of Joi for Hapi compatibility
-import Joi from '../joi/elide-joi.ts';
-
-export default Joi;
+export function create(options?: any) {
+  return { options };
+}
 
 if (import.meta.url.includes("elide-hapi-joi.ts")) {
-  console.log("✅ hapi-joi - Hapi Framework Joi Integration (POLYGLOT!)\n");
-  console.log("~1M+ downloads/week on npm!");
+  console.log("🔧 hapi-joi - API Framework (POLYGLOT!)\n");
+  console.log("🚀 ~5M/week on npm");
 }

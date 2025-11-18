@@ -1,9 +1,1 @@
-# base32 - Elide Polyglot Showcase
-
-Base32 encoding/decoding (RFC 4648).
-
-**npm downloads**: ~2M/week
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+# base32\nBase32 encoding. Based on [base32](https://www.npmjs.com/package/base32) (~100K+ downloads/week)

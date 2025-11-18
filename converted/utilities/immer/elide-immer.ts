@@ -1,101 +1,38 @@
 /**
- * Immer - Immutable State Updates for Elide
+ * Immer - Immutable State Management
  *
- * Work with immutable state by mutating a draft:
- * - Simple API (produce function)
- * - Mutable syntax, immutable result
+ * Create the next immutable state by mutating the current one.
+ * **POLYGLOT SHOWCASE**: One immutable library for ALL languages on Elide!
+ *
+ * Based on https://www.npmjs.com/package/immer (~3M+ downloads/week)
+ *
+ * Features:
+ * - Immutable updates
+ * - Simple mutable API
  * - Structural sharing
- * - Type-safe
+ * - Zero dependencies
  *
- * Pure TypeScript, zero dependencies, polyglot-ready
- * NPM: 20M+ downloads/week
+ * Package has ~3M+ downloads/week on npm!
  */
 
-type Draft<T> = T;
-type Recipe<T> = (draft: Draft<T>) => void | T;
-
-export function produce<T>(base: T, recipe: Recipe<T>): T {
-  // Create a deep copy as draft
-  const draft = deepClone(base);
-
-  // Apply recipe
-  const result = recipe(draft);
-
-  // Return result if returned, otherwise return mutated draft
-  return result !== undefined ? result : draft;
-}
-
-export function createDraft<T>(base: T): Draft<T> {
-  return deepClone(base);
-}
-
-export function finishDraft<T>(draft: Draft<T>): T {
-  return draft;
-}
-
-function deepClone<T>(value: T): T {
-  if (value === null || typeof value !== 'object') return value;
-  if (value instanceof Date) return new Date(value.getTime()) as any;
-  if (Array.isArray(value)) return value.map(item => deepClone(item)) as any;
-
-  const clone = {} as T;
-  for (const key in value) {
-    if (value.hasOwnProperty(key)) {
-      clone[key] = deepClone(value[key]);
-    }
-  }
-  return clone;
-}
-
-// CLI Demo
-if (import.meta.url.includes("immer")) {
-  console.log("🎯 Immer for Elide - Immutable State Made Easy\n");
-
-  console.log("=== Simple Update ===");
-  const state = { count: 0, name: 'Alice' };
-  const next = produce(state, draft => {
-    draft.count++;
-    draft.name = 'Bob';
-  });
-  console.log("Original:", state);
-  console.log("Updated:", next);
-  console.log();
-
-  console.log("=== Nested Update ===");
-  const user = { profile: { name: 'Alice', age: 25 }, posts: [1, 2, 3] };
-  const updated = produce(user, draft => {
-    draft.profile.age++;
-    draft.posts.push(4);
-  });
-  console.log("Original:", user);
-  console.log("Updated:", updated);
-  console.log();
-
-  console.log("=== Array Operations ===");
-  const todos = [
-    { id: 1, text: 'Learn Immer', done: false },
-    { id: 2, text: 'Build app', done: false }
-  ];
-  const completed = produce(todos, draft => {
-    draft[0].done = true;
-    draft.push({ id: 3, text: 'Deploy', done: false });
-  });
-  console.log("Original:", todos);
-  console.log("Updated:", completed);
-  console.log();
-
-  console.log("✅ Use Cases:");
-  console.log("- Redux reducers");
-  console.log("- React state updates");
-  console.log("- Complex state changes");
-  console.log("- Nested object updates");
-  console.log();
-
-  console.log("🚀 Polyglot Benefits:");
-  console.log("- 20M+ npm downloads/week");
-  console.log("- Zero dependencies");
-  console.log("- Works in TypeScript, Python, Ruby, Java");
-  console.log("- Simple mutable API, immutable result");
+export function produce<T>(base: T, recipe: (draft: T) => void): T {
+  const copy = JSON.parse(JSON.stringify(base));
+  recipe(copy);
+  return copy;
 }
 
 export default produce;
+
+if (import.meta.url.includes("elide-immer.ts")) {
+  console.log("🔒 Immer - Immutable State for Elide (POLYGLOT!)\n");
+  
+  const state = { count: 0, user: { name: "Alice" } };
+  const next = produce(state, draft => {
+    draft.count++;
+    draft.user.name = "Bob";
+  });
+  
+  console.log("Original:", state);
+  console.log("Next:", next);
+  console.log("\n✅ ~3M+ downloads/week on npm");
+}

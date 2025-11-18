@@ -1,24 +1,40 @@
 # Jaro-Winkler - Elide Polyglot Showcase
 
-> **One Jaro-Winkler similarity library for ALL languages** - TypeScript, Python, Ruby, and Java
+String similarity using Jaro-Winkler distance - works across JavaScript, Python, Ruby, Java via Elide!
 
-Calculate string similarity with emphasis on common prefixes.
+Based on npm package `jaro-winkler` (~10K+ downloads/week).
 
 ## Features
 
-- Returns similarity score (0 to 1)
-- Optimized for short strings
-- Perfect for name matching
-- ~1M+ downloads/week on npm
+- Jaro and Jaro-Winkler distance algorithms
+- Optimized for short strings (especially names)
+- Prefix boost for better matching
+- Returns similarity score 0-1
+- Zero dependencies
 
 ## Quick Start
 
 ```typescript
-import jaroWinkler from './elide-jaro-winkler.ts';
-jaroWinkler("martha", "marhta");   // 0.96
-jaroWinkler("dixon", "dicksonx");  // 0.81
+import { jaroWinkler, jaro } from "./elide-jaro-winkler.ts";
+
+// Jaro-Winkler (with prefix boost)
+console.log(jaroWinkler("MARTHA", "MARHTA")); // 0.961
+
+// Basic Jaro (without prefix boost)
+console.log(jaro("MARTHA", "MARHTA")); // 0.944
 ```
 
----
+## Use Cases
 
-**Built with love for the Elide Polyglot Runtime**
+- Name matching (people, companies, places)
+- Record linkage and deduplication
+- Fuzzy search in databases
+- Spell checking and autocorrect
+- Address matching
+- Entity resolution
+
+## Run the Demo
+
+```bash
+elide run elide-jaro-winkler.ts
+```

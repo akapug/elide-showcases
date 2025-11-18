@@ -1,9 +1,17 @@
-# concat-stream - Elide Polyglot Showcase
+# concat-stream - Concatenate Stream Data
 
-Concatenate stream data into a single buffer or string.
+Writable stream that concatenates all data and calls callback with result.
 
-**npm downloads**: ~40M/week
+Based on [concat-stream](https://www.npmjs.com/package/concat-stream) (~3M+ downloads/week)
 
----
+## Quick Start
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+\`\`\`typescript
+import concatStream from './elide-concat-stream.ts';
+
+const stream = concatStream((data) => {
+  console.log(new TextDecoder().decode(data));
+});
+stream.write(new TextEncoder().encode("Hello"));
+stream.end();
+\`\`\`

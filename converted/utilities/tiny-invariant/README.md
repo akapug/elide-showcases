@@ -1,202 +1,31 @@
 # tiny-invariant - Elide Polyglot Showcase
 
-> **One tiny-invariant implementation for ALL languages** - TypeScript, Python, Ruby, and Java
+> **Tiny invariant function for ALL languages** - TypeScript, Python, Ruby, and Java
 
-Lightweight assertions with a single implementation that works across your entire polyglot stack.
+## Features
 
-## 🌟 Why This Matters
+- Minimal size (< 200 bytes)
+- TypeScript support
+- Production optimized
+- **~30M downloads/week on npm**
 
-In polyglot architectures, having **different implementations** in each language creates:
-- ❌ Inconsistent behavior across services
-- ❌ Multiple libraries to maintain
-- ❌ Complex testing requirements
-- ❌ Debugging nightmares
-
-**Elide solves this** with ONE implementation that works in ALL languages.
-
-## ✨ Features
-
-- ✅ Lightweight assertions
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-- ✅ Zero dependencies
-- ✅ High performance (25% faster than average native implementations)
-- ✅ Consistent behavior across all languages
-
-## 🚀 Quick Start
-
-### TypeScript
+## Quick Start
 
 ```typescript
-import pkg from './elide-tiny-invariant.ts';
+import invariant from './elide-tiny-invariant.ts';
 
-const result = pkg(input);
-console.log(result);
+function withdraw(amount: number) {
+  invariant(amount > 0, 'Amount must be positive');
+  invariant(amount <= 1000, 'Amount too large');
+
+  // Process withdrawal...
+}
 ```
 
-### Python
+## Links
 
-```python
-from elide import require
-pkg = require('./elide-tiny-invariant.ts')
-
-result = pkg.default(input)
-print(result)
-```
-
-### Ruby
-
-```ruby
-pkg = Elide.require('./elide-tiny-invariant.ts')
-
-result = pkg.default(input)
-puts result
-```
-
-### Java
-
-```java
-Context context = Context.newBuilder("js").allowAllAccess(true).build();
-Value pkgModule = context.eval("js", "require('./elide-tiny-invariant.ts')");
-
-Value result = pkgModule.getMember("default").execute(input);
-System.out.println(result);
-```
-
-## 📊 Performance
-
-Benchmark results (100,000 operations):
-
-| Implementation | Time | Relative Speed |
-|---|---|---|
-| **Elide (TypeScript)** | **~156ms** | **1.0x (baseline)** |
-| Native Node.js | ~203ms | 1.3x slower |
-| Python native | ~312ms | 2.0x slower |
-| Ruby native | ~343ms | 2.2x slower |
-
-**Result**: Elide is **25% faster** on average than native implementations.
-
-Run the benchmark yourself:
-```bash
-elide run benchmark.ts
-```
-
-## 🎯 Why Polyglot?
-
-### The Problem
-
-**Before**: Each language has its own implementation
-
-```
-4 Different Implementations
-❌ Node.js, Python, Ruby, Java all different
-   ↓
-Problems:
-• Inconsistent behavior
-• 4 libraries to maintain
-• Complex testing
-```
-
-### The Solution
-
-**After**: One Elide implementation for all languages
-
-```
-┌─────────────────────────────────────┐
-│     Elide tiny-invariant (TypeScript)        │
-│     elide-tiny-invariant.ts                  │
-└─────────────────────────────────────┘
-         ↓           ↓           ↓
-    ┌────────┐  ┌────────┐  ┌────────┐
-    │ Node.js│  │ Python │  │  Ruby  │
-    │  API   │  │Pipeline│  │Workers │
-    └────────┘  └────────┘  └────────┘
-         ↓
-Benefits:
-✅ One implementation
-✅ One test suite
-✅ 100% consistency
-```
-
-## 💡 Use Cases
-
-Perfect for precondition checks, contract validation, defensive programming.
-
-### Microservices Architecture
-
-```typescript
-// Service A (Node.js)
-const result = pkg(data);
-
-// Service B (Python)
-result = pkg.default(data)
-
-// Service C (Ruby)
-result = pkg.default(data)
-```
-
-**Result**: All services handle error handling identically, guaranteed.
-
-## 📂 Files in This Showcase
-
-- `elide-tiny-invariant.ts` - Main TypeScript implementation
-- `elide-tiny-invariant.py` - Python integration example
-- `elide-tiny-invariant.rb` - Ruby integration example
-- `ElideTinyinvariantExample.java` - Java integration example
-- `benchmark.ts` - Performance comparison
-- `CASE_STUDY.md` - Real-world migration story
-- `README.md` - This file
-
-## 🧪 Testing
-
-### Run the demo
-
-```bash
-elide run elide-tiny-invariant.ts
-```
-
-### Run the benchmark
-
-```bash
-elide run benchmark.ts
-```
-
-### Test polyglot integration
-
-When Elide's polyglot APIs are ready:
-
-```bash
-# Python
-elide run elide-tiny-invariant.py
-
-# Ruby
-elide run elide-tiny-invariant.rb
-
-# Java
-elide run ElideTinyinvariantExample.java
-```
-
-## 🎓 Learn More
-
-- **Real-World Case Study**: See [CASE_STUDY.md](./CASE_STUDY.md)
-- **Performance Details**: Run [benchmark.ts](./benchmark.ts)
-- **Polyglot Examples**: Check Python, Ruby, and Java files
-
-## 🌐 Links
-
-- [Elide Documentation](https://docs.elide.dev)
-- [npm tiny-invariant package](https://www.npmjs.com/package/tiny-invariant)
-- [GitHub: elide-showcases](https://github.com/akapug/elide-showcases)
-
-## 📝 Package Stats
-
-- **npm downloads**: 1M+/week
-- **Use case**: Precondition checks, contract validation, defensive programming
-- **Elide advantage**: One implementation for all languages
-- **Performance**: 25% faster than native implementations
-- **Polyglot score**: 45/50 (S-Tier)
+- [Original npm package](https://www.npmjs.com/package/tiny-invariant)
 
 ---
 
 **Built with ❤️ for the Elide Polyglot Runtime**
-
-*Proving that one implementation can rule them all.*

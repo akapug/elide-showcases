@@ -1,21 +1,24 @@
-# Elide P-Memoize
+# P-Memoize - Promise Memoization
 
-Pure TypeScript implementation of `p-memoize`.
+Memoize async functions and promises.
 
-## Original Package
+Based on [p-memoize](https://www.npmjs.com/package/p-memoize) (~300K+ downloads/week)
 
-- **npm**: `p-memoize`
-- **Downloads**: ~5M/week
+## Features
 
-## Usage
+- Async function memoization
+- Cache expiry
+- Custom cache keys
+
+## Quick Start
 
 ```typescript
 import pMemoize from './elide-p-memoize.ts';
 
-const memoizedFetch = pMemoize(async (id: number) => {
-  return fetchData(id);
-}, { maxAge: 60000 });
+const fetchUser = pMemoize(async (id: number) => {
+  return { id, name: `User${id}` };
+});
 
-await memoizedFetch(1); // Fetches
-await memoizedFetch(1); // From cache
+await fetchUser(1); // API call
+await fetchUser(1); // Cached!
 ```

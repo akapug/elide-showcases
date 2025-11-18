@@ -1,12 +1,55 @@
-# Simple Get - Simple HTTP GET - Elide Polyglot Showcase
+# Simple Get
 
-> **One HTTP client for ALL languages**
+Simple Get for Elide (polyglot!)
 
-## 📝 Package Stats
+Based on https://www.npmjs.com/package/simple-get (~200K+ downloads/week)
 
-- **npm downloads**: ~8M/week
-- **Polyglot score**: 43/50 (A-Tier)
+## Features
 
----
+- Extremely simple
+- GET focused
+- Following redirects
+- Minimal API
+- Zero dependencies
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+## Quick Start
+
+```typescript
+import simple-get from './elide-simple-get.ts';
+
+// Basic usage
+const result = simple-get.main();
+console.log(result);
+```
+
+## Polyglot Examples
+
+### JavaScript/TypeScript
+```typescript
+import simple-get from './elide-simple-get.ts';
+const result = simple-get.main();
+```
+
+### Python (via Elide)
+```python
+from elide_simple-get import simple-get
+result = simple-get.main()
+```
+
+### Ruby (via Elide)
+```ruby
+require 'elide/simple-get'
+result = simple-get.main
+```
+
+### Java (via Elide)
+```java
+import elide.simple-get.*;
+String result = Simple_Get.main();
+```
+
+## Benefits
+
+- One library for ALL languages on Elide
+- Consistent API across languages
+- ~200K+ downloads/week on npm!

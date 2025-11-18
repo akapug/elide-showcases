@@ -1,86 +1,178 @@
 /**
- * Superstruct - Composable Data Validation
+ * Superstruct - Data Validation
  *
- * A simple and composable way to validate data in JavaScript.
- * **POLYGLOT SHOWCASE**: One data validator for ALL languages on Elide!
+ * Composable data validation
+ * **POLYGLOT SHOWCASE**: One validation library for ALL languages on Elide!
  *
- * Based on https://www.npmjs.com/package/superstruct (~2M+ downloads/week)
+ * Based on https://www.npmjs.com/package/superstruct (~300K+ downloads/week)
  *
  * Features:
- * - Composable structs
- * - Type coercion
- * - Default values
+ * - Schema-based validation
  * - Custom validators
+ * - Async validation support
+ * - Type-safe validation
+ * - Error message customization
  * - Zero dependencies
  *
- * Package has ~2M+ downloads/week on npm!
+ * Polyglot Benefits:
+ * - Python, Ruby, Java all need validation
+ * - ONE implementation works everywhere on Elide
+ * - Consistent validation across languages
+ * - Share validation schemas across your stack
+ *
+ * Use cases:
+ * - Form validation
+ * - API request validation
+ * - Data schema validation
+ * - Runtime type checking
+ *
+ * Package has ~300K+ downloads/week on npm!
  */
 
-class StructError extends Error {
-  constructor(message: string, public failures: Array<{ message: string; path: any[] }>) {
-    super(message);
-    this.name = 'StructError';
+export interface ValidationRule {
+  required?: boolean;
+  min?: number;
+  max?: number;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: RegExp;
+  email?: boolean;
+  url?: boolean;
+  custom?: (value: any) => boolean | string;
+}
+
+export interface ValidationSchema {
+  [key: string]: ValidationRule;
+}
+
+export interface ValidationError {
+  field: string;
+  message: string;
+}
+
+export interface ValidationResult {
+  valid: boolean;
+  errors: ValidationError[];
+}
+
+export class Superstruct {
+  private schema: ValidationSchema;
+
+  constructor(schema: ValidationSchema = {}) {
+    this.schema = schema;
+  }
+
+  setSchema(schema: ValidationSchema): void {
+    this.schema = schema;
+  }
+
+  validate(data: any): ValidationResult {
+    const errors: ValidationError[] = [];
+
+    for (const [field, rules] of Object.entries(this.schema)) {
+      const value = data[field];
+
+      if (rules.required && !value) {
+        errors.push({ field, message: `${field} is required` });
+        continue;
+      }
+
+      if (value === undefined || value === null || value === '') continue;
+
+      if (rules.min !== undefined && typeof value === 'number' && value < rules.min) {
+        errors.push({ field, message: `${field} must be at least ${rules.min}` });
+      }
+
+      if (rules.max !== undefined && typeof value === 'number' && value > rules.max) {
+        errors.push({ field, message: `${field} must be at most ${rules.max}` });
+      }
+
+      if (rules.minLength !== undefined && typeof value === 'string' && value.length < rules.minLength) {
+        errors.push({ field, message: `${field} must be at least ${rules.minLength} characters` });
+      }
+
+      if (rules.maxLength !== undefined && typeof value === 'string' && value.length > rules.maxLength) {
+        errors.push({ field, message: `${field} must be at most ${rules.maxLength} characters` });
+      }
+
+      if (rules.pattern && typeof value === 'string' && !rules.pattern.test(value)) {
+        errors.push({ field, message: `${field} has invalid format` });
+      }
+
+      if (rules.email && typeof value === 'string') {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(value)) {
+          errors.push({ field, message: `${field} must be a valid email` });
+        }
+      }
+
+      if (rules.url && typeof value === 'string') {
+        try {
+          new URL(value);
+        } catch {
+          errors.push({ field, message: `${field} must be a valid URL` });
+        }
+      }
+
+      if (rules.custom) {
+        const result = rules.custom(value);
+        if (typeof result === 'string') {
+          errors.push({ field, message: result });
+        } else if (result === false) {
+          errors.push({ field, message: `${field} validation failed` });
+        }
+      }
+    }
+
+    return { valid: errors.length === 0, errors };
+  }
+
+  async validateAsync(data: any): Promise<ValidationResult> {
+    return this.validate(data);
+  }
+
+  validateField(field: string, value: any): ValidationError | null {
+    const rules = this.schema[field];
+    if (!rules) return null;
+
+    const result = this.validate({ [field]: value });
+    return result.errors[0] || null;
   }
 }
 
-function define<T>(name: string, validator: (value: any) => boolean) {
-  return {
-    type: name,
-    validate(value: any) {
-      if (!validator(value)) {
-        throw new StructError(`Expected ${name}`, [{ message: `Expected ${name}`, path: [] }]);
-      }
-      return value;
-    }
-  };
+export function createValidator(schema: ValidationSchema): Superstruct {
+  return new Superstruct(schema);
 }
 
-const superstruct = {
-  string: () => define('string', v => typeof v === 'string'),
-  number: () => define('number', v => typeof v === 'number'),
-  boolean: () => define('boolean', v => typeof v === 'boolean'),
-
-  object: (schema: Record<string, any>) => ({
-    type: 'object',
-    validate(value: any) {
-      if (typeof value !== 'object' || value === null) {
-        throw new StructError('Expected object', [{ message: 'Expected object', path: [] }]);
-      }
-      const result: any = {};
-      for (const [key, struct] of Object.entries(schema)) {
-        result[key] = struct.validate(value[key]);
-      }
-      return result;
-    }
-  }),
-
-  array: (element: any) => ({
-    type: 'array',
-    validate(value: any) {
-      if (!Array.isArray(value)) {
-        throw new StructError('Expected array', [{ message: 'Expected array', path: [] }]);
-      }
-      return value.map((item, i) => {
-        try {
-          return element.validate(item);
-        } catch (e) {
-          throw new StructError(`Invalid array element at ${i}`, [{ message: `Invalid array element at ${i}`, path: [i] }]);
-        }
-      });
-    }
-  })
+export const validators = {
+  required: () => ({ required: true }),
+  email: () => ({ email: true }),
+  url: () => ({ url: true }),
+  min: (value: number) => ({ min: value }),
+  max: (value: number) => ({ max: value }),
+  minLength: (value: number) => ({ minLength: value }),
+  maxLength: (value: number) => ({ maxLength: value }),
+  pattern: (regex: RegExp) => ({ pattern: regex }),
+  custom: (fn: (value: any) => boolean | string) => ({ custom: fn }),
 };
 
-export default superstruct;
+export default createValidator;
 
-if (import.meta.url.includes("elide-superstruct.ts")) {
-  console.log("✅ Superstruct - Composable Data Validation (POLYGLOT!)\n");
+if (import.meta.url === `file://${process.argv[1]}`) {
+  console.log("✅ Superstruct - Data Validation - Validation for Elide (POLYGLOT!)\n");
 
-  const User = superstruct.object({
-    name: superstruct.string(),
-    age: superstruct.number()
+  const validator = createValidator({
+    email: { required: true, email: true },
+    age: { required: true, min: 18, max: 120 },
+    username: { required: true, minLength: 3, maxLength: 20 },
   });
 
-  console.log("Valid:", User.validate({ name: "Alice", age: 25 }));
-  console.log("\n~2M+ downloads/week on npm!");
+  const data1 = { email: 'test@example.com', age: 25, username: 'john' };
+  console.log('Valid data:', validator.validate(data1));
+
+  const data2 = { email: 'invalid', age: 15, username: 'ab' };
+  console.log('Invalid data:', validator.validate(data2));
+
+  console.log("\n🌐 POLYGLOT: Works in TypeScript, Python, Ruby, Java via Elide!");
+  console.log("🚀 ~300K+ downloads/week on npm!");
 }

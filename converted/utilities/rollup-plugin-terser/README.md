@@ -1,107 +1,139 @@
-# rollup-plugin-terser - Elide Polyglot Showcase
+# Terser Minification Plugin - Elide Polyglot Showcase
 
 > **One rollup-plugin-terser implementation for ALL languages** - TypeScript, Python, Ruby, and Java
 
-Minify with Terser with a single implementation that works across your entire polyglot stack.
-
-## 🌟 Why This Matters
-
-In polyglot architectures, having **different rollup-plugin-terser implementations** in each language creates:
-- ❌ Inconsistent behavior across services
-- ❌ Multiple tools to maintain
-- ❌ Complex configuration management
-- ❌ Build reproducibility issues
-
-**Elide solves this** with ONE implementation that works in ALL languages.
+Terser Minification Plugin with a single implementation that works across your entire polyglot stack.
 
 ## ✨ Features
 
-- ✅ Core terser plugin functionality
+- ✅ Module bundling and optimization
+- ✅ Build tool integration
+- ✅ Development workflow automation
+- ✅ Production deployment preparation
 - ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-- ✅ Zero dependencies (core logic)
-- ✅ High performance
-- ✅ Consistent behavior across all languages
+- ✅ Zero dependencies
 
 ## 🚀 Quick Start
 
 ### TypeScript
-
 ```typescript
-import { process } from './elide-rollup-plugin-terser.ts';
+import { build, createRollupPluginTerser } from './elide-rollup-plugin-terser.ts';
 
-const result = process(input);
-console.log(result);
+// Basic build
+await build({
+  input: 'src/index.ts',
+  output: 'dist/bundle.js',
+  format: 'esm',
+});
+
+// Advanced usage
+const builder = createRollupPluginTerser({
+  input: 'src/index.ts',
+  output: 'dist/bundle.min.js',
+  minify: true,
+  sourcemap: true,
+});
+await builder.build();
 ```
 
 ### Python
-
 ```python
 from elide import require
-tool = require('./elide-rollup-plugin-terser.ts')
+rollup_plugin_terser = require('./elide-rollup-plugin-terser.ts')
 
-result = tool.process(input)
-print(result)
+# Build
+rollup_plugin_terser.build({
+  'input': 'src/index.ts',
+  'output': 'dist/bundle.js',
+  'format': 'esm'
+})
 ```
 
 ### Ruby
-
 ```ruby
-tool = Elide.require('./elide-rollup-plugin-terser.ts')
+rollup_plugin_terser = Elide.require('./elide-rollup-plugin-terser.ts')
 
-result = tool.process(input)
-puts result
+# Build
+rollup_plugin_terser.build({
+  input: 'src/index.ts',
+  output: 'dist/bundle.js',
+  format: 'esm'
+})
 ```
 
 ### Java
-
 ```java
-Context context = Context.newBuilder("js").allowAllAccess(true).build();
-Value tool = context.eval("js", "require('./elide-rollup-plugin-terser.ts')");
+Value rollupPluginTerser = context.eval("js", "require('./elide-rollup-plugin-terser.ts')");
 
-Value result = tool.getMember("process").execute(input);
-System.out.println(result);
+// Build
+rollupPluginTerser.invokeMember("build");
 ```
-
-## 📊 Performance
-
-Build tool performance optimized for Elide runtime.
 
 ## 🎯 Why Polyglot?
 
-One rollup-plugin-terser implementation for all languages eliminates inconsistencies and reduces maintenance overhead.
+**Before**: Each language has different build tools
 
-## 💡 Use Cases
+**After**: One Elide implementation for all languages
 
-Perfect for build automation, code transformation, asset optimization, and development workflows.
+Benefits:
+- ✅ One build tool, all languages
+- ✅ Consistent output everywhere  
+- ✅ Share configs across your stack
+- ✅ No language-specific build tools
 
-## 📂 Files in This Showcase
+## 📖 API Reference
 
-- `elide-rollup-plugin-terser.ts` - Main TypeScript implementation
-- `README.md` - This file
+### `build(options)`
 
-## 🧪 Testing
+Build your module.
 
-### Run the demo
+```typescript
+await build({
+  input: 'src/index.ts',
+  output: 'dist/bundle.js',
+  format: 'esm',
+  minify: true,
+  sourcemap: true,
+});
+```
 
-```bash
-elide run elide-rollup-plugin-terser.ts
+### `createRollupPluginTerser(options)`
+
+Create a builder instance.
+
+```typescript
+const builder = createRollupPluginTerser({
+  input: 'src/index.ts',
+  output: 'dist/bundle.js',
+});
+await builder.build();
+```
+
+### `watch(options)`
+
+Watch mode for development.
+
+```typescript
+await watch({
+  input: 'src/index.ts',
+  output: 'dist/bundle.js',
+});
 ```
 
 ## 🌐 Links
 
 - [Elide Documentation](https://docs.elide.dev)
-- [npm rollup-plugin-terser package](https://www.npmjs.com/package/rollup-plugin-terser)
+- [npm rollup-plugin-terser package](https://www.npmjs.com/package/rollup-plugin-terser) (~500K+ downloads/week)
 - [GitHub: elide-showcases](https://github.com/akapug/elide-showcases)
 
 ## 📝 Package Stats
 
-- **npm downloads**: 5M+/week
-- **Use case**: Build tool, code transformation
+- **npm downloads**: ~500K+/week
+- **Use case**: Terser Minification Plugin
 - **Elide advantage**: One implementation for all languages
-- **Polyglot score**: High
 
 ---
 
 **Built with ❤️ for the Elide Polyglot Runtime**
 
-*Proving that one tool can rule them all.*
+*Making builds consistent, everywhere.*

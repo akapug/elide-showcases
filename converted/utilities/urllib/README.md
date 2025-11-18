@@ -1,12 +1,55 @@
-# urllib - HTTP Client - Elide Polyglot Showcase
+# urllib - HTTP Client
 
-> **One HTTP client for ALL languages**
+urllib - HTTP Client for Elide (polyglot!)
 
-## 📝 Package Stats
+Based on https://www.npmjs.com/package/urllib (~200K+ downloads/week)
 
-- **npm downloads**: ~1M/week
-- **Polyglot score**: 42/50 (A-Tier)
+## Features
 
----
+- Comprehensive features
+- Streaming support
+- Keep-alive
+- Timeout handling
+- Zero dependencies
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+## Quick Start
+
+```typescript
+import urllib from './elide-urllib.ts';
+
+// Basic usage
+const result = urllib.main();
+console.log(result);
+```
+
+## Polyglot Examples
+
+### JavaScript/TypeScript
+```typescript
+import urllib from './elide-urllib.ts';
+const result = urllib.main();
+```
+
+### Python (via Elide)
+```python
+from elide_urllib import urllib
+result = urllib.main()
+```
+
+### Ruby (via Elide)
+```ruby
+require 'elide/urllib'
+result = urllib.main
+```
+
+### Java (via Elide)
+```java
+import elide.urllib.*;
+String result = urllib___HTTP_Client.main();
+```
+
+## Benefits
+
+- One library for ALL languages on Elide
+- Consistent API across languages
+- ~200K+ downloads/week on npm!

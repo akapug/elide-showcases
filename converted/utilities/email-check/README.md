@@ -1,0 +1,27 @@
+# email-check - Elide Polyglot Showcase
+
+> **One email-check implementation for ALL languages** - TypeScript, Python, Ruby, and Java
+
+Email validation and verification
+
+## ✨ Features
+
+- ✅ Production-ready
+- ✅ High performance
+- ✅ **Polyglot**: Use from all languages
+- ✅ Zero dependencies
+
+## 🚀 Quick Start
+
+```typescript
+import lib from './elide-email-check.ts';
+```
+
+## 📝 Package Stats
+
+- **npm downloads**: 10K+/week
+- **Elide advantage**: One implementation for all languages
+
+---
+
+**Built with ❤️ for the Elide Polyglot Runtime**

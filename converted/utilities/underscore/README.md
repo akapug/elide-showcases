@@ -1,38 +1,16 @@
-# underscore - Elide Polyglot Showcase
+# Underscore - Utility Library
 
-> **One underscore implementation for ALL languages** - TypeScript, Python, Ruby, and Java
+Functional programming helpers for everyday use.
 
-Functional programming utilities for collections, arrays, objects, and functions - all in one polyglot implementation.
-
-## ✨ Features
-
-- ✅ Collection methods (map, filter, reduce, find, etc.)
-- ✅ Array functions (first, last, compact, uniq, etc.)
-- ✅ Object utilities (keys, values, pick, omit, etc.)
-- ✅ Function utilities (bind, memoize, throttle, debounce, etc.)
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-- ✅ Zero dependencies
-- ✅ High performance
-
-## 🚀 Quick Start
-
-### TypeScript
+Based on [underscore](https://www.npmjs.com/package/underscore) (~2M+ downloads/week)
 
 ```typescript
 import _ from './elide-underscore.ts';
 
-_.map([1,2,3], n => n * 2);           // [2,4,6]
-_.filter([1,2,3,4], n => n % 2 === 0); // [2,4]
-_.reduce([1,2,3], (sum, n) => sum + n, 0); // 6
+_.map([1, 2, 3], x => x * 2); // [2, 4, 6]
+_.filter([1, 2, 3, 4], x => x % 2 === 0); // [2, 4]
+_.uniq([1, 2, 2, 3]); // [1, 2, 3]
+_.pick({ a: 1, b: 2, c: 3 }, ['a', 'b']); // { a: 1, b: 2 }
 ```
 
-## 📝 Package Stats
-
-- **npm downloads**: 10M+/week
-- **Use case**: Functional programming, data transformation
-- **Elide advantage**: One implementation for all languages
-- **Polyglot score**: 48/50 (S-Tier)
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+Run: `elide run elide-underscore.ts`

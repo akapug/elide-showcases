@@ -1,20 +1,32 @@
 # v8n - Elide Polyglot Showcase
 
-> **One fluent validator for ALL languages** - TypeScript, Python, Ruby, and Java
-
-Fluent validation library for JavaScript.
+> **Chainable validation library for ALL languages** - TypeScript, Python, Ruby, and Java
 
 ## Features
 
-- Fluent API
-- Chainable rules
-- **~100K downloads/week on npm**
+- Schema-based validation with type safety
+- Custom validation rules
+- Async validation support
+- Error message customization
+- **~30K+ downloads/week on npm**
+
+## Quick Start
 
 ```typescript
-import v8n from './elide-v8n.ts';
+import { createValidator } from './elide-v8n.ts';
 
-v8n().string().minLength(3).test("hello"); // true
+const validator = createValidator({
+  email: { required: true, email: true },
+  age: { required: true, min: 18 },
+});
+
+const result = validator.validate({ email: 'test@example.com', age: 25 });
+console.log(result.valid); // true
 ```
+
+## Links
+
+- [Original npm package](https://www.npmjs.com/package/v8n)
 
 ---
 

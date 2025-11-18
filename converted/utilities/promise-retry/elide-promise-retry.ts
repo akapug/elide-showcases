@@ -1,19 +1,26 @@
 /**
- * Elide Promise-Retry - Promise Retry with Backoff
+ * Promise Retry - Retry Promise-Based Operations
  *
- * Pure TypeScript implementation of promise-retry.
+ * Retries promise-based operations with various backoff strategies.
+ * **POLYGLOT SHOWCASE**: One promise retry library for ALL languages on Elide!
+ *
+ * Based on https://www.npmjs.com/package/promise-retry (~1M+ downloads/week)
  *
  * Features:
- * - Retry promises with exponential backoff
- * - Configurable retry strategies
- * - Error filtering
+ * - Promise retry support
+ * - Multiple backoff strategies
+ * - Error handling
+ * - Configurable attempts
+ * - Retry tracking
+ * - Zero dependencies
  *
  * Polyglot Benefits:
- * - Zero dependencies - pure TypeScript
- * - Works in Browser, Node.js, Deno, Bun, and Elide
- * - Type-safe with full TypeScript support
+ * - Works across all Elide languages
+ * - Consistent retry patterns
+ * - Share retry config
+ * - One implementation everywhere
  *
- * Original npm package: promise-retry (~15M downloads/week)
+ * Package has ~1M+ downloads/week on npm!
  */
 
 export interface PromiseRetryOptions {
@@ -24,44 +31,73 @@ export interface PromiseRetryOptions {
   randomize?: boolean;
 }
 
-function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-export default async function promiseRetry<T>(
-  fn: (retry: (error: any) => never, attemptNumber: number) => Promise<T>,
+export default function promiseRetry<T>(
+  fn: (retry: (err?: Error) => never, attempt: number) => Promise<T>,
   options: PromiseRetryOptions = {}
 ): Promise<T> {
   const {
-    retries = 3,
+    retries = 10,
     factor = 2,
     minTimeout = 1000,
     maxTimeout = Infinity,
-    randomize = false,
+    randomize = false
   } = options;
 
-  for (let i = 0; i <= retries; i++) {
+  let attempt = 0;
+
+  const run = async (): Promise<T> => {
+    attempt++;
+
+    const retry = (err?: Error): never => {
+      throw err || new Error('Retry');
+    };
+
     try {
-      const retry = (error: any): never => {
-        throw error;
-      };
-
-      return await fn(retry, i);
-    } catch (error) {
-      if (i < retries) {
-        let timeout = minTimeout * Math.pow(factor, i);
-        if (randomize) {
-          timeout = Math.random() * timeout;
-        }
-        timeout = Math.min(timeout, maxTimeout);
-        await delay(timeout);
-      } else {
-        throw error;
+      return await fn(retry, attempt);
+    } catch (err: any) {
+      if (attempt >= retries) {
+        throw err;
       }
-    }
-  }
 
-  throw new Error('Retry failed');
+      let timeout = minTimeout * Math.pow(factor, attempt - 1);
+      if (randomize) {
+        timeout = timeout * (Math.random() + 1);
+      }
+      timeout = Math.min(timeout, maxTimeout);
+
+      await new Promise(resolve => setTimeout(resolve, timeout));
+      return run();
+    }
+  };
+
+  return run();
 }
 
 export { promiseRetry };
+
+// CLI Demo
+if (import.meta.url === `file://${process.argv[1]}`) {
+  console.log("🔄 Promise Retry - Promise-Based Retry (POLYGLOT!)\n");
+
+  console.log("=== Example 1: Basic Promise Retry ===");
+  let attempt1 = 0;
+
+  promiseRetry(async (retry, attempt) => {
+    attempt1++;
+    console.log(`Attempt ${attempt}`);
+    if (attempt1 < 3) {
+      retry(new Error("Temporary failure"));
+    }
+    return "Success!";
+  }, { retries: 5, minTimeout: 100 })
+    .then(result => console.log(result, "\n"));
+
+  setTimeout(() => {
+    console.log("=== Example 2: POLYGLOT Use Case ===");
+    console.log("🌐 Same promise-retry works in:");
+    console.log("  • JavaScript/TypeScript");
+    console.log("  • Python (via Elide)");
+    console.log("  • Ruby (via Elide)");
+    console.log("  • Java (via Elide)");
+  }, 500);
+}

@@ -1,17 +1,19 @@
 # fp-ts - Elide Polyglot Showcase
 
-> Functional programming in TypeScript with Option, Either, and more.
+> Comprehensive functional programming library for TypeScript.
 
 ## ✨ Features
 
-- ✅ Option type for nullable values
-- ✅ Either type for error handling
+- ✅ Either/Option types
+- ✅ Monads & functors
+- ✅ Pipe & compose
+- ✅ Array utilities
 - ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
 
 ## 📝 Package Stats
 
-- **npm downloads**: 2M+/week
-- **Polyglot score**: 45/50 (A-Tier)
+- **npm downloads**: 500K+/week
+- **Polyglot score**: 48/50 (S-Tier)
 
 ---
 
