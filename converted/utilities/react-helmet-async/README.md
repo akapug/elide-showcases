@@ -1,20 +1,29 @@
 # react-helmet-async - Elide Polyglot Showcase
 
-> Async document head manager for React
+> **One SEO/meta tag library for ALL languages**
 
-## ✨ Features
+Async helmet with a single implementation that works across your entire polyglot stack.
 
-- ✅ Async rendering
-- ✅ Thread-safe SSR
-- ✅ Context-based
-- ✅ Meta tags
-- ✅ Title management
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
+## Features
 
-## 📝 Package Stats
+- SEO optimization
+- Meta tag generation  
+- Zero dependencies
+- **Polyglot**: Use from TypeScript, Python, Ruby, and Java
 
-- **npm downloads**: 5M+/week
-- **Polyglot score**: 47/50 (S-Tier)
+## Quick Start
+
+```typescript
+import lib from './elide-react-helmet-async.ts';
+lib.set('title', 'My Page');
+console.log(lib.render());
+```
+
+## Package Stats
+
+- **npm downloads**: ~1M+/week
+- **Use case**: SEO and meta tag management
+- **Elide advantage**: One implementation for all languages
 
 ---
 

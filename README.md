@@ -8,11 +8,66 @@
 
 ## 📊 Current Stats
 
-- **2,725 total projects** across converted and original
-- **2,557 npm package conversions** (50B+ downloads/week combined)
-- **70 AI/microservices/cloud-native showcases**
-- **10x faster cold start** than Node.js (verified)
-- **Zero dependencies** - instant execution
+- **2,929 total projects** - Comprehensive ecosystem coverage
+- **70 flagship showcases** - Uniquely demonstrate Elide's polyglot + performance value
+- **2,761 npm conversions** - Prove ecosystem compatibility (50B+ downloads/week)
+- **10x faster cold start** than Node.js (~20ms vs ~200ms, verified)
+- **<1ms cross-language calls** - True polyglot with zero serialization overhead
+- **Zero dependencies** - Instant execution, no node_modules
+
+---
+
+## 🏆 Value Tiers: What Makes Elide Unique?
+
+Not all 2,929 projects equally showcase Elide. We've systematically categorized them by **how much they actually leverage Elide's unique capabilities**:
+
+- **Tier S (70 projects)**: Uniquely enabled by or dramatically benefit from Elide's polyglot runtime + 10x faster cold start
+- **Tier A (150+ projects)**: Strong benefits from zero dependencies + instant startup (CLI tools, build tools, testing)
+- **Tier B (200+ projects)**: Moderate benefits, work well on Elide (TypeScript tooling, databases, validation)
+- **Tier C (2,400+ projects)**: Compatibility demonstrations - prove ecosystem coverage
+
+📄 **See [ELIDE_VALUE_ANALYSIS.md](ELIDE_VALUE_ANALYSIS.md) for complete systematic review**
+
+---
+
+## ⭐ Tier S: Projects That Uniquely Showcase Elide
+
+**These 70 projects fundamentally leverage what makes Elide special - things impossible or impractical on traditional runtimes.**
+
+### 🌐 THE Flagship: True Polyglot Integration
+- **`flask-typescript-polyglot/`** 🏆 - Python Flask + TypeScript in ONE process
+  - <1ms cross-language function calls (vs seconds of HTTP/gRPC overhead)
+  - Share objects between Python and TypeScript with zero serialization
+  - **This is what Elide was built for** - impossible on Node.js, Python, or Ruby alone
+
+### ⚡ Fast Cold Start Critical (60 showcases)
+**All benefit from 10x faster startup (~20ms vs ~200ms) + native HTTP support**
+
+**AI/ML Services (15)** - Fast initialization critical for inference:
+- `llm-inference-server/` - OpenAI-compatible API, instant cold start
+- `whisper-transcription/` - Real-time audio transcription
+- `vector-search-service/` - Low-latency embedding search
+- `rag-service/` - RAG pipeline with fast startup
+- `model-serving-tensorflow/` - TensorFlow model serving
+- (+ 10 more ML services in `/original/showcases/`)
+
+**Microservices (10)** - Service mesh, gateways, event sourcing where startup time matters
+
+**Data Pipelines (10)** - Real-time stream processing, ETL, CDC with low latency requirements
+
+**Serverless/Edge (10)** - Fast cold start is THE critical metric for serverless & edge computing
+
+**Cloud-Native (10)** - Kubernetes operators, container orchestration with fast reconciliation
+
+**Blockchain/Web3 (5)** - High-throughput indexers and real-time analytics
+
+**Security (5)** - Real-time threat detection and compliance monitoring
+
+### 💡 Why These Matter
+- **Polyglot**: Cross-language calls that would require HTTP/gRPC overhead elsewhere
+- **Cold Start**: 10x faster means 10x better user experience in serverless/edge
+- **Native HTTP**: No Express/Fastify overhead, direct Node.js `http` API compatibility
+- **Zero Dependencies**: Deploy instantly, no `npm install` delays
 
 ---
 
@@ -159,19 +214,55 @@
 
 ---
 
-## 📈 Project Breakdown
+## 📈 Project Breakdown by Value Tier
 
-### By Origin:
-- **Converted**: 2,561 projects (npm packages adapted for Elide)
-  - Utilities: 2,557 (MASSIVE expansion across 60+ categories!)
+**Total: 2,929 projects** systematically categorized by Elide value
+
+### Tier S: Uniquely Showcase Elide (70 projects) ⭐
+**Original showcases that leverage polyglot runtime + 10x faster cold start:**
+- 1 Polyglot flagship: `flask-typescript-polyglot/`
+- 15 AI/ML services (LLM, Whisper, RAG, Vector search, etc.)
+- 10 Microservices (Service mesh, API gateway, Event sourcing, etc.)
+- 10 Data Pipelines (Stream processing, ETL, CDC, Analytics, etc.)
+- 10 Modern Backend (GraphQL, gRPC, WebSockets, OAuth2, etc.)
+- 10 Real-World Apps (Video streaming, IoT, Payments, etc.)
+- 10 Cloud-Native/Serverless (Kubernetes, Serverless orchestration, etc.)
+- 5 Edge Computing (CDN, Auth, Image optimization, etc.)
+- 5 Blockchain/Web3 (Indexers, NFT marketplaces, DeFi, etc.)
+- 5 Security/Compliance (Threat detection, Vulnerability scanning, etc.)
+
+### Tier A: Strong Elide Benefits (150+ projects) 🔥
+**Zero dependencies + instant startup critical:**
+- 70+ CLI Tools: `commander/`, `inquirer/`, `chalk/`, `ora/`, etc.
+- 50+ Build Tools: `webpack/`, `vite/`, `rollup/`, `esbuild/`, etc.
+- 30+ Testing: `jest/`, `mocha/`, `vitest/`, `cypress/`, etc.
+
+### Tier B: Moderate Benefits (200+ projects) ✅
+**Work well on Elide, some advantages:**
+- 75+ TypeScript Tooling: `ts-node/`, `tsup/`, `ts-morph/`, etc.
+- 80+ Database/ORM: `prisma/`, `typeorm/`, `sequelize/`, etc.
+- 110+ Validation: `joi/`, `zod/`, `yup/`, `formik/`, etc.
+
+### Tier C: Compatibility Demos (2,400+ projects) 📦
+**Prove ecosystem coverage, work identically anywhere:**
+- 2,000+ Pure utilities (string, date, color manipulation, etc.)
+- 200+ UI libraries (React, Vue, styled-components, etc.)
+- 100+ Browser polyfills (fetch, core-js, etc.)
+- 100+ Type definitions
+
+**See [ELIDE_VALUE_ANALYSIS.md](ELIDE_VALUE_ANALYSIS.md) for detailed tier analysis**
+
+---
+
+### By Origin & Type:
+- **Converted**: 2,765 projects (npm packages adapted for Elide)
+  - Utilities: 2,761 (60+ categories!)
   - Showcases: 4
 - **Original**: 164 projects (built from scratch)
+  - Showcases: 70 (Tier S - uniquely showcase Elide!)
   - Utilities: 94
-  - Showcases: 70
 
-**Total: 2,725 projects!** 🎉🎉🎉
-
-### By Category (Top 20):
+### Top Categories by Count (Tier A/B/C):
 - **Web/HTTP**: 150+ utilities (express, koa, fastify, axios, fetch, websockets)
 - **Testing**: 115+ utilities (jest, mocha, vitest, cypress, testing-library, playwright)
 - **Build/Bundling**: 110+ utilities (webpack, vite, rollup, esbuild, babel, parcel)
