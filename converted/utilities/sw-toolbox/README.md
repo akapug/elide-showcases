@@ -1,0 +1,37 @@
+# sw-toolbox - Elide Polyglot Showcase
+
+> **One PWA/offline solution for ALL languages** - TypeScript, Python, Ruby, and Java
+
+PWA and offline-first utilities for modern web applications.
+
+## Features
+
+- Service worker support
+- Offline-first capabilities
+- PWA configuration
+- Zero dependencies
+
+## Quick Start
+
+```typescript
+import pkg from './elide-sw-toolbox.ts';
+
+// Use the library
+// See elide-sw-toolbox.ts for full API
+```
+
+## Documentation
+
+Run the demo:
+
+```bash
+elide run elide-sw-toolbox.ts
+```
+
+## Links
+
+- [Original npm package](https://www.npmjs.com/package/sw-toolbox)
+
+---
+
+**Built with ❤️ for the Elide Polyglot Runtime**

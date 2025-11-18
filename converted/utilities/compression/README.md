@@ -1,32 +1,20 @@
-# Compression - Elide Polyglot Showcase
+# $(basename $dir | tr '[:lower:]' '[:upper:]' | sed 's/-/ /g')
 
-> **One compression middleware for ALL languages**
-
-Compress HTTP responses (gzip, deflate, brotli) across your entire stack.
-
-## Features
-
-- ✅ Gzip, deflate, brotli support
-- ✅ Configurable compression level
-- ✅ Size threshold
-- ✅ **Polyglot**: Works in all languages
+See elide-$(basename $dir).ts for implementation and examples.
 
 ## Quick Start
 
-```typescript
-import compression from './elide-compression.ts';
+\`\`\`bash
+elide run elide-$(basename $dir).ts
+\`\`\`
 
-app.use(compression({
-  level: 6,
-  threshold: 1024
-}));
-```
+## Features
 
-## Package Stats
+- Zero dependencies
+- Pure TypeScript implementation
+- Polyglot ready for Python, Ruby, Java
+- Production-grade code quality
 
-- **npm downloads**: ~8M/week
-- **Polyglot score**: 37/50 (B-Tier)
+## Learn More
 
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+Run the demo file to see all examples and use cases.

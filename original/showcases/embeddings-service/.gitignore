@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+*.pyc
+__pycache__/
+.pytest_cache/
+.vscode/
+.idea/
+*.log
+*.swp
+.DS_Store
+models/
+*.onnx
+*.pt
+test-output/
+benchmark-results/

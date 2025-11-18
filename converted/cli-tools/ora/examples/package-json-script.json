@@ -1,0 +1,29 @@
+{
+  "name": "my-cli-with-ora",
+  "version": "1.0.0",
+  "description": "Example CLI tool using ora for progress indication",
+  "scripts": {
+    "comment": "=== Build scripts with spinners ===",
+    "build": "node build.js",
+    "build:watch": "node build.js --watch",
+    "build:prod": "node build.js --production",
+
+    "comment2": "=== Test scripts ===",
+    "test": "node test.js",
+    "test:watch": "node test.js --watch",
+    "test:coverage": "node test.js --coverage",
+
+    "comment3": "=== Deploy scripts ===",
+    "deploy": "node deploy.js",
+    "deploy:staging": "node deploy.js --env staging",
+    "deploy:prod": "node deploy.js --env production",
+
+    "comment4": "=== Database scripts ===",
+    "db:migrate": "node db/migrate.js",
+    "db:seed": "node db/seed.js",
+    "db:reset": "node db/reset.js"
+  },
+  "dependencies": {
+    "@elide/ora": "^1.0.0"
+  }
+}

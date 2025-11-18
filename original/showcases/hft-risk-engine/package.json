@@ -1,0 +1,40 @@
+{
+  "name": "@elide-showcases/hft-risk-engine",
+  "version": "1.0.0",
+  "description": "Sub-millisecond risk engine for high-frequency trading strategies - Tier S Financial Showcase",
+  "main": "api/server.ts",
+  "type": "module",
+  "scripts": {
+    "start": "node --loader ts-node/esm api/server.ts",
+    "dev": "nodemon --exec node --loader ts-node/esm api/server.ts",
+    "test": "vitest run tests/",
+    "test:watch": "vitest tests/",
+    "benchmark": "node --loader ts-node/esm benchmarks/risk-benchmark.ts",
+    "example:basic": "node --loader ts-node/esm examples/basic-risk-check.ts",
+    "example:portfolio": "node --loader ts-node/esm examples/portfolio-risk.ts",
+    "example:stress": "node --loader ts-node/esm examples/stress-test.ts",
+    "lint": "eslint . --ext .ts"
+  },
+  "keywords": ["elide", "polyglot", "hft", "risk-management", "trading", "finance", "ultra-low-latency"],
+  "author": "Elide Showcases",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "pino": "^8.16.1",
+    "pino-pretty": "^10.2.3",
+    "zod": "^3.22.4",
+    "dotenv": "^16.3.1",
+    "ws": "^8.14.2",
+    "ioredis": "^5.3.2",
+    "decimal.js": "^10.4.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/ws": "^8.5.10",
+    "typescript": "^5.3.2",
+    "ts-node": "^10.9.1",
+    "vitest": "^1.0.4",
+    "nodemon": "^3.0.2"
+  }
+}

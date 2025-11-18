@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "recommendation-engine"
+version = "1.0.0"
+description = "Hybrid recommendation system with collaborative filtering and deep learning"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+keywords = ["recommendation", "machine-learning", "collaborative-filtering", "elide"]
+authors = [
+  {name = "Elide Showcases"}
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+]
+
+dependencies = [
+  "numpy>=1.24.0",
+  "scipy>=1.11.0",
+  "scikit-learn>=1.3.0",
+  "pandas>=2.0.0",
+  "tensorflow>=2.14.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.4.0",
+  "black>=23.0.0",
+  "mypy>=1.0.0",
+]

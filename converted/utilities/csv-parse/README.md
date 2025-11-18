@@ -1,22 +1,17 @@
-# CSV Parse - Elide Polyglot Showcase
+# csv-parse - Elide Polyglot Showcase
 
-> **One CSV parser for ALL languages**
+> CSV parser and stringifier.
 
-## Quick Start
+## ✨ Features
 
-```typescript
-import { parse } from './elide-csv-parse.ts';
+- ✅ Parse CSV to JavaScript objects
+- ✅ Stringify objects to CSV
+- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
 
-const csv = 'name,age\nJohn,30\nJane,25';
-const data = parse(csv, { columns: true });
-console.log(data);
-// [{ name: 'John', age: '30' }, { name: 'Jane', age: '25' }]
-```
+## 📝 Package Stats
 
-## Package Stats
-
-- **npm downloads**: ~6M/week
-- **Polyglot score**: 41/50 (A-Tier)
+- **npm downloads**: 10M+/week
+- **Polyglot score**: 45/50 (A-Tier)
 
 ---
 

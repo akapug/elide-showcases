@@ -1,22 +1,43 @@
-# Joi for Elide
+# joi - Elide Conversion
 
-Object schema description language and validator.
+**Original package:** [`joi`](https://www.npmjs.com/package/joi)
 
-**Downloads**: ~12M/week on npm
+**Category:** Validation
 
-## Quick Start
+**Tier:** B (14.5M downloads/week)
 
-```typescript
-import Joi from './joi.ts';
+## Description
 
-const schema = Joi.string().required().min(3).max(30);
-const result = schema.validate('hello');
+Object schema description and validation
 
-if (result.error) {
-  console.error(result.error);
-}
+## Why Elide?
+
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/joi
+elide run elide-joi.ts
 ```
 
-## Resources
+## Usage
 
-- Original: https://www.npmjs.com/package/joi
+See `elide-joi.ts` for implementation examples.
+
+## Performance
+
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 14.5M/week
+- Repository: https://www.npmjs.com/package/joi

@@ -1,0 +1,48 @@
+{
+  "name": "@elide/zod-showcase",
+  "version": "1.0.0",
+  "description": "Zod on Elide - TypeScript-first schema validation with polyglot superpowers",
+  "type": "module",
+  "main": "src/zod.ts",
+  "scripts": {
+    "test": "elide test tests/*.test.ts",
+    "test:primitives": "elide test tests/primitives.test.ts",
+    "test:objects": "elide test tests/objects.test.ts",
+    "test:unions": "elide test tests/unions-and-refinements.test.ts",
+    "test:polyglot": "elide test tests/polyglot.test.ts",
+    "example:basic": "elide run examples/basic-validation.ts",
+    "demo:microservices": "elide run demos/microservices-demo/shared-schemas.ts",
+    "benchmark": "elide run benchmarks/performance.ts"
+  },
+  "keywords": [
+    "zod",
+    "validation",
+    "schema",
+    "typescript",
+    "polyglot",
+    "python",
+    "ruby",
+    "java",
+    "elide",
+    "cross-language"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "devDependencies": {},
+  "elide": {
+    "runtime": "polyglot",
+    "languages": ["typescript", "python", "ruby", "java"],
+    "features": [
+      "cross-language-validation",
+      "type-inference",
+      "zero-serialization-overhead"
+    ]
+  },
+  "showcase": {
+    "category": "data-processing",
+    "tier": "tier1",
+    "downloads_per_week": "45M",
+    "killer_feature": "polyglot_validation",
+    "differentiation": "Define schemas once in TypeScript, use in Python, Ruby, and Java - impossible with Node.js, Deno, or Bun"
+  }
+}

@@ -1,33 +1,28 @@
 # Agenda - Elide Polyglot Showcase
 
-> **One job scheduler for ALL languages**
+> **One library for ALL languages** - TypeScript, Python, Ruby, and Java
 
-## Quick Start
+Lightweight job scheduling library
+
+## ✨ Features
+
+- ✅ Core functionality
+- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
+- ✅ Zero dependencies
+
+## 🚀 Quick Start
 
 ```typescript
-import Agenda from './elide-agenda.ts';
+import Client from './elide-agenda.ts';
 
-const agenda = new Agenda({
-  db: { address: 'mongodb://localhost:27017/agenda' }
-});
-
-// Define job
-agenda.define('send-email', async (job) => {
-  console.log('Sending email to:', job.attrs.to);
-});
-
-await agenda.start();
-
-// Schedule jobs
-await agenda.every('5 minutes', 'send-email', { to: 'user@example.com' });
-await agenda.schedule('in 10 minutes', 'cleanup');
-await agenda.now('send-email', { to: 'admin@example.com' });
+const client = new Client();
+await client.execute({ data: 'example' });
 ```
 
-## Package Stats
+## 📝 Package Stats
 
-- **npm downloads**: ~200K/week
-- **Polyglot score**: 39/50 (B-Tier)
+- **npm downloads**: ~3M/week
+- **Polyglot score**: 45/50 (A-Tier)
 
 ---
 

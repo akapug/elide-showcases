@@ -1,0 +1,45 @@
+{
+  "name": "@elide/qunit",
+  "version": "1.0.0",
+  "description": "QUnit testing framework for Elide - Blazing fast unit tests with zero dependencies",
+  "main": "index.ts",
+  "type": "module",
+  "bin": {
+    "qunit": "./cli.ts"
+  },
+  "keywords": [
+    "elide",
+    "qunit",
+    "testing",
+    "test",
+    "framework",
+    "unit-testing",
+    "polyglot",
+    "fast",
+    "typescript"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases"
+  },
+  "npm": {
+    "original": "qunit",
+    "downloads": "500K/week",
+    "url": "https://www.npmjs.com/package/qunit"
+  },
+  "elide": {
+    "polyglot": true,
+    "languages": ["javascript", "typescript", "python", "ruby", "java"],
+    "ready": true,
+    "performance": {
+      "startup": "50x faster",
+      "execution": "10-30x faster",
+      "memory": "70% less"
+    }
+  },
+  "scripts": {
+    "test": "elide run cli.ts demo-tests/**/*.ts"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "name": "@elide/minimist",
+  "version": "1.0.0",
+  "description": "Minimalist argument parser powered by Elide - 100-200x faster than Node.js",
+  "main": "index.ts",
+  "type": "module",
+  "bin": {
+    "minimist": "./cli.ts"
+  },
+  "scripts": {
+    "build": "elide build --output minimist",
+    "build:all": "npm run build:linux && npm run build:macos && npm run build:windows",
+    "build:linux": "elide build --platform linux-x64 --output dist/minimist-linux-x64",
+    "build:macos": "elide build --platform darwin-arm64 --output dist/minimist-macos-arm64",
+    "build:windows": "elide build --platform win32-x64 --output dist/minimist-windows-x64.exe",
+    "test": "elide test",
+    "bench": "elide run benchmarks/parse-time.ts",
+    "example:cli": "bash examples/cli-usage.sh",
+    "example:programmatic": "elide run examples/programmatic-usage.ts",
+    "example:python": "python3 examples/polyglot-cli-wrapper.py",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run build:all"
+  },
+  "keywords": [
+    "elide",
+    "minimist",
+    "argument",
+    "parser",
+    "args",
+    "argv",
+    "cli",
+    "command-line",
+    "options",
+    "flags",
+    "fast",
+    "performance",
+    "native"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/minimist.git"
+  },
+  "bugs": {
+    "url": "https://github.com/elide-dev/minimist/issues"
+  },
+  "homepage": "https://github.com/elide-dev/minimist#readme",
+  "npm": {
+    "original": "minimist",
+    "downloads": "51.8M/week",
+    "url": "https://www.npmjs.com/package/minimist"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": true,
+    "standalone": true,
+    "platforms": [
+      "linux-x64",
+      "linux-arm64",
+      "darwin-x64",
+      "darwin-arm64",
+      "win32-x64"
+    ],
+    "binary": {
+      "name": "minimist",
+      "outputPath": "dist"
+    },
+    "optimization": {
+      "stripDebug": true,
+      "minify": true,
+      "bundleMode": "standalone"
+    }
+  },
+  "files": [
+    "index.ts",
+    "cli.ts",
+    "README.md",
+    "BENCHMARKS.md",
+    "DISTRIBUTION.md",
+    "examples/",
+    "dist/"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "elide": ">=1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,122 +1,101 @@
 /**
- * Elide CSV Parse - Universal CSV Parser
+ * CSV Parser for Elide
+ * NPM: 10M+ downloads/week
  */
 
-export interface ParseOptions {
-  delimiter?: string;
-  columns?: boolean | string[];
-  skip_empty_lines?: boolean;
-  trim?: boolean;
-  quote?: string;
-  escape?: string;
-}
+export function parse(csv: string, options: { columns?: boolean; delimiter?: string } = {}): any[] {
+  const delimiter = options.delimiter || ',';
+  const lines = csv.trim().split('\n');
+  const result: any[] = [];
 
-export function parse(input: string, options: ParseOptions = {}): any[] {
-  const {
-    delimiter = ',',
-    columns = false,
-    skip_empty_lines = false,
-    trim = false,
-    quote = '"',
-    escape = '"'
-  } = options;
+  if (lines.length === 0) return result;
 
-  const lines = input.split('\n').filter(line => {
-    return !skip_empty_lines || line.trim() !== '';
-  });
+  const headers = parseLine(lines[0], delimiter);
+  const startIndex = options.columns ? 1 : 0;
 
-  const results: any[] = [];
-  let headers: string[] = [];
+  for (let i = startIndex; i < lines.length; i++) {
+    const values = parseLine(lines[i], delimiter);
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    const values = parseLine(line, delimiter, quote, escape, trim);
-
-    if (i === 0 && columns === true) {
-      headers = values;
-      continue;
-    }
-
-    if (columns === true) {
+    if (options.columns) {
       const obj: any = {};
       headers.forEach((header, index) => {
         obj[header] = values[index] || '';
       });
-      results.push(obj);
-    } else if (Array.isArray(columns)) {
-      const obj: any = {};
-      columns.forEach((header, index) => {
-        obj[header] = values[index] || '';
-      });
-      results.push(obj);
+      result.push(obj);
     } else {
-      results.push(values);
+      result.push(values);
     }
   }
 
-  return results;
+  return result;
 }
 
-function parseLine(line: string, delimiter: string, quote: string, escape: string, trim: boolean): string[] {
+function parseLine(line: string, delimiter: string): string[] {
   const values: string[] = [];
   let current = '';
   let inQuotes = false;
-  let i = 0;
 
-  while (i < line.length) {
+  for (let i = 0; i < line.length; i++) {
     const char = line[i];
 
-    if (char === quote) {
-      if (inQuotes && line[i + 1] === quote) {
-        current += quote;
-        i += 2;
-        continue;
-      }
+    if (char === '"') {
       inQuotes = !inQuotes;
-      i++;
-      continue;
-    }
-
-    if (char === delimiter && !inQuotes) {
-      values.push(trim ? current.trim() : current);
+    } else if (char === delimiter && !inQuotes) {
+      values.push(current.trim());
       current = '';
-      i++;
-      continue;
+    } else {
+      current += char;
     }
-
-    current += char;
-    i++;
   }
 
-  values.push(trim ? current.trim() : current);
+  values.push(current.trim());
   return values;
 }
 
-export default { parse };
+export function stringify(data: any[], options: { header?: boolean; delimiter?: string } = {}): string {
+  const delimiter = options.delimiter || ',';
+  const lines: string[] = [];
 
-if (import.meta.main) {
-  console.log('=== Elide CSV Parse Demo ===\n');
+  if (data.length === 0) return '';
 
-  // Example 1: Simple CSV
-  console.log('1. Simple CSV:');
-  const csv1 = 'name,age,email\nJohn,30,john@example.com\nJane,25,jane@example.com';
-  const result1 = parse(csv1, { columns: true });
-  console.log(result1);
-  console.log('');
+  // If first item is an object, extract headers
+  if (typeof data[0] === 'object' && !Array.isArray(data[0])) {
+    const headers = Object.keys(data[0]);
+    if (options.header !== false) {
+      lines.push(headers.join(delimiter));
+    }
 
-  // Example 2: Quoted values
-  console.log('2. Quoted values:');
-  const csv2 = '"name","description"\n"Product 1","A great, amazing product"\n"Product 2","Another product"';
-  const result2 = parse(csv2, { columns: true });
-  console.log(result2);
-  console.log('');
+    data.forEach(row => {
+      const values = headers.map(header => escapeValue(row[header], delimiter));
+      lines.push(values.join(delimiter));
+    });
+  } else {
+    // Array of arrays
+    data.forEach(row => {
+      const values = row.map((val: any) => escapeValue(val, delimiter));
+      lines.push(values.join(delimiter));
+    });
+  }
 
-  // Example 3: Custom delimiter
-  console.log('3. Custom delimiter (tab):');
-  const csv3 = 'name\tage\tcity\nJohn\t30\tNYC\nJane\t25\tLA';
-  const result3 = parse(csv3, { columns: true, delimiter: '\t' });
-  console.log(result3);
-  console.log('');
-
-  console.log('✓ Demo completed');
+  return lines.join('\n');
 }
+
+function escapeValue(value: any, delimiter: string): string {
+  const str = String(value ?? '');
+  if (str.includes(delimiter) || str.includes('"') || str.includes('\n')) {
+    return `"${str.replace(/"/g, '""')}"`;
+  }
+  return str;
+}
+
+if (import.meta.url.includes("csv-parse")) {
+  console.log("🎯 CSV Parser for Elide\n");
+  const csv = `name,age,city
+Alice,25,NYC
+Bob,30,LA`;
+  const parsed = parse(csv, { columns: true });
+  console.log("Parsed:", parsed);
+  console.log("\nStringified:\n", stringify(parsed));
+}
+
+export default { parse, stringify };

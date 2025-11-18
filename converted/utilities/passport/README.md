@@ -1,30 +1,43 @@
-# Passport - Elide Polyglot Showcase
+# passport - Elide Conversion
 
-> **One authentication middleware for ALL languages**
+**Original package:** [`passport`](https://www.npmjs.com/package/passport)
 
-Simple and flexible authentication across your entire stack.
+**Category:** Authentication
 
-## Features
+**Tier:** B (1.5M downloads/week)
 
-- ✅ Strategy-based authentication
-- ✅ Session support
-- ✅ Multiple strategies
-- ✅ **Polyglot**: Works in all languages
+## Description
 
-## Quick Start
+Simple, unobtrusive authentication for Node.js
 
-```typescript
-import passport from './elide-passport.ts';
+## Why Elide?
 
-app.use(passport.initialize());
-app.post('/login', passport.authenticate('local'));
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/passport
+elide run elide-passport.ts
 ```
 
-## Package Stats
+## Usage
 
-- **npm downloads**: ~2M/week
-- **Polyglot score**: 34/50 (B-Tier)
+See `elide-passport.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 1.5M/week
+- Repository: https://www.npmjs.com/package/passport

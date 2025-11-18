@@ -1,0 +1,59 @@
+{
+  "name": "@elide-showcases/real-time-ml-prediction-api",
+  "version": "1.0.0",
+  "description": "Real-time ML prediction API with TypeScript + Python polyglot integration",
+  "main": "src/server.ts",
+  "scripts": {
+    "start": "elide run src/server.ts",
+    "dev": "NODE_ENV=development elide run src/server.ts",
+    "test": "npm run test:api && npm run test:polyglot && npm run test:benchmark",
+    "test:api": "elide run tests/api.test.ts",
+    "test:polyglot": "elide run tests/polyglot.test.ts",
+    "test:benchmark": "elide run tests/benchmark.test.ts",
+    "benchmark": "npm run benchmark:latency && npm run benchmark:throughput",
+    "benchmark:latency": "elide run benchmarks/latency-test.ts",
+    "benchmark:throughput": "elide run benchmarks/throughput-test.ts",
+    "benchmark:vs-microservices": "elide run benchmarks/vs-microservices.ts",
+    "example:basic": "elide run examples/basic-prediction.ts",
+    "example:batch": "elide run examples/batch-processing.ts",
+    "example:production": "elide run examples/production-config.ts",
+    "lint": "eslint src/**/*.ts tests/**/*.ts examples/**/*.ts benchmarks/**/*.ts",
+    "format": "prettier --write \"**/*.{ts,js,json,md,py}\""
+  },
+  "keywords": [
+    "elide",
+    "polyglot",
+    "ml",
+    "machine-learning",
+    "prediction",
+    "api",
+    "typescript",
+    "python",
+    "graalvm",
+    "sentiment-analysis",
+    "image-classification",
+    "recommendations",
+    "real-time",
+    "high-performance",
+    "fastify"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases.git",
+    "directory": "original/showcases/real-time-ml-prediction-api"
+  },
+  "dependencies": {
+    "nanoid": "^3.3.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

@@ -1,26 +1,17 @@
-# XML2JS - Elide Polyglot Showcase
+# xml2js - Elide Polyglot Showcase
 
-> **One XML parser for ALL languages**
+> Simple XML to JavaScript object converter.
 
-## Quick Start
+## ✨ Features
 
-```typescript
-import { parseString, Builder } from './elide-xml2js.ts';
+- ✅ Parse XML to JavaScript objects
+- ✅ Promise and callback APIs
+- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
 
-// Parse XML to JS
-parseString('<root><name>John</name></root>', (err, result) => {
-  console.log(result);
-});
+## 📝 Package Stats
 
-// Build XML from JS
-const builder = new Builder();
-const xml = builder.buildObject({ root: { name: 'John' } });
-```
-
-## Package Stats
-
-- **npm downloads**: ~10M/week
-- **Polyglot score**: 42/50 (A-Tier)
+- **npm downloads**: 15M+/week
+- **Polyglot score**: 45/50 (A-Tier)
 
 ---
 

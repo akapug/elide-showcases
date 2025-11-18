@@ -1,27 +1,28 @@
-# Node-Cron - Elide Polyglot Showcase
+# Node Cron - Elide Polyglot Showcase
 
-> **One cron scheduler for ALL languages**
+> **One library for ALL languages** - TypeScript, Python, Ruby, and Java
 
-## Quick Start
+Simple cron-like job scheduler
+
+## ✨ Features
+
+- ✅ Core functionality
+- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
+- ✅ Zero dependencies
+
+## 🚀 Quick Start
 
 ```typescript
-import { schedule } from './elide-node-cron.ts';
+import Client from './elide-node-cron.ts';
 
-// Run every minute
-const task = schedule('* * * * *', () => {
-  console.log('Running task');
-});
-
-task.start();
-
-// Stop when needed
-task.stop();
+const client = new Client();
+await client.execute({ data: 'example' });
 ```
 
-## Package Stats
+## 📝 Package Stats
 
-- **npm downloads**: ~4M/week
-- **Polyglot score**: 40/50 (A-Tier)
+- **npm downloads**: ~5M/week
+- **Polyglot score**: 45/50 (A-Tier)
 
 ---
 

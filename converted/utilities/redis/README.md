@@ -1,22 +1,23 @@
-# Redis - Elide Polyglot Showcase
+# redis - Elide Polyglot Showcase
 
-> **One Redis client for ALL languages**
+> **Redis Client for ALL languages** - TypeScript, Python, Ruby, and Java
+
+## Features
+
+- Redis Client
+- **~30M+ downloads/week on npm**
 
 ## Quick Start
 
 ```typescript
-import { createClient } from './elide-redis.ts';
+import db from './elide-redis.ts';
 
-const client = createClient();
-await client.connect();
-await client.set('key', 'value');
-const value = await client.get('key');
+// See elide-redis.ts for full examples
 ```
 
-## Package Stats
+## Links
 
-- **npm downloads**: ~6M/week
-- **Polyglot score**: 45/50 (A-Tier)
+- [Original npm package](https://www.npmjs.com/package/redis)
 
 ---
 

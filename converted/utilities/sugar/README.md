@@ -1,0 +1,12 @@
+# sugar - Elide Polyglot Showcase
+
+> Sweet JavaScript extensions for native objects.
+
+## 📝 Package Stats
+
+- **npm downloads**: 200K+/week
+- **Polyglot score**: 42/50 (A-Tier)
+
+---
+
+**Built with ❤️ for the Elide Polyglot Runtime**

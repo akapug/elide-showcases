@@ -1,0 +1,12 @@
+# Feature Engineering Dependencies
+pandas>=2.1.0
+numpy>=1.24.0
+scikit-learn>=1.3.0
+scipy>=1.11.0
+
+# Performance
+numba>=0.58.0
+pyarrow>=14.0.0
+
+# Monitoring
+psutil>=5.9.0

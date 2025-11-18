@@ -1,63 +1,46 @@
-# Object Hash - Elide Polyglot Showcase
+# Object Hash
 
-> **One object hashing implementation for ALL languages** - TypeScript, Python, Ruby, and Java
+Generate hashes from JavaScript objects for Elide (polyglot!)
 
-Generate deterministic hash values for objects across your entire polyglot stack.
+Based on https://www.npmjs.com/package/object-hash (~2M+ downloads/week)
 
 ## Features
 
-- ✅ Hash any JavaScript value
-- ✅ Deterministic (same input = same hash)
-- ✅ Handles objects, arrays, functions, dates, regex
-- ✅ Circular reference support
-- ✅ Multiple hash algorithms (MD5, SHA1, SHA256)
-- ✅ **Polyglot**: Works across all languages
-- ✅ Zero dependencies
+- Generate hashes from JavaScript objects
+- Fast and efficient
+- Type-safe
+- Zero dependencies
 
 ## Quick Start
 
 ```typescript
-import hash, { equals } from './elide-object-hash.ts';
-
-// Generate cache key
-const cacheKey = hash({ endpoint: '/users', params: { page: 1 } });
-
-// Check equality
-const same = equals(obj1, obj2);
+import object_hash from './elide-object-hash.ts';
 ```
 
-## Use Cases
+## Polyglot Examples
 
-- ✅ Cache key generation
-- ✅ Object equality checking
-- ✅ Change detection
-- ✅ Deduplication
-- ✅ Data integrity verification
+### JavaScript/TypeScript
+```typescript
+import object_hash from './elide-object-hash.ts';
+```
 
-## Performance
+### Python (via Elide)
+```python
+from elide_object_hash import object_hash
+```
 
-Benchmark results (100,000 operations):
+### Ruby (via Elide)
+```ruby
+require 'elide/object_hash'
+```
 
-| Implementation | Simple Hash | Nested Hash |
-|---|---|---|
-| **Elide (TypeScript)** | **92ms** | **158ms** |
+### Java (via Elide)
+```java
+import elide.object_hash.*;
+```
 
-## Files
+## Benefits
 
-- `elide-object-hash.ts` - Main implementation
-- `elide-object-hash.py` - Python integration
-- `elide-object-hash.rb` - Ruby integration
-- `ElideObjectHashExample.java` - Java integration
-- `benchmark.ts` - Performance comparison
-- `CASE_STUDY.md` - Real-world story
-- `README.md` - This file
-
-## Package Stats
-
-- **npm downloads**: ~10M/week
-- **Use case**: Caching, deduplication
-- **Polyglot score**: 30/50 (C-Tier)
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+- One object hash library for ALL languages on Elide
+- Consistent behavior across languages
+- ~2M+ downloads/week on npm!

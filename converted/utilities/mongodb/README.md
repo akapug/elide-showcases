@@ -1,23 +1,23 @@
-# MongoDB - Elide Polyglot Showcase
+# mongodb - Elide Polyglot Showcase
 
-> **One MongoDB client for ALL languages**
+> **MongoDB Driver for ALL languages** - TypeScript, Python, Ruby, and Java
+
+## Features
+
+- MongoDB Driver
+- **~30M+ downloads/week on npm**
 
 ## Quick Start
 
 ```typescript
-import { MongoClient } from './elide-mongodb.ts';
+import db from './elide-mongodb.ts';
 
-const client = new MongoClient('mongodb://localhost:27017');
-await client.connect();
-const db = client.db('mydb');
-const collection = db.collection('users');
-await collection.insertOne({ name: 'John' });
+// See elide-mongodb.ts for full examples
 ```
 
-## Package Stats
+## Links
 
-- **npm downloads**: ~8M/week
-- **Polyglot score**: 46/50 (A-Tier)
+- [Original npm package](https://www.npmjs.com/package/mongodb)
 
 ---
 

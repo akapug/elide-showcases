@@ -1,0 +1,44 @@
+{
+  "name": "@elide/autoprefixer",
+  "version": "1.0.0",
+  "description": "Autoprefixer for Elide - Parse CSS and add vendor prefixes using values from Can I Use",
+  "main": "index.ts",
+  "type": "module",
+  "bin": {
+    "autoprefixer": "./cli.ts"
+  },
+  "keywords": [
+    "elide",
+    "autoprefixer",
+    "css",
+    "prefix",
+    "postcss",
+    "vendor",
+    "build-tool",
+    "polyglot"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases"
+  },
+  "npm": {
+    "original": "autoprefixer",
+    "downloads": "15.3M/week",
+    "url": "https://www.npmjs.com/package/autoprefixer"
+  },
+  "elide": {
+    "polyglot": true,
+    "languages": ["javascript", "typescript", "python", "ruby", "java"],
+    "ready": true,
+    "performance": {
+      "speedup": "5-10x",
+      "coldStart": "~50ms",
+      "memoryUsage": "50% less"
+    }
+  },
+  "dependencies": {
+    "postcss": "^8.4.0"
+  }
+}

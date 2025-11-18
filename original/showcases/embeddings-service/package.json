@@ -1,0 +1,64 @@
+{
+  "name": "@elide-showcases/embeddings-service",
+  "version": "1.0.0",
+  "description": "Production-ready text and image embedding service with TypeScript API and Python ML backends (sentence-transformers, CLIP)",
+  "main": "api/server.ts",
+  "scripts": {
+    "start": "node -r ts-node/register api/server.ts",
+    "dev": "NODE_ENV=development node -r ts-node/register api/server.ts",
+    "test": "node -r ts-node/register tests/embedding-test.ts",
+    "test:all": "node -r ts-node/register tests/embedding-test.ts && node -r ts-node/register tests/cache-test.ts && node -r ts-node/register tests/similarity-test.ts",
+    "benchmark": "node -r ts-node/register benchmarks/performance-benchmark.ts",
+    "benchmark:batch": "node -r ts-node/register benchmarks/batch-benchmark.ts",
+    "benchmark:cache": "node -r ts-node/register benchmarks/cache-benchmark.ts",
+    "example:text": "node -r ts-node/register examples/text-embeddings.ts",
+    "example:image": "node -r ts-node/register examples/image-embeddings.ts",
+    "example:search": "node -r ts-node/register examples/semantic-search.ts",
+    "example:clustering": "node -r ts-node/register examples/clustering.ts",
+    "example:recommendation": "node -r ts-node/register examples/recommendations.ts",
+    "lint": "eslint api/*.ts tests/*.ts examples/*.ts benchmarks/*.ts shared/*.ts",
+    "format": "prettier --write \"**/*.{ts,js,json,md,py}\""
+  },
+  "keywords": [
+    "embeddings",
+    "sentence-transformers",
+    "clip",
+    "semantic-search",
+    "text-embeddings",
+    "image-embeddings",
+    "vector-search",
+    "similarity-search",
+    "ml-api",
+    "machine-learning",
+    "nlp",
+    "computer-vision",
+    "polyglot",
+    "typescript",
+    "python",
+    "real-time",
+    "batch-processing",
+    "caching"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "nanoid": "^3.3.7",
+    "lru-cache": "^10.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0",
+    "python": ">=3.8.0"
+  }
+}

@@ -1,32 +1,17 @@
-# Moment.js for Elide
+# moment - Elide Polyglot Showcase
 
-Parse, validate, manipulate, and display dates and times.
+> Parse, validate, manipulate, and display dates.
 
-**Downloads**: ~15M/week on npm
-**Status**: ✅ Production Ready
+## ✨ Features
 
-## Quick Start
+- ✅ Date formatting and manipulation
+- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
 
-```typescript
-import moment from './moment.ts';
+## 📝 Package Stats
 
-const now = moment();
-console.log(now.format('YYYY-MM-DD'));
+- **npm downloads**: 15M+/week
+- **Polyglot score**: 46/50 (S-Tier)
 
-const tomorrow = moment().add(1, 'day');
-console.log(tomorrow.fromNow());
-```
+---
 
-## Features
-
-- Parse dates
-- Format dates
-- Add/subtract time
-- Relative time
-- Comparisons
-- Durations
-
-## Resources
-
-- Original: https://www.npmjs.com/package/moment
-- Downloads: ~15M/week
+**Built with ❤️ for the Elide Polyglot Runtime**

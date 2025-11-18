@@ -1,0 +1,90 @@
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "description": "Example package.json showing cross-env usage in npm scripts",
+  "scripts": {
+    "comment1": "=== Development Scripts ===",
+    "dev": "cross-env NODE_ENV=development PORT=3000 node server.js",
+    "dev:debug": "cross-env NODE_ENV=development DEBUG=* node --inspect server.js",
+    "dev:hot": "cross-env NODE_ENV=development HOT_RELOAD=true webpack-dev-server",
+
+    "comment2": "=== Build Scripts ===",
+    "build": "cross-env NODE_ENV=production npm run build:clean && npm run build:compile",
+    "build:clean": "cross-env FORCE=true rimraf dist",
+    "build:compile": "cross-env NODE_ENV=production MINIFY=true webpack",
+    "build:analyze": "cross-env NODE_ENV=production ANALYZE=true webpack",
+    "build:dev": "cross-env NODE_ENV=development SOURCE_MAPS=true webpack",
+
+    "comment3": "=== Test Scripts ===",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:watch": "cross-env NODE_ENV=test jest --watch",
+    "test:coverage": "cross-env NODE_ENV=test COVERAGE=true jest --coverage",
+    "test:ci": "cross-env NODE_ENV=test CI=true jest --ci --coverage --maxWorkers=2",
+    "test:e2e": "cross-env NODE_ENV=test E2E=true playwright test",
+
+    "comment4": "=== Linting and Formatting ===",
+    "lint": "cross-env NODE_ENV=development eslint .",
+    "lint:fix": "cross-env NODE_ENV=development eslint . --fix",
+    "format": "cross-env NODE_ENV=development prettier --write .",
+    "format:check": "cross-env NODE_ENV=development prettier --check .",
+
+    "comment5": "=== Production Scripts ===",
+    "start": "cross-env NODE_ENV=production node dist/server.js",
+    "start:cluster": "cross-env NODE_ENV=production CLUSTER_MODE=true node dist/server.js",
+    "start:pm2": "cross-env NODE_ENV=production pm2 start dist/server.js",
+
+    "comment6": "=== Database Scripts ===",
+    "db:migrate": "cross-env NODE_ENV=development DB_HOST=localhost knex migrate:latest",
+    "db:migrate:prod": "cross-env NODE_ENV=production knex migrate:latest",
+    "db:seed": "cross-env NODE_ENV=development knex seed:run",
+    "db:reset": "cross-env NODE_ENV=development knex migrate:rollback && npm run db:migrate",
+
+    "comment7": "=== Docker Scripts ===",
+    "docker:build": "cross-env BUILD_ENV=production docker build -t myapp .",
+    "docker:run": "cross-env NODE_ENV=production docker run -p 3000:3000 myapp",
+
+    "comment8": "=== CI/CD Scripts ===",
+    "ci:test": "cross-env CI=true NODE_ENV=test npm run test:ci",
+    "ci:build": "cross-env CI=true NODE_ENV=production npm run build",
+    "ci:lint": "cross-env CI=true npm run lint && npm run format:check",
+    "ci:deploy": "cross-env NODE_ENV=production DEPLOY_TARGET=staging ./scripts/deploy.sh",
+
+    "comment9": "=== Multi-Environment Scripts ===",
+    "env:dev": "cross-env NODE_ENV=development API_URL=http://localhost:4000 npm start",
+    "env:staging": "cross-env NODE_ENV=staging API_URL=https://staging.example.com npm start",
+    "env:prod": "cross-env NODE_ENV=production API_URL=https://api.example.com npm start",
+
+    "comment10": "=== Feature Flag Scripts ===",
+    "flags:all": "cross-env FEATURE_A=true FEATURE_B=true FEATURE_C=true npm run dev",
+    "flags:none": "cross-env FEATURE_A=false FEATURE_B=false FEATURE_C=false npm run dev",
+
+    "comment11": "=== Performance Testing ===",
+    "perf:test": "cross-env NODE_ENV=production PERF_TEST=true node benchmark.js",
+    "perf:memory": "cross-env NODE_ENV=production node --max-old-space-size=4096 app.js",
+
+    "comment12": "=== Security Scripts ===",
+    "audit": "cross-env NODE_ENV=production npm audit",
+    "audit:fix": "cross-env NODE_ENV=production npm audit fix",
+
+    "comment13": "=== Pre/Post Hooks ===",
+    "prebuild": "cross-env NODE_ENV=production npm run lint",
+    "postbuild": "cross-env NODE_ENV=production npm run test",
+    "pretest": "cross-env NODE_ENV=test npm run lint",
+
+    "comment14": "=== Complex Multi-Variable Scripts ===",
+    "full:dev": "cross-env NODE_ENV=development PORT=3000 DEBUG=app:* LOG_LEVEL=debug CACHE=false node server.js",
+    "full:prod": "cross-env NODE_ENV=production PORT=80 LOG_LEVEL=error CACHE=true CLUSTER=true node server.js"
+  },
+  "devDependencies": {
+    "@elide/cross-env": "^1.0.0",
+    "webpack": "^5.0.0",
+    "webpack-dev-server": "^4.0.0",
+    "jest": "^29.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.0"
+  }
+}

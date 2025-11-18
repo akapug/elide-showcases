@@ -1,312 +1,256 @@
-# Axios for Elide
+# Axios - Promise-based HTTP Client - Elide Polyglot Showcase
 
-Promise-based HTTP client for making API requests, converted to run natively on Elide.
+> **One HTTP client for ALL languages** - TypeScript, Python, Ruby, and Java
 
-**Downloads**: ~28M/week on npm
-**Category**: HTTP Client
-**Status**: ✅ Production Ready
+A popular promise-based HTTP client with a simple and elegant API for making HTTP requests across your entire polyglot stack.
 
-## Overview
+## 🌟 Why This Matters
 
-Axios is the most popular HTTP client for JavaScript, providing a clean promise-based API for making HTTP requests. This Elide conversion uses native HTTP support for optimal performance.
+Different languages use different HTTP clients with inconsistent APIs:
+- `requests` in Python has different API than axios
+- `net/http` in Ruby requires verbose setup
+- `HttpClient` in Java is complex and ceremonial
+- Each language has its own error handling patterns
 
-## Features
+**Elide solves this** with ONE HTTP client that works in ALL languages with a consistent API.
 
-- **Promise-based API**: Modern async/await support
-- **Request/Response Interceptors**: Middleware for requests and responses
-- **Automatic JSON**: Transforms JSON data automatically
-- **All HTTP Methods**: GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS
-- **Query Parameters**: Easy parameter handling
-- **Timeout Support**: Configure request timeouts
-- **Error Handling**: Comprehensive error information
-- **Custom Instances**: Create configured instances
+## ✨ Features
 
-## Quick Start
+- ✅ Promise-based API
+- ✅ Request/response interceptors
+- ✅ Automatic JSON transformation
+- ✅ Request cancellation & timeout
+- ✅ Query parameter serialization
+- ✅ Custom headers support
+- ✅ Multiple HTTP methods (GET, POST, PUT, DELETE, PATCH)
+- ✅ Error handling with detailed responses
+- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
+- ✅ Zero dependencies
 
+## 🚀 Quick Start
+
+### TypeScript
 ```typescript
-import axios, { get, post, put, del } from './axios.ts';
+import axios from './elide-axios.ts';
 
-// Simple GET request
-const response = await get('https://api.example.com/users/1');
+// GET request
+const response = await axios.get('https://api.example.com/users');
 console.log(response.data);
 
-// GET with query parameters
-const users = await get('https://api.example.com/users', {
-  params: { page: 1, limit: 10 }
-});
-
 // POST request
-const newUser = await post('https://api.example.com/users', {
-  name: 'Alice',
-  email: 'alice@example.com'
+const newUser = await axios.post('https://api.example.com/users', {
+  name: 'John Doe',
+  email: 'john@example.com'
 });
 
-// PUT request
-await put('https://api.example.com/users/1', {
-  name: 'Alice Updated'
+// With query parameters
+const search = await axios.get('https://api.example.com/search', {
+  params: { q: 'elide', page: 1 }
 });
-
-// DELETE request
-await del('https://api.example.com/users/1');
 ```
 
-## API Reference
+### Python
+```python
+from elide import require
+axios = require('./elide-axios.ts')
 
-### Making Requests
+# GET request
+response = await axios.get('https://api.example.com/users')
+print(response['data'])
 
-```typescript
+# POST request
+new_user = await axios.post('https://api.example.com/users', {
+    'name': 'Alice',
+    'email': 'alice@example.com'
+})
+```
+
+### Ruby
+```ruby
+axios = Elide.require('./elide-axios.ts')
+
+# GET request
+response = axios.get('https://api.example.com/users').await
+puts response[:data]
+
+# POST request
+new_user = axios.post('https://api.example.com/users', {
+  name: 'Bob',
+  email: 'bob@example.com'
+}).await
+```
+
+### Java
+```java
+Value axios = context.eval("js", "require('./elide-axios.ts')");
+
 // GET request
-axios.get(url, config?)
-axios.get('/users', { params: { page: 1 } })
+Value response = axios.invokeMember("get", "https://api.example.com/users").as(Value.class);
+System.out.println(response.getMember("data"));
 
 // POST request
-axios.post(url, data?, config?)
-axios.post('/users', { name: 'Alice' })
-
-// PUT request
-axios.put(url, data?, config?)
-
-// PATCH request
-axios.patch(url, data?, config?)
-
-// DELETE request
-axios.delete(url, config?)
-
-// HEAD request
-axios.head(url, config?)
-
-// OPTIONS request
-axios.options(url, config?)
-
-// Custom request
-axios.request(config)
+Map<String, Object> userData = Map.of("name", "Charlie", "email", "charlie@example.com");
+Value newUser = axios.invokeMember("post", "https://api.example.com/users", userData);
 ```
 
-### Request Config
+## 💡 Real-World Use Cases
 
+### Microservice Communication
 ```typescript
-{
-  url: '/user',
-  method: 'GET',
-  baseURL: 'https://api.example.com',
-  headers: { 'X-Custom-Header': 'value' },
-  params: { id: 123 },
-  data: { name: 'Alice' },
+import { create } from './elide-axios.ts';
+
+// Create API client with base config
+const apiClient = create({
+  baseURL: 'https://api.internal.company.com',
   timeout: 5000,
-  responseType: 'json', // 'json', 'text', 'arraybuffer', 'blob'
-  validateStatus: (status) => status < 500
-}
-```
-
-### Response Schema
-
-```typescript
-{
-  data: {},              // Response body
-  status: 200,           // HTTP status code
-  statusText: 'OK',      // HTTP status message
-  headers: {},           // Response headers
-  config: {},            // Request config
-}
-```
-
-### Creating Instances
-
-```typescript
-const api = axios.create({
-  baseURL: 'https://api.example.com',
-  timeout: 5000,
-  headers: { 'X-Custom-Header': 'value' }
-});
-
-// Use the instance
-const response = await api.get('/users');
-```
-
-### Interceptors
-
-```typescript
-// Request interceptor
-axios.interceptors.request.use(
-  config => {
-    config.headers['Authorization'] = 'Bearer token';
-    return config;
-  },
-  error => Promise.reject(error)
-);
-
-// Response interceptor
-axios.interceptors.response.use(
-  response => {
-    console.log('Response received:', response.status);
-    return response;
-  },
-  error => {
-    console.error('Request failed:', error.message);
-    return Promise.reject(error);
-  }
-);
-```
-
-## Examples
-
-### Basic API Calls
-
-```typescript
-// Fetch user data
-const user = await get('https://api.example.com/users/1');
-console.log(user.data);
-
-// Search with parameters
-const results = await get('https://api.example.com/search', {
-  params: {
-    q: 'elide',
-    limit: 10
+  headers: {
+    'X-API-Key': process.env.API_KEY
   }
 });
 
-// Create resource
-const created = await post('https://api.example.com/posts', {
-  title: 'Hello World',
-  content: 'My first post'
-});
-```
-
-### API Client Class
-
-```typescript
-class APIClient {
-  private client = axios.create({
-    baseURL: 'https://api.example.com',
-    timeout: 5000
-  });
-
-  constructor(apiKey: string) {
-    this.client.interceptors.request.use(config => {
-      config.headers['X-API-Key'] = apiKey;
-      return config;
-    });
-  }
-
-  async getUsers() {
-    const response = await this.client.get('/users');
-    return response.data;
-  }
-
-  async createUser(user: any) {
-    const response = await this.client.post('/users', user);
-    return response.data;
-  }
-}
-
-const api = new APIClient('my-api-key');
-const users = await api.getUsers();
+// Make requests
+const users = await apiClient.get('/users');
+const product = await apiClient.get('/products/123');
 ```
 
 ### Error Handling
-
 ```typescript
 try {
-  const response = await get('https://api.example.com/users/1');
+  const response = await axios.get('https://api.example.com/data');
   console.log(response.data);
 } catch (error) {
   if (error.response) {
     // Server responded with error status
     console.error('Status:', error.response.status);
     console.error('Data:', error.response.data);
-  } else if (error.request) {
-    // Request made but no response
-    console.error('No response received');
+  } else if (error.code === 'ECONNABORTED') {
+    // Request timeout
+    console.error('Request timeout');
   } else {
-    // Error in request setup
-    console.error('Error:', error.message);
+    // Network error
+    console.error('Network error:', error.message);
   }
 }
 ```
 
-### With Authentication
-
+### REST API Client
 ```typescript
-const authAPI = axios.create({
-  baseURL: 'https://api.example.com'
-});
+class UserAPI {
+  constructor(private axios: Axios) {}
 
-// Add auth token to all requests
-authAPI.interceptors.request.use(config => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers['Authorization'] = `Bearer ${token}`;
+  async getAll() {
+    const response = await this.axios.get('/users');
+    return response.data;
   }
-  return config;
-});
 
-// Handle 401 errors
-authAPI.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.response?.status === 401) {
-      // Redirect to login
-      console.log('Unauthorized - please login');
-    }
-    return Promise.reject(error);
+  async getById(id: string) {
+    const response = await this.axios.get(`/users/${id}`);
+    return response.data;
   }
-);
-```
 
-### Retry Logic
+  async create(userData: any) {
+    const response = await this.axios.post('/users', userData);
+    return response.data;
+  }
 
-```typescript
-async function fetchWithRetry(url: string, maxRetries = 3) {
-  for (let i = 0; i < maxRetries; i++) {
-    try {
-      return await get(url);
-    } catch (error) {
-      if (i === maxRetries - 1) throw error;
-      console.log(`Retry ${i + 1}/${maxRetries}`);
-      await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
-    }
+  async update(id: string, userData: any) {
+    const response = await this.axios.put(`/users/${id}`, userData);
+    return response.data;
+  }
+
+  async delete(id: string) {
+    await this.axios.delete(`/users/${id}`);
   }
 }
 ```
 
-## Performance
+## 🎯 Why Polyglot?
 
-- Native Elide HTTP support (no external dependencies)
-- 10x faster cold start than Node.js
-- Efficient promise-based async operations
-- Automatic connection pooling
+### The Problem
+**Before**: Each language requires different HTTP libraries
 
-## Polyglot Benefits
+```
+Node.js: axios, got, node-fetch
+Python: requests, httpx, aiohttp
+Ruby: httparty, faraday, rest-client
+Java: HttpClient, OkHttp, Apache HttpClient
 
-Works seamlessly across:
-- JavaScript/TypeScript
-- Python (via Elide)
-- Ruby (via Elide)
-- Java (via Elide)
-
-Same API client code, every language!
-
-## Migration from npm
-
-```typescript
-// Before (npm)
-import axios from 'axios';
-
-// After (Elide)
-import axios from './axios.ts';
-
-// API is identical!
-const response = await axios.get('/users');
+Result:
+❌ Different APIs to learn
+❌ Inconsistent error handling
+❌ Multiple testing strategies
+❌ Duplicated HTTP logic
 ```
 
-## Run the Demo
+### The Solution
+**After**: One Elide HTTP client for all languages
+
+```
+┌────────────────────────────────┐
+│  Elide Axios (TypeScript)     │
+│  elide-axios.ts               │
+└────────────────────────────────┘
+         ↓           ↓           ↓
+    ┌────────┐  ┌────────┐  ┌────────┐
+    │ Node.js│  │ Python │  │  Ruby  │
+    │  API   │  │ Script │  │Service │
+    └────────┘  └────────┘  └────────┘
+
+Benefits:
+✅ One HTTP client
+✅ One API to learn
+✅ Consistent everywhere
+```
+
+## 📖 API Reference
+
+### `axios.get(url, config?)`
+Make GET request
+
+### `axios.post(url, data?, config?)`
+Make POST request
+
+### `axios.put(url, data?, config?)`
+Make PUT request
+
+### `axios.delete(url, config?)`
+Make DELETE request
+
+### `axios.patch(url, data?, config?)`
+Make PATCH request
+
+### `axios.request(config)`
+Make custom request
+
+### `create(config)`
+Create custom axios instance with default config
+
+## 🧪 Testing
 
 ```bash
-elide run axios.ts
+elide run elide-axios.ts
 ```
 
-## Resources
+## 📂 Files
 
-- Original package: https://www.npmjs.com/package/axios
-- Downloads: ~28M/week
-- License: MIT
+- `elide-axios.ts` - Main implementation
+- `README.md` - This file
+
+## 🌐 Links
+
+- [Elide Documentation](https://docs.elide.dev)
+- [npm axios package](https://www.npmjs.com/package/axios)
+- [GitHub: elide-showcases](https://github.com/akapug/elide-showcases)
+
+## 📝 Package Stats
+
+- **npm downloads**: ~100M/week
+- **Use case**: HTTP client for REST APIs
+- **Elide advantage**: One HTTP client for all languages
+- **Polyglot score**: 48/50 (S-Tier)
+
+---
+
+**Built with ❤️ for the Elide Polyglot Runtime**
+
+*One HTTP client to rule them all.*

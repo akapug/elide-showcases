@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tank Battle Arena - Multiplayer with AI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Menu Screen -->
+        <div id="menu" class="screen active">
+            <div class="menu-content">
+                <h1>🎮 TANK BATTLE ARENA</h1>
+                <p class="subtitle">60 FPS TypeScript Server + Python AI Bots</p>
+
+                <div class="menu-options">
+                    <button id="btn-play" class="btn btn-primary">Play vs AI</button>
+                    <button id="btn-spectate" class="btn btn-secondary">Watch AI Battle</button>
+                    <button id="btn-multiplayer" class="btn btn-secondary">Multiplayer</button>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Server Status:</span>
+                        <span id="server-status" class="stat-value">Connecting...</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Active Players:</span>
+                        <span id="player-count" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">AI Bots:</span>
+                        <span id="bot-count" class="stat-value">0</span>
+                    </div>
+                </div>
+
+                <div class="info">
+                    <h3>Controls</h3>
+                    <ul>
+                        <li><strong>WASD</strong> - Move tank</li>
+                        <li><strong>Mouse</strong> - Aim turret</li>
+                        <li><strong>Click</strong> - Fire</li>
+                        <li><strong>Space</strong> - Use power-up</li>
+                        <li><strong>ESC</strong> - Menu</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game" class="screen">
+            <canvas id="game-canvas"></canvas>
+
+            <!-- HUD -->
+            <div id="hud">
+                <div class="hud-top">
+                    <div class="hud-item">
+                        <span class="label">Health:</span>
+                        <div class="health-bar">
+                            <div id="health-fill" class="health-fill"></div>
+                        </div>
+                        <span id="health-text">100/100</span>
+                    </div>
+
+                    <div class="hud-item">
+                        <span class="label">Shield:</span>
+                        <span id="shield-text">0</span>
+                    </div>
+
+                    <div class="hud-item">
+                        <span class="label">Score:</span>
+                        <span id="score-text">0</span>
+                    </div>
+
+                    <div class="hud-item">
+                        <span class="label">K/D:</span>
+                        <span id="kd-text">0/0</span>
+                    </div>
+                </div>
+
+                <div class="hud-bottom">
+                    <div id="power-ups"></div>
+                </div>
+
+                <div class="hud-corner">
+                    <div class="mini-stats">
+                        <div>FPS: <span id="fps-display">60</span></div>
+                        <div>Ping: <span id="ping-display">0ms</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Minimap -->
+            <canvas id="minimap"></canvas>
+        </div>
+    </div>
+
+    <script src="network.js"></script>
+    <script src="renderer.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

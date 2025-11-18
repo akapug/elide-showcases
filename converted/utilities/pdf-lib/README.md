@@ -1,29 +1,47 @@
-# PDF-Lib - Elide Polyglot Showcase
+# pdf-lib - Elide Polyglot Showcase
 
-> **One PDF library for ALL languages**
+> **PDF creation and modification for ALL languages** - TypeScript, Python, Ruby, and Java
+
+Create and modify PDF documents programmatically with full control.
+
+## Features
+
+- Create new PDFs from scratch
+- Modify existing PDFs
+- Add/remove pages
+- Embed fonts and images
+- Fill PDF forms
+- **Polyglot**: Use from TypeScript, Python, Ruby, Java
+- Zero dependencies
 
 ## Quick Start
 
 ```typescript
-import { PDFDocument, StandardFonts } from './elide-pdf-lib.ts';
+import { PDFDocument } from './elide-pdf-lib.ts';
 
-const doc = await PDFDocument.create();
-const page = doc.addPage();
+// Create new PDF
+const pdfDoc = await PDFDocument.create();
+const page = pdfDoc.addPage({ size: 'A4' });
+page.drawText('Hello!', { x: 50, y: 750 });
 
-page.drawText('Hello, PDF!', {
-  x: 50,
-  y: 750,
-  size: 30
-});
+// Save PDF
+const pdfBytes = await pdfDoc.save();
 
-const pdfBytes = await doc.save();
+// Load existing PDF
+const existingDoc = await PDFDocument.load(pdfBytes);
+const pages = existingDoc.getPages();
 ```
 
-## Package Stats
+## Use Cases
 
-- **npm downloads**: ~3M/week
-- **Polyglot score**: 38/50 (B-Tier)
+- PDF form filling
+- Document merging
+- Watermarking
+- PDF splitting
+- Certificate generation
 
----
+## Stats
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+- **npm downloads**: ~800K+/week
+- **Use case**: PDF creation and modification
+- **Elide advantage**: Consistent PDF manipulation across all languages

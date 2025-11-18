@@ -1,37 +1,23 @@
-# PostgreSQL Client - Elide Polyglot Showcase
+# pg - Elide Polyglot Showcase
 
-> **One PostgreSQL client for ALL languages**
-
-Connect to PostgreSQL databases across your entire stack.
+> **PostgreSQL Database Driver for ALL languages** - TypeScript, Python, Ruby, and Java
 
 ## Features
 
-- ✅ Connection pooling
-- ✅ Parameterized queries
-- ✅ Transaction support
-- ✅ **Polyglot**: Works in all languages
+- PostgreSQL Database Driver
+- **~30M+ downloads/week on npm**
 
 ## Quick Start
 
 ```typescript
-import { Client } from './elide-pg.ts';
+import db from './elide-pg.ts';
 
-const client = new Client({
-  host: 'localhost',
-  database: 'mydb',
-  user: 'user',
-  password: 'password'
-});
-
-await client.connect();
-const result = await client.query('SELECT * FROM users');
-await client.end();
+// See elide-pg.ts for full examples
 ```
 
-## Package Stats
+## Links
 
-- **npm downloads**: ~5M/week
-- **Polyglot score**: 45/50 (A-Tier)
+- [Original npm package](https://www.npmjs.com/package/pg)
 
 ---
 

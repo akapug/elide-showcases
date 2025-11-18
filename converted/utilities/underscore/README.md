@@ -1,18 +1,16 @@
-# Underscore for Elide
+# Underscore - Utility Library
 
-Functional programming helper library.
+Functional programming helpers for everyday use.
 
-**Downloads**: ~7M/week on npm
-
-## Quick Start
+Based on [underscore](https://www.npmjs.com/package/underscore) (~2M+ downloads/week)
 
 ```typescript
-import _ from './underscore.ts';
+import _ from './elide-underscore.ts';
 
-const doubled = _.map([1, 2, 3], x => x * 2);
-const evens = _.filter([1, 2, 3, 4], x => x % 2 === 0);
+_.map([1, 2, 3], x => x * 2); // [2, 4, 6]
+_.filter([1, 2, 3, 4], x => x % 2 === 0); // [2, 4]
+_.uniq([1, 2, 2, 3]); // [1, 2, 3]
+_.pick({ a: 1, b: 2, c: 3 }, ['a', 'b']); // { a: 1, b: 2 }
 ```
 
-## Resources
-
-- Original: https://www.npmjs.com/package/underscore
+Run: `elide run elide-underscore.ts`
