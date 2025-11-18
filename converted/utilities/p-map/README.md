@@ -1,202 +1,74 @@
-# PMap - Elide Polyglot Showcase
+# Elide P-Map
 
-> **One p-map implementation for ALL languages** - TypeScript, Python, Ruby, and Java
+Pure TypeScript implementation of `p-map` for mapping over arrays with concurrency control.
 
-Map over promises concurrently with control with a single implementation that works across your entire polyglot stack.
+## Features
 
-## 🌟 Why This Matters
+- Map over arrays with concurrency limit
+- Stop on error support
+- Works with any iterable
+- Zero dependencies
+- Full TypeScript support
 
-In polyglot architectures, having **different concurrent mapping implementations** in each language creates:
-- ❌ Inconsistent behavior across services
-- ❌ Multiple libraries to maintain and audit
-- ❌ Complex testing requirements
-- ❌ Debugging nightmares tracking issues
-- ❌ Performance variances between services
+## Original Package
 
-**Elide solves this** with ONE implementation that works in ALL languages.
+- **npm**: `p-map`
+- **Downloads**: ~30M/week
+- **Use case**: Concurrent array mapping
 
-## ✨ Features
+## Polyglot Benefits
 
-- ✅ Map over promises concurrently with control
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-- ✅ Zero dependencies
-- ✅ High performance (20-25% faster than some native libraries)
-- ✅ Consistent behavior across all languages
-- ✅ Single codebase to maintain and test
+- Works in Browser, Node.js, Deno, Bun, and Elide
+- Zero dependencies - pure TypeScript
+- Type-safe with full TypeScript support
+- Tree-shakeable
 
-## 🚀 Quick Start
-
-### TypeScript
+## Usage
 
 ```typescript
-import elidePMap from './elide-p-map.ts';
+import pMap from './elide-p-map.ts';
 
-const result = elidePMap(input);
-console.log(result);
+const ids = [1, 2, 3, 4, 5];
+
+const results = await pMap(ids, async (id) => {
+  return fetchData(id);
+}, { concurrency: 2 });
+
+console.log(results);
 ```
 
-### Python
+## API
 
-```python
-from elide import require
-p-map_module = require('./elide-p-map.ts')
+### pMap(input, mapper, options?)
 
-result = p-map_module.default(input)
-print(result)
-```
+Returns a promise that resolves when all mapped promises are resolved.
 
-### Ruby
+#### input
 
-```ruby
-p-map_module = Elide.require('./elide-p-map.ts')
+Type: `Iterable<T>`
 
-result = p-map_module.default(input)
-puts result
-```
+The iterable to map over.
 
-### Java
+#### mapper
 
-```java
-Context context = Context.newBuilder("js").allowAllAccess(true).build();
-Value p-mapModule = context.eval("js", "require('./elide-p-map.ts')");
+Type: `(item: T, index: number) => Promise<R> | R`
 
-var result = p-mapModule.getMember("default").execute(input);
-System.out.println(result);
-```
+The mapper function.
 
-## 📊 Performance
+#### options
 
-Benchmark results (100,000 operations):
+Type: `object`
 
-| Implementation | Time | Relative Speed |
-|---|---|---|
-| **Elide (TypeScript)** | **baseline** | **1.0x** |
-| Node.js (native) | ~1.5x slower | 1.5x |
-| Python (native) | ~2.0x slower | 2.0x |
-| Ruby (native) | ~2.2x slower | 2.2x |
-| Java (native) | ~1.6x slower | 1.6x |
+##### concurrency
 
-**Result**: Elide is **20-25% faster** than most native implementations.
+Type: `number`
+Default: `Infinity`
 
-Run the benchmark yourself:
-```bash
-elide run benchmark.ts
-```
+The maximum number of promises to run concurrently.
 
-## 🎯 Why Polyglot?
+##### stopOnError
 
-### The Problem
+Type: `boolean`
+Default: `true`
 
-**Before**: Each language has its own implementation
-
-```
-┌─────────────────────────────────────┐
-│  4 Different Implementations       │
-├─────────────────────────────────────┤
-│ ❌ Node.js: native library         │
-│ ❌ Python: native library           │
-│ ❌ Ruby: native gem                 │
-│ ❌ Java: native library             │
-└─────────────────────────────────────┘
-         ↓
-    Problems:
-    • Inconsistent behavior
-    • 4 libraries to maintain
-    • 4 security audits
-    • Complex testing
-```
-
-### The Solution
-
-**After**: One Elide implementation for all languages
-
-```
-┌─────────────────────────────────────┐
-│   Elide PMap (TypeScript)          │
-│   elide-p-map.ts                    │
-└─────────────────────────────────────┘
-         ↓           ↓           ↓
-    ┌────────┐  ┌────────┐  ┌────────┐
-    │ Node.js│  │ Python │  │  Ruby  │
-    │  API   │  │Service │  │Workers │
-    └────────┘  └────────┘  └────────┘
-         ↓
-    Benefits:
-    ✅ One implementation
-    ✅ One security audit
-    ✅ One test suite
-    ✅ 100% consistency
-```
-
-## 📂 Files in This Showcase
-
-- `elide-p-map.ts` - Main TypeScript implementation
-- `elide-p-map.py` - Python integration example
-- `elide-p-map.rb` - Ruby integration example
-- `ElidePMapExample.java` - Java integration example
-- `benchmark.ts` - Performance comparison
-- `CASE_STUDY.md` - Real-world migration story
-- `README.md` - This file
-
-## 🧪 Testing
-
-### Run the demo
-
-```bash
-elide run elide-p-map.ts
-```
-
-### Run the benchmark
-
-```bash
-elide run benchmark.ts
-```
-
-Processes 100,000 operations and compares performance against native implementations.
-
-### Test polyglot integration
-
-When Elide's Python/Ruby/Java APIs are ready:
-
-```bash
-# Python
-elide run elide-p-map.py
-
-# Ruby
-elide run elide-p-map.rb
-
-# Java
-elide run ElidePMapExample.java
-```
-
-## 💡 Use Cases
-
-Process arrays of items concurrently, batch operations, parallel data processing
-
-Example: Map 100 items with concurrency of 5
-
-## 🎓 Learn More
-
-- **Real-World Case Study**: See [CASE_STUDY.md](./CASE_STUDY.md) for a detailed migration story
-- **Performance Details**: Run [benchmark.ts](./benchmark.ts) to see actual numbers
-- **Polyglot Examples**: Check `elide-p-map.py`, `elide-p-map.rb`, and `ElidePMapExample.java`
-
-## 🌐 Links
-
-- [Elide Documentation](https://docs.elide.dev)
-- [npm p-map package](https://www.npmjs.com/package/p-map) (original, ~15M/week downloads)
-- [GitHub: elide-showcases](https://github.com/akapug/elide-showcases)
-
-## 📝 Package Stats
-
-- **npm downloads**: ~15M/week
-- **Use case**: Process arrays of items concurrently, batch operations, parallel data processing
-- **Elide advantage**: One implementation for all languages
-- **Performance**: 20-25% faster than some native libraries
-- **Polyglot score**: High - Excellent polyglot showcase
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
-
-*Making concurrent mapping consistent across all languages.*
+Whether to stop on the first error.
