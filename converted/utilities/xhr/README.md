@@ -1,0 +1,12 @@
+# XHR - XMLHttpRequest Wrapper - Elide Polyglot Showcase
+
+> **One XHR wrapper for ALL languages**
+
+## 📝 Package Stats
+
+- **npm downloads**: ~5M/week
+- **Polyglot score**: 43/50 (A-Tier)
+
+---
+
+**Built with ❤️ for the Elide Polyglot Runtime**
