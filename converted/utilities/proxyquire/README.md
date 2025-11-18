@@ -1,58 +1,27 @@
-# proxyquire - Module Mocking
+# Proxyquire - Dependency Injection and Mocking
 
-**Pure TypeScript implementation of proxyquire for Elide.**
+Mock and stub module dependencies during testing with a pure TypeScript implementation.
 
-Based on [proxyquire](https://www.npmjs.com/package/proxyquire) (~3M+ downloads/week)
+Based on [proxyquire](https://www.npmjs.com/package/proxyquire) (~500K+ downloads/week)
 
 ## Features
 
-- Dependency injection for testing
-- Module stubbing
-- Isolated unit tests
-- Zero dependencies
+- ✅ Inject mock dependencies
+- ✅ Stub require() calls
+- ✅ Override module exports
+- ✅ Zero dependencies
 
-## Installation
-
-```bash
-elide install @elide/proxyquire
-```
-
-## Usage
+## Quick Start
 
 ```typescript
 import proxyquire from './elide-proxyquire.ts';
 
-// Stub dependencies
-const module = proxyquire('./my-module', {
-  './database': {
-    connect: () => mockDB,
-    query: () => mockData,
-  },
-  './logger': {
-    log: () => {},
-  },
-});
-
-// Use the module with stubs
-module.doSomething();
+const stubs = {
+  'fs': { readFileSync: () => 'mocked content' }
+};
+const myModule = proxyquire('./myModule', stubs);
 ```
 
-## API Reference
+## Polyglot Benefits
 
-### proxyquire(modulePath, stubs)
-
-Load a module with stubbed dependencies.
-
-**Parameters:**
-- `modulePath: string` - Module to load
-- `stubs: Record<string, any>` - Dependency stubs
-
-**Returns:** Module with stubs applied
-
-## Performance
-
-- **3M+ downloads/week** - Popular module mocking
-
-## License
-
-MIT
+Use the same mocking library across JavaScript, Python, Ruby, and Java via Elide!

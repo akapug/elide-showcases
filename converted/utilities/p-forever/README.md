@@ -1,19 +1,60 @@
-# Elide P-Forever
+# P-forever - Elide Polyglot Showcase
 
-Pure TypeScript implementation of `p-forever`.
+> **One control flow library for ALL languages** - TypeScript, Python, Ruby, and Java
 
-## Original Package
+Control flow utilities for promise-based operations.
 
-- **npm**: `p-forever`
-- **Downloads**: ~1M/week
+## Features
 
-## Usage
+- Promise control flow
+- Conditional loops
+- Polling support
+- Retry logic
+- Timeout handling
+- Zero dependencies
+
+## Quick Start
 
 ```typescript
-import pForever from './elide-p-forever.ts';
+import { pWhilst, pTimes, until, poll } from './elide-p-forever.ts';
 
-await pForever(async () => {
-  await pollForUpdates();
-  await delay(1000);
+// Run while condition is true
+await pWhilst(
+  () => hasMore(),
+  async () => await processNext()
+);
+
+// Run N times
+await pTimes(5, async (i) => {
+  console.log(`Iteration ${i}`);
 });
+
+// Wait until condition is true
+await until(() => isReady(), {
+  interval: 100,
+  timeout: 5000
+});
+
+// Poll until condition is met
+const result = await poll(
+  async () => await fetchStatus(),
+  (status) => status === 'ready',
+  { interval: 1000, timeout: 30000 }
+);
 ```
+
+## Documentation
+
+Run the demo:
+
+```bash
+elide run elide-p-forever.ts
+```
+
+## Links
+
+- [Original npm package](https://www.npmjs.com/package/p-forever)
+
+---
+
+**Built with ❤️ for the Elide Polyglot Runtime**

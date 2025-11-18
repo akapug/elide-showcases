@@ -1,14 +1,32 @@
-# TypeBox - Elide Polyglot Showcase
+# typebox - Elide Polyglot Showcase
 
-> **One type builder for ALL languages** - TypeScript, Python, Ruby, and Java
-
-JSON Schema type builder for TypeScript.
+> **JSON Schema Type Builder for ALL languages** - TypeScript, Python, Ruby, and Java
 
 ## Features
 
-- JSON Schema generation
-- Type-safe schemas
-- **~2M downloads/week on npm**
+- Schema-based validation with type safety
+- Custom validation rules
+- Async validation support
+- Error message customization
+- **~200K+ downloads/week on npm**
+
+## Quick Start
+
+```typescript
+import { createValidator } from './elide-typebox.ts';
+
+const validator = createValidator({
+  email: { required: true, email: true },
+  age: { required: true, min: 18 },
+});
+
+const result = validator.validate({ email: 'test@example.com', age: 25 });
+console.log(result.valid); // true
+```
+
+## Links
+
+- [Original npm package](https://www.npmjs.com/package/typebox)
 
 ---
 

@@ -1,52 +1,119 @@
 /**
- * Fetch Retry - Adds retry functionality to fetch
+ * Fetch Retry - Fetch with Retry Logic
  *
- * Wrapper around fetch with automatic retry logic
- * Package has ~3M downloads/week on npm!
+ * Extends fetch with configurable retry and exponential backoff.
+ * **POLYGLOT SHOWCASE**: One fetch retry library for ALL languages on Elide!
+ *
+ * Based on https://www.npmjs.com/package/fetch-retry (~200K+ downloads/week)
+ *
+ * Features:
+ * - Fetch with retry
+ * - Exponential backoff
+ * - Configurable retries
+ * - Custom retry logic
+ * - Status code handling
+ * - Zero dependencies
+ *
+ * Polyglot Benefits:
+ * - Works across all Elide languages
+ * - Consistent HTTP retry patterns
+ * - Share fetch config
+ * - One implementation everywhere
+ *
+ * Package has ~200K+ downloads/week on npm!
  */
 
 export interface FetchRetryOptions extends RequestInit {
   retries?: number;
-  retryDelay?: number;
-  retryOn?: number[];
+  retryDelay?: number | ((attempt: number) => number);
+  retryOn?: number[] | ((attempt: number, error: Error | null, response: Response | null) => boolean);
 }
 
-export async function fetchRetry(url: string, options: FetchRetryOptions = {}): Promise<Response> {
+export default function fetchRetry(
+  url: string,
+  options: FetchRetryOptions = {}
+): Promise<Response> {
   const {
     retries = 3,
     retryDelay = 1000,
-    retryOn = [408, 500, 502, 503, 504, 522, 524],
+    retryOn = [408, 429, 500, 502, 503, 504],
     ...fetchOptions
   } = options;
 
-  let lastError;
+  let attempt = 0;
 
-  for (let attempt = 0; attempt <= retries; attempt++) {
+  const run = async (): Promise<Response> => {
+    attempt++;
+
     try {
       const response = await fetch(url, fetchOptions);
 
-      if (!retryOn.includes(response.status)) {
-        return response;
+      const shouldRetry = typeof retryOn === 'function'
+        ? retryOn(attempt, null, response)
+        : retryOn.includes(response.status);
+
+      if (!response.ok && shouldRetry && attempt < retries) {
+        const delay = typeof retryDelay === 'function'
+          ? retryDelay(attempt)
+          : retryDelay * attempt;
+
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return run();
       }
 
-      lastError = new Error(`HTTP ${response.status}`);
+      return response;
+    } catch (err: any) {
+      if (attempt >= retries) {
+        throw err;
+      }
 
-      if (attempt < retries) {
-        await new Promise(resolve => setTimeout(resolve, retryDelay * Math.pow(2, attempt)));
+      const shouldRetry = typeof retryOn === 'function'
+        ? retryOn(attempt, err, null)
+        : true;
+
+      if (!shouldRetry) {
+        throw err;
       }
-    } catch (error) {
-      lastError = error;
-      if (attempt < retries) {
-        await new Promise(resolve => setTimeout(resolve, retryDelay * Math.pow(2, attempt)));
-      }
+
+      const delay = typeof retryDelay === 'function'
+        ? retryDelay(attempt)
+        : retryDelay * attempt;
+
+      await new Promise(resolve => setTimeout(resolve, delay));
+      return run();
     }
-  }
+  };
 
-  throw lastError;
+  return run();
 }
 
-export default fetchRetry;
+export { fetchRetry };
 
-if (import.meta.url.includes("elide-fetch-retry.ts")) {
-  console.log("🌐 Fetch Retry - Fetch with retries (POLYGLOT!) | ~3M downloads/week");
+// CLI Demo
+if (import.meta.url === `file://${process.argv[1]}`) {
+  console.log("🔄 Fetch Retry - Fetch with Retry Logic (POLYGLOT!)\n");
+
+  console.log("=== Example 1: Basic Fetch Retry ===");
+  console.log("fetchRetry('https://api.example.com/data', {");
+  console.log("  retries: 3,");
+  console.log("  retryDelay: 1000");
+  console.log("});\n");
+
+  console.log("=== Example 2: Custom Retry Logic ===");
+  console.log("fetchRetry(url, {");
+  console.log("  retries: 5,");
+  console.log("  retryDelay: (attempt) => Math.pow(2, attempt) * 1000,");
+  console.log("  retryOn: (attempt, error, response) => {");
+  console.log("    if (response?.status === 429) return true;");
+  console.log("    if (error) return true;");
+  console.log("    return false;");
+  console.log("  }");
+  console.log("});\n");
+
+  console.log("=== Example 3: POLYGLOT Use Case ===");
+  console.log("🌐 Same fetch-retry works in:");
+  console.log("  • JavaScript/TypeScript");
+  console.log("  • Python (via Elide)");
+  console.log("  • Ruby (via Elide)");
+  console.log("  • Java (via Elide)");
 }

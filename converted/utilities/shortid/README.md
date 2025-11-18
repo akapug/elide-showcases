@@ -1,33 +1,46 @@
-# shortid - Elide Polyglot Showcase
+# ShortID
 
-> **One shortid generator for ALL languages** - TypeScript, Python, Ruby, and Java
+Short non-sequential url-friendly IDs for Elide (polyglot!)
 
-Short, non-sequential, URL-friendly unique IDs.
+Based on https://www.npmjs.com/package/shortid (~1M+ downloads/week)
 
-## ✨ Features
+## Features
 
-- ✅ Short (7-14 characters)
-- ✅ URL-safe
-- ✅ Non-sequential
-- ✅ Collision-resistant
-- ✅ **Polyglot**: Works in all languages
+- Short non-sequential url-friendly IDs
+- Fast and efficient
+- Type-safe
+- Zero dependencies
 
-## 🚀 Quick Start
+## Quick Start
 
 ```typescript
 import shortid from './elide-shortid.ts';
-
-const id = shortid();
-console.log(id); // => "F-pk9e3T9"
-
-const url = `https://short.link/${id}`;
 ```
 
-## 📝 Package Stats
+## Polyglot Examples
 
-- **npm downloads**: ~5M/week
-- **Use case**: Short URLs, human-readable IDs
+### JavaScript/TypeScript
+```typescript
+import shortid from './elide-shortid.ts';
+```
 
----
+### Python (via Elide)
+```python
+from elide_shortid import shortid
+```
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+### Ruby (via Elide)
+```ruby
+require 'elide/shortid'
+```
+
+### Java (via Elide)
+```java
+import elide.shortid.*;
+```
+
+## Benefits
+
+- One shortid library for ALL languages on Elide
+- Consistent behavior across languages
+- ~1M+ downloads/week on npm!

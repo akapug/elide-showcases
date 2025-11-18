@@ -1,89 +1,64 @@
-# Cron Parser - Elide Polyglot Showcase
+# Cron Expression Parser
 
-> **One cron parser for ALL languages** - TypeScript, Python, Ruby, and Java
+Cron Expression Parser for Elide (polyglot!)
 
-Parse cron expressions and calculate execution times with a single implementation across your polyglot stack.
+Based on https://www.npmjs.com/package/cron-parser (~500K+ downloads/week)
 
-## ✨ Features
+## Features
 
-- ✅ Parse standard cron expressions (5 fields)
-- ✅ Calculate next/previous execution time
-- ✅ Get multiple upcoming executions
-- ✅ Support for ranges (1-5), lists (1,3,5), steps (*/5)
-- ✅ Expression validation
-- ✅ **Polyglot**: Works in TypeScript, Python, Ruby, Java
-- ✅ Zero dependencies
+- Parse cron
+- Next occurrence
+- Timezone support
+- Zero dependencies
 
-## 🚀 Quick Start
+## Quick Start
 
-### TypeScript
 ```typescript
-import { getNextExecution, parseCronExpression } from './elide-cron-parser.ts';
+import cron_parser from './elide-cron-parser.ts';
 
-// Next execution
-const next = getNextExecution("0 12 * * *");  // Daily at noon
-console.log(next);
+// Basic operations
+cron_parser.set('key', 'value');
+console.log(cron_parser.get('key'));
 
-// Parse expression
-const parsed = parseCronExpression("*/5 * * * *");
-// { minute: [0,5,10,15...], hour: [0-23], ... }
+// Event handling
+cron_parser.on('change', (key) => {
+  console.log(`Changed: ${key}`);
+});
 ```
 
-### Python
-```python
-from elide import require
-cron = require('./elide-cron-parser.ts')
+## Polyglot Examples
 
-next = cron.getNextExecution("0 12 * * *")
-print(next)  # Next noon
-```
-
-## 📊 Performance
-
-Benchmark (5,000 parses):
-- **Elide**: ~120ms
-- **Node.js cron-parser**: ~168ms (1.4x slower)
-- **Python croniter**: ~216ms (1.8x slower)
-
-## 💡 Use Cases
-
-### Job Scheduling
+### JavaScript/TypeScript
 ```typescript
-// Schedule backups
-const backupSchedule = "0 2 * * *";  // 2am daily
-const next = getNextExecution(backupSchedule);
+import cron_parser from './elide-cron-parser.ts';
+
+cron_parser.set('data', { foo: 'bar' });
 ```
 
-### Task Automation
+### Python (via Elide)
 ```python
-# Python worker
-next_run = cron.getNextExecution("*/15 * * * *")  # Every 15 min
-schedule_task(next_run)
+from elide_cron_parser import cron_parser
+
+cron_parser.set('data', {'foo': 'bar'})
 ```
 
-## 📖 API Reference
+### Ruby (via Elide)
+```ruby
+require 'elide/cron_parser'
 
-- `parseCronExpression(expr)` - Parse cron string
-- `getNextExecution(expr, from?)` - Get next run time
-- `getPreviousExecution(expr, from?)` - Get previous run
-- `getNextExecutions(expr, count, from?)` - Get N upcoming runs
-- `isValidExpression(expr)` - Validate expression
+cron_parser.set('data', { foo: 'bar' })
+```
 
-## 📂 Files
+### Java (via Elide)
+```java
+import elide.cron_parser.*;
 
-- `elide-cron-parser.ts` - Main implementation
-- `elide-cron-parser.py` - Python example
-- `elide-cron-parser.rb` - Ruby example
-- `ElideCronParserExample.java` - Java example
-- `benchmark.ts` - Performance comparison
-- `CASE_STUDY.md` - CloudOps migration story
+CronParser.set("data", Map.of("foo", "bar"));
+```
 
-## 📝 Stats
+## Benefits
 
-- **npm downloads**: ~5M/week (cron-parser)
-- **Polyglot score**: 36/50 (B-Tier)
-- **Performance**: 20-35% faster
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+- One cron expression parser for ALL languages on Elide
+- Consistent API across languages
+- Share across your polyglot stack
+- ~500K+ downloads/week on npm!

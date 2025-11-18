@@ -1,9 +1,1 @@
-# base58 - Elide Polyglot Showcase
-
-Base58 encoding/decoding (Bitcoin-style).
-
-**npm downloads**: ~8M/week
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+# base58\nBase58 encoding. Based on [base58](https://www.npmjs.com/package/base58) (~500K+ downloads/week)

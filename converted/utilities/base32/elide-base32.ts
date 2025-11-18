@@ -1,68 +1,77 @@
 /**
- * base32 - Base32 Encoding/Decoding
+ * base32 - Base32 Encoding
  *
- * Base32 encoding/decoding (RFC 4648).
+ * RFC 4648 base32 encoding and decoding.
+ * **POLYGLOT SHOWCASE**: Base32 across ALL languages on Elide!
  *
- * Package has ~2M+ downloads/week on npm!
+ * Based on https://www.npmjs.com/package/base32 (~100K+ downloads/week)
+ *
+ * Package has ~100K+ downloads/week on npm!
  */
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
-function encode(input: string | Uint8Array): string {
-  const bytes = typeof input === 'string' ? new TextEncoder().encode(input) : input;
+export function encode(data: Uint8Array | string): string {
+  if (typeof data === 'string') {
+    data = new TextEncoder().encode(data);
+  }
+  
+  let result = '';
   let bits = 0;
   let value = 0;
-  let output = '';
-
-  for (let i = 0; i < bytes.length; i++) {
-    value = (value << 8) | bytes[i];
+  
+  for (let i = 0; i < data.length; i++) {
+    value = (value << 8) | data[i];
     bits += 8;
-
+    
     while (bits >= 5) {
-      output += ALPHABET[(value >>> (bits - 5)) & 31];
+      result += ALPHABET[(value >>> (bits - 5)) & 31];
       bits -= 5;
     }
   }
-
+  
   if (bits > 0) {
-    output += ALPHABET[(value << (5 - bits)) & 31];
+    result += ALPHABET[(value << (5 - bits)) & 31];
   }
-
-  return output;
+  
+  // Add padding
+  while (result.length % 8 !== 0) {
+    result += '=';
+  }
+  
+  return result;
 }
 
-function decode(input: string): Uint8Array {
-  const cleanInput = input.toUpperCase().replace(/=+$/, '');
-  const output: number[] = [];
+export function decode(str: string): Uint8Array {
+  str = str.toUpperCase().replace(/=+$/, '');
+  const result: number[] = [];
   let bits = 0;
   let value = 0;
-
-  for (let i = 0; i < cleanInput.length; i++) {
-    const idx = ALPHABET.indexOf(cleanInput[i]);
-    if (idx === -1) continue;
-
+  
+  for (let i = 0; i < str.length; i++) {
+    const idx = ALPHABET.indexOf(str[i]);
+    if (idx === -1) throw new Error('Invalid character');
+    
     value = (value << 5) | idx;
     bits += 5;
-
+    
     if (bits >= 8) {
-      output.push((value >>> (bits - 8)) & 255);
+      result.push((value >>> (bits - 8)) & 255);
       bits -= 8;
     }
   }
-
-  return new Uint8Array(output);
+  
+  return new Uint8Array(result);
 }
 
 export default { encode, decode };
-export { encode, decode };
 
-if (import.meta.url.includes("elide-base32.ts")) {
-  console.log("🔤 base32 - Base32 Encoding/Decoding\n");
-  const text = "Hello!";
-  const encoded = encode(text);
-  const decoded = new TextDecoder().decode(decode(encoded));
-  console.log("Original:", text);
-  console.log("Base32:", encoded);
-  console.log("Decoded:", decoded);
-  console.log("\n🚀 ~2M+ downloads/week on npm");
+// CLI Demo
+if (import.meta.url === \`file://\${process.argv[1]}\`) {
+  console.log("🔢 base32 (POLYGLOT!)\\n");
+  const data = "Hello, World!";
+  const encoded = encode(data);
+  console.log("Encoded:", encoded);
+  console.log("Decoded:", new TextDecoder().decode(decode(encoded)));
+  console.log("\\n🚀 ~100K+ downloads/week on npm!");
 }

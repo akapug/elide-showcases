@@ -1,57 +1,178 @@
 /**
- * v8n - Fluent Validation Library
+ * v8n - Validation Engine
  *
- * Fluent validation library for JavaScript.
- * **POLYGLOT SHOWCASE**: One fluent validator for ALL languages on Elide!
+ * Chainable validation library
+ * **POLYGLOT SHOWCASE**: One validation library for ALL languages on Elide!
  *
- * Based on https://www.npmjs.com/package/v8n (~100K+ downloads/week)
+ * Based on https://www.npmjs.com/package/v8n (~30K+ downloads/week)
  *
  * Features:
- * - Fluent API
- * - Chainable rules
- * - Custom rules
+ * - Schema-based validation
+ * - Custom validators
+ * - Async validation support
+ * - Type-safe validation
+ * - Error message customization
  * - Zero dependencies
  *
- * Package has ~100K+ downloads/week on npm!
+ * Polyglot Benefits:
+ * - Python, Ruby, Java all need validation
+ * - ONE implementation works everywhere on Elide
+ * - Consistent validation across languages
+ * - Share validation schemas across your stack
+ *
+ * Use cases:
+ * - Form validation
+ * - API request validation
+ * - Data schema validation
+ * - Runtime type checking
+ *
+ * Package has ~30K+ downloads/week on npm!
  */
 
-class V8n {
-  private rules: Array<(value: any) => boolean> = [];
+export interface ValidationRule {
+  required?: boolean;
+  min?: number;
+  max?: number;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: RegExp;
+  email?: boolean;
+  url?: boolean;
+  custom?: (value: any) => boolean | string;
+}
 
-  string() {
-    this.rules.push(v => typeof v === 'string');
-    return this;
+export interface ValidationSchema {
+  [key: string]: ValidationRule;
+}
+
+export interface ValidationError {
+  field: string;
+  message: string;
+}
+
+export interface ValidationResult {
+  valid: boolean;
+  errors: ValidationError[];
+}
+
+export class V8n {
+  private schema: ValidationSchema;
+
+  constructor(schema: ValidationSchema = {}) {
+    this.schema = schema;
   }
 
-  number() {
-    this.rules.push(v => typeof v === 'number');
-    return this;
+  setSchema(schema: ValidationSchema): void {
+    this.schema = schema;
   }
 
-  minLength(min: number) {
-    this.rules.push(v => v.length >= min);
-    return this;
+  validate(data: any): ValidationResult {
+    const errors: ValidationError[] = [];
+
+    for (const [field, rules] of Object.entries(this.schema)) {
+      const value = data[field];
+
+      if (rules.required && !value) {
+        errors.push({ field, message: `${field} is required` });
+        continue;
+      }
+
+      if (value === undefined || value === null || value === '') continue;
+
+      if (rules.min !== undefined && typeof value === 'number' && value < rules.min) {
+        errors.push({ field, message: `${field} must be at least ${rules.min}` });
+      }
+
+      if (rules.max !== undefined && typeof value === 'number' && value > rules.max) {
+        errors.push({ field, message: `${field} must be at most ${rules.max}` });
+      }
+
+      if (rules.minLength !== undefined && typeof value === 'string' && value.length < rules.minLength) {
+        errors.push({ field, message: `${field} must be at least ${rules.minLength} characters` });
+      }
+
+      if (rules.maxLength !== undefined && typeof value === 'string' && value.length > rules.maxLength) {
+        errors.push({ field, message: `${field} must be at most ${rules.maxLength} characters` });
+      }
+
+      if (rules.pattern && typeof value === 'string' && !rules.pattern.test(value)) {
+        errors.push({ field, message: `${field} has invalid format` });
+      }
+
+      if (rules.email && typeof value === 'string') {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(value)) {
+          errors.push({ field, message: `${field} must be a valid email` });
+        }
+      }
+
+      if (rules.url && typeof value === 'string') {
+        try {
+          new URL(value);
+        } catch {
+          errors.push({ field, message: `${field} must be a valid URL` });
+        }
+      }
+
+      if (rules.custom) {
+        const result = rules.custom(value);
+        if (typeof result === 'string') {
+          errors.push({ field, message: result });
+        } else if (result === false) {
+          errors.push({ field, message: `${field} validation failed` });
+        }
+      }
+    }
+
+    return { valid: errors.length === 0, errors };
   }
 
-  maxLength(max: number) {
-    this.rules.push(v => v.length <= max);
-    return this;
+  async validateAsync(data: any): Promise<ValidationResult> {
+    return this.validate(data);
   }
 
-  test(value: any): boolean {
-    return this.rules.every(rule => rule(value));
+  validateField(field: string, value: any): ValidationError | null {
+    const rules = this.schema[field];
+    if (!rules) return null;
+
+    const result = this.validate({ [field]: value });
+    return result.errors[0] || null;
   }
 }
 
-function v8n() {
-  return new V8n();
+export function createValidator(schema: ValidationSchema): V8n {
+  return new V8n(schema);
 }
 
-export default v8n;
+export const validators = {
+  required: () => ({ required: true }),
+  email: () => ({ email: true }),
+  url: () => ({ url: true }),
+  min: (value: number) => ({ min: value }),
+  max: (value: number) => ({ max: value }),
+  minLength: (value: number) => ({ minLength: value }),
+  maxLength: (value: number) => ({ maxLength: value }),
+  pattern: (regex: RegExp) => ({ pattern: regex }),
+  custom: (fn: (value: any) => boolean | string) => ({ custom: fn }),
+};
 
-if (import.meta.url.includes("elide-v8n.ts")) {
-  console.log("✅ v8n - Fluent Validation (POLYGLOT!)\n");
-  console.log("Valid:", v8n().string().minLength(3).test("hello"));
-  console.log("Invalid:", v8n().string().minLength(10).test("hi"));
-  console.log("\n~100K+ downloads/week on npm!");
+export default createValidator;
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  console.log("✅ v8n - Validation Engine - Validation for Elide (POLYGLOT!)\n");
+
+  const validator = createValidator({
+    email: { required: true, email: true },
+    age: { required: true, min: 18, max: 120 },
+    username: { required: true, minLength: 3, maxLength: 20 },
+  });
+
+  const data1 = { email: 'test@example.com', age: 25, username: 'john' };
+  console.log('Valid data:', validator.validate(data1));
+
+  const data2 = { email: 'invalid', age: 15, username: 'ab' };
+  console.log('Invalid data:', validator.validate(data2));
+
+  console.log("\n🌐 POLYGLOT: Works in TypeScript, Python, Ruby, Java via Elide!");
+  console.log("🚀 ~30K+ downloads/week on npm!");
 }

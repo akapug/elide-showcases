@@ -1,41 +1,46 @@
-# CUID - Elide Polyglot Showcase
+# CUID
 
-> **One CUID generator for ALL languages** - TypeScript, Python, Ruby, and Java
+Collision-resistant unique IDs for Elide (polyglot!)
 
-Collision-resistant unique identifiers optimized for horizontal scaling and performance.
+Based on https://www.npmjs.com/package/cuid (~200K+ downloads/week)
 
-## ✨ Features
+## Features
 
-- ✅ Collision-resistant across distributed systems
-- ✅ Sortable by creation time
-- ✅ URL-safe and human-readable (base36)
-- ✅ Slugs (8-char short form)
-- ✅ Validation helpers
-- ✅ **Polyglot**: Works in all languages
+- Collision-resistant unique IDs
+- Unique and sortable
+- Fast generation
+- Zero dependencies
 
-## 🚀 Quick Start
+## Quick Start
 
 ```typescript
-import { cuid, slug, isCuid } from './elide-cuid.ts';
-
-// Full CUID
-const id = cuid();
-console.log(id); // => "c" + 24 chars
-
-// Short slug
-const short = slug();
-console.log(short); // => 8 chars
-
-// Validate
-isCuid("c..."); // => true
+import cuid from './elide-cuid.ts';
 ```
 
-## 📝 Package Stats
+## Polyglot Examples
 
-- **npm downloads**: ~3M/week
-- **Format**: 25 characters (base36)
-- **Elide advantage**: Polyglot, collision-resistant
+### JavaScript/TypeScript
+```typescript
+import cuid from './elide-cuid.ts';
+```
 
----
+### Python (via Elide)
+```python
+from elide_cuid import cuid
+```
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+### Ruby (via Elide)
+```ruby
+require 'elide/cuid'
+```
+
+### Java (via Elide)
+```java
+import elide.cuid.*;
+```
+
+## Benefits
+
+- One cuid library for ALL languages on Elide
+- Consistent ID generation across languages
+- ~200K+ downloads/week on npm!

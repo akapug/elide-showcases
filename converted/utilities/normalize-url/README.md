@@ -1,11 +1,74 @@
-# Normalize URL - URL Normalizer - Elide Polyglot Showcase
+# Normalize URL - Elide Polyglot Showcase
 
-> **One URL normalizer for ALL languages**
+> **One normalize url for ALL languages** - TypeScript, Python, Ruby, and Java
 
-## 📝 Package Stats
+Normalize URLs to a consistent canonical form
 
-- **npm downloads**: ~40M/week
-- **Polyglot score**: 45/50 (A-Tier)
+## Features
+
+- Pure TypeScript implementation
+- Zero dependencies
+- Fully typed interfaces
+- Production-ready
+- Polyglot: Use from TypeScript, Python, Ruby, and Java
+
+## Quick Start
+
+### TypeScript
+```typescript
+import lib from './elide-normalize-url.ts';
+
+// Your code here
+```
+
+### Python
+```python
+from elide import require
+lib = require('./elide-normalize-url.ts')
+
+# Your code here
+```
+
+### Ruby
+```ruby
+lib = Elide.require('./elide-normalize-url.ts')
+
+# Your code here
+```
+
+### Java
+```java
+Value lib = context.eval("js", "require('./elide-normalize-url.ts')");
+
+// Your code here
+```
+
+## Why Polyglot?
+
+Write once in TypeScript, use everywhere:
+- **Consistency**: Same behavior across all languages
+- **Maintainability**: Single implementation to maintain
+- **Type Safety**: Full TypeScript types available
+- **Performance**: Native Elide performance
+
+## Use Cases
+
+- URL normalization
+- URL canonicalization
+- Duplicate detection
+- URL comparison
+
+## Package Stats
+
+- **npm downloads**: ~2M+/week
+- **Original package**: [normalize-url](https://www.npmjs.com/package/normalize-url)
+- **Elide advantage**: One implementation for all languages
+
+## Links
+
+- [Elide Documentation](https://docs.elide.dev)
+- [npm normalize-url package](https://www.npmjs.com/package/normalize-url)
+- [GitHub: elide-showcases](https://github.com/elide-dev/elide-showcases)
 
 ---
 

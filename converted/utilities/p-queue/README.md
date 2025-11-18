@@ -1,129 +1,64 @@
-# Elide P-Queue
+# Promise Queue
 
-Pure TypeScript implementation of `p-queue` for managing promise execution with priority and concurrency control.
+Promise Queue for Elide (polyglot!)
+
+Based on https://www.npmjs.com/package/p-queue (~500K+ downloads/week)
 
 ## Features
 
-- Promise queue with concurrency control
-- Priority support
-- Pause and resume functionality
-- Timeout support
-- Event monitoring (onIdle, onEmpty)
+- Promise-based
+- Priority queue
+- Concurrency limits
 - Zero dependencies
-- Full TypeScript support
 
-## Original Package
-
-- **npm**: `p-queue`
-- **Downloads**: ~15M/week
-- **Use case**: Promise queue with advanced features
-
-## Polyglot Benefits
-
-- Works in Browser, Node.js, Deno, Bun, and Elide
-- Zero dependencies - pure TypeScript
-- Type-safe with full TypeScript support
-- Tree-shakeable and optimized for modern bundlers
-
-## Usage
+## Quick Start
 
 ```typescript
-import PQueue from './elide-p-queue.ts';
+import p_queue from './elide-p-queue.ts';
 
-const queue = new PQueue({ concurrency: 2 });
+// Basic operations
+p_queue.set('key', 'value');
+console.log(p_queue.get('key'));
 
-// Add promises to the queue
-await queue.add(() => fetchData(1));
-await queue.add(() => fetchData(2), { priority: 1 });
-
-// Add multiple promises
-const results = await queue.addAll([
-  () => fetchData(3),
-  () => fetchData(4),
-  () => fetchData(5),
-]);
-
-// Pause and resume
-queue.pause();
-queue.start();
-
-// Wait for queue to be empty or idle
-await queue.onEmpty();
-await queue.onIdle();
-
-// Clear the queue
-queue.clear();
+// Event handling
+p_queue.on('change', (key) => {
+  console.log(`Changed: ${key}`);
+});
 ```
 
-## API
+## Polyglot Examples
 
-### new PQueue(options?)
+### JavaScript/TypeScript
+```typescript
+import p_queue from './elide-p-queue.ts';
 
-Creates a new queue instance.
+p_queue.set('data', { foo: 'bar' });
+```
 
-#### options
+### Python (via Elide)
+```python
+from elide_p_queue import p_queue
 
-Type: `object`
+p_queue.set('data', {'foo': 'bar'})
+```
 
-##### concurrency
+### Ruby (via Elide)
+```ruby
+require 'elide/p_queue'
 
-Type: `number`
-Default: `Infinity`
+p_queue.set('data', { foo: 'bar' })
+```
 
-The maximum number of promises to run concurrently.
+### Java (via Elide)
+```java
+import elide.p_queue.*;
 
-##### timeout
+PQueue.set("data", Map.of("foo", "bar"));
+```
 
-Type: `number`
-Default: `undefined`
+## Benefits
 
-Per-operation timeout in milliseconds.
-
-##### autoStart
-
-Type: `boolean`
-Default: `true`
-
-Whether to start the queue automatically.
-
-### queue.add(fn, options?)
-
-Adds a promise-returning function to the queue.
-
-Returns a promise that resolves when the function is executed.
-
-### queue.addAll(fns, options?)
-
-Adds multiple promise-returning functions to the queue.
-
-### queue.pause()
-
-Pauses the queue.
-
-### queue.start()
-
-Starts or resumes the queue.
-
-### queue.clear()
-
-Clears the queue.
-
-### queue.onIdle()
-
-Returns a promise that resolves when the queue becomes idle (empty and no pending promises).
-
-### queue.onEmpty()
-
-Returns a promise that resolves when the queue becomes empty.
-
-### queue.size
-
-Type: `number`
-
-The number of promises in the queue.
-
-### queue.pendingCount
-
-Type: `number`
-
-The number of promises currently running.
+- One promise queue for ALL languages on Elide
+- Consistent API across languages
+- Share across your polyglot stack
+- ~500K+ downloads/week on npm!

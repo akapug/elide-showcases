@@ -1,77 +1,46 @@
-# ULID - Elide Polyglot Showcase
+# ULID
 
-> **One ULID generator for ALL languages** - TypeScript, Python, Ruby, and Java
+Universally Unique Lexicographically Sortable ID for Elide (polyglot!)
 
-Universally Unique Lexicographically Sortable Identifiers - better than UUID for time-ordered data.
+Based on https://www.npmjs.com/package/ulid (~200K+ downloads/week)
 
-## ✨ Features
+## Features
 
-- ✅ Lexicographically sortable by timestamp
-- ✅ 128-bit compatibility with UUID
-- ✅ URL-safe (Crockford Base32)
-- ✅ Monotonic ordering within same millisecond
-- ✅ Cryptographically secure randomness
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
+- Universally Unique Lexicographically Sortable ID
+- Unique and sortable
+- Fast generation
+- Zero dependencies
 
-## 🚀 Quick Start
+## Quick Start
 
 ```typescript
-import { ulid, decodeTime } from './elide-ulid.ts';
-
-// Generate ULID
-const id = ulid();
-console.log(id); // => "01ARZ3NDEKTSV4RRFFQ69G5FAV"
-
-// Decode timestamp
-const timestamp = decodeTime(id);
-console.log(new Date(timestamp)); // => 2024-01-15T10:30:45.123Z
-
-// Monotonic (same millisecond)
-import { monotonicFactory } from './elide-ulid.ts';
-const monotonic = monotonicFactory();
-const id1 = monotonic();
-const id2 = monotonic(); // Guaranteed to be > id1
+import ulid from './elide-ulid.ts';
 ```
 
-## 💡 Use Cases
+## Polyglot Examples
 
-### Database Primary Keys
-
+### JavaScript/TypeScript
 ```typescript
-interface User {
-  id: string; // ULID
-  username: string;
-  createdAt: Date;
-}
-
-const user = {
-  id: ulid(), // Sortable by creation time!
-  username: "alice",
-  createdAt: new Date()
-};
+import ulid from './elide-ulid.ts';
 ```
 
-### Event Sourcing
-
-```typescript
-interface Event {
-  id: string;
-  type: string;
-}
-
-const event = {
-  id: ulid(), // Events naturally sorted by time
-  type: "UserCreated"
-};
+### Python (via Elide)
+```python
+from elide_ulid import ulid
 ```
 
-## 📝 Package Stats
+### Ruby (via Elide)
+```ruby
+require 'elide/ulid'
+```
 
-- **npm downloads**: ~2M/week
-- **Format**: 26 characters (Crockford Base32)
-- **Use case**: Time-ordered unique identifiers
-- **Elide advantage**: Polyglot, sortable, URL-safe
+### Java (via Elide)
+```java
+import elide.ulid.*;
+```
 
----
+## Benefits
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+- One ulid library for ALL languages on Elide
+- Consistent ID generation across languages
+- ~200K+ downloads/week on npm!

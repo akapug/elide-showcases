@@ -1,106 +1,55 @@
-# HTTP Errors - Create HTTP Error Objects
+# HTTP Errors
 
-Create HTTP errors for Express, Koa, Connect, etc. - converted for Elide.
+HTTP Errors for Elide (polyglot!)
 
-## Overview
-
-This library provides a simple way to create HTTP errors with status codes and messages. Perfect for REST APIs and web applications that need consistent error handling across all routes and middleware.
-
-**Based on**: [http-errors](https://www.npmjs.com/package/http-errors) (~60M downloads/week on npm)
+Based on https://www.npmjs.com/package/http-errors (~15M+ downloads/week)
 
 ## Features
 
-- ✅ **Status code errors** - Create errors with HTTP status codes
-- ✅ **Named constructors** - BadRequest, NotFound, Unauthorized, etc.
-- ✅ **Custom properties** - Add custom fields to errors
-- ✅ **Stack traces** - Full error stack support
-- ✅ **Expose flag** - Control error message exposure
-- ✅ **Zero dependencies** - Pure TypeScript
+- Error creation
+- Status codes
+- Custom properties
+- Standard errors
+- Zero dependencies
 
-## Polyglot Benefits
-
-- **Consistent Errors** - Same error codes across Python, Ruby, Java
-- **Share Logic** - Reuse error handling across languages
-- **Type Safety** - Full TypeScript error types
-
-## Usage
+## Quick Start
 
 ```typescript
-import createError, { NotFound, Unauthorized } from "./elide-http-errors.ts";
+import http-errors from './elide-http-errors.ts';
 
-// Create by status code
-const error400 = createError(400, "Invalid input");
-const error404 = createError(404);
-const error500 = createError(500, "Database failed");
-
-// Named constructors
-const notFound = new NotFound("User not found");
-const unauthorized = new Unauthorized("Invalid token");
-
-// Custom properties
-const validationError = createError(422, "Validation failed", {
-  fields: { email: "Invalid format" }
-});
+// Basic usage
+const result = http-errors.main();
+console.log(result);
 ```
 
-## Named Error Classes
+## Polyglot Examples
 
-### 4xx Client Errors
-- `BadRequest` (400)
-- `Unauthorized` (401)
-- `PaymentRequired` (402)
-- `Forbidden` (403)
-- `NotFound` (404)
-- `MethodNotAllowed` (405)
-- `Conflict` (409)
-- `UnprocessableEntity` (422)
-- `TooManyRequests` (429)
-
-### 5xx Server Errors
-- `InternalServerError` (500)
-- `NotImplemented` (501)
-- `BadGateway` (502)
-- `ServiceUnavailable` (503)
-- `GatewayTimeout` (504)
-
-## Examples
-
-### Express Middleware
-
+### JavaScript/TypeScript
 ```typescript
-app.use((err, req, res, next) => {
-  res.status(err.statusCode || 500);
-  res.json({
-    error: err.message,
-    code: err.name
-  });
-});
+import http-errors from './elide-http-errors.ts';
+const result = http-errors.main();
 ```
 
-### Rate Limiting
-
-```typescript
-const rateLimitError = new TooManyRequests("Rate limit exceeded");
-rateLimitError.headers = {
-  "Retry-After": "60",
-  "X-RateLimit-Remaining": "0"
-};
+### Python (via Elide)
+```python
+from elide_http-errors import http-errors
+result = http-errors.main()
 ```
 
-## Use Cases
-
-- REST API error responses
-- Middleware error handling
-- HTTP client errors (4xx)
-- HTTP server errors (5xx)
-
-## Running the Demo
-
-```bash
-elide run elide-http-errors.ts
+### Ruby (via Elide)
+```ruby
+require 'elide/http-errors'
+result = http-errors.main
 ```
 
-## Learn More
+### Java (via Elide)
+```java
+import elide.http-errors.*;
+String result = HTTP_Errors.main();
+```
 
-- [HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
-- [Elide Documentation](https://docs.elide.dev/)
+## Benefits
+
+- One library for ALL languages on Elide
+- Consistent API across languages
+- ~15M+ downloads/week on npm!

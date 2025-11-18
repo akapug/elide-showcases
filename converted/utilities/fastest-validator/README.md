@@ -1,21 +1,32 @@
-# Fastest Validator - Elide Polyglot Showcase
+# fastest-validator - Elide Polyglot Showcase
 
-> **One fast validator for ALL languages** - TypeScript, Python, Ruby, and Java
-
-The fastest validation library for JavaScript.
+> **Blazingly fast validator for ALL languages** - TypeScript, Python, Ruby, and Java
 
 ## Features
 
-- Extremely fast validation
-- Schema-based validation
-- **~500K downloads/week on npm**
+- Schema-based validation with type safety
+- Custom validation rules
+- Async validation support
+- Error message customization
+- **~100K+ downloads/week on npm**
+
+## Quick Start
 
 ```typescript
-import FastestValidator from './elide-fastest-validator.ts';
+import { createValidator } from './elide-fastest-validator.ts';
 
-const v = new FastestValidator();
-const check = v.compile({ name: { type: 'string' } });
+const validator = createValidator({
+  email: { required: true, email: true },
+  age: { required: true, min: 18 },
+});
+
+const result = validator.validate({ email: 'test@example.com', age: 25 });
+console.log(result.valid); // true
 ```
+
+## Links
+
+- [Original npm package](https://www.npmjs.com/package/fastest-validator)
 
 ---
 

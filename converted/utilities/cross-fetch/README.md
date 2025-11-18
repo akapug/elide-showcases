@@ -1,17 +1,32 @@
-# Cross-Fetch - Universal Fetch API - Elide Polyglot Showcase
+# Cross-Fetch - Elide Polyglot Showcase
 
-> **One fetch for ALL languages** - TypeScript, Python, Ruby, and Java
+> **Universal fetch for ALL environments** - Node.js, browsers, and all languages
+
+Universal WHATWG Fetch API that works across Node.js, browsers, and all languages on Elide.
 
 ## ✨ Features
 
-- ✅ Universal Fetch API
-- ✅ **Polyglot**: Works across all languages
+- ✅ Universal fetch (Node.js + browser)
+- ✅ Full Fetch API support
+- ✅ TypeScript support
+- ✅ **Polyglot**: Works in all languages
+- ✅ Zero dependencies
 
-## 📝 Package Stats
+## 🚀 Quick Start
 
-- **npm downloads**: ~80M/week
-- **Polyglot score**: 46/50 (S-Tier)
+```typescript
+import fetch from './elide-cross-fetch.ts';
+
+const response = await fetch('https://api.example.com/data');
+const data = await response.json();
+```
+
+## 💡 Use Cases
+
+- Isomorphic applications
+- Universal API clients
+- Server-side rendering
 
 ---
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+**npm downloads**: ~3M/week

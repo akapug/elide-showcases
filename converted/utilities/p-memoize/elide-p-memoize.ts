@@ -1,51 +1,48 @@
 /**
- * Elide P-Memoize - Memoize Promise-Returning Functions
- *
- * Pure TypeScript implementation of p-memoize.
- *
- * Features:
- * - Memoize async functions
- * - Custom cache key function
- * - TTL support
- *
- * Polyglot Benefits:
- * - Zero dependencies - pure TypeScript
- * - Works in Browser, Node.js, Deno, Bun, and Elide
- * - Type-safe with full TypeScript support
- *
- * Original npm package: p-memoize (~5M downloads/week)
+ * P-Memoize - Promise Memoization
+ * Based on https://www.npmjs.com/package/p-memoize (~300K+ downloads/week)
+ * Features: Async function memoization, cache expiry
  */
 
-export interface MemoizeOptions<T extends (...args: any[]) => any> {
-  cacheKey?: (...args: Parameters<T>) => string;
-  maxAge?: number;
-}
-
-export default function pMemoize<T extends (...args: any[]) => Promise<any>>(
+export function pMemoize<T extends (...args: any[]) => Promise<any>>(
   fn: T,
-  options: MemoizeOptions<T> = {}
+  options: { maxAge?: number; cacheKey?: (...args: any[]) => string } = {}
 ): T {
-  const cache = new Map<string, { value: any; timestamp: number }>();
-  const { cacheKey = (...args) => JSON.stringify(args), maxAge } = options;
+  const cache = new Map();
+  const { maxAge, cacheKey = (...args: any[]) => JSON.stringify(args) } = options;
 
-  return ((...args: any[]) => {
+  return (async (...args: any[]) => {
     const key = cacheKey(...args);
-    const cached = cache.get(key);
-
-    if (cached) {
-      if (!maxAge || Date.now() - cached.timestamp < maxAge) {
-        return Promise.resolve(cached.value);
+    
+    if (cache.has(key)) {
+      const entry = cache.get(key);
+      if (!maxAge || Date.now() - entry.timestamp < maxAge) {
+        return entry.value;
       }
       cache.delete(key);
     }
 
     const promise = fn(...args);
-
-    return promise.then(value => {
-      cache.set(key, { value, timestamp: Date.now() });
-      return value;
-    });
+    const value = await promise;
+    cache.set(key, { value, timestamp: Date.now() });
+    return value;
   }) as T;
 }
 
-export { pMemoize };
+export default pMemoize;
+
+if (import.meta.url.includes("elide-p-memoize.ts")) {
+  console.log("⚡ P-Memoize - Promise Memoization (~300K+/week)\n");
+  
+  let calls = 0;
+  const fetchUser = pMemoize(async (id: number) => {
+    calls++;
+    return { id, name: \`User\${id}\` };
+  });
+
+  (async () => {
+    console.log("First call:", await fetchUser(1));
+    console.log("Cached:", await fetchUser(1));
+    console.log("Total API calls:", calls);
+  })();
+}

@@ -1,12 +1,25 @@
-# Unfetch - Tiny Fetch Polyfill - Elide Polyglot Showcase
+# Unfetch - Elide Polyglot Showcase
 
-> **One fetch for ALL languages** - TypeScript, Python, Ruby, and Java
+> **Tiny 500b fetch for ALL languages**
 
-## 📝 Package Stats
+Ultra-minimal Fetch API polyfill that works across all languages on Elide.
 
-- **npm downloads**: ~2M/week
-- **Polyglot score**: 44/50 (A-Tier)
+## ✨ Features
+
+- ✅ Only 500 bytes
+- ✅ Core Fetch API
+- ✅ Promise-based
+- ✅ Zero dependencies
+
+## 🚀 Quick Start
+
+```typescript
+import unfetch from './elide-unfetch.ts';
+
+const res = await unfetch('https://api.example.com/data');
+const data = await res.json();
+```
 
 ---
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+**npm downloads**: ~100K/week

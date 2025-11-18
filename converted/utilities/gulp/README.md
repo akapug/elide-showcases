@@ -1,107 +1,64 @@
-# gulp - Elide Polyglot Showcase
+# Streaming Build System
 
-> **One gulp implementation for ALL languages** - TypeScript, Python, Ruby, and Java
+Streaming Build System for Elide (polyglot!)
 
-Streaming build system with a single implementation that works across your entire polyglot stack.
+Based on https://www.npmjs.com/package/gulp (~500K+ downloads/week)
 
-## 🌟 Why This Matters
+## Features
 
-In polyglot architectures, having **different gulp implementations** in each language creates:
-- ❌ Inconsistent behavior across services
-- ❌ Multiple tools to maintain
-- ❌ Complex configuration management
-- ❌ Build reproducibility issues
+- Task composition
+- File watching
+- Streaming transforms
+- Zero dependencies
 
-**Elide solves this** with ONE implementation that works in ALL languages.
-
-## ✨ Features
-
-- ✅ Core task runner functionality
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-- ✅ Zero dependencies (core logic)
-- ✅ High performance
-- ✅ Consistent behavior across all languages
-
-## 🚀 Quick Start
-
-### TypeScript
+## Quick Start
 
 ```typescript
-import { process } from './elide-gulp.ts';
+import gulp from './elide-gulp.ts';
 
-const result = process(input);
-console.log(result);
+// Basic operations
+gulp.set('key', 'value');
+console.log(gulp.get('key'));
+
+// Event handling
+gulp.on('change', (key) => {
+  console.log(`Changed: ${key}`);
+});
 ```
 
-### Python
+## Polyglot Examples
 
+### JavaScript/TypeScript
+```typescript
+import gulp from './elide-gulp.ts';
+
+gulp.set('data', { foo: 'bar' });
+```
+
+### Python (via Elide)
 ```python
-from elide import require
-tool = require('./elide-gulp.ts')
+from elide_gulp import gulp
 
-result = tool.process(input)
-print(result)
+gulp.set('data', {'foo': 'bar'})
 ```
 
-### Ruby
-
+### Ruby (via Elide)
 ```ruby
-tool = Elide.require('./elide-gulp.ts')
+require 'elide/gulp'
 
-result = tool.process(input)
-puts result
+gulp.set('data', { foo: 'bar' })
 ```
 
-### Java
-
+### Java (via Elide)
 ```java
-Context context = Context.newBuilder("js").allowAllAccess(true).build();
-Value tool = context.eval("js", "require('./elide-gulp.ts')");
+import elide.gulp.*;
 
-Value result = tool.getMember("process").execute(input);
-System.out.println(result);
+Gulp.set("data", Map.of("foo", "bar"));
 ```
 
-## 📊 Performance
+## Benefits
 
-Build tool performance optimized for Elide runtime.
-
-## 🎯 Why Polyglot?
-
-One gulp implementation for all languages eliminates inconsistencies and reduces maintenance overhead.
-
-## 💡 Use Cases
-
-Perfect for build automation, code transformation, asset optimization, and development workflows.
-
-## 📂 Files in This Showcase
-
-- `elide-gulp.ts` - Main TypeScript implementation
-- `README.md` - This file
-
-## 🧪 Testing
-
-### Run the demo
-
-```bash
-elide run elide-gulp.ts
-```
-
-## 🌐 Links
-
-- [Elide Documentation](https://docs.elide.dev)
-- [npm gulp package](https://www.npmjs.com/package/gulp)
-- [GitHub: elide-showcases](https://github.com/akapug/elide-showcases)
-
-## 📝 Package Stats
-
-- **npm downloads**: 8M+/week
-- **Use case**: Build tool, code transformation
-- **Elide advantage**: One implementation for all languages
-- **Polyglot score**: High
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
-
-*Proving that one tool can rule them all.*
+- One streaming build system for ALL languages on Elide
+- Consistent API across languages
+- Share across your polyglot stack
+- ~500K+ downloads/week on npm!

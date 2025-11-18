@@ -1,33 +1,15 @@
-# immer - Elide Polyglot Showcase
+# Immer - Immutable State Management
 
-> **One immer implementation for ALL languages** - TypeScript, Python, Ruby, and Java
+Create the next immutable state by mutating the current one on Elide.
 
-Immutable state updates with mutable syntax.
-
-## ✨ Features
-
-- ✅ produce() function for updates
-- ✅ Mutable syntax, immutable result
-- ✅ Type-safe
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-
-## 🚀 Quick Start
+## Quick Start
 
 ```typescript
 import produce from './elide-immer.ts';
 
-const next = produce(state, draft => {
+const nextState = produce(currentState, draft => {
   draft.count++;
-  draft.items.push(newItem);
 });
 ```
 
-## 📝 Package Stats
-
-- **npm downloads**: 20M+/week
-- **Use case**: State management, Redux, React
-- **Polyglot score**: 46/50 (S-Tier)
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+Based on https://www.npmjs.com/package/immer (~3M+ downloads/week)

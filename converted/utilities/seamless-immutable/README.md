@@ -1,12 +1,15 @@
-# seamless-immutable - Elide Polyglot Showcase
+# Seamless Immutable - Immutable Data
 
-> Immutable data structures without new syntax.
+Immutable data structures for JavaScript.
 
-## 📝 Package Stats
+Based on [seamless-immutable](https://www.npmjs.com/package/seamless-immutable) (~100K+ downloads/week)
 
-- **npm downloads**: 500K+/week
-- **Polyglot score**: 42/50 (A-Tier)
+```typescript
+import Immutable from './elide-seamless-immutable.ts';
 
----
+const obj = Immutable({ a: 1 });
+// obj.a = 2; // Error: Cannot mutate
+const updated = Immutable.set(obj, 'a', 2);
+```
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Run: `elide run elide-seamless-immutable.ts`

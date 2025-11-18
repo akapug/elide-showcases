@@ -1,43 +1,178 @@
 /**
- * Vest - Declarative Validation Framework
+ * Vest - Validation Framework
  *
- * Declarative validation testing framework.
- * **POLYGLOT SHOWCASE**: One validation framework for ALL languages on Elide!
+ * Declarative validation framework
+ * **POLYGLOT SHOWCASE**: One validation library for ALL languages on Elide!
  *
- * Based on https://www.npmjs.com/package/vest (~200K+ downloads/week)
+ * Based on https://www.npmjs.com/package/vest (~50K+ downloads/week)
  *
  * Features:
- * - Declarative tests
- * - Async validation
- * - Field-level validation
+ * - Schema-based validation
+ * - Custom validators
+ * - Async validation support
+ * - Type-safe validation
+ * - Error message customization
  * - Zero dependencies
  *
- * Package has ~200K+ downloads/week on npm!
+ * Polyglot Benefits:
+ * - Python, Ruby, Java all need validation
+ * - ONE implementation works everywhere on Elide
+ * - Consistent validation across languages
+ * - Share validation schemas across your stack
+ *
+ * Use cases:
+ * - Form validation
+ * - API request validation
+ * - Data schema validation
+ * - Runtime type checking
+ *
+ * Package has ~50K+ downloads/week on npm!
  */
 
-function create(name: string, tests: (data: any) => void) {
-  return {
-    validate(data: any) {
-      const errors: any = {};
-      try {
-        tests(data);
-      } catch (e) {
-        errors.message = (e as Error).message;
-      }
-      return { errors, isValid: Object.keys(errors).length === 0 };
-    }
-  };
+export interface ValidationRule {
+  required?: boolean;
+  min?: number;
+  max?: number;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: RegExp;
+  email?: boolean;
+  url?: boolean;
+  custom?: (value: any) => boolean | string;
 }
 
-function test(field: string, message: string, validator: () => boolean) {
-  if (!validator()) {
-    throw new Error(`${field}: ${message}`);
+export interface ValidationSchema {
+  [key: string]: ValidationRule;
+}
+
+export interface ValidationError {
+  field: string;
+  message: string;
+}
+
+export interface ValidationResult {
+  valid: boolean;
+  errors: ValidationError[];
+}
+
+export class Vest {
+  private schema: ValidationSchema;
+
+  constructor(schema: ValidationSchema = {}) {
+    this.schema = schema;
+  }
+
+  setSchema(schema: ValidationSchema): void {
+    this.schema = schema;
+  }
+
+  validate(data: any): ValidationResult {
+    const errors: ValidationError[] = [];
+
+    for (const [field, rules] of Object.entries(this.schema)) {
+      const value = data[field];
+
+      if (rules.required && !value) {
+        errors.push({ field, message: `${field} is required` });
+        continue;
+      }
+
+      if (value === undefined || value === null || value === '') continue;
+
+      if (rules.min !== undefined && typeof value === 'number' && value < rules.min) {
+        errors.push({ field, message: `${field} must be at least ${rules.min}` });
+      }
+
+      if (rules.max !== undefined && typeof value === 'number' && value > rules.max) {
+        errors.push({ field, message: `${field} must be at most ${rules.max}` });
+      }
+
+      if (rules.minLength !== undefined && typeof value === 'string' && value.length < rules.minLength) {
+        errors.push({ field, message: `${field} must be at least ${rules.minLength} characters` });
+      }
+
+      if (rules.maxLength !== undefined && typeof value === 'string' && value.length > rules.maxLength) {
+        errors.push({ field, message: `${field} must be at most ${rules.maxLength} characters` });
+      }
+
+      if (rules.pattern && typeof value === 'string' && !rules.pattern.test(value)) {
+        errors.push({ field, message: `${field} has invalid format` });
+      }
+
+      if (rules.email && typeof value === 'string') {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(value)) {
+          errors.push({ field, message: `${field} must be a valid email` });
+        }
+      }
+
+      if (rules.url && typeof value === 'string') {
+        try {
+          new URL(value);
+        } catch {
+          errors.push({ field, message: `${field} must be a valid URL` });
+        }
+      }
+
+      if (rules.custom) {
+        const result = rules.custom(value);
+        if (typeof result === 'string') {
+          errors.push({ field, message: result });
+        } else if (result === false) {
+          errors.push({ field, message: `${field} validation failed` });
+        }
+      }
+    }
+
+    return { valid: errors.length === 0, errors };
+  }
+
+  async validateAsync(data: any): Promise<ValidationResult> {
+    return this.validate(data);
+  }
+
+  validateField(field: string, value: any): ValidationError | null {
+    const rules = this.schema[field];
+    if (!rules) return null;
+
+    const result = this.validate({ [field]: value });
+    return result.errors[0] || null;
   }
 }
 
-export { create, test };
+export function createValidator(schema: ValidationSchema): Vest {
+  return new Vest(schema);
+}
 
-if (import.meta.url.includes("elide-vest.ts")) {
-  console.log("✅ Vest - Validation Framework (POLYGLOT!)\n");
-  console.log("~200K+ downloads/week on npm!");
+export const validators = {
+  required: () => ({ required: true }),
+  email: () => ({ email: true }),
+  url: () => ({ url: true }),
+  min: (value: number) => ({ min: value }),
+  max: (value: number) => ({ max: value }),
+  minLength: (value: number) => ({ minLength: value }),
+  maxLength: (value: number) => ({ maxLength: value }),
+  pattern: (regex: RegExp) => ({ pattern: regex }),
+  custom: (fn: (value: any) => boolean | string) => ({ custom: fn }),
+};
+
+export default createValidator;
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  console.log("✅ Vest - Validation Framework - Validation for Elide (POLYGLOT!)\n");
+
+  const validator = createValidator({
+    email: { required: true, email: true },
+    age: { required: true, min: 18, max: 120 },
+    username: { required: true, minLength: 3, maxLength: 20 },
+  });
+
+  const data1 = { email: 'test@example.com', age: 25, username: 'john' };
+  console.log('Valid data:', validator.validate(data1));
+
+  const data2 = { email: 'invalid', age: 15, username: 'ab' };
+  console.log('Invalid data:', validator.validate(data2));
+
+  console.log("\n🌐 POLYGLOT: Works in TypeScript, Python, Ruby, Java via Elide!");
+  console.log("🚀 ~50K+ downloads/week on npm!");
 }

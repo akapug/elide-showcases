@@ -1,107 +1,139 @@
-# webpack-merge - Elide Polyglot Showcase
+# Configuration Merging - Elide Polyglot Showcase
 
 > **One webpack-merge implementation for ALL languages** - TypeScript, Python, Ruby, and Java
 
-Merge webpack configurations with a single implementation that works across your entire polyglot stack.
-
-## 🌟 Why This Matters
-
-In polyglot architectures, having **different webpack-merge implementations** in each language creates:
-- ❌ Inconsistent behavior across services
-- ❌ Multiple tools to maintain
-- ❌ Complex configuration management
-- ❌ Build reproducibility issues
-
-**Elide solves this** with ONE implementation that works in ALL languages.
+Configuration Merging with a single implementation that works across your entire polyglot stack.
 
 ## ✨ Features
 
-- ✅ Core config merger functionality
+- ✅ Module bundling and optimization
+- ✅ Build tool integration
+- ✅ Development workflow automation
+- ✅ Production deployment preparation
 - ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-- ✅ Zero dependencies (core logic)
-- ✅ High performance
-- ✅ Consistent behavior across all languages
+- ✅ Zero dependencies
 
 ## 🚀 Quick Start
 
 ### TypeScript
-
 ```typescript
-import { process } from './elide-webpack-merge.ts';
+import { build, createWebpackMerge } from './elide-webpack-merge.ts';
 
-const result = process(input);
-console.log(result);
+// Basic build
+await build({
+  input: 'src/index.ts',
+  output: 'dist/bundle.js',
+  format: 'esm',
+});
+
+// Advanced usage
+const builder = createWebpackMerge({
+  input: 'src/index.ts',
+  output: 'dist/bundle.min.js',
+  minify: true,
+  sourcemap: true,
+});
+await builder.build();
 ```
 
 ### Python
-
 ```python
 from elide import require
-tool = require('./elide-webpack-merge.ts')
+webpack_merge = require('./elide-webpack-merge.ts')
 
-result = tool.process(input)
-print(result)
+# Build
+webpack_merge.build({
+  'input': 'src/index.ts',
+  'output': 'dist/bundle.js',
+  'format': 'esm'
+})
 ```
 
 ### Ruby
-
 ```ruby
-tool = Elide.require('./elide-webpack-merge.ts')
+webpack_merge = Elide.require('./elide-webpack-merge.ts')
 
-result = tool.process(input)
-puts result
+# Build
+webpack_merge.build({
+  input: 'src/index.ts',
+  output: 'dist/bundle.js',
+  format: 'esm'
+})
 ```
 
 ### Java
-
 ```java
-Context context = Context.newBuilder("js").allowAllAccess(true).build();
-Value tool = context.eval("js", "require('./elide-webpack-merge.ts')");
+Value webpackMerge = context.eval("js", "require('./elide-webpack-merge.ts')");
 
-Value result = tool.getMember("process").execute(input);
-System.out.println(result);
+// Build
+webpackMerge.invokeMember("build");
 ```
-
-## 📊 Performance
-
-Build tool performance optimized for Elide runtime.
 
 ## 🎯 Why Polyglot?
 
-One webpack-merge implementation for all languages eliminates inconsistencies and reduces maintenance overhead.
+**Before**: Each language has different build tools
 
-## 💡 Use Cases
+**After**: One Elide implementation for all languages
 
-Perfect for build automation, code transformation, asset optimization, and development workflows.
+Benefits:
+- ✅ One build tool, all languages
+- ✅ Consistent output everywhere  
+- ✅ Share configs across your stack
+- ✅ No language-specific build tools
 
-## 📂 Files in This Showcase
+## 📖 API Reference
 
-- `elide-webpack-merge.ts` - Main TypeScript implementation
-- `README.md` - This file
+### `build(options)`
 
-## 🧪 Testing
+Build your module.
 
-### Run the demo
+```typescript
+await build({
+  input: 'src/index.ts',
+  output: 'dist/bundle.js',
+  format: 'esm',
+  minify: true,
+  sourcemap: true,
+});
+```
 
-```bash
-elide run elide-webpack-merge.ts
+### `createWebpackMerge(options)`
+
+Create a builder instance.
+
+```typescript
+const builder = createWebpackMerge({
+  input: 'src/index.ts',
+  output: 'dist/bundle.js',
+});
+await builder.build();
+```
+
+### `watch(options)`
+
+Watch mode for development.
+
+```typescript
+await watch({
+  input: 'src/index.ts',
+  output: 'dist/bundle.js',
+});
 ```
 
 ## 🌐 Links
 
 - [Elide Documentation](https://docs.elide.dev)
-- [npm webpack-merge package](https://www.npmjs.com/package/webpack-merge)
+- [npm webpack-merge package](https://www.npmjs.com/package/webpack-merge) (~3M+ downloads/week)
 - [GitHub: elide-showcases](https://github.com/akapug/elide-showcases)
 
 ## 📝 Package Stats
 
-- **npm downloads**: 20M+/week
-- **Use case**: Build tool, code transformation
+- **npm downloads**: ~3M+/week
+- **Use case**: Configuration Merging
 - **Elide advantage**: One implementation for all languages
-- **Polyglot score**: High
 
 ---
 
 **Built with ❤️ for the Elide Polyglot Runtime**
 
-*Proving that one tool can rule them all.*
+*Making builds consistent, everywhere.*

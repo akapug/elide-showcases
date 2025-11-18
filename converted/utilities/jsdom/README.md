@@ -1,17 +1,29 @@
-# jsdom - Elide Polyglot Showcase
+# JSDOM - Elide Polyglot Showcase
 
-> JavaScript implementation of web standards for Node.js.
+> **One DOM implementation for ALL languages** - TypeScript, Python, Ruby, and Java
 
-## ✨ Features
+JavaScript implementation of web standards for server-side use.
 
-- ✅ DOM API implementation
-- ✅ querySelector support
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
+## Features
 
-## 📝 Package Stats
+- Full DOM implementation
+- HTML parsing
+- CSS selectors
+- **~40M downloads/week on npm**
 
-- **npm downloads**: 40M+/week
-- **Polyglot score**: 46/50 (S-Tier)
+## Quick Start
+
+```typescript
+import JSDOM from './elide-jsdom.ts';
+
+const dom = new JSDOM('<html><body><h1>Hello</h1></body></html>');
+const h1 = dom.window.document.querySelector('h1');
+console.log(h1.textContent);
+```
+
+## Links
+
+- [Original npm package](https://www.npmjs.com/package/jsdom)
 
 ---
 

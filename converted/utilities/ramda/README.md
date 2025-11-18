@@ -1,41 +1,17 @@
-# ramda - Elide Polyglot Showcase
+# Ramda - Functional Programming Library
 
-> **One ramda implementation for ALL languages** - TypeScript, Python, Ruby, and Java
+Practical functional library emphasizing immutability.
 
-Functional programming library with auto-curried functions and point-free style support.
-
-## ✨ Features
-
-- ✅ Auto-curried functions
-- ✅ Functional composition (compose, pipe)
-- ✅ Immutable data transformations
-- ✅ Point-free style support
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-- ✅ Zero dependencies
-
-## 🚀 Quick Start
+Based on [ramda](https://www.npmjs.com/package/ramda) (~1M+ downloads/week)
 
 ```typescript
 import R from './elide-ramda.ts';
 
-// Currying
-const add5 = R.add(5);
-add5(10); // 15
+const double = R.map((x: number) => x * 2);
+double([1, 2, 3]); // [2, 4, 6]
 
-// Composition
-const transform = R.pipe(
-  R.map(R.multiply(2)),
-  R.filter(R.gt(5)),
-  R.sum
-);
+const getName = R.prop('name');
+getName({ name: "Alice" }); // "Alice"
 ```
 
-## 📝 Package Stats
-
-- **npm downloads**: 5M+/week
-- **Use case**: Functional programming, data pipelines
-- **Polyglot score**: 48/50 (S-Tier)
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+Run: `elide run elide-ramda.ts`

@@ -1,12 +1,55 @@
-# Hyperquest - Streaming HTTP - Elide Polyglot Showcase
+# Hyperquest - Streaming HTTP
 
-> **One HTTP client for ALL languages**
+Hyperquest - Streaming HTTP for Elide (polyglot!)
 
-## 📝 Package Stats
+Based on https://www.npmjs.com/package/hyperquest (~100K+ downloads/week)
 
-- **npm downloads**: ~2M/week
-- **Polyglot score**: 42/50 (A-Tier)
+## Features
 
----
+- Streaming first
+- Pipe-friendly
+- Lightweight
+- Simple API
+- Zero dependencies
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+## Quick Start
+
+```typescript
+import hyperquest from './elide-hyperquest.ts';
+
+// Basic usage
+const result = hyperquest.main();
+console.log(result);
+```
+
+## Polyglot Examples
+
+### JavaScript/TypeScript
+```typescript
+import hyperquest from './elide-hyperquest.ts';
+const result = hyperquest.main();
+```
+
+### Python (via Elide)
+```python
+from elide_hyperquest import hyperquest
+result = hyperquest.main()
+```
+
+### Ruby (via Elide)
+```ruby
+require 'elide/hyperquest'
+result = hyperquest.main
+```
+
+### Java (via Elide)
+```java
+import elide.hyperquest.*;
+String result = Hyperquest___Streaming_HTTP.main();
+```
+
+## Benefits
+
+- One library for ALL languages on Elide
+- Consistent API across languages
+- ~100K+ downloads/week on npm!

@@ -1,29 +1,32 @@
-# Class Validator - Elide Polyglot Showcase
+# class-validator - Elide Polyglot Showcase
 
-> **One decorator validator for ALL languages** - TypeScript, Python, Ruby, and Java
-
-Decorator-based validation for TypeScript classes.
+> **Decorator-based validation for ALL languages** - TypeScript, Python, Ruby, and Java
 
 ## Features
 
-- Decorator-based validation
-- Class transformation
-- Custom validators
-- **~10M downloads/week on npm**
+- Schema-based validation with type safety
+- Custom validation rules
+- Async validation support
+- Error message customization
+- **~1M+ downloads/week on npm**
 
 ## Quick Start
 
 ```typescript
-import { IsString, IsEmail, validate } from './elide-class-validator.ts';
+import { createValidator } from './elide-class-validator.ts';
 
-class User {
-  @IsString()
-  name: string;
+const validator = createValidator({
+  email: { required: true, email: true },
+  age: { required: true, min: 18 },
+});
 
-  @IsEmail()
-  email: string;
-}
+const result = validator.validate({ email: 'test@example.com', age: 25 });
+console.log(result.valid); // true
 ```
+
+## Links
+
+- [Original npm package](https://www.npmjs.com/package/class-validator)
 
 ---
 

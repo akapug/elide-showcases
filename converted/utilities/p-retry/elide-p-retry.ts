@@ -1,93 +1,184 @@
 /**
- * Elide P-Retry - Promise Retry with Backoff
+ * P-Retry - Promise Retry with Exponential Backoff
  *
- * Pure TypeScript implementation of p-retry for retrying promises.
+ * Retry a promise-returning or async function with exponential backoff.
+ * **POLYGLOT SHOWCASE**: One promise retry library for ALL languages on Elide!
+ *
+ * Based on https://www.npmjs.com/package/p-retry (~1M+ downloads/week)
  *
  * Features:
- * - Retry failed promises
- * - Configurable retry count
- * - Exponential backoff support
- * - Custom retry conditions
+ * - Exponential backoff
+ * - Retry promises
+ * - Abort retries
+ * - Custom retry logic
+ * - Timeout support
+ * - Zero dependencies
  *
  * Polyglot Benefits:
- * - Zero dependencies - pure TypeScript
- * - Works in Browser, Node.js, Deno, Bun, and Elide
- * - Type-safe with full TypeScript support
+ * - Python, Ruby, Java all need promise retry
+ * - ONE implementation works everywhere on Elide
+ * - Consistent async patterns across languages
+ * - Share retry logic across your stack
  *
- * Original npm package: p-retry (~15M downloads/week)
+ * Use cases:
+ * - HTTP requests
+ * - Database queries
+ * - External API calls
+ * - Network operations
+ *
+ * Package has ~1M+ downloads/week on npm!
  */
 
-export interface PRetryOptions {
+export class AbortError extends Error {
+  readonly name = 'AbortError';
+  readonly originalError: Error;
+
+  constructor(message: string | Error) {
+    super();
+    if (message instanceof Error) {
+      this.originalError = message;
+      ({message} = message);
+    } else {
+      this.originalError = new Error(message);
+      this.originalError.stack = this.stack;
+    }
+    this.message = message;
+  }
+}
+
+export interface Options {
   retries?: number;
   factor?: number;
   minTimeout?: number;
   maxTimeout?: number;
   randomize?: boolean;
-  onFailedAttempt?: (error: any) => void | Promise<void>;
+  onFailedAttempt?: (error: FailedAttemptError) => void | Promise<void>;
 }
 
-export class AbortError extends Error {
-  readonly originalError: Error;
-
-  constructor(message: string, originalError?: Error) {
-    super(message);
-    this.name = 'AbortError';
-    this.originalError = originalError || this;
-  }
+export interface FailedAttemptError extends Error {
+  attemptNumber: number;
+  retriesLeft: number;
 }
 
-function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function calculateDelay(
-  attemptNumber: number,
-  options: PRetryOptions
-): number {
+export default async function pRetry<T>(
+  input: (attemptCount: number) => PromiseLike<T> | T,
+  options?: Options
+): Promise<T> {
   const {
+    retries = 10,
     factor = 2,
     minTimeout = 1000,
     maxTimeout = Infinity,
     randomize = false,
-  } = options;
+    onFailedAttempt
+  } = options || {};
 
-  let timeout = minTimeout * Math.pow(factor, attemptNumber);
+  let attemptNumber = 0;
 
-  if (randomize) {
-    timeout = Math.random() * timeout;
-  }
-
-  return Math.min(timeout, maxTimeout);
-}
-
-export default async function pRetry<T>(
-  fn: (attemptNumber: number) => Promise<T>,
-  options: PRetryOptions = {}
-): Promise<T> {
-  const { retries = 3, onFailedAttempt } = options;
-
-  for (let i = 0; i <= retries; i++) {
+  while (attemptNumber < retries + 1) {
     try {
-      return await fn(i);
-    } catch (error) {
+      attemptNumber++;
+      return await input(attemptNumber);
+    } catch (error: any) {
       if (error instanceof AbortError) {
         throw error.originalError;
       }
 
-      if (i < retries) {
-        if (onFailedAttempt) {
-          await onFailedAttempt(error);
-        }
+      const retriesLeft = retries - attemptNumber;
 
-        const delayTime = calculateDelay(i, options);
-        await delay(delayTime);
-      } else {
+      if (retriesLeft === 0) {
         throw error;
       }
+
+      const failedError = Object.assign(error, {
+        attemptNumber,
+        retriesLeft
+      }) as FailedAttemptError;
+
+      if (onFailedAttempt) {
+        await onFailedAttempt(failedError);
+      }
+
+      let timeout = minTimeout * Math.pow(factor, attemptNumber - 1);
+      if (randomize) {
+        timeout = timeout * (Math.random() + 1);
+      }
+      timeout = Math.min(timeout, maxTimeout);
+
+      await new Promise(resolve => setTimeout(resolve, timeout));
     }
   }
 
-  throw new Error('Retry failed');
+  throw new Error('Retry limit exceeded');
 }
 
 export { pRetry };
+
+// CLI Demo
+if (import.meta.url === `file://${process.argv[1]}`) {
+  console.log("🔄 P-Retry - Promise Retry (POLYGLOT!)\n");
+
+  console.log("=== Example 1: Basic Promise Retry ===");
+  let attempt1 = 0;
+
+  pRetry(async (attemptCount) => {
+    attempt1++;
+    console.log(`Attempt ${attemptCount}`);
+    if (attempt1 < 3) {
+      throw new Error("Temporary failure");
+    }
+    console.log("Success!\n");
+    return "done";
+  }, {
+    retries: 5,
+    minTimeout: 100
+  }).catch(err => console.log("Failed:", err.message));
+
+  setTimeout(async () => {
+    console.log("=== Example 2: With onFailedAttempt ===");
+    let attempt2 = 0;
+
+    try {
+      await pRetry(async (attemptCount) => {
+        attempt2++;
+        if (attempt2 < 3) {
+          throw new Error(`Failed attempt ${attempt2}`);
+        }
+        return "success";
+      }, {
+        retries: 5,
+        minTimeout: 100,
+        onFailedAttempt: (error) => {
+          console.log(`Attempt ${error.attemptNumber} failed, ${error.retriesLeft} retries left`);
+        }
+      });
+      console.log("Operation succeeded!\n");
+    } catch (err: any) {
+      console.log("Failed:", err.message, "\n");
+    }
+
+    console.log("=== Example 3: Abort Error ===");
+    let attempt3 = 0;
+
+    try {
+      await pRetry(async (attemptCount) => {
+        attempt3++;
+        console.log(`Attempt ${attemptCount}`);
+        if (attempt3 === 2) {
+          console.log("Fatal error - aborting");
+          throw new AbortError("Fatal error");
+        }
+        throw new Error("Temporary error");
+      }, { retries: 5, minTimeout: 100 });
+    } catch (err: any) {
+      console.log("Aborted:", err.message, "\n");
+    }
+
+    console.log("=== Example 4: POLYGLOT Use Case ===");
+    console.log("🌐 Same p-retry library works in:");
+    console.log("  • JavaScript/TypeScript");
+    console.log("  • Python (via Elide)");
+    console.log("  • Ruby (via Elide)");
+    console.log("  • Java (via Elide)");
+  }, 200);
+}

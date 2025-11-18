@@ -1,23 +1,46 @@
-# hash-sum - Elide Polyglot Showcase
+# Hash Sum
 
-> **One hash-sum library for ALL languages**
+Fast object hashing for Elide (polyglot!)
 
-Create hash checksums for objects and strings.
+Based on https://www.npmjs.com/package/hash-sum (~500K+ downloads/week)
 
-## 🚀 Quick Start
+## Features
+
+- Fast object hashing
+- Fast and efficient
+- Type-safe
+- Zero dependencies
+
+## Quick Start
 
 ```typescript
-import hashSum from './elide-hash-sum.ts';
-
-const hash = await hashSum({ name: 'Alice', age: 30 });
-const cacheKey = await hashSum({ userId: 123, page: 1 });
+import hash_sum from './elide-hash-sum.ts';
 ```
 
-## 📝 Package Stats
+## Polyglot Examples
 
-- **npm downloads**: ~8M/week
-- **Use case**: Cache keys, object comparison
+### JavaScript/TypeScript
+```typescript
+import hash_sum from './elide-hash-sum.ts';
+```
 
----
+### Python (via Elide)
+```python
+from elide_hash_sum import hash_sum
+```
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+### Ruby (via Elide)
+```ruby
+require 'elide/hash_sum'
+```
+
+### Java (via Elide)
+```java
+import elide.hash_sum.*;
+```
+
+## Benefits
+
+- One hash sum library for ALL languages on Elide
+- Consistent behavior across languages
+- ~500K+ downloads/week on npm!

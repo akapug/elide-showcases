@@ -1,35 +1,44 @@
-// object-assign - Object.assign polyfill for Elide/TypeScript
-// Original: https://github.com/sindresorhus/object-assign
-// Zero dependencies - pure TypeScript!
-
 /**
- * Copy properties from source objects to target object.
- * This is a polyfill for Object.assign, but we just use the native version.
+ * Object.assign Polyfill
  *
- * @param target - Target object
- * @param sources - Source objects
- * @returns Target object with properties copied
+ * ES6 Object.assign polyfill.
+ * **POLYGLOT SHOWCASE**: Object.assign for ALL languages on Elide!
  *
- * @example
- * ```typescript
- * objectAssign({}, {a: 1}, {b: 2})    // {a: 1, b: 2}
- * objectAssign({a: 1}, {a: 2})        // {a: 2} (overwrites)
- * ```
+ * Based on https://www.npmjs.com/package/object-assign (~10M+ downloads/week)
  */
-export default function objectAssign<T>(target: T, ...sources: any[]): T {
-  return Object.assign(target, ...sources);
+
+export function objectAssign<T, U>(target: T, ...sources: U[]): T & U {
+  if (target == null) {
+    throw new TypeError('Cannot convert undefined or null to object');
+  }
+
+  const to = Object(target);
+
+  for (const source of sources) {
+    if (source != null) {
+      for (const key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          to[key] = source[key];
+        }
+      }
+    }
+  }
+
+  return to;
 }
 
-// CLI usage
-if (import.meta.url.includes("elide-object-assign.ts")) {
-  console.log("📋 object-assign - Object.assign on Elide\n");
+if (!Object.assign) {
+  Object.assign = objectAssign;
+}
 
-  console.log("=== Basic Usage ===");
-  console.log(`objectAssign({}, {a: 1}, {b: 2}):`, objectAssign({}, { a: 1 }, { b: 2 }));
-  console.log(`objectAssign({a: 1}, {a: 2}):`, objectAssign({ a: 1 }, { a: 2 }));
-  console.log(`objectAssign({a: 1}, {b: 2}, {c: 3}):`, objectAssign({ a: 1 }, { b: 2 }, { c: 3 }));
-  console.log();
+export default objectAssign;
 
-  console.log("✅ 80M+ downloads/week on npm");
-  console.log("✅ Uses native Object.assign");
+if (import.meta.url === `file://${process.argv[1]}`) {
+  console.log("🔗 Object.assign Polyfill (POLYGLOT!)\n");
+  
+  const obj1 = { a: 1, b: 2 };
+  const obj2 = { b: 3, c: 4 };
+  const result = objectAssign({}, obj1, obj2);
+  console.log('Result:', result);
+  console.log("\n  ✓ ~10M+ downloads/week!");
 }

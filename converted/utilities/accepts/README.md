@@ -1,20 +1,55 @@
-# $(basename $dir | tr '[:lower:]' '[:upper:]' | sed 's/-/ /g')
+# Accepts
 
-See elide-$(basename $dir).ts for implementation and examples.
+Accepts for Elide (polyglot!)
 
-## Quick Start
-
-\`\`\`bash
-elide run elide-$(basename $dir).ts
-\`\`\`
+Based on https://www.npmjs.com/package/accepts (~10M+ downloads/week)
 
 ## Features
 
+- Accept negotiation
+- Quality values
+- Type matching
+- Encoding selection
 - Zero dependencies
-- Pure TypeScript implementation
-- Polyglot ready for Python, Ruby, Java
-- Production-grade code quality
 
-## Learn More
+## Quick Start
 
-Run the demo file to see all examples and use cases.
+```typescript
+import accepts from './elide-accepts.ts';
+
+// Basic usage
+const result = accepts.main();
+console.log(result);
+```
+
+## Polyglot Examples
+
+### JavaScript/TypeScript
+```typescript
+import accepts from './elide-accepts.ts';
+const result = accepts.main();
+```
+
+### Python (via Elide)
+```python
+from elide_accepts import accepts
+result = accepts.main()
+```
+
+### Ruby (via Elide)
+```ruby
+require 'elide/accepts'
+result = accepts.main
+```
+
+### Java (via Elide)
+```java
+import elide.accepts.*;
+String result = Accepts.main();
+```
+
+## Benefits
+
+- One library for ALL languages on Elide
+- Consistent API across languages
+- ~10M+ downloads/week on npm!

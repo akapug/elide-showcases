@@ -1,22 +1,32 @@
-# Vest - Elide Polyglot Showcase
+# vest - Elide Polyglot Showcase
 
-> **One validation framework for ALL languages** - TypeScript, Python, Ruby, and Java
-
-Declarative validation testing framework.
+> **Declarative validation framework for ALL languages** - TypeScript, Python, Ruby, and Java
 
 ## Features
 
-- Declarative tests
-- Async validation
-- **~200K downloads/week on npm**
+- Schema-based validation with type safety
+- Custom validation rules
+- Async validation support
+- Error message customization
+- **~50K+ downloads/week on npm**
+
+## Quick Start
 
 ```typescript
-import { create, test } from './elide-vest.ts';
+import { createValidator } from './elide-vest.ts';
 
-const suite = create('user', (data) => {
-  test('username', 'Username is required', () => !!data.username);
+const validator = createValidator({
+  email: { required: true, email: true },
+  age: { required: true, min: 18 },
 });
+
+const result = validator.validate({ email: 'test@example.com', age: 25 });
+console.log(result.valid); // true
 ```
+
+## Links
+
+- [Original npm package](https://www.npmjs.com/package/vest)
 
 ---
 

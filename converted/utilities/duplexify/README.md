@@ -1,6 +1,6 @@
-# duplexify - Elide Polyglot Showcase
+# Duplexify - Duplex Streams - Elide Polyglot Showcase
 
-Turn writable and readable streams into a duplex stream.
+Turn a writable and readable stream into a duplex stream.
 
 **npm downloads**: ~40M/week
 

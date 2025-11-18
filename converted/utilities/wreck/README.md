@@ -1,12 +1,55 @@
-# Wreck - HTTP Client Utilities - Elide Polyglot Showcase
+# Wreck HTTP Client
 
-> **One HTTP client for ALL languages**
+Wreck HTTP Client for Elide (polyglot!)
 
-## 📝 Package Stats
+Based on https://www.npmjs.com/package/wreck (~200K+ downloads/week)
 
-- **npm downloads**: ~3M/week
-- **Polyglot score**: 43/50 (A-Tier)
+## Features
 
----
+- Hapi integration
+- Payload parsing
+- Read/get methods
+- Error handling
+- Zero dependencies
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+## Quick Start
+
+```typescript
+import wreck from './elide-wreck.ts';
+
+// Basic usage
+const result = wreck.main();
+console.log(result);
+```
+
+## Polyglot Examples
+
+### JavaScript/TypeScript
+```typescript
+import wreck from './elide-wreck.ts';
+const result = wreck.main();
+```
+
+### Python (via Elide)
+```python
+from elide_wreck import wreck
+result = wreck.main()
+```
+
+### Ruby (via Elide)
+```ruby
+require 'elide/wreck'
+result = wreck.main
+```
+
+### Java (via Elide)
+```java
+import elide.wreck.*;
+String result = Wreck_HTTP_Client.main();
+```
+
+## Benefits
+
+- One library for ALL languages on Elide
+- Consistent API across languages
+- ~200K+ downloads/week on npm!

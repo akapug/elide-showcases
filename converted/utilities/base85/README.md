@@ -1,9 +1,1 @@
-# base85 - Elide Polyglot Showcase
-
-Base85 (Ascii85) encoding/decoding.
-
-**npm downloads**: ~500K/week
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+# base85\nBase85 encoding. Based on [base85](https://www.npmjs.com/package/base85) (~50K+ downloads/week)
