@@ -8,9 +8,10 @@
 
 ## 📊 Current Stats
 
-- **2,967 total projects** - Comprehensive ecosystem coverage
-- **109 flagship showcases** - Uniquely demonstrate Elide's polyglot + performance value
-- **2,761 npm conversions** - Prove ecosystem compatibility (50B+ downloads/week)
+- **3,009 total projects** - Comprehensive ecosystem coverage ✨
+- **109 elite showcases** - Uniquely demonstrate Elide's polyglot + performance value
+- **2,784 npm conversions** - Prove ecosystem compatibility (850M+ downloads/week)
+- **6 component libraries** - Production-ready UI components
 - **10x faster cold start** than Node.js (~20ms vs ~200ms, verified)
 - **<1ms cross-language calls** - True polyglot with zero serialization overhead
 - **Zero dependencies** - Instant execution, no node_modules
@@ -19,7 +20,7 @@
 
 ## 🏆 Value Tiers: What Makes Elide Unique?
 
-Not all 2,967 projects equally showcase Elide. We've systematically categorized them by **how much they actually leverage Elide's unique capabilities**:
+Not all 3,009 projects equally showcase Elide. We've systematically categorized them by **how much they actually leverage Elide's unique capabilities**:
 
 - **Tier S (109 projects)**: Uniquely enabled by or dramatically benefit from Elide's polyglot runtime + 10x faster cold start
 - **Tier A (150+ projects)**: Strong benefits from zero dependencies + instant startup (CLI tools, build tools, testing)
