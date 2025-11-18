@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.log
+.env
+__pycache__/
+*.pyc
+.venv/
+trade_history/
+models/
+*.h5

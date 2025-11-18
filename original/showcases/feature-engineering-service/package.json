@@ -1,0 +1,51 @@
+{
+  "name": "@elide-showcases/feature-engineering-service",
+  "version": "1.0.0",
+  "description": "Production-grade ML feature store with TypeScript + Python pandas/NumPy for <1ms real-time serving",
+  "main": "api/server.ts",
+  "scripts": {
+    "start": "node -r ts-node/register api/server.ts",
+    "dev": "NODE_ENV=development node -r ts-node/register api/server.ts",
+    "test": "node -r ts-node/register tests/feature-test.ts",
+    "test:correctness": "node -r ts-node/register tests/correctness-test.ts",
+    "test:drift": "node -r ts-node/register tests/drift-test.ts",
+    "benchmark": "node -r ts-node/register tests/benchmark.ts",
+    "benchmark:latency": "node -r ts-node/register tests/benchmark.ts --latency",
+    "benchmark:batch": "node -r ts-node/register tests/benchmark.ts --batch",
+    "batch:generate": "node -r ts-node/register api/batch-generator.ts",
+    "lint": "eslint api/*.ts tests/*.ts",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\""
+  },
+  "keywords": [
+    "ml",
+    "machine-learning",
+    "feature-store",
+    "feature-engineering",
+    "pandas",
+    "numpy",
+    "typescript",
+    "python",
+    "real-time",
+    "low-latency",
+    "polyglot"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "lru-cache": "^10.1.0",
+    "nanoid": "^3.3.7",
+    "murmurhash-js": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0",
+    "python": ">=3.8.0"
+  }
+}

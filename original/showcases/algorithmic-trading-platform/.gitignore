@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.log
+.env
+__pycache__/
+*.pyc
+.venv/
+backtest_results/
+*.db

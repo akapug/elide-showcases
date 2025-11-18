@@ -1,0 +1,59 @@
+{
+  "name": "@elide-showcases/nlp-multi-task-pipeline",
+  "version": "1.0.0",
+  "description": "Production-ready multi-task NLP pipeline: tokenize once, reuse across NER, sentiment, and summarization",
+  "main": "api/server.ts",
+  "scripts": {
+    "start": "node -r ts-node/register api/server.ts",
+    "dev": "NODE_ENV=development node -r ts-node/register api/server.ts",
+    "test": "node -r ts-node/register tests/nlp-test.ts",
+    "test:all": "node -r ts-node/register tests/nlp-test.ts && node -r ts-node/register tests/tokenization-test.ts",
+    "benchmark": "node -r ts-node/register benchmarks/multi-task-benchmark.ts",
+    "benchmark:microservices": "node -r ts-node/register benchmarks/microservices-comparison.ts",
+    "benchmark:batch": "node -r ts-node/register benchmarks/batch-benchmark.ts",
+    "example:single": "node -r ts-node/register examples/single-text-analysis.ts",
+    "example:batch": "node -r ts-node/register examples/batch-processing.ts",
+    "example:pipeline": "node -r ts-node/register examples/pipeline-demo.ts",
+    "lint": "eslint api/*.ts tests/*.ts examples/*.ts benchmarks/*.ts shared/*.ts",
+    "format": "prettier --write \"**/*.{ts,js,json,md,py}\""
+  },
+  "keywords": [
+    "nlp",
+    "natural-language-processing",
+    "spacy",
+    "transformers",
+    "named-entity-recognition",
+    "sentiment-analysis",
+    "summarization",
+    "tokenization",
+    "multi-task",
+    "pipeline",
+    "polyglot",
+    "typescript",
+    "python",
+    "fastify",
+    "production-ready"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "fastify": "^4.25.2",
+    "@fastify/cors": "^8.5.0",
+    "@fastify/rate-limit": "^9.1.0",
+    "nanoid": "^3.3.7",
+    "pino": "^8.17.2",
+    "pino-pretty": "^10.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0",
+    "python": ">=3.8.0"
+  }
+}

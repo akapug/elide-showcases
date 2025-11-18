@@ -1,0 +1,60 @@
+{
+  "name": "@elide-showcases/recommendation-engine",
+  "version": "1.0.0",
+  "description": "Hybrid recommendation system with TypeScript API + Python collaborative filtering - Tier S AI/ML Showcase",
+  "main": "api/server.ts",
+  "type": "module",
+  "scripts": {
+    "start": "node --loader ts-node/esm api/server.ts",
+    "dev": "nodemon --exec node --loader ts-node/esm api/server.ts",
+    "test": "NODE_OPTIONS='--loader ts-node/esm --experimental-specifier-resolution=node' vitest run tests/api-test.ts",
+    "test:ml": "python3 -m pytest tests/ml-test.py -v",
+    "test:integration": "NODE_OPTIONS='--loader ts-node/esm' vitest run tests/integration-test.ts",
+    "test:all": "npm test && npm run test:ml && npm run test:integration",
+    "benchmark": "node --loader ts-node/esm benchmarks/latency-benchmark.ts",
+    "benchmark:algorithms": "node --loader ts-node/esm benchmarks/algorithm-comparison.ts",
+    "benchmark:accuracy": "node --loader ts-node/esm benchmarks/accuracy-benchmark.ts",
+    "example:ecommerce": "node --loader ts-node/esm examples/ecommerce.ts",
+    "example:streaming": "node --loader ts-node/esm examples/streaming.ts",
+    "example:news": "node --loader ts-node/esm examples/news.ts",
+    "train": "python3 ml/train_all.py",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\""
+  },
+  "keywords": [
+    "elide",
+    "polyglot",
+    "recommendation",
+    "collaborative-filtering",
+    "machine-learning",
+    "personalization",
+    "typescript",
+    "python",
+    "tensorflow"
+  ],
+  "author": "Elide Showcases",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "pino": "^8.16.1",
+    "pino-pretty": "^10.2.3",
+    "zod": "^3.22.4",
+    "dotenv": "^16.3.1",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/ws": "^8.5.9",
+    "typescript": "^5.3.2",
+    "ts-node": "^10.9.1",
+    "vitest": "^1.0.4",
+    "nodemon": "^3.0.2",
+    "eslint": "^8.54.0",
+    "prettier": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "python": ">=3.8.0"
+  }
+}

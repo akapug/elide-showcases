@@ -1,0 +1,36 @@
+{
+  "ingestion": {
+    "port": 3000,
+    "host": "0.0.0.0",
+    "cors": {
+      "origin": ["https://dashboard.example.com"],
+      "credentials": true
+    },
+    "bodyLimit": 52428800,
+    "requestTimeout": 60000
+  },
+  "analytics": {
+    "port": 3001,
+    "host": "0.0.0.0",
+    "cors": {
+      "origin": ["https://dashboard.example.com"],
+      "credentials": true
+    },
+    "requestTimeout": 120000
+  },
+  "buffer": {
+    "maxSize": 50000,
+    "flushInterval": 5000,
+    "engine": "polars"
+  },
+  "performance": {
+    "targetThroughput": 50000,
+    "targetLatencyMs": 100,
+    "batchSize": 2000
+  },
+  "monitoring": {
+    "metricsInterval": 10000,
+    "healthCheckInterval": 60000,
+    "logLevel": "warn"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@elide/data-validation-service",
+  "version": "1.0.0",
+  "description": "Cross-language schema validation with Zod (TS) + Pydantic (Python) + JSON Schema",
+  "main": "api/server.ts",
+  "type": "module",
+  "scripts": {
+    "start": "tsx api/server.ts",
+    "test": "tsx tests/validation-test.ts",
+    "test:python": "python3 -m pytest tests/test_validators.py -v",
+    "benchmark": "tsx benchmarks/validation-benchmark.ts",
+    "example:api": "tsx examples/api-validation.ts"
+  },
+  "keywords": ["validation", "schema", "zod", "pydantic", "json-schema"],
+  "dependencies": {
+    "express": "^4.18.2",
+    "zod": "^3.22.4",
+    "ajv": "^8.12.0",
+    "pino": "^8.16.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "pytest": "^7.4.3"
+  },
+  "author": "Elide Team",
+  "license": "MIT"
+}
