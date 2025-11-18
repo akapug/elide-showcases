@@ -1,0 +1,35 @@
+{
+  "name": "@elide-showcases/algorithmic-trading-platform",
+  "version": "1.0.0",
+  "description": "Full algorithmic trading platform with TypeScript execution + Python ML strategies - Tier S Financial Showcase",
+  "main": "api/server.ts",
+  "type": "module",
+  "scripts": {
+    "start": "node --loader ts-node/esm api/server.ts",
+    "dev": "nodemon --exec node --loader ts-node/esm api/server.ts",
+    "test": "vitest run tests/",
+    "benchmark": "node --loader ts-node/esm benchmarks/trading-benchmark.ts",
+    "backtest": "node --loader ts-node/esm examples/backtest.ts",
+    "strategy:momentum": "node --loader ts-node/esm strategies/momentum.ts",
+    "strategy:meanreversion": "node --loader ts-node/esm strategies/mean-reversion.ts"
+  },
+  "keywords": ["elide", "polyglot", "trading", "algorithmic", "quant", "ml", "backtesting"],
+  "author": "Elide Showcases",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "pino": "^8.16.1",
+    "zod": "^3.22.4",
+    "dotenv": "^16.3.1",
+    "ws": "^8.14.2",
+    "decimal.js": "^10.4.3",
+    "alpaca-js": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.2",
+    "ts-node": "^10.9.1",
+    "vitest": "^1.0.4"
+  }
+}

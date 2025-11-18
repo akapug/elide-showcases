@@ -1,46 +1,43 @@
-# ULID
+# ulid - Elide Conversion
 
-Universally Unique Lexicographically Sortable ID for Elide (polyglot!)
+**Original package:** [`ulid`](https://www.npmjs.com/package/ulid)
 
-Based on https://www.npmjs.com/package/ulid (~200K+ downloads/week)
+**Category:** Utilities
 
-## Features
+**Tier:** C (1.0M downloads/week)
 
-- Universally Unique Lexicographically Sortable ID
-- Unique and sortable
-- Fast generation
-- Zero dependencies
+## Description
 
-## Quick Start
+Universally Unique Lexicographically Sortable Identifier
 
-```typescript
-import ulid from './elide-ulid.ts';
+## Why Elide?
+
+This package benefits from Elide's runtime in the following ways:
+
+- **Ecosystem compatibility** - Proves Elide can run standard npm packages
+- **TypeScript support** - Direct execution
+- **Zero config** - Works out of the box
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/ulid
+elide run elide-ulid.ts
 ```
 
-## Polyglot Examples
+## Usage
 
-### JavaScript/TypeScript
-```typescript
-import ulid from './elide-ulid.ts';
-```
+See `elide-ulid.ts` for implementation examples.
 
-### Python (via Elide)
-```python
-from elide_ulid import ulid
-```
+## Performance
 
-### Ruby (via Elide)
-```ruby
-require 'elide/ulid'
-```
+Compatible with Elide runtime, proving ecosystem coverage.
 
-### Java (via Elide)
-```java
-import elide.ulid.*;
-```
+## Original Package
 
-## Benefits
-
-- One ulid library for ALL languages on Elide
-- Consistent ID generation across languages
-- ~200K+ downloads/week on npm!
+- Downloads: 1.0M/week
+- Repository: https://www.npmjs.com/package/ulid

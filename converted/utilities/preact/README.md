@@ -1,30 +1,43 @@
-# Preact - Elide Polyglot Showcase
+# preact - Elide Conversion
 
-> **One framework for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`preact`](https://www.npmjs.com/package/preact)
 
-Fast 3kB alternative to React with fast rendering and small bundle size.
+**Category:** Frameworks
 
-## Features
+**Tier:** B (5.0M downloads/week)
 
-- Fast rendering
-- Small bundle size
-- Virtual DOM
-- Component-based
-- **~8M downloads/week on npm**
+## Description
 
-## Quick Start
+Fast 3kB alternative to React
 
-```typescript
-import Preact from './elide-preact.ts';
+## Why Elide?
 
-const vnode = Preact.h('h1', null, 'Hello World');
-const html = Preact.render(vnode);
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/preact
+elide run elide-preact.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/preact)
+See `elide-preact.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 5.0M/week
+- Repository: https://www.npmjs.com/package/preact

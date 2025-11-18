@@ -1,21 +1,43 @@
-# redux - Elide Polyglot Showcase
+# redux - Elide Conversion
 
-> Predictable state container for JavaScript apps
+**Original package:** [`redux`](https://www.npmjs.com/package/redux)
 
-## ✨ Features
+**Category:** State Management
 
-- ✅ Predictable state management
-- ✅ Single source of truth
-- ✅ Pure function changes
-- ✅ Time-travel debugging
-- ✅ Middleware support
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
+**Tier:** B (16.8M downloads/week)
 
-## 📝 Package Stats
+## Description
 
-- **npm downloads**: 30M+/week
-- **Polyglot score**: 49/50 (S-Tier)
+Predictable state container for JavaScript apps
 
----
+## Why Elide?
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/redux
+elide run elide-redux.ts
+```
+
+## Usage
+
+See `elide-redux.ts` for implementation examples.
+
+## Performance
+
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 16.8M/week
+- Repository: https://www.npmjs.com/package/redux

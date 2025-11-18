@@ -1,75 +1,43 @@
-# Wouter - Elide Polyglot Showcase
+# wouter - Elide Conversion
 
-> **One wouter for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`wouter`](https://www.npmjs.com/package/wouter)
 
-Tiny minimalist router for React and Preact with hooks support
+**Category:** Routing
 
-## Features
+**Tier:** B (0.3M downloads/week)
 
-- Pure TypeScript implementation
-- Zero dependencies
-- Fully typed interfaces
-- Production-ready
-- Polyglot: Use from TypeScript, Python, Ruby, and Java
+## Description
 
-## Quick Start
+Minimalist routing for React and Preact
 
-### TypeScript
-```typescript
-import lib from './elide-wouter.ts';
+## Why Elide?
 
-// Your code here
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/wouter
+elide run elide-wouter.ts
 ```
 
-### Python
-```python
-from elide import require
-lib = require('./elide-wouter.ts')
+## Usage
 
-# Your code here
-```
+See `elide-wouter.ts` for implementation examples.
 
-### Ruby
-```ruby
-lib = Elide.require('./elide-wouter.ts')
+## Performance
 
-# Your code here
-```
+Expected **moderate** performance improvement with Elide.
 
-### Java
-```java
-Value lib = context.eval("js", "require('./elide-wouter.ts')");
+## Original Package
 
-// Your code here
-```
-
-## Why Polyglot?
-
-Write once in TypeScript, use everywhere:
-- **Consistency**: Same behavior across all languages
-- **Maintainability**: Single implementation to maintain
-- **Type Safety**: Full TypeScript types available
-- **Performance**: Native Elide performance
-
-## Use Cases
-
-- Lightweight SPAs
-- Preact applications
-- Hook-based routing
-- Bundle size optimization
-
-## Package Stats
-
-- **npm downloads**: ~100K+/week
-- **Original package**: [wouter](https://www.npmjs.com/package/wouter)
-- **Elide advantage**: One implementation for all languages
-
-## Links
-
-- [Elide Documentation](https://docs.elide.dev)
-- [npm wouter package](https://www.npmjs.com/package/wouter)
-- [GitHub: elide-showcases](https://github.com/elide-dev/elide-showcases)
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+- Downloads: 0.3M/week
+- Repository: https://www.npmjs.com/package/wouter

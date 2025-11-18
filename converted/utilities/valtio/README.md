@@ -1,21 +1,43 @@
-# valtio - Elide Polyglot Showcase
+# valtio - Elide Conversion
 
-> Proxy-based state management
+**Original package:** [`valtio`](https://www.npmjs.com/package/valtio)
 
-## ✨ Features
+**Category:** State Management
 
-- ✅ Proxy-based state
-- ✅ Mutable updates
-- ✅ Auto-tracking
-- ✅ Snapshots
-- ✅ Derived state
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
+**Tier:** B (0.8M downloads/week)
 
-## 📝 Package Stats
+## Description
 
-- **npm downloads**: 2M+/week
-- **Polyglot score**: 46/50 (A-Tier)
+Valtio makes proxy-state simple
 
----
+## Why Elide?
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/valtio
+elide run elide-valtio.ts
+```
+
+## Usage
+
+See `elide-valtio.ts` for implementation examples.
+
+## Performance
+
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 0.8M/week
+- Repository: https://www.npmjs.com/package/valtio

@@ -1,50 +1,43 @@
-# mkdirp - Elide Polyglot Showcase
+# mkdirp - Elide Conversion
 
-> **Recursive directory creation for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`mkdirp`](https://www.npmjs.com/package/mkdirp)
 
-Unix `mkdir -p` for Node.js and Elide - create directories and all parent directories.
+**Category:** File System
 
-## Features
+**Tier:** A (96.6M downloads/week)
 
-- Recursive creation
-- No error if exists
-- Permission modes
-- Sync and async versions
-- **Polyglot**: Use from TypeScript, Python, Ruby, Java
-- Zero dependencies
+## Description
 
-## Quick Start
+Recursively create directories
 
-```typescript
-import { mkdirp, mkdirpSync } from './elide-mkdirp.ts';
+## Why Elide?
 
-// Create nested directories
-await mkdirp('path/to/deep/directory');
+This package benefits from Elide's runtime in the following ways:
 
-// With permissions
-await mkdirp('secure-dir', { mode: 0o700 });
+- **10x faster cold start** (~20ms vs ~200ms) - Critical for serverless and CLI tools
+- **Zero dependencies** - No node_modules, instant execution
+- **Native performance** - GraalVM optimizations
 
-// Batch creation
-await Promise.all([
-  mkdirp('dist/assets'),
-  mkdirp('dist/static'),
-  mkdirp('dist/pages')
-]);
+## Installation
 
-// Sync version
-mkdirpSync('output');
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/mkdirp
+elide run elide-mkdirp.ts
 ```
 
-## Use Cases
+## Usage
 
-- Build output directories
-- Log file directories
-- Cache directories
-- Upload directories
-- Test fixtures
+See `elide-mkdirp.ts` for implementation examples.
 
-## Stats
+## Performance
 
-- **npm downloads**: ~120M/week
-- **Use case**: Directory creation
-- **Elide advantage**: Works identically in all languages
+Expected **significant** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 96.6M/week
+- Repository: https://www.npmjs.com/package/mkdirp

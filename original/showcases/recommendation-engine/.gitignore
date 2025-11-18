@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.log
+.env
+*.pyc
+__pycache__/
+.pytest_cache/
+models/
+*.pkl
+*.h5
+*.pb
+.DS_Store

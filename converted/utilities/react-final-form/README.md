@@ -1,33 +1,43 @@
-# react-final-form - Elide Polyglot Showcase
+# react-final-form - Elide Conversion
 
-> **React bindings for Final Form for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`react-final-form`](https://www.npmjs.com/package/react-final-form)
 
-## Features
+**Category:** Forms
 
-- Schema-based validation with type safety
-- Custom validation rules
-- Async validation support
-- Error message customization
-- **~200K+ downloads/week on npm**
+**Tier:** B (0.5M downloads/week)
 
-## Quick Start
+## Description
 
-```typescript
-import { createValidator } from './elide-react-final-form.ts';
+High performance subscription-based form state management
 
-const validator = createValidator({
-  email: { required: true, email: true },
-  age: { required: true, min: 18 },
-});
+## Why Elide?
 
-const result = validator.validate({ email: 'test@example.com', age: 25 });
-console.log(result.valid); // true
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/react-final-form
+elide run elide-react-final-form.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/react-final-form)
+See `elide-react-final-form.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 0.5M/week
+- Repository: https://www.npmjs.com/package/react-final-form

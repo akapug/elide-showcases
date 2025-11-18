@@ -1,49 +1,43 @@
-# Apollo Client - GraphQL Client - Elide Polyglot Showcase
+# apollo-client - Elide Conversion
 
-> **One GraphQL client for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`apollo-client`](https://www.npmjs.com/package/apollo-client)
 
-A comprehensive state management library for JavaScript with GraphQL, featuring declarative data fetching and normalized caching.
+**Category:** Data Fetching
 
-## ✨ Features
+**Tier:** B (4.0M downloads/week)
 
-- ✅ Declarative data fetching
-- ✅ Normalized caching
-- ✅ Query and mutation support
-- ✅ Real-time updates with subscriptions
-- ✅ Pagination
-- ✅ Optimistic UI
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-- ✅ Zero dependencies
+## Description
 
-## 🚀 Quick Start
+A fully-featured caching GraphQL client
 
-```typescript
-import { ApolloClient, InMemoryCache, gql } from './elide-apollo-client.ts';
+## Why Elide?
 
-const client = new ApolloClient({
-  uri: 'https://api.example.com/graphql',
-  cache: new InMemoryCache()
-});
+This package benefits from Elide's runtime in the following ways:
 
-const { data } = await client.query({
-  query: gql`
-    query GetUsers {
-      users {
-        id
-        name
-      }
-    }
-  `
-});
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/apollo-client
+elide run elide-apollo-client.ts
 ```
 
-## 📝 Package Stats
+## Usage
 
-- **npm downloads**: ~15M/week
-- **Use case**: GraphQL client
-- **Elide advantage**: One GraphQL client for all languages
-- **Polyglot score**: 50/50 (S-Tier)
+See `elide-apollo-client.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 4.0M/week
+- Repository: https://www.npmjs.com/package/apollo-client

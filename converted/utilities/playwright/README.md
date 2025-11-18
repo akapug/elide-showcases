@@ -1,48 +1,43 @@
-# Playwright - Elide Polyglot Showcase
+# playwright - Elide Conversion
 
-> **Cross-browser automation for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`playwright`](https://www.npmjs.com/package/playwright)
 
-Automate Chromium, Firefox, and WebKit with a single API.
+**Category:** Testing
 
-## Features
+**Tier:** A (20.6M downloads/week)
 
-- Multi-browser support (Chrome, Firefox, Safari)
-- Auto-wait for elements
-- Network interception
-- Mobile emulation
-- Video recording
-- **Polyglot**: Use from TypeScript, Python, Ruby, Java
-- Zero dependencies (core logic)
+## Description
 
-## Quick Start
+E2E testing for modern web apps
 
-```typescript
-import { chromium, firefox, webkit } from './elide-playwright.ts';
+## Why Elide?
 
-// Chromium
-const browser = await chromium.launch();
-const page = await browser.newPage();
-await page.goto('https://example.com');
-await page.screenshot({ path: 'screenshot.png' });
-await browser.close();
+This package benefits from Elide's runtime in the following ways:
 
-// Firefox
-const ffBrowser = await firefox.launch();
+- **10x faster cold start** (~20ms vs ~200ms) - Critical for serverless and CLI tools
+- **Zero dependencies** - No node_modules, instant execution
+- **Native performance** - GraalVM optimizations
 
-// WebKit (Safari)
-const wkBrowser = await webkit.launch();
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/playwright
+elide run elide-playwright.ts
 ```
 
-## Use Cases
+## Usage
 
-- E2E testing
-- Cross-browser testing
-- Web scraping
-- Visual regression testing
-- Performance testing
+See `elide-playwright.ts` for implementation examples.
 
-## Stats
+## Performance
 
-- **npm downloads**: ~3M+/week
-- **Use case**: Cross-browser automation
-- **Elide advantage**: Consistent testing across all languages and browsers
+Expected **significant** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 20.6M/week
+- Repository: https://www.npmjs.com/package/playwright

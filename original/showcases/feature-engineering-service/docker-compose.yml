@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  feature-store:
+    build: .
+    container_name: feature-engineering-service
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - CACHE_MAX_SIZE=50000
+      - CACHE_TTL_MS=300000
+      - FEATURE_VERSION=v1
+      - ENABLE_VERSIONING=true
+      - ENABLE_DRIFT_MONITORING=true
+      - DRIFT_CHECK_INTERVAL_MS=60000
+      - DRIFT_THRESHOLD=0.15
+      - BATCH_SIZE=1000
+      - MAX_WORKERS=4
+      - PYTHON_PATH=/usr/bin/python3
+    volumes:
+      - ./features/snapshots:/app/features/snapshots
+      - ./features/monitoring:/app/features/monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
+
+  # Optional: Monitoring with Prometheus
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: prometheus
+  #   ports:
+  #     - "9090:9090"
+  #   volumes:
+  #     - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #   depends_on:
+  #     - feature-store
+
+  # Optional: Grafana for visualization
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   container_name: grafana
+  #   ports:
+  #     - "3001:3000"
+  #   environment:
+  #     - GF_SECURITY_ADMIN_PASSWORD=admin
+  #   depends_on:
+  #     - prometheus
+
+networks:
+  default:
+    name: feature-store-network

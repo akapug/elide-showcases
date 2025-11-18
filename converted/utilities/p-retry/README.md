@@ -1,56 +1,43 @@
-# P-Retry - Elide Polyglot Showcase
+# p-retry - Elide Conversion
 
-> **One promise retry library for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`p-retry`](https://www.npmjs.com/package/p-retry)
 
-Retry a promise-returning or async function with exponential backoff.
+**Category:** Async
 
-## Features
+**Tier:** C (8.0M downloads/week)
 
-- Exponential backoff
-- Retry promises
-- Abort retries
-- Custom retry logic
-- Timeout support
-- Zero dependencies
-- **~1M downloads/week on npm**
+## Description
 
-## Quick Start
+Retry a promise-returning function
 
-```typescript
-import pRetry, { AbortError } from './elide-p-retry.ts';
+## Why Elide?
 
-const result = await pRetry(async (attemptCount) => {
-  const response = await fetch('https://api.example.com/data');
-  
-  if (response.status === 404) {
-    throw new AbortError('Not found'); // Don't retry 404s
-  }
-  
-  if (!response.ok) {
-    throw new Error('Request failed');
-  }
-  
-  return response.json();
-}, {
-  retries: 5,
-  onFailedAttempt: (error) => {
-    console.log(`Attempt ${error.attemptNumber} failed. ${error.retriesLeft} retries left.`);
-  }
-});
-```
+This package benefits from Elide's runtime in the following ways:
 
-## Documentation
+- **Ecosystem compatibility** - Proves Elide can run standard npm packages
+- **TypeScript support** - Direct execution
+- **Zero config** - Works out of the box
 
-Run the demo:
+## Installation
 
 ```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/p-retry
 elide run elide-p-retry.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/p-retry)
+See `elide-p-retry.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Compatible with Elide runtime, proving ecosystem coverage.
+
+## Original Package
+
+- Downloads: 8.0M/week
+- Repository: https://www.npmjs.com/package/p-retry

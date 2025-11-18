@@ -1,64 +1,43 @@
-# Promise Queue
+# p-queue - Elide Conversion
 
-Promise Queue for Elide (polyglot!)
+**Original package:** [`p-queue`](https://www.npmjs.com/package/p-queue)
 
-Based on https://www.npmjs.com/package/p-queue (~500K+ downloads/week)
+**Category:** Async
 
-## Features
+**Tier:** C (10.0M downloads/week)
 
-- Promise-based
-- Priority queue
-- Concurrency limits
-- Zero dependencies
+## Description
 
-## Quick Start
+Promise queue with concurrency control
 
-```typescript
-import p_queue from './elide-p-queue.ts';
+## Why Elide?
 
-// Basic operations
-p_queue.set('key', 'value');
-console.log(p_queue.get('key'));
+This package benefits from Elide's runtime in the following ways:
 
-// Event handling
-p_queue.on('change', (key) => {
-  console.log(`Changed: ${key}`);
-});
+- **Ecosystem compatibility** - Proves Elide can run standard npm packages
+- **TypeScript support** - Direct execution
+- **Zero config** - Works out of the box
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/p-queue
+elide run elide-p-queue.ts
 ```
 
-## Polyglot Examples
+## Usage
 
-### JavaScript/TypeScript
-```typescript
-import p_queue from './elide-p-queue.ts';
+See `elide-p-queue.ts` for implementation examples.
 
-p_queue.set('data', { foo: 'bar' });
-```
+## Performance
 
-### Python (via Elide)
-```python
-from elide_p_queue import p_queue
+Compatible with Elide runtime, proving ecosystem coverage.
 
-p_queue.set('data', {'foo': 'bar'})
-```
+## Original Package
 
-### Ruby (via Elide)
-```ruby
-require 'elide/p_queue'
-
-p_queue.set('data', { foo: 'bar' })
-```
-
-### Java (via Elide)
-```java
-import elide.p_queue.*;
-
-PQueue.set("data", Map.of("foo", "bar"));
-```
-
-## Benefits
-
-- One promise queue for ALL languages on Elide
-- Consistent API across languages
-- Share across your polyglot stack
-- ~500K+ downloads/week on npm!
+- Downloads: 10.0M/week
+- Repository: https://www.npmjs.com/package/p-queue

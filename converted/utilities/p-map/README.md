@@ -1,74 +1,43 @@
-# Elide P-Map
+# p-map - Elide Conversion
 
-Pure TypeScript implementation of `p-map` for mapping over arrays with concurrency control.
+**Original package:** [`p-map`](https://www.npmjs.com/package/p-map)
 
-## Features
+**Category:** Async
 
-- Map over arrays with concurrency limit
-- Stop on error support
-- Works with any iterable
-- Zero dependencies
-- Full TypeScript support
+**Tier:** C (20.0M downloads/week)
 
-## Original Package
+## Description
 
-- **npm**: `p-map`
-- **Downloads**: ~30M/week
-- **Use case**: Concurrent array mapping
+Map over promises concurrently
 
-## Polyglot Benefits
+## Why Elide?
 
-- Works in Browser, Node.js, Deno, Bun, and Elide
-- Zero dependencies - pure TypeScript
-- Type-safe with full TypeScript support
-- Tree-shakeable
+This package benefits from Elide's runtime in the following ways:
+
+- **Ecosystem compatibility** - Proves Elide can run standard npm packages
+- **TypeScript support** - Direct execution
+- **Zero config** - Works out of the box
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/p-map
+elide run elide-p-map.ts
+```
 
 ## Usage
 
-```typescript
-import pMap from './elide-p-map.ts';
+See `elide-p-map.ts` for implementation examples.
 
-const ids = [1, 2, 3, 4, 5];
+## Performance
 
-const results = await pMap(ids, async (id) => {
-  return fetchData(id);
-}, { concurrency: 2 });
+Compatible with Elide runtime, proving ecosystem coverage.
 
-console.log(results);
-```
+## Original Package
 
-## API
-
-### pMap(input, mapper, options?)
-
-Returns a promise that resolves when all mapped promises are resolved.
-
-#### input
-
-Type: `Iterable<T>`
-
-The iterable to map over.
-
-#### mapper
-
-Type: `(item: T, index: number) => Promise<R> | R`
-
-The mapper function.
-
-#### options
-
-Type: `object`
-
-##### concurrency
-
-Type: `number`
-Default: `Infinity`
-
-The maximum number of promises to run concurrently.
-
-##### stopOnError
-
-Type: `boolean`
-Default: `true`
-
-Whether to stop on the first error.
+- Downloads: 20.0M/week
+- Repository: https://www.npmjs.com/package/p-map

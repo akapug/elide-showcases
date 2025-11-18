@@ -1,0 +1,11 @@
+# Core ML libraries
+sentence-transformers==2.2.2
+chromadb==0.4.18
+faiss-cpu==1.7.4
+
+# Supporting libraries
+numpy==1.24.3
+torch==2.1.0
+
+# Optional: GPU support
+# faiss-gpu==1.7.4  # Uncomment for GPU support

@@ -1,19 +1,43 @@
-# bottleneck - Elide Polyglot Showcase
+# bottleneck - Elide Conversion
 
-> **One bottleneck implementation for ALL languages**
+**Original package:** [`bottleneck`](https://www.npmjs.com/package/bottleneck)
 
-Rate limiter with job queuing and reservoir limiting.
+**Category:** Rate Limiting
 
-## 🚀 Quick Start
+**Tier:** C (3.0M downloads/week)
 
-```typescript
-import Bottleneck from './elide-bottleneck.ts';
-const limiter = new Bottleneck({ maxConcurrent: 2, minTime: 100 });
-await limiter.schedule(() => fetchData());
+## Description
+
+Distributed task scheduler and rate limiter
+
+## Why Elide?
+
+This package benefits from Elide's runtime in the following ways:
+
+- **Ecosystem compatibility** - Proves Elide can run standard npm packages
+- **TypeScript support** - Direct execution
+- **Zero config** - Works out of the box
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/bottleneck
+elide run elide-bottleneck.ts
 ```
 
-**npm downloads**: 5M+/week | **Polyglot score**: 50/50
+## Usage
 
----
+See `elide-bottleneck.ts` for implementation examples.
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+## Performance
+
+Compatible with Elide runtime, proving ecosystem coverage.
+
+## Original Package
+
+- Downloads: 3.0M/week
+- Repository: https://www.npmjs.com/package/bottleneck

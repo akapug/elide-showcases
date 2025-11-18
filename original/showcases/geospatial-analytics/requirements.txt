@@ -1,0 +1,8 @@
+geopandas>=0.14.1
+shapely>=2.0.2
+pyproj>=3.6.1
+rtree>=1.1.0
+folium>=0.15.1
+geopy>=2.4.1
+pandas>=2.1.4
+numpy>=1.26.2

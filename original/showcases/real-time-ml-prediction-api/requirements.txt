@@ -1,0 +1,20 @@
+# Python dependencies for ML models
+# Install with: pip install -r requirements.txt
+
+# Core ML libraries
+numpy==1.24.3
+scikit-learn==1.4.0
+
+# Deep learning (optional, for image classification)
+# Uncomment if you want to use real PyTorch models
+# torch==2.1.2
+# torchvision==0.16.2
+
+# Image processing
+Pillow==10.2.0
+
+# HTTP client for image fetching
+requests==2.31.0
+
+# Utilities
+scipy==1.11.4

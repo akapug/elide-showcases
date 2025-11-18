@@ -1,107 +1,43 @@
-# swc - Elide Polyglot Showcase
+# swc - Elide Conversion
 
-> **One swc implementation for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`swc`](https://www.npmjs.com/package/swc)
 
-Super-fast TypeScript/JavaScript compiler with a single implementation that works across your entire polyglot stack.
+**Category:** Build Tools
 
-## 🌟 Why This Matters
+**Tier:** A (8.0M downloads/week)
 
-In polyglot architectures, having **different swc implementations** in each language creates:
-- ❌ Inconsistent behavior across services
-- ❌ Multiple tools to maintain
-- ❌ Complex configuration management
-- ❌ Build reproducibility issues
+## Description
 
-**Elide solves this** with ONE implementation that works in ALL languages.
+Super-fast TypeScript/JavaScript compiler
 
-## ✨ Features
+## Why Elide?
 
-- ✅ Core rust-based compiler functionality
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-- ✅ Zero dependencies (core logic)
-- ✅ High performance
-- ✅ Consistent behavior across all languages
+This package benefits from Elide's runtime in the following ways:
 
-## 🚀 Quick Start
+- **10x faster cold start** (~20ms vs ~200ms) - Critical for serverless and CLI tools
+- **Zero dependencies** - No node_modules, instant execution
+- **Native performance** - GraalVM optimizations
 
-### TypeScript
-
-```typescript
-import { process } from './elide-swc.ts';
-
-const result = process(input);
-console.log(result);
-```
-
-### Python
-
-```python
-from elide import require
-tool = require('./elide-swc.ts')
-
-result = tool.process(input)
-print(result)
-```
-
-### Ruby
-
-```ruby
-tool = Elide.require('./elide-swc.ts')
-
-result = tool.process(input)
-puts result
-```
-
-### Java
-
-```java
-Context context = Context.newBuilder("js").allowAllAccess(true).build();
-Value tool = context.eval("js", "require('./elide-swc.ts')");
-
-Value result = tool.getMember("process").execute(input);
-System.out.println(result);
-```
-
-## 📊 Performance
-
-Build tool performance optimized for Elide runtime.
-
-## 🎯 Why Polyglot?
-
-One swc implementation for all languages eliminates inconsistencies and reduces maintenance overhead.
-
-## 💡 Use Cases
-
-Perfect for build automation, code transformation, asset optimization, and development workflows.
-
-## 📂 Files in This Showcase
-
-- `elide-swc.ts` - Main TypeScript implementation
-- `README.md` - This file
-
-## 🧪 Testing
-
-### Run the demo
+## Installation
 
 ```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/swc
 elide run elide-swc.ts
 ```
 
-## 🌐 Links
+## Usage
 
-- [Elide Documentation](https://docs.elide.dev)
-- [npm @swc/core package](https://www.npmjs.com/package/@swc/core)
-- [GitHub: elide-showcases](https://github.com/akapug/elide-showcases)
+See `elide-swc.ts` for implementation examples.
 
-## 📝 Package Stats
+## Performance
 
-- **npm downloads**: 5M+/week
-- **Use case**: Build tool, code transformation
-- **Elide advantage**: One implementation for all languages
-- **Polyglot score**: High
+Expected **significant** performance improvement with Elide.
 
----
+## Original Package
 
-**Built with ❤️ for the Elide Polyglot Runtime**
-
-*Proving that one tool can rule them all.*
+- Downloads: 8.0M/week
+- Repository: https://www.npmjs.com/package/swc

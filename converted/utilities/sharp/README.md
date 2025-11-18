@@ -1,33 +1,43 @@
-# sharp - Elide Polyglot Showcase
+# sharp - Elide Conversion
 
-> **High-Performance Image Processing for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`sharp`](https://www.npmjs.com/package/sharp)
 
-## Features
+**Category:** AI/ML
 
-- Resize, rotate, blur, sharpen images
-- Convert between JPEG, PNG, WebP, AVIF
-- Fastest Node.js image processing library
-- **~15M downloads/week on npm**
+**Tier:** B (10.0M downloads/week)
 
-## Quick Start
+## Description
 
-```typescript
-import sharp from './elide-sharp.ts';
+High performance Node.js image processing
 
-const pipeline = sharp('input.jpg')
-  .resize(800, 600)
-  .rotate(90)
-  .jpeg({ quality: 90 });
+## Why Elide?
 
-pipeline.toFile('output.jpg').then(info => {
-  console.log('Output:', info);
-});
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/sharp
+elide run elide-sharp.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/sharp)
+See `elide-sharp.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 10.0M/week
+- Repository: https://www.npmjs.com/package/sharp

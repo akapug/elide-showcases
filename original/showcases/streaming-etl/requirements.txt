@@ -1,0 +1,4 @@
+pandas>=2.1.4
+numpy>=1.26.2
+kafka-python>=2.0.2
+pyarrow>=14.0.1

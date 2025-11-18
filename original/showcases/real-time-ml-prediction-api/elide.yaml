@@ -1,0 +1,266 @@
+# Elide Configuration for Real-Time ML Prediction API
+#
+# This configuration enables polyglot capabilities for TypeScript + Python
+# ML inference with optimal performance settings.
+
+# Project metadata
+name: real-time-ml-prediction-api
+version: 1.0.0
+description: Real-time ML prediction API with polyglot TypeScript + Python
+
+# Runtime configuration
+runtime:
+  engine: graalvm
+  version: "23.1.0"
+
+  # Language support
+  languages:
+    - javascript
+    - typescript
+    - python
+
+  # Optimization settings for ML workloads
+  optimization:
+    # Enable JIT compilation for hot paths
+    jit: true
+
+    # Inline small functions for better performance
+    inlining: true
+
+    # Aggressive optimizations for production
+    level: aggressive  # options: conservative, balanced, aggressive
+
+    # Pre-warm JIT compiler
+    warmup:
+      enabled: true
+      requests: 1000
+
+  # Memory settings optimized for ML models
+  memory:
+    heap:
+      min: 512m
+      max: 4g
+
+    # G1 GC for predictable latency
+    gc:
+      algorithm: g1  # options: serial, parallel, g1
+
+# Polyglot configuration
+polyglot:
+  # Enable polyglot access
+  enabled: true
+
+  # Python configuration
+  python:
+    enabled: true
+    version: "3.11"
+
+    # Python package paths
+    paths:
+      - ./src/polyglot
+      - ./ml
+      - ./python-packages
+      - ~/.local/lib/python3.11/site-packages
+
+    # Preload ML packages for faster startup
+    preload:
+      - numpy
+      - sklearn
+      - sys
+      - os
+      - json
+
+    # Python optimization flags
+    optimize: true
+    buffered: false
+
+  # Allow host access for file I/O
+  allowHostAccess: true
+
+  # Allow native access for NumPy, etc.
+  allowNativeAccess: true
+
+# Build configuration
+build:
+  # Native Image settings (optional, for deployment)
+  native:
+    enabled: false  # Set to true for native compilation
+
+    # Native Image arguments
+    args:
+      - --no-fallback
+      - --initialize-at-build-time
+      - -H:+ReportExceptionStackTraces
+      - --enable-http
+      - --enable-https
+      - --enable-url-protocols=http,https
+
+    # Resource configuration
+    resources:
+      includes:
+        - "**/*.json"
+        - "**/*.txt"
+        - "**/*.py"
+        - "**/*.pkl"  # ML model files
+
+# Development settings
+dev:
+  # Hot reload for development
+  watch: true
+
+  # Auto-restart on file changes
+  restart: true
+
+  # Debug logging
+  debug: true
+
+  # Source maps for better debugging
+  sourceMaps: true
+
+# Production settings
+production:
+  # Disable debug features
+  debug: false
+
+  # Enable all optimizations
+  optimization:
+    level: aggressive
+
+  # Stricter error handling
+  strictMode: true
+
+  # Performance monitoring
+  monitoring:
+    enabled: true
+    metrics:
+      - cpu
+      - memory
+      - requests
+      - latency
+      - polyglot
+
+# Security settings
+security:
+  # Sandbox untrusted code
+  sandbox:
+    enabled: true
+
+    # Allowed operations
+    allow:
+      - network
+      - filesystem
+      - env
+
+  # Polyglot security
+  polyglot:
+    # Allow guest language access
+    restrictGuestAccess: false
+
+    # Allowed languages
+    allowedLanguages:
+      - python
+      - javascript
+      - typescript
+
+# Logging configuration
+logging:
+  level: info  # options: debug, info, warn, error
+
+  # Log format
+  format: json  # options: text, json
+
+  # Log destinations
+  outputs:
+    - stdout
+
+  # Component-specific logging
+  components:
+    server: info
+    polyglot: info
+    ml: info
+    jit: warn
+
+# Testing configuration
+test:
+  # Test framework
+  framework: custom
+
+  # Test paths
+  paths:
+    - tests/**/*.test.ts
+
+  # Test timeout (longer for ML warmup)
+  timeout: 60000  # 60 seconds
+
+  # Coverage
+  coverage:
+    enabled: true
+    threshold: 70
+
+# Benchmarking
+benchmark:
+  # Benchmark settings
+  warmup: 1000
+  iterations: 100
+  duration: 10000  # 10 seconds
+
+  # Scenarios
+  scenarios:
+    - name: latency
+      script: benchmarks/latency-test.ts
+
+    - name: throughput
+      script: benchmarks/throughput-test.ts
+
+    - name: vs-microservices
+      script: benchmarks/vs-microservices.ts
+
+# Deployment settings
+deploy:
+  # Container settings
+  container:
+    registry: ghcr.io
+    image: elide/real-time-ml-api
+    tag: latest
+
+  # Environment variables
+  env:
+    NODE_ENV: production
+    PORT: 3000
+    LOG_LEVEL: info
+
+  # Health checks
+  health:
+    port: 3000
+    path: /health
+    interval: 30s
+    timeout: 5s
+    retries: 3
+
+  # Resource limits
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 1000m
+    limits:
+      memory: 4Gi
+      cpu: 4000m
+
+# Performance hints for GraalVM
+hints:
+  # Optimize for throughput
+  throughput: true
+
+  # Optimize for low latency
+  latency: true
+
+  # Use LLVM backend for Python (if available)
+  useLLVM: false
+
+  # Experimental features
+  experimental:
+    # Enable partial evaluation for Python
+    partialEvaluation: true
+
+    # Enable escape analysis
+    escapeAnalysis: true
