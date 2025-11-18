@@ -1,0 +1,87 @@
+Package Name,Weekly Downloads,Category,Priority,Description
+minimatch,290500000,File Matching,Priority 1,Pattern matching for file glob operations
+chalk,320300000,CLI Styling,Priority 1,Terminal string styling with colors and text effects
+tslib,242000000,TypeScript Runtime,Priority 1,Runtime support library for TypeScript emit helpers
+uuid,181700000,Unique ID Generation,Priority 1,RFC4122 UUID generation (v1 v3 v4 v5)
+glob,197300000,File Globbing,Priority 1,File path pattern matching for filesystem operations
+fs-extra,109600000,File System,Priority 1,File system methods that aren't in native fs module
+mkdirp,96600000,Directory Creation,Priority 1,Create directories recursively; mkdir -p equivalent
+micromatch,81500000,Glob Matching,Priority 1,Glob pattern matching with more features than minimatch
+regenerator-runtime,41000000,Async/Runtime,Priority 1,Runtime for generator/async-await transpilation
+commander,228400000,CLI Framework,Priority 2,Command-line interface creation with options and arguments
+jest,22700000,Testing Framework,Priority 2,Complete testing framework with mocking
+playwright,20600000,E2E Testing,Priority 2,Cross-browser automation for testing and scraping
+tailwindcss,19500000,Utility CSS,Priority 2,Utility-first CSS framework for rapid development
+next,17900000,React Framework,Priority 2,React framework with SSR static generation and API routes
+@testing-library/dom,20080000,Testing,Priority 2,Testing utilities for DOM-based testing in browsers
+redux,16800000,State Management,Priority 2,Global state management with actions and reducers
+react-hook-form,15000000,Form Management,Priority 2,High-performance form handling library
+inquirer,33600000,Interactive CLI,Priority 2,User input prompts and interactive CLI building
+clsx,34300000,Class Management,Priority 2,Tiny utility for className concatenation
+joi,14500000,Validation,Priority 2,Object schema validation and sanitization
+@tanstack/react-query,10280000,Data Fetching,Priority 2,Powerful server-state management for async data fetching
+radix-ui,9100000,UI Components,Priority 2,Unstyled accessible UI component primitives
+react-router,8840000,Routing,Priority 2,Client-side routing for React single-page applications
+chai,9070000,Assertion Library,Priority 2,BDD/TDD assertion library with multiple interfaces
+cypress,6320000,E2E Testing,Priority 2,JavaScript E2E testing framework with visual testing
+puppeteer,5640000,Headless Browser,Priority 2,Headless browser control library for automation
+esbuild,70600000,Bundler,Priority 2,JavaScript bundler written in Go
+rollup,50300000,Bundler,Priority 2,Module bundler optimized for libraries
+yargs,77400000,Argument Parser,Priority 2,Command-line argument parsing library
+classnames,17000000,Class Management,Priority 2,Classname utility with conditional support
+@tanstack/react-table,5490000,Data Tables,Priority 3,Headless table library for building complex data grids
+class-validator,5430000,Validation,Priority 3,Class-based validation using decorators
+@mui/material,4100000,UI Components,Priority 3,Material Design component library for React
+superstruct,3050000,Validation,Priority 3,Simple and composable way to validate data shapes
+framer-motion,7250000,Animation,Priority 3,React animation library with declarative syntax
+recharts,7110000,Charting/Animation,Priority 3,Composable chart library for React
+date-fns,33760000,Date Utilities,Priority 3,Functional date utility library
+dayjs,28550000,Date Utilities,Priority 3,Lightweight Moment.js alternative
+moment,25730000,Date Utilities,Priority 3,Comprehensive JavaScript date library
+luxon,16240000,Date/Time,Priority 3,DateTime library for JavaScript
+vitest,5000000,Test Framework,Priority 3,Blazing fast unit test framework built on Vite
+@testing-library/react,6000000,Testing Utilities,Priority 3,Testing utilities for React components
+jotai,2228834,State Management,Priority 3,Primitive atom-based state management
+valtio,1041918,State Management,Priority 3,Proxy-based state management for React
+react-spring,760000,Animation,Priority 3,Physics-based animation library
+formik,3039457,Form Management,Priority 3,Form state management with validation
+swr,1400000,Data Fetching,Priority 3,Stale-while-revalidate data fetching for Next.js
+express,50000000,Web Framework,Priority 3,Fast unopinionated web framework for Node.js
+fastify,3000000,Web Framework,Priority 3,Fast and low-overhead web framework
+@nestjs/core,2500000,Framework,Priority 3,Progressive TypeScript framework with dependency injection
+apollo-server,2000000,GraphQL Server,Priority 3,Apollo GraphQL server implementation
+graphql,10000000,Query Language,Priority 3,GraphQL JavaScript reference implementation
+@apollo/client,10000000,GraphQL Client,Priority 3,Apollo GraphQL client library
+@trpc/client,2000000,RPC Client,Priority 3,End-to-end type-safe RPC client
+urql,1000000,GraphQL Client,Priority 3,Minimalist GraphQL client library
+passport,1500000,Authentication,Priority 3,Passport authentication middleware
+jsonwebtoken,15000000,JWT,Priority 3,JSON Web Token signing and verification
+bcryptjs,20000000,Password Hashing,Priority 3,Bcrypt password hashing library
+mongodb,10000000,MongoDB Driver,Priority 3,Official MongoDB JavaScript driver
+mongoose,5500000,MongoDB ODM,Priority 3,MongoDB object document mapper
+prisma,5500000,ORM,Priority 3,Type-safe database ORM with codegen
+sequelize,2160000,SQL ORM,Priority 3,Promise-based SQL ORM for Node.js
+typeorm,918000,TypeScript ORM,Priority 3,Decorator-based TypeScript ORM
+knex,1500000,Query Builder,Priority 3,SQL query builder for Node.js
+ioredis,2000000,Redis Client,Priority 3,Robust Redis client for Node.js
+node-redis,1500000,Redis Client,Priority 3,Official Redis JavaScript client
+mysql2,3000000,MySQL Driver,Priority 3,MySQL client library for Node.js
+pg,5000000,PostgreSQL Driver,Priority 3,PostgreSQL client for Node.js
+clerk,800000,Authentication Platform,Priority 4,User management and authentication platform
+@next/auth,1500000,Authentication,Priority 4,Authentication for Next.js applications
+debug,100000000,Debugging,Priority 4,Debug logging utility
+dotenv,100000000,Environment,Priority 4,Load environment variables from .env files
+cross-env,40000000,Environment,Priority 4,Set environment variables cross-platform
+npm-run-all,10000000,Script Runner,Priority 4,Run npm scripts in parallel or serial
+concurrently,5000000,Task Runner,Priority 4,Run multiple commands concurrently
+astro,853000,Web Framework,Priority 4,Static site generator with islands architecture
+nuxt,904000,Vue Framework,Priority 4,Vue meta-framework for Universal applications
+gatsby,306000,React Framework,Priority 4,Gatsby static site generator
+remix,500000,React Framework,Priority 4,Remix full-stack web framework
+@google-cloud/storage,3000000,Cloud Storage,Priority 4,Google Cloud Storage library
+stripe,2000000,Payment Processing,Priority 4,Stripe payment API client
+nodemailer,8000000,Email,Priority 4,Email transport library
+socket.io,8000000,Real-time,Priority 4,Bidirectional communication library
+web-vitals,3000000,Performance,Priority 4,Web performance metrics library
+@sentry/node,3000000,Error Tracking,Priority 4,Sentry error tracking for Node.js
+openai,3000000,AI/ML,Priority 4,OpenAI API client library

@@ -1,46 +1,43 @@
-# CUID
+# cuid - Elide Conversion
 
-Collision-resistant unique IDs for Elide (polyglot!)
+**Original package:** [`cuid`](https://www.npmjs.com/package/cuid)
 
-Based on https://www.npmjs.com/package/cuid (~200K+ downloads/week)
+**Category:** Utilities
 
-## Features
+**Tier:** C (2.0M downloads/week)
 
-- Collision-resistant unique IDs
-- Unique and sortable
-- Fast generation
-- Zero dependencies
+## Description
 
-## Quick Start
+Collision-resistant unique identifiers
 
-```typescript
-import cuid from './elide-cuid.ts';
+## Why Elide?
+
+This package benefits from Elide's runtime in the following ways:
+
+- **Ecosystem compatibility** - Proves Elide can run standard npm packages
+- **TypeScript support** - Direct execution
+- **Zero config** - Works out of the box
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/cuid
+elide run elide-cuid.ts
 ```
 
-## Polyglot Examples
+## Usage
 
-### JavaScript/TypeScript
-```typescript
-import cuid from './elide-cuid.ts';
-```
+See `elide-cuid.ts` for implementation examples.
 
-### Python (via Elide)
-```python
-from elide_cuid import cuid
-```
+## Performance
 
-### Ruby (via Elide)
-```ruby
-require 'elide/cuid'
-```
+Compatible with Elide runtime, proving ecosystem coverage.
 
-### Java (via Elide)
-```java
-import elide.cuid.*;
-```
+## Original Package
 
-## Benefits
-
-- One cuid library for ALL languages on Elide
-- Consistent ID generation across languages
-- ~200K+ downloads/week on npm!
+- Downloads: 2.0M/week
+- Repository: https://www.npmjs.com/package/cuid

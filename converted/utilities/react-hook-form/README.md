@@ -1,31 +1,43 @@
-# react-hook-form - Elide Polyglot Showcase
+# react-hook-form - Elide Conversion
 
-> **High-performance form hooks for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`react-hook-form`](https://www.npmjs.com/package/react-hook-form)
 
-## Features
+**Category:** Forms
 
-- Minimal re-renders with efficient validation
-- Built-in validation rules
-- Schema-based validation support
-- Tiny size with zero dependencies
-- **~2M+ downloads/week on npm**
+**Tier:** B (15.0M downloads/week)
 
-## Quick Start
+## Description
 
-```typescript
-import { useForm } from './elide-react-hook-form.ts';
+Performant, flexible and extensible forms with React Hooks
 
-const form = useForm({ defaultValues: { email: '', password: '' } });
-const emailReg = form.register('email', { required: true });
+## Why Elide?
 
-emailReg.onChange({ target: { value: 'test@example.com' } });
-console.log(form.getValues());
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/react-hook-form
+elide run elide-react-hook-form.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/react-hook-form)
+See `elide-react-hook-form.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 15.0M/week
+- Repository: https://www.npmjs.com/package/react-hook-form

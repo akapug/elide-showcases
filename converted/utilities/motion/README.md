@@ -1,66 +1,43 @@
-# Motion
+# motion - Elide Conversion
 
-Modern web animations library for Elide (polyglot!)
+**Original package:** [`motion`](https://www.npmjs.com/package/motion)
 
-Based on https://www.npmjs.com/package/motion (~100K+ downloads/week)
+**Category:** Animation
 
-## Features
+**Tier:** B (0.5M downloads/week)
 
-- CSS animations
-- Keyframe animations
-- Easing functions
-- Animation sequences
-- Timeline control
-- Zero dependencies
+## Description
 
-## Quick Start
+Simple animation library for JavaScript
 
-```typescript
-import { animate, easings } from './elide-motion.ts';
+## Why Elide?
 
-// Basic animation
-animate(0, 100, {
-  duration: 1000,
-  easing: easings.easeInOut,
-  onUpdate: (value) => console.log(value),
-  onComplete: () => console.log('Done!'),
-});
+This package benefits from Elide's runtime in the following ways:
 
-// Timeline
-import { Timeline } from './elide-motion.ts';
-const timeline = new Timeline();
-timeline.add(animation1).add(animation2, 500).play();
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/motion
+elide run elide-motion.ts
 ```
 
-## Polyglot Examples
+## Usage
 
-### JavaScript/TypeScript
-```typescript
-import { animate } from './elide-motion.ts';
-animate(0, 100, { duration: 1000 });
-```
+See `elide-motion.ts` for implementation examples.
 
-### Python (via Elide)
-```python
-from elide_motion import animate
-animate(0, 100, duration=1000)
-```
+## Performance
 
-### Ruby (via Elide)
-```ruby
-require 'elide/motion'
-animate(0, 100, duration: 1000)
-```
+Expected **moderate** performance improvement with Elide.
 
-### Java (via Elide)
-```java
-import elide.motion.*;
-Motion.animate(0, 100, 1000);
-```
+## Original Package
 
-## Benefits
-
-- One animation library for ALL languages on Elide
-- Consistent easing functions across platforms
-- Share animation configs across your polyglot stack
-- ~100K+ downloads/week on npm!
+- Downloads: 0.5M/week
+- Repository: https://www.npmjs.com/package/motion

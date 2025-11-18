@@ -1,75 +1,43 @@
-# React Router - Elide Polyglot Showcase
+# react-router - Elide Conversion
 
-> **One react router for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`react-router`](https://www.npmjs.com/package/react-router)
 
-Declarative routing for React applications with nested routes and dynamic matching
+**Category:** Routing
 
-## Features
+**Tier:** B (15.0M downloads/week)
 
-- Pure TypeScript implementation
-- Zero dependencies
-- Fully typed interfaces
-- Production-ready
-- Polyglot: Use from TypeScript, Python, Ruby, and Java
+## Description
 
-## Quick Start
+Declarative routing for React
 
-### TypeScript
-```typescript
-import lib from './elide-react-router.ts';
+## Why Elide?
 
-// Your code here
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/react-router
+elide run elide-react-router.ts
 ```
 
-### Python
-```python
-from elide import require
-lib = require('./elide-react-router.ts')
+## Usage
 
-# Your code here
-```
+See `elide-react-router.ts` for implementation examples.
 
-### Ruby
-```ruby
-lib = Elide.require('./elide-react-router.ts')
+## Performance
 
-# Your code here
-```
+Expected **moderate** performance improvement with Elide.
 
-### Java
-```java
-Value lib = context.eval("js", "require('./elide-react-router.ts')");
+## Original Package
 
-// Your code here
-```
-
-## Why Polyglot?
-
-Write once in TypeScript, use everywhere:
-- **Consistency**: Same behavior across all languages
-- **Maintainability**: Single implementation to maintain
-- **Type Safety**: Full TypeScript types available
-- **Performance**: Native Elide performance
-
-## Use Cases
-
-- Single page applications
-- Multi-page React apps
-- Nested routing
-- Protected routes
-
-## Package Stats
-
-- **npm downloads**: ~5M+/week
-- **Original package**: [react-router](https://www.npmjs.com/package/react-router)
-- **Elide advantage**: One implementation for all languages
-
-## Links
-
-- [Elide Documentation](https://docs.elide.dev)
-- [npm react-router package](https://www.npmjs.com/package/react-router)
-- [GitHub: elide-showcases](https://github.com/elide-dev/elide-showcases)
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+- Downloads: 15.0M/week
+- Repository: https://www.npmjs.com/package/react-router

@@ -1,19 +1,43 @@
-# rate-limiter-flexible - Elide Polyglot Showcase
+# rate-limiter-flexible - Elide Conversion
 
-> **One rate-limiter-flexible implementation for ALL languages**
+**Original package:** [`rate-limiter-flexible`](https://www.npmjs.com/package/rate-limiter-flexible)
 
-Flexible rate limiter with multiple algorithms and distributed support.
+**Category:** Rate Limiting
 
-## 🚀 Quick Start
+**Tier:** C (1.5M downloads/week)
 
-```typescript
-import { RateLimiterMemory } from './elide-rate-limiter-flexible.ts';
-const limiter = new RateLimiterMemory({ points: 5, duration: 1 });
-await limiter.consume('user123', 1);
+## Description
+
+Rate limiting with various backends
+
+## Why Elide?
+
+This package benefits from Elide's runtime in the following ways:
+
+- **Ecosystem compatibility** - Proves Elide can run standard npm packages
+- **TypeScript support** - Direct execution
+- **Zero config** - Works out of the box
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/rate-limiter-flexible
+elide run elide-rate-limiter-flexible.ts
 ```
 
-**npm downloads**: 2M+/week | **Polyglot score**: 50/50
+## Usage
 
----
+See `elide-rate-limiter-flexible.ts` for implementation examples.
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+## Performance
+
+Compatible with Elide runtime, proving ecosystem coverage.
+
+## Original Package
+
+- Downloads: 1.5M/week
+- Repository: https://www.npmjs.com/package/rate-limiter-flexible

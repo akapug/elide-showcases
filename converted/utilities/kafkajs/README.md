@@ -1,29 +1,43 @@
-# KafkaJS - Elide Polyglot Showcase
+# kafkajs - Elide Conversion
 
-> **One library for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`kafkajs`](https://www.npmjs.com/package/kafkajs)
 
-Modern Apache Kafka client
+**Category:** Message Queues
 
-## ✨ Features
+**Tier:** B (2.5M downloads/week)
 
-- ✅ Core functionality
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-- ✅ Zero dependencies
+## Description
 
-## 🚀 Quick Start
+Modern Apache Kafka client for Node.js
 
-```typescript
-import Client from './elide-kafkajs.ts';
+## Why Elide?
 
-const client = new Client();
-await client.execute({ data: 'example' });
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/kafkajs
+elide run elide-kafkajs.ts
 ```
 
-## 📝 Package Stats
+## Usage
 
-- **npm downloads**: ~5M/week
-- **Polyglot score**: 45/50 (A-Tier)
+See `elide-kafkajs.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 2.5M/week
+- Repository: https://www.npmjs.com/package/kafkajs

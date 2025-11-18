@@ -1,33 +1,43 @@
-# superstruct - Elide Polyglot Showcase
+# superstruct - Elide Conversion
 
-> **Composable data validation for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`superstruct`](https://www.npmjs.com/package/superstruct)
 
-## Features
+**Category:** Validation
 
-- Schema-based validation with type safety
-- Custom validation rules
-- Async validation support
-- Error message customization
-- **~300K+ downloads/week on npm**
+**Tier:** B (5.0M downloads/week)
 
-## Quick Start
+## Description
 
-```typescript
-import { createValidator } from './elide-superstruct.ts';
+Simple and composable way to validate data
 
-const validator = createValidator({
-  email: { required: true, email: true },
-  age: { required: true, min: 18 },
-});
+## Why Elide?
 
-const result = validator.validate({ email: 'test@example.com', age: 25 });
-console.log(result.valid); // true
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/superstruct
+elide run elide-superstruct.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/superstruct)
+See `elide-superstruct.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 5.0M/week
+- Repository: https://www.npmjs.com/package/superstruct

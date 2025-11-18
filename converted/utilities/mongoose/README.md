@@ -1,24 +1,43 @@
-# mongoose - Elide Polyglot Showcase
+# mongoose - Elide Conversion
 
-> **MongoDB ODM for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`mongoose`](https://www.npmjs.com/package/mongoose)
 
-## Features
+**Category:** Database
 
-- MongoDB ODM
-- **~30M+ downloads/week on npm**
+**Tier:** B (5.5M downloads/week)
 
-## Quick Start
+## Description
 
-```typescript
-import db from './elide-mongoose.ts';
+MongoDB object modeling tool
 
-// See elide-mongoose.ts for full examples
+## Why Elide?
+
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/mongoose
+elide run elide-mongoose.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/mongoose)
+See `elide-mongoose.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 5.5M/week
+- Repository: https://www.npmjs.com/package/mongoose

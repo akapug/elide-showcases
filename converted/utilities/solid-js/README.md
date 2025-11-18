@@ -1,20 +1,43 @@
-# solid-js - Elide Polyglot Showcase
+# solid-js - Elide Conversion
 
-> Simple and Performant Reactivity for Building UIs
+**Original package:** [`solid-js`](https://www.npmjs.com/package/solid-js)
 
-## ✨ Features
+**Category:** Frameworks
 
-- ✅ Fine-grained reactivity
-- ✅ No virtual DOM
-- ✅ Signals and effects
-- ✅ True reactivity
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
+**Tier:** B (0.5M downloads/week)
 
-## 📝 Package Stats
+## Description
 
-- **npm downloads**: 2M+/week
-- **Polyglot score**: 47/50 (S-Tier)
+Simple and performant reactivity
 
----
+## Why Elide?
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/solid-js
+elide run elide-solid-js.ts
+```
+
+## Usage
+
+See `elide-solid-js.ts` for implementation examples.
+
+## Performance
+
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 0.5M/week
+- Repository: https://www.npmjs.com/package/solid-js

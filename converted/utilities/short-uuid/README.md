@@ -1,46 +1,43 @@
-# Short UUID
+# short-uuid - Elide Conversion
 
-Shorter UUIDs for Elide (polyglot!)
+**Original package:** [`short-uuid`](https://www.npmjs.com/package/short-uuid)
 
-Based on https://www.npmjs.com/package/short-uuid (~100K+ downloads/week)
+**Category:** Utilities
 
-## Features
+**Tier:** C (0.5M downloads/week)
 
-- Shorter UUIDs
-- Fast and efficient
-- Type-safe
-- Zero dependencies
+## Description
 
-## Quick Start
+Generate short UUIDs
 
-```typescript
-import short_uuid from './elide-short-uuid.ts';
+## Why Elide?
+
+This package benefits from Elide's runtime in the following ways:
+
+- **Ecosystem compatibility** - Proves Elide can run standard npm packages
+- **TypeScript support** - Direct execution
+- **Zero config** - Works out of the box
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/short-uuid
+elide run elide-short-uuid.ts
 ```
 
-## Polyglot Examples
+## Usage
 
-### JavaScript/TypeScript
-```typescript
-import short_uuid from './elide-short-uuid.ts';
-```
+See `elide-short-uuid.ts` for implementation examples.
 
-### Python (via Elide)
-```python
-from elide_short_uuid import short_uuid
-```
+## Performance
 
-### Ruby (via Elide)
-```ruby
-require 'elide/short_uuid'
-```
+Compatible with Elide runtime, proving ecosystem coverage.
 
-### Java (via Elide)
-```java
-import elide.short_uuid.*;
-```
+## Original Package
 
-## Benefits
-
-- One short uuid library for ALL languages on Elide
-- Consistent behavior across languages
-- ~100K+ downloads/week on npm!
+- Downloads: 0.5M/week
+- Repository: https://www.npmjs.com/package/short-uuid

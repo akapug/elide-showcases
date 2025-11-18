@@ -1,90 +1,43 @@
-# Elide P-Limit
+# p-limit - Elide Conversion
 
-Pure TypeScript implementation of `p-limit` for controlling promise concurrency.
+**Original package:** [`p-limit`](https://www.npmjs.com/package/p-limit)
 
-## Features
+**Category:** Async
 
-- Limit concurrent promise execution
-- Queue management
-- Active count tracking
-- Pending count tracking
-- Zero dependencies
-- Full TypeScript support
+**Tier:** C (80.0M downloads/week)
 
-## Original Package
+## Description
 
-- **npm**: `p-limit`
-- **Downloads**: ~80M/week
-- **Use case**: Promise concurrency limiter
+Run multiple promise-returning functions with limited concurrency
 
-## Polyglot Benefits
+## Why Elide?
 
-- Works in Browser, Node.js, Deno, Bun, and Elide
-- Zero dependencies - pure TypeScript
-- Type-safe with full TypeScript support
-- Tree-shakeable and optimized for modern bundlers
-- Simple and focused API
+This package benefits from Elide's runtime in the following ways:
+
+- **Ecosystem compatibility** - Proves Elide can run standard npm packages
+- **TypeScript support** - Direct execution
+- **Zero config** - Works out of the box
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/p-limit
+elide run elide-p-limit.ts
+```
 
 ## Usage
 
-```typescript
-import pLimit from './elide-p-limit.ts';
+See `elide-p-limit.ts` for implementation examples.
 
-const limit = pLimit(2);
+## Performance
 
-const input = [
-  limit(() => fetchData(1)),
-  limit(() => fetchData(2)),
-  limit(() => fetchData(3)),
-  limit(() => fetchData(4)),
-  limit(() => fetchData(5)),
-];
+Compatible with Elide runtime, proving ecosystem coverage.
 
-// Only 2 promises run at a time
-const results = await Promise.all(input);
+## Original Package
 
-// Check active and pending counts
-console.log(limit.activeCount); // 0
-console.log(limit.pendingCount); // 0
-
-// Clear the queue if needed
-limit.clearQueue();
-```
-
-## API
-
-### pLimit(concurrency)
-
-Returns a `limit` function.
-
-#### concurrency
-
-Type: `number`
-
-The maximum number of promises to run concurrently.
-
-#### limit(fn)
-
-Returns a promise that resolves when the function is called.
-
-##### fn
-
-Type: `() => Promise<T>`
-
-The function to limit. Must return a promise.
-
-### limit.activeCount
-
-Type: `number`
-
-The number of promises that are currently running.
-
-### limit.pendingCount
-
-Type: `number`
-
-The number of promises that are waiting to run.
-
-### limit.clearQueue()
-
-Clears the queue of pending promises.
+- Downloads: 80.0M/week
+- Repository: https://www.npmjs.com/package/p-limit

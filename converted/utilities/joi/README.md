@@ -1,65 +1,43 @@
-# Joi - Elide Polyglot Showcase
+# joi - Elide Conversion
 
-> **One schema validator for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`joi`](https://www.npmjs.com/package/joi)
 
-Powerful object schema validation with a simple, declarative API that works across your entire polyglot stack.
+**Category:** Validation
 
-## Features
+**Tier:** B (14.5M downloads/week)
 
-- Object schema validation with declarative API
-- Rich validation rules (string, number, object, array, etc.)
-- Custom error messages
-- Type coercion and defaults
-- Nested object validation
-- Zero dependencies
-- **~25M downloads/week on npm**
+## Description
 
-## Quick Start
+Object schema description and validation
 
-```typescript
-import Joi from './elide-joi.ts';
+## Why Elide?
 
-// Define a schema
-const userSchema = Joi.object({
-  username: Joi.string().min(3).max(30).required(),
-  email: Joi.string().email().required(),
-  age: Joi.number().integer().min(18)
-});
+This package benefits from Elide's runtime in the following ways:
 
-// Validate data
-const result = userSchema.validate({
-  username: "alice",
-  email: "alice@example.com",
-  age: 25
-});
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
 
-if (result.error) {
-  console.log("Validation failed:", result.error.message);
-} else {
-  console.log("Valid data:", result.value);
-}
-```
-
-## Polyglot Benefits
-
-- ONE schema validator works in TypeScript, Python, Ruby, and Java
-- Share validation schemas across your entire stack
-- Consistent error messages across all services
-- Reduce code duplication and maintenance
-
-## Documentation
-
-Run the demo to see examples:
+## Installation
 
 ```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/joi
 elide run elide-joi.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/joi)
-- [Elide Documentation](https://docs.elide.dev)
+See `elide-joi.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 14.5M/week
+- Repository: https://www.npmjs.com/package/joi

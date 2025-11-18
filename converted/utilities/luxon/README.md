@@ -1,17 +1,43 @@
-# luxon - Elide Polyglot Showcase
+# luxon - Elide Conversion
 
-> Powerful, modern, and friendly wrapper for JavaScript dates.
+**Original package:** [`luxon`](https://www.npmjs.com/package/luxon)
 
-## ✨ Features
+**Category:** Date/Time
 
-- ✅ Modern DateTime API
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
+**Tier:** B (16.2M downloads/week)
 
-## 📝 Package Stats
+## Description
 
-- **npm downloads**: 8M+/week
-- **Polyglot score**: 45/50 (A-Tier)
+Powerful library for dates and times
 
----
+## Why Elide?
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/luxon
+elide run elide-luxon.ts
+```
+
+## Usage
+
+See `elide-luxon.ts` for implementation examples.
+
+## Performance
+
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 16.2M/week
+- Repository: https://www.npmjs.com/package/luxon

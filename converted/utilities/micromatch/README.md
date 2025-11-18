@@ -1,35 +1,43 @@
-# micromatch - Elide Polyglot Showcase
+# micromatch - Elide Conversion
 
-> **Advanced glob matching for ALL languages**
+**Original package:** [`micromatch`](https://www.npmjs.com/package/micromatch)
 
-Powerful glob matching with extended features - faster alternative to minimatch.
+**Category:** File System
 
-## Features
+**Tier:** A (81.5M downloads/week)
 
-- Advanced glob patterns
-- Brace expansion
-- Extended glob
-- Negation support
-- **Polyglot**: TypeScript, Python, Ruby, Java
-- Zero dependencies
+## Description
 
-## Quick Start
+Highly optimized glob matching
 
-```typescript
-import { micromatch, isMatch, not } from './elide-micromatch.ts';
+## Why Elide?
 
-// Match array
-micromatch(['foo.ts', 'bar.js'], '*.ts');  // ['foo.ts']
+This package benefits from Elide's runtime in the following ways:
 
-// Test match
-isMatch('a/b/c.ts', '**/*.ts');  // true
+- **10x faster cold start** (~20ms vs ~200ms) - Critical for serverless and CLI tools
+- **Zero dependencies** - No node_modules, instant execution
+- **Native performance** - GraalVM optimizations
 
-// Negate
-const files = ['a.ts', 'b.js', 'c.ts'];
-not(files, '*.ts');  // ['b.js']
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/micromatch
+elide run elide-micromatch.ts
 ```
 
-## Stats
+## Usage
 
-- **npm downloads**: ~120M/week
-- **Use case**: File filtering, build tools
+See `elide-micromatch.ts` for implementation examples.
+
+## Performance
+
+Expected **significant** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 81.5M/week
+- Repository: https://www.npmjs.com/package/micromatch

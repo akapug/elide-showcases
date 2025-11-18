@@ -1,39 +1,43 @@
-# Prom Client - Prometheus Client - Elide Polyglot Showcase
+# prom-client - Elide Conversion
 
-> **Prometheus for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`prom-client`](https://www.npmjs.com/package/prom-client)
 
-A Prometheus metrics client with counters, gauges, histograms, and summaries.
+**Category:** Observability
 
-## ✨ Features
+**Tier:** B (5.0M downloads/week)
 
-- ✅ Counter metrics
-- ✅ Gauge metrics
-- ✅ Histogram metrics
-- ✅ Labels support
-- ✅ Prometheus format
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
-- ✅ Zero dependencies
+## Description
 
-## 🚀 Quick Start
+Prometheus client for Node.js
 
-```typescript
-import { Counter, Gauge, register } from './elide-prom-client.ts';
+## Why Elide?
 
-const httpRequests = new Counter('http_requests_total', 'Total HTTP requests');
-const activeConnections = new Gauge('active_connections', 'Active connections');
+This package benefits from Elide's runtime in the following ways:
 
-register.registerMetric(httpRequests);
-httpRequests.inc();
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
 
-console.log(register.metrics());
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/prom-client
+elide run elide-prom-client.ts
 ```
 
-## 📝 Package Stats
+## Usage
 
-- **npm downloads**: ~8M/week
-- **Use case**: Prometheus metrics
-- **Polyglot score**: 50/50 (S-Tier)
+See `elide-prom-client.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 5.0M/week
+- Repository: https://www.npmjs.com/package/prom-client

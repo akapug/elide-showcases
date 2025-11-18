@@ -1,75 +1,43 @@
-# React Router DOM - Elide Polyglot Showcase
+# react-router-dom - Elide Conversion
 
-> **One react router dom for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`react-router-dom`](https://www.npmjs.com/package/react-router-dom)
 
-DOM bindings for React Router with Link, NavLink, and browser history
+**Category:** Routing
 
-## Features
+**Tier:** B (14.0M downloads/week)
 
-- Pure TypeScript implementation
-- Zero dependencies
-- Fully typed interfaces
-- Production-ready
-- Polyglot: Use from TypeScript, Python, Ruby, and Java
+## Description
 
-## Quick Start
+DOM bindings for React Router
 
-### TypeScript
-```typescript
-import lib from './elide-react-router-dom.ts';
+## Why Elide?
 
-// Your code here
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/react-router-dom
+elide run elide-react-router-dom.ts
 ```
 
-### Python
-```python
-from elide import require
-lib = require('./elide-react-router-dom.ts')
+## Usage
 
-# Your code here
-```
+See `elide-react-router-dom.ts` for implementation examples.
 
-### Ruby
-```ruby
-lib = Elide.require('./elide-react-router-dom.ts')
+## Performance
 
-# Your code here
-```
+Expected **moderate** performance improvement with Elide.
 
-### Java
-```java
-Value lib = context.eval("js", "require('./elide-react-router-dom.ts')");
+## Original Package
 
-// Your code here
-```
-
-## Why Polyglot?
-
-Write once in TypeScript, use everywhere:
-- **Consistency**: Same behavior across all languages
-- **Maintainability**: Single implementation to maintain
-- **Type Safety**: Full TypeScript types available
-- **Performance**: Native Elide performance
-
-## Use Cases
-
-- Web applications
-- Browser routing
-- Link components
-- Navigation guards
-
-## Package Stats
-
-- **npm downloads**: ~5M+/week
-- **Original package**: [react-router-dom](https://www.npmjs.com/package/react-router-dom)
-- **Elide advantage**: One implementation for all languages
-
-## Links
-
-- [Elide Documentation](https://docs.elide.dev)
-- [npm react-router-dom package](https://www.npmjs.com/package/react-router-dom)
-- [GitHub: elide-showcases](https://github.com/elide-dev/elide-showcases)
-
----
-
-**Built with ❤️ for the Elide Polyglot Runtime**
+- Downloads: 14.0M/week
+- Repository: https://www.npmjs.com/package/react-router-dom

@@ -1,29 +1,43 @@
-# clsx - Elide Polyglot Showcase
+# clsx - Elide Conversion
 
-> **Tiny className utility - ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`clsx`](https://www.npmjs.com/package/clsx)
 
-## Features
+**Category:** Utilities
 
-- Tiny size (228 bytes)
-- Fast performance
-- Conditional classes
-- **~5M downloads/week on npm**
+**Tier:** A (34.3M downloads/week)
 
-## Quick Start
+## Description
 
-```typescript
-import clsx from './elide-clsx.ts';
+Tiny utility for constructing className strings
 
-const classes = clsx('foo', { bar: true, baz: false });
-// => 'foo bar'
+## Why Elide?
 
-const btn = clsx('btn', isActive && 'active');
+This package benefits from Elide's runtime in the following ways:
+
+- **10x faster cold start** (~20ms vs ~200ms) - Critical for serverless and CLI tools
+- **Zero dependencies** - No node_modules, instant execution
+- **Native performance** - GraalVM optimizations
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/clsx
+elide run elide-clsx.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/clsx)
+See `elide-clsx.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **significant** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 34.3M/week
+- Repository: https://www.npmjs.com/package/clsx
