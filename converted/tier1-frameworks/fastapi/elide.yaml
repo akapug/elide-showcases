@@ -1,0 +1,191 @@
+# Elide Configuration for FastAPI
+#
+# This configuration enables:
+# - TypeScript execution
+# - Python polyglot support
+# - Optimized performance
+# - Production-ready features
+
+# Project metadata
+name: fastapi-on-elide
+version: 1.0.0
+description: FastAPI web framework on Elide with polyglot Python + TypeScript support
+
+# Runtime configuration
+runtime:
+  # Enable polyglot support for Python + TypeScript
+  polyglot:
+    enabled: true
+    languages:
+      - typescript
+      - python
+
+  # TypeScript configuration
+  typescript:
+    enabled: true
+    strict: true
+    target: ES2022
+    module: ESNext
+
+  # Python configuration
+  python:
+    enabled: true
+    version: "3.11"
+    venv: true
+    packages:
+      # Install from requirements.txt
+      file: requirements.txt
+
+  # Performance optimizations
+  optimization:
+    # Ahead-of-time compilation
+    aot: true
+    # Native image generation
+    native: false
+    # JIT compiler optimizations
+    jit:
+      enabled: true
+      tier: 2
+
+  # Memory configuration
+  memory:
+    heap_size: 512M
+    max_heap_size: 2G
+
+# HTTP server configuration
+server:
+  host: 0.0.0.0
+  port: 8000
+  workers: auto  # Auto-detect CPU cores
+
+  # HTTP/2 support
+  http2: true
+
+  # Compression
+  compression:
+    enabled: true
+    types:
+      - application/json
+      - text/html
+      - text/plain
+
+  # Security
+  security:
+    cors:
+      enabled: true
+      origins:
+        - "*"
+    rate_limiting:
+      enabled: true
+      requests_per_minute: 100
+
+# Build configuration
+build:
+  # Output directory
+  output: dist/
+
+  # Include Python modules
+  include:
+    - src/**/*.ts
+    - python/**/*.py
+    - examples/**/*.ts
+
+  # Exclude from build
+  exclude:
+    - tests/**
+    - "**/*.test.ts"
+    - benchmarks/**
+    - node_modules/**
+    - __pycache__/**
+    - "*.pyc"
+
+  # Bundle configuration
+  bundle:
+    enabled: true
+    minify: false
+    sourcemap: true
+
+# Development configuration
+dev:
+  # Hot reload
+  watch: true
+  # Auto-restart on changes
+  restart: true
+  # Include files for watching
+  watch_paths:
+    - src/
+    - python/
+    - examples/
+
+# Testing configuration
+test:
+  framework: jest
+  coverage: true
+  parallel: true
+
+# Logging configuration
+logging:
+  level: info
+  format: json
+  output: stdout
+
+  # Log files
+  files:
+    access_log: logs/access.log
+    error_log: logs/error.log
+
+# Environment variables
+env:
+  NODE_ENV: production
+  PYTHON_ENV: production
+  DEBUG: "false"
+
+# Features
+features:
+  # Automatic API documentation
+  openapi:
+    enabled: true
+    ui: swagger
+    redoc: true
+
+  # Health checks
+  health:
+    enabled: true
+    endpoint: /health
+
+  # Metrics
+  metrics:
+    enabled: true
+    endpoint: /metrics
+    format: prometheus
+
+# Deployment
+deploy:
+  # Platform
+  platform: docker
+
+  # Docker configuration
+  docker:
+    base_image: "elide/runtime:latest"
+    port: 8000
+    healthcheck:
+      path: /health
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # Kubernetes
+  kubernetes:
+    replicas: 3
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 250m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+    autoscaling:
+      enabled: true
+      min_replicas: 2
+      max_replicas: 10
+      target_cpu_percent: 70

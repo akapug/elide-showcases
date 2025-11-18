@@ -1,0 +1,247 @@
+# Elide Configuration for Express.js
+#
+# This configuration enables polyglot capabilities and optimizations
+# for Express applications running on GraalVM.
+
+# Project metadata
+name: express-elide
+version: 1.0.0
+description: Express.js web framework with polyglot capabilities
+
+# Runtime configuration
+runtime:
+  engine: graalvm
+  version: "23.1.0"
+
+  # Language support
+  languages:
+    - javascript
+    - typescript
+    - python
+    - ruby
+
+  # Optimization settings
+  optimization:
+    # JIT compilation
+    jit: true
+
+    # Inline small functions
+    inlining: true
+
+    # Aggressive optimizations (use with caution)
+    level: balanced  # options: conservative, balanced, aggressive
+
+    # Pre-warm JIT compiler
+    warmup:
+      enabled: true
+      requests: 1000
+
+  # Memory settings
+  memory:
+    heap:
+      min: 256m
+      max: 2g
+
+    # Garbage collection
+    gc:
+      algorithm: g1  # options: serial, parallel, g1
+
+# Polyglot configuration
+polyglot:
+  # Enable polyglot access
+  enabled: true
+
+  # Python configuration
+  python:
+    enabled: true
+    version: "3.11"
+
+    # Python package paths
+    paths:
+      - ./python-packages
+      - ~/.local/lib/python3.11/site-packages
+
+    # Preload common packages
+    preload:
+      - numpy
+      - json
+      - sys
+      - os
+
+  # Ruby configuration
+  ruby:
+    enabled: true
+    version: "3.2"
+
+    # Ruby gem paths
+    paths:
+      - ./ruby-gems
+      - ~/.gem/ruby/3.2.0
+
+    # Preload common gems
+    preload: []
+
+  # Java configuration
+  java:
+    enabled: true
+    version: "21"
+
+# Build configuration
+build:
+  # Native Image settings
+  native:
+    enabled: true
+
+    # Native Image arguments
+    args:
+      - --no-fallback
+      - --initialize-at-build-time
+      - -H:+ReportExceptionStackTraces
+      - -H:+PrintClassInitialization
+      - --enable-http
+      - --enable-https
+
+    # Resource configuration
+    resources:
+      includes:
+        - "**/*.json"
+        - "**/*.txt"
+        - "**/*.html"
+
+    # Reflection configuration (for Express routing)
+    reflection:
+      - class: "express.Application"
+      - class: "express.Router"
+      - class: "express.Request"
+      - class: "express.Response"
+
+# Development settings
+dev:
+  # Hot reload
+  watch: true
+
+  # Auto-restart on file changes
+  restart: true
+
+  # Debug logging
+  debug: true
+
+  # Source maps
+  sourceMaps: true
+
+# Production settings
+production:
+  # Disable debug features
+  debug: false
+
+  # Enable all optimizations
+  optimization:
+    level: aggressive
+
+  # Stricter error handling
+  strictMode: true
+
+  # Performance monitoring
+  monitoring:
+    enabled: true
+    metrics:
+      - cpu
+      - memory
+      - requests
+      - latency
+
+# Security settings
+security:
+  # Sandbox untrusted code
+  sandbox:
+    enabled: true
+
+    # Allowed operations
+    allow:
+      - network
+      - filesystem
+      - env
+
+  # Polyglot security
+  polyglot:
+    # Restrict polyglot access
+    restrictGuestAccess: true
+
+    # Allowed languages
+    allowedLanguages:
+      - python
+      - ruby
+      - javascript
+
+# Logging configuration
+logging:
+  level: info  # options: debug, info, warn, error
+
+  # Log format
+  format: json  # options: text, json
+
+  # Log destinations
+  outputs:
+    - stdout
+
+  # Component-specific logging
+  components:
+    express: info
+    polyglot: debug
+    jit: warn
+
+# Testing configuration
+test:
+  # Test framework
+  framework: custom
+
+  # Test paths
+  paths:
+    - tests/**/*.test.ts
+
+  # Test timeout
+  timeout: 30000  # 30 seconds (for JIT warmup)
+
+  # Coverage
+  coverage:
+    enabled: true
+    threshold: 80
+
+# Benchmarking
+benchmark:
+  # Benchmark settings
+  warmup: 1000
+  iterations: 10
+  duration: 10000  # 10 seconds
+
+  # Scenarios
+  scenarios:
+    - name: cold-start
+      script: benchmarks/cold-start.ts
+
+    - name: throughput
+      script: benchmarks/throughput.ts
+
+    - name: memory
+      script: benchmarks/memory.ts
+
+# Deployment settings
+deploy:
+  # Container settings
+  container:
+    registry: ghcr.io
+    image: elide/express
+    tag: latest
+
+  # Environment variables
+  env:
+    NODE_ENV: production
+    PORT: 3000
+
+  # Health checks
+  health:
+    port: 3000
+    path: /health
+    interval: 30s
+    timeout: 5s
+    retries: 3

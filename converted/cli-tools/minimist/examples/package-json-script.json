@@ -1,0 +1,30 @@
+{
+  "name": "my-cli-tool",
+  "version": "1.0.0",
+  "description": "Example CLI tool using minimist for argument parsing",
+  "bin": {
+    "mycli": "./cli.js"
+  },
+  "scripts": {
+    "comment": "=== Examples of CLIs that use minimist ===",
+    "build": "node build.js --minify --output=dist",
+    "build:dev": "node build.js --watch --sourcemaps",
+    "build:prod": "node build.js --minify --no-sourcemaps --target=es2020",
+
+    "test": "node test.js --reporter=spec",
+    "test:watch": "node test.js --watch --reporter=dot",
+    "test:coverage": "node test.js --coverage --reporter=json",
+
+    "serve": "node server.js --port=3000 --host=localhost",
+    "serve:ssl": "node server.js --port=443 --ssl --cert=./cert.pem --key=./key.pem",
+
+    "deploy": "node deploy.js --env=production --region=us-east-1",
+    "deploy:staging": "node deploy.js --env=staging --dry-run",
+
+    "lint": "node lint.js --fix --format=stylish",
+    "lint:check": "node lint.js --max-warnings=0"
+  },
+  "dependencies": {
+    "@elide/minimist": "^1.0.0"
+  }
+}

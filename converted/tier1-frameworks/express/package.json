@@ -1,0 +1,66 @@
+{
+  "name": "@elide/express",
+  "version": "1.0.0",
+  "description": "Express.js web framework for Elide with polyglot capabilities",
+  "main": "src/index.ts",
+  "type": "module",
+  "keywords": [
+    "express",
+    "framework",
+    "web",
+    "rest",
+    "api",
+    "elide",
+    "graalvm",
+    "polyglot",
+    "performance"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide/showcases"
+  },
+  "bugs": {
+    "url": "https://github.com/elide/showcases/issues"
+  },
+  "homepage": "https://github.com/elide/showcases/tree/main/converted/tier1-frameworks/express",
+  "engines": {
+    "node": ">=14.0.0",
+    "elide": ">=1.0.0"
+  },
+  "scripts": {
+    "test": "elide run tests/run-all.ts",
+    "test:routing": "elide run tests/routing.test.ts",
+    "test:middleware": "elide run tests/middleware.test.ts",
+    "test:errors": "elide run tests/error-handling.test.ts",
+    "test:reqres": "elide run tests/request-response.test.ts",
+    "test:integration": "elide run tests/integration.test.ts",
+    "example:basic": "elide run examples/basic-server.ts",
+    "example:rest": "elide run examples/rest-api.ts",
+    "example:middleware": "elide run examples/middleware-usage.ts",
+    "example:production": "elide run examples/production-api.ts",
+    "example:python": "elide run examples/polyglot-python-ml.ts",
+    "example:ruby": "elide run examples/polyglot-ruby-gems.ts",
+    "bench:cold": "elide run benchmarks/cold-start.ts",
+    "bench:throughput": "elide run benchmarks/throughput.ts",
+    "bench:memory": "elide run --expose-gc benchmarks/memory.ts",
+    "bench:compare": "./benchmarks/compare-node.sh",
+    "build": "elide build src/index.ts",
+    "build:native": "elide build --native src/index.ts"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  },
+  "files": [
+    "src/**/*",
+    "README.md",
+    "BENCHMARKS.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
