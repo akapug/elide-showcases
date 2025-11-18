@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+*.pyc
+__pycache__/
+.Python
+venv/
+env/
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pino-*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Vector store data
+data/vectorstore/
+data/embeddings/
+data/documents/
+*.faiss
+*.index
+
+# Temporary files
+tmp/
+temp/
+*.tmp

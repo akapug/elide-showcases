@@ -1,0 +1,38 @@
+{
+  "name": "@elide/time-series-processor",
+  "version": "1.0.0",
+  "description": "IoT time-series data processing with TypeScript ingestion + NumPy/pandas analytics",
+  "main": "api/server.ts",
+  "type": "module",
+  "scripts": {
+    "start": "tsx api/server.ts",
+    "dev": "tsx watch api/server.ts",
+    "test": "tsx tests/processor-test.ts",
+    "test:python": "python3 -m pytest tests/test_analytics.py -v",
+    "test:all": "npm test && npm run test:python",
+    "benchmark": "tsx benchmarks/ingestion-benchmark.ts",
+    "example:iot": "tsx examples/iot-sensors.ts",
+    "example:stocks": "tsx examples/stock-prices.ts"
+  },
+  "keywords": ["time-series", "iot", "pandas", "numpy", "analytics"],
+  "dependencies": {
+    "express": "^4.18.2",
+    "ws": "^8.14.2",
+    "zod": "^3.22.4",
+    "pino": "^8.16.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "@types/express": "^4.17.21",
+    "@types/ws": "^8.5.9",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "python": ">=3.9"
+  },
+  "author": "Elide Team",
+  "license": "MIT"
+}

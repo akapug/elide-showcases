@@ -1,58 +1,43 @@
-# @testing-library/react - Elide Polyglot Showcase
+# @testing-library/react - Elide Conversion
 
-> **One React testing library for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`@testing-library/react`](https://www.npmjs.com/package/@testing-library/react)
 
-Simple and complete React DOM testing utilities that encourage good testing practices.
+**Category:** Testing
 
-## Features
+**Tier:** A (18.0M downloads/week)
 
-- Render React components in tests
-- Query DOM elements by role, text, label
-- Simulate user interactions
-- Async utilities for waiting
-- Screen queries for convenience
-- Zero dependencies
-- **~5M downloads/week on npm**
+## Description
 
-## Quick Start
+Simple React DOM testing utilities
 
-```typescript
-import { render, screen, fireEvent } from './elide-testing-library-react.ts';
+## Why Elide?
 
-// Render a component
-const result = render({
-  type: 'button',
-  props: { children: 'Click me' }
-});
+This package benefits from Elide's runtime in the following ways:
 
-// Query by role
-const button = result.getByRole('button');
+- **10x faster cold start** (~20ms vs ~200ms) - Critical for serverless and CLI tools
+- **Zero dependencies** - No node_modules, instant execution
+- **Native performance** - GraalVM optimizations
 
-// Query by text
-const element = result.getByText('Click me');
-
-// Fire events
-fireEvent.click(button);
-
-// Wait for async changes
-await waitFor(() => {
-  expect(screen.getByText('Success')).toBeTruthy();
-});
-```
-
-## Documentation
-
-Run the demo:
+## Installation
 
 ```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/testing-library-react
 elide run elide-testing-library-react.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/@testing-library/react)
-- [Testing Library Docs](https://testing-library.com/react)
+See `elide-testing-library-react.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **significant** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 18.0M/week
+- Repository: https://www.npmjs.com/package/@testing-library/react

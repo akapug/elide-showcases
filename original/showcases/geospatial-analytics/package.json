@@ -1,0 +1,25 @@
+{
+  "name": "@elide/geospatial-analytics",
+  "version": "1.0.0",
+  "description": "Geospatial analytics with PostGIS + GeoPandas + TypeScript API",
+  "main": "api/server.ts",
+  "type": "module",
+  "scripts": {
+    "start": "tsx api/server.ts",
+    "test": "tsx tests/geo-test.ts",
+    "example:maps": "tsx examples/location-analysis.ts"
+  },
+  "keywords": ["geospatial", "gis", "geopandas", "postgis", "maps"],
+  "dependencies": {
+    "express": "^4.18.2",
+    "pino": "^8.16.2",
+    "@turf/turf": "^6.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  },
+  "author": "Elide Team",
+  "license": "MIT"
+}

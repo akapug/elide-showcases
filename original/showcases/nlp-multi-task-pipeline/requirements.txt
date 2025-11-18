@@ -1,0 +1,15 @@
+# NLP Libraries
+spacy>=3.7.0
+transformers>=4.35.0
+torch>=2.1.0
+
+# Tokenization
+tokenizers>=0.15.0
+
+# Utilities
+numpy>=1.24.0
+ujson>=5.9.0
+
+# For downloading models
+# Run after install:
+# python -m spacy download en_core_web_sm

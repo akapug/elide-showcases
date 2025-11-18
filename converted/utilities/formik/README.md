@@ -1,38 +1,43 @@
-# formik - Elide Polyglot Showcase
+# formik - Elide Conversion
 
-> **Form library for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`formik`](https://www.npmjs.com/package/formik)
 
-## Features
+**Category:** Forms
 
-- Form state management with validation
-- Field-level and form-level validation
-- Touched/dirty field tracking
-- Async validation support
-- **~1M+ downloads/week on npm**
+**Tier:** B (5.0M downloads/week)
 
-## Quick Start
+## Description
 
-```typescript
-import { createFormik } from './elide-formik.ts';
+Build forms in React, without tears
 
-const form = createFormik({
-  initialValues: { email: '', password: '' },
-  validate: (values) => {
-    const errors: any = {};
-    if (!values.email) errors.email = 'Required';
-    return errors;
-  },
-  onSubmit: async (values) => console.log('Submitted:', values),
-});
+## Why Elide?
 
-form.setFieldValue('email', 'test@example.com');
-form.handleSubmit();
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/formik
+elide run elide-formik.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/formik)
+See `elide-formik.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 5.0M/week
+- Repository: https://www.npmjs.com/package/formik

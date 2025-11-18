@@ -1,0 +1,71 @@
+{
+  "name": "@elide-showcases/rag-service-advanced",
+  "version": "1.0.0",
+  "description": "Production-ready RAG service combining TypeScript API + Python embeddings + vector search in ONE process (eliminating 45ms latency)",
+  "main": "src/server.ts",
+  "scripts": {
+    "start": "node src/server.ts",
+    "dev": "nodemon src/server.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:integration": "jest tests/integration",
+    "test:unit": "jest tests/unit",
+    "benchmark": "node benchmarks/latency-comparison.ts",
+    "benchmark:throughput": "node benchmarks/throughput-test.ts",
+    "example:basic": "node examples/basic-rag.ts",
+    "example:advanced": "node examples/advanced-rag.ts",
+    "example:streaming": "node examples/streaming-rag.ts",
+    "lint": "eslint . --ext .ts,.js",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\"",
+    "build": "tsc",
+    "docs": "typedoc src --out docs/api"
+  },
+  "keywords": [
+    "rag",
+    "retrieval-augmented-generation",
+    "vector-search",
+    "embeddings",
+    "sentence-transformers",
+    "chromadb",
+    "faiss",
+    "fastify",
+    "elide",
+    "polyglot",
+    "typescript",
+    "python",
+    "ai",
+    "nlp",
+    "semantic-search"
+  ],
+  "author": "Elide Showcases",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@types/node": "^20.0.0",
+    "fastify": "^4.25.0",
+    "@fastify/cors": "^8.4.0",
+    "@fastify/multipart": "^8.0.0",
+    "pino": "^8.16.0",
+    "pino-pretty": "^10.2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.50.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0",
+    "nodemon": "^3.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.2.0",
+    "typedoc": "^0.25.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases.git",
+    "directory": "showcases/rag-service-advanced"
+  }
+}

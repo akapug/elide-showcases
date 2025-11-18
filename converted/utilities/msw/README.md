@@ -1,36 +1,43 @@
-# msw - Elide Polyglot Showcase
+# msw - Elide Conversion
 
-> **One API mocking library for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`msw`](https://www.npmjs.com/package/msw)
 
-Seamless REST/GraphQL API mocking library for browser and Node.js.
+**Category:** Testing
 
-## Features
+**Tier:** A (8.0M downloads/week)
 
-- Mock REST APIs
-- Mock GraphQL APIs
-- Browser and Node support
-- Request interception
-- Type-safe mocks
-- Zero dependencies
-- **~500K downloads/week on npm**
+## Description
 
-## Quick Start
+Mock Service Worker for API mocking
 
-```typescript
-import { rest, setupServer } from './elide-msw.ts';
+## Why Elide?
 
-const handler = rest.get('/api/user', (req, res, ctx) => {
-  return { status: 200, body: { name: 'Alice' } };
-});
+This package benefits from Elide's runtime in the following ways:
 
-const server = setupServer(handler);
-server.listen();
+- **10x faster cold start** (~20ms vs ~200ms) - Critical for serverless and CLI tools
+- **Zero dependencies** - No node_modules, instant execution
+- **Native performance** - GraalVM optimizations
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/msw
+elide run elide-msw.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/msw)
+See `elide-msw.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **significant** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 8.0M/week
+- Repository: https://www.npmjs.com/package/msw

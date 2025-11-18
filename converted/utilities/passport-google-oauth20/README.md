@@ -1,11 +1,43 @@
-# passport-google-oauth20 - Elide Polyglot Showcase
+# passport-google-oauth20 - Elide Conversion
 
-> **One passport-google-oauth20 implementation for ALL languages**
+**Original package:** [`passport-google-oauth20`](https://www.npmjs.com/package/passport-google-oauth20)
 
-Google OAuth2.0 authentication strategy.
+**Category:** Authentication
 
-**npm downloads**: 2M+/week | **Polyglot score**: 50/50
+**Tier:** B (0.5M downloads/week)
 
----
+## Description
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Google OAuth 2.0 authentication
+
+## Why Elide?
+
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/passport-google-oauth20
+elide run elide-passport-google-oauth20.ts
+```
+
+## Usage
+
+See `elide-passport-google-oauth20.ts` for implementation examples.
+
+## Performance
+
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 0.5M/week
+- Repository: https://www.npmjs.com/package/passport-google-oauth20

@@ -1,24 +1,43 @@
-# kysely - Elide Polyglot Showcase
+# kysely - Elide Conversion
 
-> **Type-safe SQL Query Builder for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`kysely`](https://www.npmjs.com/package/kysely)
 
-## Features
+**Category:** Database
 
-- Type-safe SQL Query Builder
-- **~2M+ downloads/week on npm**
+**Tier:** B (0.5M downloads/week)
 
-## Quick Start
+## Description
 
-```typescript
-import db from './elide-kysely.ts';
+Type-safe SQL query builder for TypeScript
 
-// See elide-kysely.ts for full examples
+## Why Elide?
+
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/kysely
+elide run elide-kysely.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/kysely)
+See `elide-kysely.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 0.5M/week
+- Repository: https://www.npmjs.com/package/kysely

@@ -1,20 +1,43 @@
-# svelte - Elide Polyglot Showcase
+# svelte - Elide Conversion
 
-> Cybernetically Enhanced Web Apps
+**Original package:** [`svelte`](https://www.npmjs.com/package/svelte)
 
-## ✨ Features
+**Category:** Frameworks
 
-- ✅ Compile-time framework
-- ✅ Reactive declarations
-- ✅ Stores for state
-- ✅ No virtual DOM
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
+**Tier:** B (3.0M downloads/week)
 
-## 📝 Package Stats
+## Description
 
-- **npm downloads**: 5M+/week
-- **Polyglot score**: 48/50 (S-Tier)
+Cybernetically enhanced web apps
 
----
+## Why Elide?
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/svelte
+elide run elide-svelte.ts
+```
+
+## Usage
+
+See `elide-svelte.ts` for implementation examples.
+
+## Performance
+
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 3.0M/week
+- Repository: https://www.npmjs.com/package/svelte

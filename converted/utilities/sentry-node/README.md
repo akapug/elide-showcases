@@ -1,34 +1,43 @@
-# @sentry/node - Elide Polyglot Showcase
+# @sentry/node - Elide Conversion
 
-> **Error tracking for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`@sentry/node`](https://www.npmjs.com/package/@sentry/node)
 
-## Features
+**Category:** Observability
 
-- Automatic error capture
-- Performance monitoring
-- Breadcrumbs for debugging
-- Custom tags and context
-- **~1M downloads/week on npm**
+**Tier:** B (5.0M downloads/week)
 
-## Quick Start
+## Description
 
-```typescript
-import Sentry from './elide-sentry-node.ts';
+Sentry SDK for Node.js
 
-Sentry.init({
-  dsn: 'https://key@sentry.io/project',
-  environment: 'production',
-  release: 'my-app@1.0.0',
-});
+## Why Elide?
 
-Sentry.captureException(new Error('Something broke'));
-Sentry.captureMessage('User logged in', 'info');
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/sentry-node
+elide run elide-sentry-node.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/@sentry/node)
+See `elide-sentry-node.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 5.0M/week
+- Repository: https://www.npmjs.com/package/@sentry/node

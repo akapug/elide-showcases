@@ -1,0 +1,26 @@
+{
+  "name": "@elide/log-analytics-platform",
+  "version": "1.0.0",
+  "description": "Real-time log processing and pattern detection with TypeScript + Python ML",
+  "main": "api/server.ts",
+  "type": "module",
+  "scripts": {
+    "start": "tsx api/server.ts",
+    "test": "tsx tests/analytics-test.ts",
+    "benchmark": "tsx benchmarks/throughput-benchmark.ts",
+    "example:nginx": "tsx examples/nginx-logs.ts"
+  },
+  "keywords": ["logs", "analytics", "pattern-detection", "real-time", "ml"],
+  "dependencies": {
+    "express": "^4.18.2",
+    "ws": "^8.14.2",
+    "pino": "^8.16.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  },
+  "author": "Elide Team",
+  "license": "MIT"
+}

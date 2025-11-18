@@ -1,24 +1,43 @@
-# LangChain - LLM Framework - Elide Polyglot Showcase
+# langchain - Elide Conversion
 
-> **LLM orchestration for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`langchain`](https://www.npmjs.com/package/langchain)
 
-## Features
+**Category:** AI/ML
 
-- Chains, agents, memory
-- **~500K+ downloads/week on npm**
+**Tier:** B (2.0M downloads/week)
 
-## Quick Start
+## Description
 
-```typescript
-import { process } from './elide-langchain.ts';
+Building applications with LLMs through composability
 
-const result = process(data);
+## Why Elide?
+
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/langchain
+elide run elide-langchain.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/langchain)
+See `elide-langchain.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 2.0M/week
+- Repository: https://www.npmjs.com/package/langchain

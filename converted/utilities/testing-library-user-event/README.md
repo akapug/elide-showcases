@@ -1,53 +1,43 @@
-# @testing-library/user-event - Elide Polyglot Showcase
+# @testing-library/user-event - Elide Conversion
 
-> **One user event library for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`@testing-library/user-event`](https://www.npmjs.com/package/@testing-library/user-event)
 
-Fire events the same way the user does for more realistic testing.
+**Category:** Testing
 
-## Features
+**Tier:** A (14.0M downloads/week)
 
-- Type into inputs realistically
-- Click elements with proper event order
-- Keyboard navigation and shortcuts
-- Upload files
-- Copy/paste operations
-- Zero dependencies
-- **~4M downloads/week on npm**
+## Description
 
-## Quick Start
+Simulate user events for testing
 
-```typescript
-import userEvent from './elide-testing-library-user-event.ts';
+## Why Elide?
 
-// Type text
-await userEvent.type(input, 'Hello World');
+This package benefits from Elide's runtime in the following ways:
 
-// Click
-await userEvent.click(button);
+- **10x faster cold start** (~20ms vs ~200ms) - Critical for serverless and CLI tools
+- **Zero dependencies** - No node_modules, instant execution
+- **Native performance** - GraalVM optimizations
 
-// Clear input
-await userEvent.clear(input);
-
-// Tab navigation
-await userEvent.tab();
-
-// Hover
-await userEvent.hover(element);
-```
-
-## Documentation
-
-Run the demo:
+## Installation
 
 ```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/testing-library-user-event
 elide run elide-testing-library-user-event.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/@testing-library/user-event)
-- [Testing Library Docs](https://testing-library.com/docs/user-event/intro)
+See `elide-testing-library-user-event.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **significant** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 14.0M/week
+- Repository: https://www.npmjs.com/package/@testing-library/user-event

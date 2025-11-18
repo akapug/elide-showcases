@@ -1,0 +1,55 @@
+{
+  "name": "multiplayer-game-server-ai",
+  "version": "1.0.0",
+  "description": "60 FPS multiplayer game server with sub-millisecond Python AI bots",
+  "main": "game/server.ts",
+  "type": "module",
+  "scripts": {
+    "start": "elide run game/server.ts",
+    "dev": "elide run --watch game/server.ts",
+    "build": "tsc",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "npm test -- --watch",
+    "test:coverage": "npm test -- --coverage",
+    "benchmark": "elide run benchmarks/run_all.ts",
+    "benchmark:fps": "elide run benchmarks/fps_benchmark.ts",
+    "benchmark:ai": "elide run benchmarks/ai_latency.ts",
+    "benchmark:stress": "elide run benchmarks/stress_test.ts",
+    "benchmark:memory": "elide run benchmarks/memory_profile.ts",
+    "benchmark:report": "elide run benchmarks/run_all.ts --report",
+    "train:rl": "ENABLE_RL_TRAINING=true elide run game/server.ts",
+    "lint": "eslint game/ ai/ bridge/ benchmarks/ tests/",
+    "format": "prettier --write '**/*.{ts,js,py,md}'"
+  },
+  "keywords": [
+    "elide",
+    "polyglot",
+    "game-server",
+    "websocket",
+    "ai",
+    "reinforcement-learning",
+    "multiplayer",
+    "real-time",
+    "typescript",
+    "python",
+    "60fps"
+  ],
+  "author": "Elide Showcases",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/ws": "^8.5.9",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.55.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

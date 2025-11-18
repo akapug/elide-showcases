@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+
+# Development
+.env
+.env.local
+.vscode/
+.idea/
+
+# Build outputs
+dist/
+*.log
+
+# Tests
+tests/
+
+# Documentation
+*.md
+!README.md
+
+# Git
+.git/
+.gitignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Feature store data
+features/cache/
+features/snapshots/
+features/monitoring/

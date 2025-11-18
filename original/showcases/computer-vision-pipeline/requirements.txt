@@ -1,0 +1,23 @@
+# Computer Vision Libraries
+opencv-python==4.8.1.78
+opencv-contrib-python==4.8.1.78
+Pillow==10.1.0
+
+# Numerical Processing
+numpy==1.24.3
+
+# Optional: Advanced CV Features
+# scikit-image==0.22.0
+# mediapipe==0.10.8
+# dlib==19.24.2
+
+# Optional: OCR
+# pytesseract==0.3.10
+
+# Optional: Deep Learning (for advanced object detection)
+# torch==2.1.0
+# torchvision==0.16.0
+# ultralytics==8.0.200
+
+# Utilities
+tqdm==4.66.1

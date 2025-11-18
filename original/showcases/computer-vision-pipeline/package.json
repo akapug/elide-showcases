@@ -1,0 +1,53 @@
+{
+  "name": "@elide-showcases/computer-vision-pipeline",
+  "version": "1.0.0",
+  "description": "Zero-copy computer vision pipeline with TypeScript, Python OpenCV, and Pillow in one process",
+  "main": "api/server.ts",
+  "scripts": {
+    "start": "node -r ts-node/register api/server.ts",
+    "dev": "NODE_ENV=development node -r ts-node/register api/server.ts",
+    "test": "node -r ts-node/register tests/cv-test.ts",
+    "test:all": "node -r ts-node/register tests/cv-test.ts && node -r ts-node/register tests/buffer-test.ts",
+    "benchmark": "node -r ts-node/register benchmarks/zero-copy-benchmark.ts",
+    "benchmark:memory": "node -r ts-node/register benchmarks/memory-comparison.ts",
+    "benchmark:video": "node -r ts-node/register benchmarks/video-benchmark.ts",
+    "example:image": "node -r ts-node/register examples/image-processing.ts",
+    "example:video": "node -r ts-node/register examples/video-processing.ts",
+    "example:filters": "node -r ts-node/register examples/filter-pipeline.ts",
+    "lint": "eslint api/*.ts tests/*.ts examples/*.ts benchmarks/*.ts shared/*.ts",
+    "format": "prettier --write \"**/*.{ts,js,json,md,py}\""
+  },
+  "keywords": [
+    "computer-vision",
+    "opencv",
+    "pillow",
+    "image-processing",
+    "video-processing",
+    "zero-copy",
+    "shared-memory",
+    "polyglot",
+    "typescript",
+    "python",
+    "face-detection",
+    "object-tracking",
+    "real-time"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "nanoid": "^3.3.7",
+    "sharp": "^0.33.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0",
+    "python": ">=3.8.0"
+  }
+}

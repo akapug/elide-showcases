@@ -1,21 +1,43 @@
-# framer-motion - Elide Polyglot Showcase
+# framer-motion - Elide Conversion
 
-> Production-ready motion library for React
+**Original package:** [`framer-motion`](https://www.npmjs.com/package/framer-motion)
 
-## ✨ Features
+**Category:** Animation
 
-- ✅ Declarative animations
-- ✅ Gestures
-- ✅ Layout animations
-- ✅ Shared layout
-- ✅ SVG animations
-- ✅ **Polyglot**: Use from TypeScript, Python, Ruby, and Java
+**Tier:** B (8.0M downloads/week)
 
-## 📝 Package Stats
+## Description
 
-- **npm downloads**: 8M+/week
-- **Polyglot score**: 48/50 (S-Tier)
+Production-ready motion library for React
 
----
+## Why Elide?
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+This package benefits from Elide's runtime in the following ways:
+
+- **Fast execution** - GraalVM JIT optimizations
+- **Zero dependencies** - Instant startup
+- **TypeScript native** - No build step required
+
+## Installation
+
+```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/framer-motion
+elide run elide-framer-motion.ts
+```
+
+## Usage
+
+See `elide-framer-motion.ts` for implementation examples.
+
+## Performance
+
+Expected **moderate** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 8.0M/week
+- Repository: https://www.npmjs.com/package/framer-motion

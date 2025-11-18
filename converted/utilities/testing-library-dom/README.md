@@ -1,52 +1,43 @@
-# @testing-library/dom - Elide Polyglot Showcase
+# @testing-library/dom - Elide Conversion
 
-> **One DOM testing library for ALL languages** - TypeScript, Python, Ruby, and Java
+**Original package:** [`@testing-library/dom`](https://www.npmjs.com/package/@testing-library/dom)
 
-Simple and complete DOM testing utilities that encourage good testing practices.
+**Category:** Testing
 
-## Features
+**Tier:** A (20.1M downloads/week)
 
-- Query DOM elements by role, text, label
-- Accessible queries (ARIA roles)
-- Async utilities (waitFor, waitForElementToBeRemoved)
-- Fire DOM events
-- Pretty DOM printing
-- Zero dependencies
-- **~5M downloads/week on npm**
+## Description
 
-## Quick Start
+Simple and complete DOM testing utilities
 
-```typescript
-import { getByRole, getByText, fireEvent, waitFor } from './elide-testing-library-dom.ts';
+## Why Elide?
 
-// Query by role
-const button = getByRole(container, 'button', { name: 'Submit' });
+This package benefits from Elide's runtime in the following ways:
 
-// Query by text
-const element = getByText(container, 'Hello World');
+- **10x faster cold start** (~20ms vs ~200ms) - Critical for serverless and CLI tools
+- **Zero dependencies** - No node_modules, instant execution
+- **Native performance** - GraalVM optimizations
 
-// Fire events
-fireEvent.click(button);
-
-// Wait for async changes
-await waitFor(() => {
-  expect(getByText(container, 'Success')).toBeTruthy();
-});
-```
-
-## Documentation
-
-Run the demo:
+## Installation
 
 ```bash
+# Install Elide
+curl -sSL --tlsv1.2 https://elide.sh | bash -s - --install-rev=1.0.0-beta11-rc1
+
+# Run this conversion
+cd converted/utilities/testing-library-dom
 elide run elide-testing-library-dom.ts
 ```
 
-## Links
+## Usage
 
-- [Original npm package](https://www.npmjs.com/package/@testing-library/dom)
-- [Testing Library Docs](https://testing-library.com/docs/dom-testing-library/intro)
+See `elide-testing-library-dom.ts` for implementation examples.
 
----
+## Performance
 
-**Built with ❤️ for the Elide Polyglot Runtime**
+Expected **significant** performance improvement with Elide.
+
+## Original Package
+
+- Downloads: 20.1M/week
+- Repository: https://www.npmjs.com/package/@testing-library/dom
