@@ -1,0 +1,23 @@
+[package]
+name = "wasm-polyglot-bridge"
+version = "1.0.0"
+authors = ["Elide Showcases"]
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[features]
+default = ["console_error_panic_hook"]
+console_error_panic_hook = []

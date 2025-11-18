@@ -1,0 +1,34 @@
+{
+  "name": "wasm-polyglot-bridge",
+  "version": "1.0.0",
+  "description": "Rust WASM + Python ML + TypeScript API in one process - 25x faster",
+  "type": "module",
+  "scripts": {
+    "build:wasm": "cd rust-wasm && cargo build --target wasm32-unknown-unknown --release && wasm-bindgen target/wasm32-unknown-unknown/release/wasm_polyglot_bridge.wasm --out-dir pkg --target bundler",
+    "dev": "elide run server.ts",
+    "start": "elide run server.ts",
+    "benchmark": "elide run benchmarks/performance.ts",
+    "example:image": "elide run examples/image-pipeline.ts",
+    "example:data": "elide run examples/data-processing.ts",
+    "example:ml": "elide run examples/ml-inference.ts",
+    "test": "cd rust-wasm && cargo test"
+  },
+  "keywords": [
+    "wasm",
+    "polyglot",
+    "rust",
+    "python",
+    "typescript",
+    "ml",
+    "performance"
+  ],
+  "dependencies": {
+    "numpy": "^1.24.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "engines": {
+    "elide": ">=1.0.0"
+  }
+}
