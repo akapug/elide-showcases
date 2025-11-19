@@ -17,13 +17,13 @@ This showcase implements a production-ready social media platform with advanced 
 
 ## Performance Characteristics
 
-- **Throughput**: 10,000+ posts/second
+- **Throughput**: 10,000+ posts/second (theoretical maximum with optimized configuration)
 - **Latency**:
   - Post creation: <50ms p99
   - Feed generation: <100ms p99
   - Search queries: <75ms p99
   - Image processing: <200ms p99
-- **Scalability**: Handles 10M+ concurrent users
+- **Scalability**: Handles 10M+ concurrent users (with horizontal scaling)
 - **Memory**: ~2GB baseline, scales linearly with concurrent requests
 
 ## Architecture
@@ -65,6 +65,7 @@ This showcase implements a production-ready social media platform with advanced 
 
 ```typescript
 // Natural Language Processing
+// @ts-ignore
 import transformers from 'python:transformers';
 // - BERT for semantic understanding
 // - GPT-2 for text generation
@@ -72,6 +73,7 @@ import transformers from 'python:transformers';
 // - Toxicity classifiers for content moderation
 
 // Computer Vision
+// @ts-ignore
 import cv2 from 'python:cv2';
 // - Image resizing and thumbnails
 // - Face detection
@@ -79,6 +81,7 @@ import cv2 from 'python:cv2';
 // - Image filtering and effects
 
 // Machine Learning
+// @ts-ignore
 import sklearn from 'python:sklearn';
 // - Collaborative filtering
 // - Content-based recommendations
@@ -86,7 +89,9 @@ import sklearn from 'python:sklearn';
 // - Dimensionality reduction
 
 // Data Processing
+// @ts-ignore
 import numpy from 'python:numpy';
+// @ts-ignore
 import pandas from 'python:pandas';
 // - Fast numerical computations
 // - Analytics and aggregations
@@ -94,6 +99,7 @@ import pandas from 'python:pandas';
 // - Statistical modeling
 
 // Image Manipulation
+// @ts-ignore
 import PIL from 'python:PIL';
 // - Advanced image operations
 // - Format conversions
@@ -109,8 +115,12 @@ import PIL from 'python:PIL';
 Processes user-generated content with advanced NLP and image processing:
 
 ```typescript
+// @ts-ignore
 import transformers from 'python:transformers';
+// @ts-ignore
 import cv2 from 'python:cv2';
+// @ts-ignore
+import numpy from 'python:numpy';
 
 class PostProcessor {
   // Extract entities, hashtags, mentions
@@ -131,7 +141,7 @@ class PostProcessor {
 
   // Process uploaded images
   async processImage(imageBuffer: Buffer): Promise<ProcessedImage> {
-    const npArray = numpy.frombuffer(imageBuffer, dtype=numpy.uint8);
+    const npArray = numpy.frombuffer(imageBuffer, {dtype: numpy.uint8});
     const image = cv2.imdecode(npArray, cv2.IMREAD_COLOR);
 
     // Extract image features
@@ -168,7 +178,9 @@ class PostProcessor {
 AI-powered content moderation for safe community experience:
 
 ```typescript
+// @ts-ignore
 import transformers from 'python:transformers';
+// @ts-ignore
 import cv2 from 'python:cv2';
 
 class ContentModerator {
@@ -176,7 +188,7 @@ class ContentModerator {
   async moderateText(text: string): Promise<ModerationResult> {
     const toxicityClassifier = transformers.pipeline(
       'text-classification',
-      model='unitary/toxic-bert'
+      {model: 'unitary/toxic-bert'}
     );
 
     const results = toxicityClassifier(text);
@@ -235,8 +247,11 @@ class ContentModerator {
 ML-powered content recommendations using collaborative and content-based filtering:
 
 ```typescript
+// @ts-ignore
 import sklearn from 'python:sklearn';
+// @ts-ignore
 import numpy from 'python:numpy';
+// @ts-ignore
 import transformers from 'python:transformers';
 
 class RecommendationEngine {
@@ -249,7 +264,7 @@ class RecommendationEngine {
     const interactions = await this.buildInteractionMatrix();
 
     // Matrix factorization using SVD
-    const svd = sklearn.decomposition.TruncatedSVD(n_components=100);
+    const svd = new sklearn.decomposition.TruncatedSVD({n_components: 100});
     const userFactors = svd.fit_transform(interactions);
     const itemFactors = svd.components_.T;
 
@@ -328,7 +343,9 @@ class RecommendationEngine {
 Personalized feed generation with ranking algorithms:
 
 ```typescript
+// @ts-ignore
 import sklearn from 'python:sklearn';
+// @ts-ignore
 import numpy from 'python:numpy';
 
 class FeedGenerator {
@@ -414,8 +431,11 @@ class FeedGenerator {
 Full-text and semantic search with transformer-based embeddings:
 
 ```typescript
+// @ts-ignore
 import transformers from 'python:transformers';
+// @ts-ignore
 import sklearn from 'python:sklearn';
+// @ts-ignore
 import numpy from 'python:numpy';
 
 class SearchEngine {
@@ -519,8 +539,11 @@ class SearchEngine {
 Real-time engagement analytics with numpy and pandas:
 
 ```typescript
+// @ts-ignore
 import numpy from 'python:numpy';
+// @ts-ignore
 import pandas from 'python:pandas';
+// @ts-ignore
 import sklearn from 'python:sklearn';
 
 class EngagementAnalyzer {
@@ -572,7 +595,7 @@ class EngagementAnalyzer {
     ) / df['age'];
 
     // Sort by trend score
-    const trending = df.sort_values('trendScore', ascending=False);
+    const trending = df.sort_values('trendScore', {ascending: false});
 
     // Statistical outlier detection
     const outliers = this.detectOutliers(trending, 'trendScore');
@@ -595,7 +618,7 @@ class EngagementAnalyzer {
 
     // Clustering for user segmentation
     const features = this.extractUserFeatures(df);
-    const kmeans = sklearn.cluster.KMeans(n_clusters=5);
+    const kmeans = new sklearn.cluster.KMeans({n_clusters: 5});
     const segment = kmeans.fit_predict([features])[0];
 
     return {
@@ -642,8 +665,11 @@ class EngagementAnalyzer {
 Image upload processing with cv2 and PIL:
 
 ```typescript
+// @ts-ignore
 import cv2 from 'python:cv2';
+// @ts-ignore
 import PIL from 'python:PIL';
+// @ts-ignore
 import numpy from 'python:numpy';
 
 class ImageProcessor {
@@ -724,7 +750,9 @@ class ImageProcessor {
 Video upload processing with cv2:
 
 ```typescript
+// @ts-ignore
 import cv2 from 'python:cv2';
+// @ts-ignore
 import numpy from 'python:numpy';
 
 class VideoProcessor {
@@ -816,7 +844,9 @@ class VideoProcessor {
 Social graph management and friend recommendations:
 
 ```typescript
+// @ts-ignore
 import sklearn from 'python:sklearn';
+// @ts-ignore
 import numpy from 'python:numpy';
 
 class SocialGraph {
@@ -871,7 +901,7 @@ class SocialGraph {
       clustering: this.calculateClustering(graph, userId),
 
       // Reach
-      reach: this.calculateReach(graph, userId, depth=2),
+      reach: this.calculateReach(graph, userId, {depth: 2}),
 
       // Engagement influence
       engagementInfluence: await this.calculateEngagementInfluence(userId)
@@ -883,16 +913,16 @@ class SocialGraph {
   // Community detection
   async detectCommunities(userId: string): Promise<Community[]> {
     // Load extended graph
-    const graph = await this.getExtendedGraph(userId, depth=2);
+    const graph = await this.getExtendedGraph(userId, {depth: 2});
 
     // Build adjacency matrix
     const adjacency = this.buildAdjacencyMatrix(graph);
 
     // Spectral clustering
-    const clustering = sklearn.cluster.SpectralClustering(
-      n_clusters=10,
-      affinity='precomputed'
-    );
+    const clustering = new sklearn.cluster.SpectralClustering({
+      n_clusters: 10,
+      affinity: 'precomputed'
+    });
     const labels = clustering.fit_predict(adjacency);
 
     // Group users by community
@@ -938,7 +968,9 @@ class SocialGraph {
 Smart notifications with personalized timing:
 
 ```typescript
+// @ts-ignore
 import transformers from 'python:transformers';
+// @ts-ignore
 import sklearn from 'python:sklearn';
 
 class NotificationEngine {
@@ -1357,6 +1389,7 @@ Elide enables seamless Python-TypeScript integration:
 
 ```typescript
 // TypeScript calls Python naturally
+// @ts-ignore
 import transformers from 'python:transformers';
 
 const model = transformers.AutoModel.from_pretrained('bert-base-uncased');
@@ -1401,11 +1434,13 @@ Response
 Train custom models for your use case:
 
 ```typescript
+// @ts-ignore
 import sklearn from 'python:sklearn';
+// @ts-ignore
 import numpy from 'python:numpy';
 
 // Train custom engagement predictor
-const model = sklearn.ensemble.GradientBoostingClassifier();
+const model = new sklearn.ensemble.GradientBoostingClassifier();
 const X = numpy.array(trainingFeatures);
 const y = numpy.array(trainingLabels);
 
@@ -1516,9 +1551,7 @@ MIT License - see LICENSE file for details
 
 ## Support
 
-- Documentation: https://docs.example.com
-- Issues: https://github.com/example/social-platform/issues
-- Discord: https://discord.gg/example
+For questions and support, please refer to the main Elide documentation and community resources.
 
 ---
 

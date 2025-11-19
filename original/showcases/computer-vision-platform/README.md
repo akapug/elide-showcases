@@ -113,79 +113,92 @@ npm start
 ### Object Detection with YOLO
 
 ```typescript
-import { ObjectDetector } from './src/detection/yolo';
+import { YOLODetector } from './src/detection/yolo';
 
-const detector = new ObjectDetector({
-  model: 'yolov8n', // nano model for speed
-  confidence: 0.5,
-  iou: 0.45,
+const detector = new YOLODetector({
+  modelPath: 'yolov5s',
+  confidenceThreshold: 0.5,
+  nmsThreshold: 0.45,
 });
 
-// Load and detect
-const image = await detector.loadImage('street.jpg');
-const detections = await detector.detect(image);
+// Detect objects
+const result = await detector.detect('street.jpg');
 
-console.log(`Found ${detections.length} objects:`);
-for (const det of detections) {
+console.log(`Found ${result.detections.length} objects:`);
+for (const det of result.detections) {
   console.log(`  ${det.class}: ${(det.confidence * 100).toFixed(1)}%`);
-  console.log(`  Box: [${det.box.x}, ${det.box.y}, ${det.box.width}, ${det.box.height}]`);
+  console.log(`  Box: [${det.bbox.x}, ${det.bbox.y}, ${det.bbox.width}, ${det.bbox.height}]`);
 }
 
-// Draw boxes
-const annotated = detector.drawDetections(image, detections);
-await detector.saveImage(annotated, 'output.jpg');
+// Draw boxes and save
+detector.drawDetections('street.jpg', result.detections, 'output.jpg');
 ```
 
-### Face Recognition
+### Face Detection and Recognition
 
 ```typescript
-import { FaceRecognition } from './src/recognition/face';
+import { FaceDetector, FaceDatabase } from './src/index';
 
-const recognizer = new FaceRecognition();
+const detector = new FaceDetector({
+  model: 'hog',
+  enableLandmarks: true,
+  enableEncoding: true,
+});
 
-// Enroll faces
-await recognizer.enrollFace('alice.jpg', 'Alice');
-await recognizer.enrollFace('bob.jpg', 'Bob');
-
-// Recognize in new image
-const image = await recognizer.loadImage('group.jpg');
-const faces = await recognizer.recognizeFaces(image);
+// Detect faces in image
+const faces = detector.detect('group.jpg', {
+  includeConfidence: true,
+  includeLandmarks: true,
+  includeEncoding: true,
+});
 
 for (const face of faces) {
-  console.log(`Found: ${face.name} (${(face.confidence * 100).toFixed(1)}%)`);
-  console.log(`  Location: (${face.box.x}, ${face.box.y})`);
-  console.log(`  Age: ~${face.age} years`);
-  console.log(`  Gender: ${face.gender}`);
-  console.log(`  Emotion: ${face.emotion}`);
+  console.log(`Found face at (${face.box.left}, ${face.box.top})`);
+  console.log(`  Confidence: ${(face.confidence * 100).toFixed(1)}%`);
+  if (face.landmarks) {
+    console.log(`  Landmarks: ${face.landmarks.chin.length} points`);
+  }
+}
+
+// Use FaceDatabase for recognition
+const database = new FaceDatabase();
+await database.addFace('alice.jpg', 'Alice', { label: 'employee' });
+await database.addFace('bob.jpg', 'Bob', { label: 'employee' });
+
+const results = database.recognizeFaces('group.jpg', { maxDistance: 0.6 });
+for (const result of results) {
+  console.log(`Recognized: ${result.name} (distance: ${result.distance.toFixed(3)})`);
 }
 ```
 
 ### Real-Time Video Processing
 
 ```typescript
-import { VideoProcessor } from './src/video/processor';
-import { ObjectDetector } from './src/detection/yolo';
+import { VideoProcessor, YOLODetector } from './src/index';
 
 const processor = new VideoProcessor();
-const detector = new ObjectDetector();
+const detector = new YOLODetector({
+  modelPath: 'yolov5s',
+  confidenceThreshold: 0.5,
+});
 
 // Process video file
 await processor.processVideo('input.mp4', async (frame, frameNum) => {
   // Detect objects in each frame
-  const detections = await detector.detect(frame);
+  const result = await detector.detect(frame);
 
   // Draw detections
-  const annotated = detector.drawDetections(frame, detections);
+  const annotated = detector.drawDetections(frame, result.detections);
 
   // Log progress
   if (frameNum % 30 === 0) {
-    console.log(`Frame ${frameNum}: ${detections.length} objects`);
+    console.log(`Frame ${frameNum}: ${result.detections.length} objects`);
   }
 
-  return annotated;
+  return annotated.data;
 }, {
   outputPath: 'output.mp4',
-  fps: 30,
+  outputFps: 30,
 });
 
 console.log('Video processing complete!');
@@ -194,58 +207,63 @@ console.log('Video processing complete!');
 ### Real-Time Webcam Detection
 
 ```typescript
-import { WebcamProcessor } from './src/video/webcam';
-import { ObjectDetector } from './src/detection/yolo';
+import { VideoProcessor, YOLODetector } from './src/index';
 
-const webcam = new WebcamProcessor();
-const detector = new ObjectDetector();
+const processor = new VideoProcessor();
+const detector = new YOLODetector({
+  modelPath: 'yolov5s',
+  confidenceThreshold: 0.5,
+});
 
-// Start real-time detection
-await webcam.start(async (frame) => {
-  // Detect objects at 30 FPS
-  const detections = await detector.detect(frame);
+// Start real-time webcam detection
+await processor.processWebcam(0, async (frame, frameNum) => {
+  // Detect objects in real-time
+  const result = await detector.detect(frame);
 
   // Draw and display
-  const annotated = detector.drawDetections(frame, detections);
-  return annotated;
+  const annotated = detector.drawDetections(frame, result.detections);
+  return annotated.data;
 }, {
-  fps: 30,
-  display: true,
+  frameSkip: 1,
+  enableDisplay: true,
+  displayWindowName: 'Real-Time Detection',
 });
 ```
 
 ### Image Segmentation
 
 ```typescript
-import { Segmentation } from './src/segmentation/semantic';
+import { SemanticSegmentor } from './src/segmentation/semantic-segmentation';
 
-const segmenter = new Segmentation({
-  model: 'deeplabv3_resnet101',
+const segmenter = new SemanticSegmentor({
+  inputSize: [512, 512],
+  device: 'auto',
 });
 
 // Segment image
-const image = await segmenter.loadImage('scene.jpg');
-const mask = await segmenter.segment(image);
+const result = await segmenter.segment('scene.jpg');
 
-console.log(`Segmented into ${mask.numClasses} classes`);
+console.log(`Segmented into ${result.mask.numClasses} classes`);
 
-// Get specific class
-const people = segmenter.extractClass(mask, 'person');
-const cars = segmenter.extractClass(mask, 'car');
+// Extract specific class masks
+const peopleMask = segmenter.extractClassMask(result, 'person');
+const carsMask = segmenter.extractClassMask(result, 'car');
 
-// Remove background
-const foreground = segmenter.removeBackground(image, mask);
-await segmenter.saveImage(foreground, 'no_background.png');
+// Apply mask to extract foreground
+const multiClassMask = segmenter.getMultiClassMask(result, ['person', 'car']);
+const foreground = segmenter.applyMask('scene.jpg', multiClassMask);
+
+// Visualize with color overlay
+segmenter.visualize('scene.jpg', result, 0.6, 'segmented_output.jpg');
 ```
 
 ## Example: Complete CV Pipeline
 
 ```typescript
 import {
-  ImageProcessor,
-  ObjectDetector,
-  FaceRecognition,
-  Segmentation,
+  YOLODetector,
+  FaceDetector,
+  SemanticSegmentor,
   VideoProcessor,
 } from './src/index';
 
@@ -259,9 +277,17 @@ async function comprehensiveCVPipeline(inputVideo: string) {
 
   // 1. Initialize components
   const videoProc = new VideoProcessor();
-  const detector = new ObjectDetector({ model: 'yolov8n' });
-  const faceRec = new FaceRecognition();
-  const segmenter = new Segmentation();
+  const detector = new YOLODetector({
+    modelPath: 'yolov5s',
+    confidenceThreshold: 0.5,
+  });
+  const faceDetector = new FaceDetector({
+    model: 'hog',
+    enableLandmarks: false,
+  });
+  const segmenter = new SemanticSegmentor({
+    inputSize: [512, 512],
+  });
 
   console.log('Initialized all CV models\n');
 
@@ -277,10 +303,10 @@ async function comprehensiveCVPipeline(inputVideo: string) {
     frameCount++;
 
     // Object detection
-    const objects = await detector.detect(frame);
-    stats.totalObjects += objects.length;
+    const objResult = await detector.detect(frame);
+    stats.totalObjects += objResult.detections.length;
 
-    for (const obj of objects) {
+    for (const obj of objResult.detections) {
       stats.objectCounts.set(
         obj.class,
         (stats.objectCounts.get(obj.class) || 0) + 1
@@ -288,23 +314,33 @@ async function comprehensiveCVPipeline(inputVideo: string) {
     }
 
     // Face detection
-    const faces = await faceRec.detectFaces(frame);
+    const faces = faceDetector.detect(frame, { includeConfidence: true });
     stats.totalFaces += faces.length;
 
     // Draw all detections
-    let annotated = detector.drawDetections(frame, objects);
-    annotated = faceRec.drawFaces(annotated, faces);
+    let annotated = detector.drawDetections(frame, objResult.detections).data;
+
+    // Draw faces
+    for (const face of faces) {
+      cv2.rectangle(
+        annotated,
+        [face.box.left, face.box.top],
+        [face.box.right, face.box.bottom],
+        [255, 0, 0],
+        2
+      );
+    }
 
     // Progress every second
     if (frameNum % 30 === 0) {
       console.log(`Processed ${frameNum} frames...`);
-      console.log(`  Current frame: ${objects.length} objects, ${faces.length} faces`);
+      console.log(`  Current frame: ${objResult.detections.length} objects, ${faces.length} faces`);
     }
 
     return annotated;
   }, {
     outputPath: 'analyzed.mp4',
-    fps: 30,
+    outputFps: 30,
   });
 
   // 3. Generate report
@@ -394,7 +430,7 @@ const faces = detector(image, 1);
 import torchvision from 'python:torchvision';
 
 // Pre-trained models
-const model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained: true);
+const model = torchvision.models.detection.fasterrcnn_resnet50_fpn({ pretrained: true });
 ```
 
 ## Supported Use Cases
@@ -529,14 +565,23 @@ npm run benchmark
 
 ## Examples
 
-See `examples/` directory:
+See `examples/` directory for complete working demos:
 
-- `examples/object-detection/` - YOLO, Faster R-CNN
-- `examples/face-recognition/` - Face detection and recognition
-- `examples/video-analysis/` - Real-time video processing
-- `examples/segmentation/` - Image segmentation
-- `examples/tracking/` - Object tracking
-- `examples/real-time/` - Webcam processing
+- `examples/ocr-demo.ts` - OCR and text recognition with Tesseract
+- `examples/pose-demo.ts` - Pose estimation and gesture recognition with MediaPipe
+- `examples/enhancement-demo.ts` - Image enhancement, super-resolution, and HDR processing
+
+Additional demos available via npm scripts:
+```bash
+npm run demo:detection    # Object detection with YOLO
+npm run demo:face         # Face detection and recognition
+npm run demo:video        # Video processing
+npm run demo:tracking     # Object tracking
+npm run demo:segmentation # Semantic segmentation
+npm run demo:pose         # Pose estimation
+npm run demo:ocr          # OCR text recognition
+npm run demo:enhancement  # Image enhancement
+```
 
 ## Total Implementation
 

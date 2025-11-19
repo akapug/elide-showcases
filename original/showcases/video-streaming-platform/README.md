@@ -27,7 +27,7 @@ This platform demonstrates how Elide enables seamless integration of Python's po
 │  │  Transcoder  │  │  Generator   │  │  Generator    │         │
 │  │              │  │              │  │               │         │
 │  │ python:cv2   │  │ python:cv2   │  │ python:speech │         │
-│  │ python:ffmpeg│  │ python:dlib  │  │ _recognition  │         │
+│  │ python:numpy │  │ python:numpy │  │ _recognition  │         │
 │  └──────────────┘  └──────────────┘  └───────────────┘         │
 │                                                                   │
 │  ┌──────────────┐  ┌──────────────┐  ┌───────────────┐         │
@@ -651,7 +651,7 @@ Index:
 npm install
 
 # Install Python dependencies
-pip install opencv-python numpy scikit-learn torch transformers pandas speech-recognition
+pip install opencv-python numpy scikit-learn torch transformers pandas SpeechRecognition
 
 # Configure environment
 cp .env.example .env

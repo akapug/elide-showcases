@@ -1,0 +1,49 @@
+{
+  "name": "@elide/smart-city-platform",
+  "version": "1.0.0",
+  "description": "Comprehensive smart city platform with TypeScript + Python for traffic, environment, utilities, and public safety",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "elide run examples/smart-city-demo.ts",
+    "build": "tsc",
+    "test": "elide test",
+    "bench": "elide run benchmarks/city-perf.ts",
+    "traffic": "elide run src/traffic/traffic-optimizer.ts",
+    "air-quality": "elide run src/environment/air-quality-monitor.ts",
+    "emergency": "elide run src/safety/emergency-response.ts"
+  },
+  "dependencies": {
+    "@elide/runtime": "^1.0.0",
+    "python:pandas": "^2.1.0",
+    "python:numpy": "^1.26.0",
+    "python:scikit-learn": "^1.3.0",
+    "python:scipy": "^1.11.0",
+    "python:networkx": "^3.2.0",
+    "python:matplotlib": "^3.8.0",
+    "python:seaborn": "^0.13.0",
+    "python:statsmodels": "^0.14.0",
+    "python:prophet": "^1.1.5",
+    "python:geopy": "^2.4.0",
+    "python:shapely": "^2.0.0",
+    "python:folium": "^0.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  },
+  "keywords": [
+    "elide",
+    "smart-city",
+    "urban-planning",
+    "traffic-optimization",
+    "environmental-monitoring",
+    "iot",
+    "typescript",
+    "python",
+    "polyglot"
+  ],
+  "author": "Elide Team",
+  "license": "MIT"
+}

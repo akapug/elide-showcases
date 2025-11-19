@@ -16,8 +16,8 @@
 import gym from 'python:gym';
 // @ts-ignore - NumPy for array operations
 import numpy from 'python:numpy';
-// @ts-ignore - OpenCV for image processing (optional)
-// import cv2 from 'python:cv2';
+// @ts-ignore - OpenCV for image processing
+import cv2 from 'python:cv2';
 
 // ============================================================================
 // Type Definitions
@@ -267,10 +267,9 @@ export class GymEnv {
    * Resize image
    */
   protected resizeImage(image: any, size: [number, number]): any {
-    // Simple resize using NumPy (for production, use cv2)
-    // This is a placeholder - actual implementation would use cv2.resize
-    console.warn('Image resizing not fully implemented - returning original');
-    return image;
+    // Use OpenCV for high-quality image resizing
+    const [height, width] = size;
+    return cv2.resize(image, (width, height), interpolation: cv2.INTER_AREA);
   }
 
   /**

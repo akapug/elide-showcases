@@ -62,6 +62,12 @@
         "sacremoses": "^0.1.1",
         "datasets": "^2.14.0"
       },
+      "dependencyNotes": {
+        "nltk": "Provides additional text processing utilities (tokenization, stemming, stopwords). While not directly imported in core modules, it's available for custom preprocessing pipelines and is commonly used alongside transformers.",
+        "datasets": "HuggingFace datasets library for loading and processing NLP datasets. Included for users who want to fine-tune models or work with standard datasets. Not required for inference-only usage.",
+        "sentencepiece": "Tokenization library required by many transformer models (T5, ALBERT, XLNet, etc.). Even though not directly imported, it's a peer dependency loaded by transformers at runtime.",
+        "sacremoses": "Tokenization and normalization library used by some transformer models (MarianMT, BART, etc.). Required as a peer dependency for certain translation and generation models."
+      },
       "extras": {
         "spacy-models": [
           "en_core_web_sm",

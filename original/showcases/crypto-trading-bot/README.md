@@ -91,6 +91,17 @@ const order = await connector.createOrder(
 );
 ```
 
+**Why Python ccxt instead of JavaScript ccxt?**
+
+While ccxt has both Python and JavaScript versions, we use the Python version because:
+
+1. **More mature and feature-complete**: The Python version is the reference implementation with more extensive testing and broader exchange support
+2. **Better maintained**: Python ccxt receives updates and bug fixes first, with more active development
+3. **Richer ecosystem integration**: Seamlessly works with pandas for data analysis, ta-lib for indicators, and scikit-learn for ML - all in the same process
+4. **Demonstrates Elide's value**: Shows how Elide lets you use the best tool for the job. If Python ccxt is superior, use it directly in TypeScript without compromise!
+
+With Elide, you get the **best of both worlds**: Python's mature trading libraries with TypeScript's type safety and modern async patterns, all in a single process with native performance.
+
 **Supported Exchanges:**
 - Binance, Binance US, Binance Futures
 - Coinbase Pro, Coinbase Advanced
@@ -420,19 +431,47 @@ Python: 4,000 operations/second
 # Install TypeScript dependencies
 npm install
 
-# Install Python dependencies
-pip install ccxt ta-lib pandas numpy scikit-learn
+# Install Python dependencies (except TA-Lib, see below)
+pip install ccxt pandas numpy scikit-learn
+```
 
-# Note: TA-Lib requires system libraries
-# Ubuntu/Debian:
-sudo apt-get install ta-lib
+### Installing TA-Lib
 
-# macOS:
+TA-Lib requires system-level libraries to be installed first. The installation process varies by platform:
+
+#### Ubuntu/Debian:
+```bash
+# Install the TA-Lib C library
+sudo apt-get update
+sudo apt-get install libta-lib0-dev
+
+# Then install the Python wrapper
+pip install TA-Lib
+```
+
+#### macOS:
+```bash
+# Install the TA-Lib C library via Homebrew
 brew install ta-lib
 
-# Then install Python wrapper:
-pip install ta-lib
+# Then install the Python wrapper
+pip install TA-Lib
 ```
+
+#### Windows:
+```bash
+# Download pre-built binaries from:
+# https://github.com/mrjbq7/ta-lib#windows
+
+# Or use conda:
+conda install -c conda-forge ta-lib
+```
+
+#### Building from Source:
+For other platforms or if you need to build from source, see the official guide:
+**https://ta-lib.github.io/ta-lib-python/install.html**
+
+**Note:** The system library is `libta-lib0-dev` (not just `ta-lib`), and the Python package is `TA-Lib` (note the capitalization).
 
 ## Quick Start
 

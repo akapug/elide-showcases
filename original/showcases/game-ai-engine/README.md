@@ -91,36 +91,49 @@ npm start
 
 ## Usage
 
-### Train a Game AI Agent
+### Train a DQN Agent
 
 ```typescript
-import { GameAITrainer, ReinforcementLearning } from './src/training';
+import { DQNAgent } from './src/algorithms/dqn';
+import { DQNTrainer } from './src/training/trainer';
 
-const trainer = new GameAITrainer({
-  algorithm: 'DQN',
-  stateSize: 10,
-  actionSize: 4,
+const agent = new DQNAgent({
+  stateShape: [4],
+  actionSize: 2,
+  learningRate: 0.00025,
+  discount: 0.99,
+  epsilon: 1.0,
+  batchSize: 32,
+  memorySize: 100000,
+  doubleDQN: true,
+  duelingDQN: true,
 });
 
-// Train with reinforcement learning
-await trainer.trainRL({
+// Train the agent
+const trainer = new DQNTrainer({
+  agent,
+  environment: myGameEnvironment,
   episodes: 1000,
   maxSteps: 200,
-  environment: myGameEnvironment,
-  render: false,
 });
 
+await trainer.train();
+
 // Save trained model
-await trainer.saveModel('models/dqn-agent.h5');
+agent.save('models/dqn-agent.pt');
 ```
 
 ### Use AI in Game Loop
 
 ```typescript
-import { GameAI } from './src/game-ai';
+import { DQNAgent } from './src/algorithms/dqn';
 
-const ai = new GameAI();
-await ai.loadModel('models/dqn-agent.h5');
+const agent = new DQNAgent({
+  stateShape: [4],
+  actionSize: 2,
+});
+
+agent.load('models/dqn-agent.pt');
 
 // Game loop (60 FPS)
 setInterval(() => {
@@ -129,7 +142,7 @@ setInterval(() => {
     const state = getGameState(npc);
 
     // AI decides action (<1ms!)
-    const action = ai.decideAction(state);
+    const action = agent.getBestAction(state);
 
     // Execute action
     npc.execute(action);
@@ -137,133 +150,195 @@ setInterval(() => {
 }, 16); // 60 FPS
 ```
 
-### Pathfinding
+### PPO Agent (Policy Gradient)
 
 ```typescript
-import { Pathfinding } from './src/pathfinding';
+import { PPOAgent } from './src/algorithms/ppo';
 
-const pathfinder = new Pathfinding();
+const agent = new PPOAgent({
+  stateShape: [4],
+  actionSize: 2,
+  continuous: false,
+  learningRateActor: 0.0003,
+  learningRateCritic: 0.001,
+  clipRatio: 0.2,
+  updateEpochs: 10,
+});
 
-// A* pathfinding
-const path = pathfinder.findPath(
-  { x: 0, y: 0 },
-  { x: 100, y: 100 },
-  gridMap,
-  { algorithm: 'astar' }
-);
+// Collect trajectory and train
+const { action, logProb, value } = agent.selectAction(state);
+agent.storeReward(reward, done);
 
-console.log(`Path found with ${path.length} waypoints`);
+if (agent.isReadyToUpdate()) {
+  const metrics = agent.update();
+  console.log(`Policy loss: ${metrics.policyLoss}`);
+}
 ```
 
-### Behavior Trees
+### MCTS for Board Games
 
 ```typescript
-import { BehaviorTree, Sequence, Selector, Action } from './src/behavior-tree';
+import { MCTSAgent } from './src/agents/mcts-agent';
 
-const guardAI = new BehaviorTree(
-  new Selector([
-    // If see enemy, attack
-    new Sequence([
-      new Action('checkForEnemy'),
-      new Action('attack'),
-    ]),
-    // Else patrol
-    new Action('patrol'),
-  ])
-);
+const agent = new MCTSAgent({
+  numSimulations: 800,
+  explorationConstant: 1.414,
+  temperature: 1.0,
+});
 
-// Execute behavior tree
-const result = guardAI.tick(npcAgent);
+// Search for best move
+const bestAction = agent.search(currentState, environment);
+
+// Get search statistics
+const stats = agent.getSearchStatistics();
+console.log(`Best action: ${stats.bestAction}, Value: ${stats.bestValue}`);
 ```
 
 ## Example: Complete AI-Powered Game
 
 ```typescript
-import {
-  GameAI,
-  Pathfinding,
-  BehaviorTree,
-  UtilityAI,
-} from './src/index';
+import { DQNAgent } from './src/algorithms/dqn';
+import { PPOAgent } from './src/algorithms/ppo';
+import { MCTSAgent } from './src/agents/mcts-agent';
 
 // @ts-ignore
 import numpy from 'python:numpy';
 
+interface GameState {
+  map: any;
+  enemyDistance: number;
+  enemyHealth: number;
+  enemyPosition: { x: number; y: number };
+}
+
 class IntelligentNPC {
-  private ai: GameAI;
-  private pathfinder: Pathfinding;
-  private behavior: BehaviorTree;
-  private position: { x: number; y: number };
+  private combatAI: DQNAgent;
+  private movementAI: PPOAgent;
+  private strategicAI: MCTSAgent;
+  private position: { x: number; y: number } = { x: 0, y: 0 };
   private health: number = 100;
 
   constructor() {
-    this.ai = new GameAI();
-    this.pathfinder = new Pathfinding();
-    this.behavior = this.createBehaviorTree();
+    // Combat AI using DQN
+    this.combatAI = new DQNAgent({
+      stateShape: [8],
+      actionSize: 4, // attack, defend, dodge, special
+      learningRate: 0.001,
+      discount: 0.99,
+    });
+
+    // Movement AI using PPO
+    this.movementAI = new PPOAgent({
+      stateShape: [6],
+      actionSize: 8, // 8 directions
+      continuous: false,
+    });
+
+    // Strategic decision-making using MCTS
+    this.strategicAI = new MCTSAgent({
+      numSimulations: 100,
+      explorationConstant: 1.414,
+    });
   }
 
   async init() {
-    // Load pre-trained combat AI
-    await this.ai.loadModel('models/combat-ai.h5');
+    // Load pre-trained models
+    this.combatAI.load('models/combat-dqn.pt');
+    this.movementAI.load('models/movement-ppo.pt');
   }
 
   update(deltaTime: number, gameState: GameState) {
-    // 1. Behavior tree decides high-level goal
-    const goal = this.behavior.tick(this);
+    // 1. High-level strategy decision
+    const strategy = this.decideStrategy(gameState);
 
-    // 2. Pathfinding for movement
-    if (goal.type === 'MOVE') {
-      const path = this.pathfinder.findPath(
-        this.position,
-        goal.target,
-        gameState.map
-      );
-
-      if (path.length > 0) {
-        this.moveAlong(path, deltaTime);
-      }
-    }
-
-    // 3. ML-based combat decisions
-    if (goal.type === 'COMBAT') {
-      const state = this.getCombatState(gameState);
-      const action = this.ai.decideAction(state);
-
-      this.executeCombatAction(action);
+    // 2. Execute strategy
+    if (strategy === 'FLEE') {
+      this.executeFlee(gameState);
+    } else if (strategy === 'COMBAT') {
+      this.executeCombat(gameState);
+    } else {
+      this.executePatrol(gameState);
     }
   }
 
-  private createBehaviorTree(): BehaviorTree {
-    return new BehaviorTree(
-      new Selector([
-        // Survival first
-        new Sequence([
-          new Condition(() => this.health < 30),
-          new Action(() => this.flee()),
-        ]),
+  private decideStrategy(gameState: GameState): string {
+    // Survival first
+    if (this.health < 30) {
+      return 'FLEE';
+    }
 
-        // Attack if enemy nearby
-        new Sequence([
-          new Condition(() => this.enemyInRange()),
-          new Action(() => ({ type: 'COMBAT' })),
-        ]),
+    // Attack if enemy nearby
+    if (gameState.enemyDistance < 100) {
+      return 'COMBAT';
+    }
 
-        // Patrol otherwise
-        new Action(() => ({ type: 'PATROL' })),
-      ])
-    );
+    // Patrol otherwise
+    return 'PATROL';
   }
 
-  private getCombatState(gameState: GameState): any {
+  private executeCombat(gameState: GameState) {
+    // Get combat state
+    const state = this.getCombatState(gameState);
+
+    // DQN decides combat action
+    const action = this.combatAI.getBestAction(state);
+
+    // Execute action (0: attack, 1: defend, 2: dodge, 3: special)
+    this.executeCombatAction(action);
+  }
+
+  private executeFlee(gameState: GameState) {
+    // Get movement state
+    const state = this.getMovementState(gameState);
+
+    // PPO decides movement direction
+    const { action } = this.movementAI.selectAction(state, false);
+
+    // Move in chosen direction
+    this.move(action as number);
+  }
+
+  private executePatrol(gameState: GameState) {
+    // Simple patrol behavior
+    this.move(Math.floor(Math.random() * 8));
+  }
+
+  private getCombatState(gameState: GameState): number[] {
     // Convert game state to ML model input
-    return numpy.array([
+    return [
       this.health / 100,
       this.position.x / 1000,
       this.position.y / 1000,
-      gameState.enemyDistance,
+      gameState.enemyDistance / 1000,
       gameState.enemyHealth / 100,
-      // ... more features
-    ]);
+      gameState.enemyPosition.x / 1000,
+      gameState.enemyPosition.y / 1000,
+      Math.random(), // Add some noise for exploration
+    ];
+  }
+
+  private getMovementState(gameState: GameState): number[] {
+    return [
+      this.position.x / 1000,
+      this.position.y / 1000,
+      gameState.enemyPosition.x / 1000,
+      gameState.enemyPosition.y / 1000,
+      gameState.enemyDistance / 1000,
+      this.health / 100,
+    ];
+  }
+
+  private executeCombatAction(action: number) {
+    // Execute combat action
+    console.log(`Executing combat action: ${action}`);
+  }
+
+  private move(direction: number) {
+    // Move in direction (0-7 representing 8 directions)
+    const angle = (direction * Math.PI) / 4;
+    const speed = 5;
+    this.position.x += Math.cos(angle) * speed;
+    this.position.y += Math.sin(angle) * speed;
   }
 }
 
@@ -271,7 +346,14 @@ class IntelligentNPC {
 const npc = new IntelligentNPC();
 await npc.init();
 
-// Game loop
+// Game loop (60 FPS)
+const gameState: GameState = {
+  map: null,
+  enemyDistance: 150,
+  enemyHealth: 80,
+  enemyPosition: { x: 200, y: 300 },
+};
+
 setInterval(() => {
   npc.update(16, gameState);
 }, 16);
@@ -467,12 +549,15 @@ npm run test:coverage
 
 See `examples/` directory for comprehensive examples:
 
-- `examples/basic-ai/` - Simple AI agent training
-- `examples/pathfinding/` - Pathfinding algorithms
-- `examples/behavior-trees/` - Behavior tree examples
-- `examples/rts-game/` - Real-time strategy game AI
-- `examples/fps-game/` - FPS bot AI
-- `examples/board-game/` - Chess/checkers AI with minimax
+- `examples/atari-demo.ts` - Complete Atari game training with DQN (Breakout, Pong, Space Invaders)
+- `examples/board-game-demo.ts` - Board game AI with MCTS and AlphaZero (Tic-Tac-Toe, Connect Four)
+
+Each example demonstrates:
+- Full training pipeline with PyTorch/TensorFlow
+- Environment setup with OpenAI Gym
+- Agent evaluation and metrics
+- Model saving/loading
+- Real-time inference
 
 ## Limitations
 
