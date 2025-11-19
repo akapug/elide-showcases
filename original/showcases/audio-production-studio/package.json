@@ -1,0 +1,49 @@
+{
+  "name": "@elide-showcases/audio-production-studio",
+  "version": "1.0.0",
+  "description": "Professional audio processing with Python libraries in TypeScript",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "elide run src/index.ts",
+    "demo:mastering": "elide run examples/mastering-chain.ts",
+    "demo:podcast": "elide run examples/podcast-production.ts",
+    "demo:analysis": "elide run examples/audio-analysis.ts",
+    "demo:synthesis": "elide run examples/sound-synthesis.ts",
+    "benchmark": "elide run benchmarks/benchmark.ts",
+    "test": "elide test src/**/*.test.ts"
+  },
+  "keywords": [
+    "elide",
+    "polyglot",
+    "audio",
+    "librosa",
+    "pydub",
+    "dsp",
+    "music-production"
+  ],
+  "author": "Elide Showcases",
+  "license": "MIT",
+  "dependencies": {
+    "python:librosa": "*",
+    "python:pydub": "*",
+    "python:soundfile": "*",
+    "python:numpy": "*",
+    "python:scipy": "*",
+    "python:matplotlib": "*"
+  },
+  "elide": {
+    "python": {
+      "version": "3.11",
+      "packages": [
+        "librosa",
+        "pydub",
+        "soundfile",
+        "numpy",
+        "scipy",
+        "matplotlib",
+        "ffmpeg-python"
+      ]
+    }
+  }
+}
