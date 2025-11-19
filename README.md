@@ -23,12 +23,12 @@ const tensor = torch.randn([3, 224, 224]);
 
 ## At a Glance
 
-- **336,004 lines of code** - Production-quality showcases, not demos
-- **199 showcases** - AI/ML, computer vision, trading bots, quantum computing, and more
-- **40+ Python libraries** - PyTorch, OpenCV, transformers, pandas, scikit-learn, and beyond
+- **462,020 lines of code** - Production-quality showcases, not demos
+- **210 showcases** - AI/ML, Kotlin+Python, computer vision, trading bots, quantum computing, healthcare, and more
+- **50+ Python libraries** - PyTorch, OpenCV, transformers, pandas, scikit-learn, OR-Tools, and beyond
 - **10-200x faster** - Eliminate serialization overhead, network latency, microservice complexity
 - **Zero dependencies** - No npm install, no Docker orchestration, no service mesh
-- **One process** - TypeScript + Python running together with <1ms function call overhead
+- **One process** - TypeScript/Kotlin + Python running together with <1ms function call overhead
 
 ---
 
