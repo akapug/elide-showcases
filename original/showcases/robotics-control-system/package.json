@@ -1,0 +1,61 @@
+{
+  "name": "@elide/robotics-control-system",
+  "version": "1.0.0",
+  "description": "Comprehensive robotics control system demonstrating Elide's TypeScript-Python polyglot capabilities",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "benchmark": "tsx benchmarks/control-performance.ts",
+    "benchmark:control": "tsx benchmarks/control-performance.ts --suite=control",
+    "benchmark:kinematics": "tsx benchmarks/control-performance.ts --suite=kinematics",
+    "benchmark:planning": "tsx benchmarks/control-performance.ts --suite=planning",
+    "example:robot-arm": "tsx examples/robot-arm-demo.ts",
+    "example:path-planning": "tsx examples/path-planning-demo.ts",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write \"src/**/*.ts\" \"examples/**/*.ts\"",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "elide",
+    "robotics",
+    "control-systems",
+    "kinematics",
+    "path-planning",
+    "polyglot",
+    "typescript",
+    "python",
+    "numpy",
+    "scipy",
+    "real-time"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^20.10.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.50.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.1.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.3.0"
+  },
+  "pythonDependencies": {
+    "numpy": ">=1.24.0",
+    "scipy": ">=1.11.0",
+    "control": ">=0.9.4",
+    "matplotlib": ">=3.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "elide": ">=1.0.0"
+  }
+}

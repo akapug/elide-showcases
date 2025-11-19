@@ -1,0 +1,43 @@
+{
+  "name": "@elide/iot-platform-showcase",
+  "version": "1.0.0",
+  "description": "Ultra-high performance IoT platform with polyglot ML & signal processing",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "demo": "node dist/examples/iot-demo.js",
+    "benchmark": "node dist/benchmarks/throughput-benchmark.js",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "keywords": [
+    "elide",
+    "iot",
+    "polyglot",
+    "mqtt",
+    "coap",
+    "timeseries",
+    "anomaly-detection",
+    "machine-learning",
+    "signal-processing",
+    "edge-computing"
+  ],
+  "author": "Elide",
+  "license": "MIT",
+  "dependencies": {
+    "python:numpy": "*",
+    "python:scipy": "*",
+    "python:sklearn": "*",
+    "python:matplotlib": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

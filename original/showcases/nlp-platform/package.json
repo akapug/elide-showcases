@@ -1,0 +1,79 @@
+{
+  "name": "@elide/nlp-platform",
+  "version": "1.0.0",
+  "description": "Comprehensive NLP platform demonstrating Elide's polyglot capabilities with Python NLP libraries",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "benchmark": "ts-node benchmarks/nlp-performance.ts",
+    "demo:sentiment": "ts-node examples/sentiment-demo.ts",
+    "demo:translation": "ts-node examples/translation-demo.ts",
+    "demo:ner": "ts-node examples/ner-demo.ts",
+    "demo:summarization": "ts-node examples/summarization-demo.ts",
+    "demo:qa": "ts-node examples/qa-demo.ts",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write 'src/**/*.ts'"
+  },
+  "keywords": [
+    "elide",
+    "nlp",
+    "polyglot",
+    "natural-language-processing",
+    "transformers",
+    "spacy",
+    "machine-learning",
+    "sentiment-analysis",
+    "named-entity-recognition",
+    "text-classification",
+    "translation",
+    "summarization",
+    "question-answering"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "cli-progress": "^3.12.0",
+    "ora": "^7.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.0"
+  },
+  "elide": {
+    "python": {
+      "version": "3.11",
+      "dependencies": {
+        "spacy": "^3.7.0",
+        "transformers": "^4.35.0",
+        "torch": "^2.1.0",
+        "nltk": "^3.8.1",
+        "sentence-transformers": "^2.2.2",
+        "sentencepiece": "^0.1.99",
+        "sacremoses": "^0.1.1",
+        "datasets": "^2.14.0"
+      },
+      "extras": {
+        "spacy-models": [
+          "en_core_web_sm",
+          "en_core_web_md",
+          "en_core_web_lg"
+        ]
+      }
+    },
+    "build": {
+      "target": "native",
+      "optimize": true,
+      "embedPython": true
+    }
+  }
+}

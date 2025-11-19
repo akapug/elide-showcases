@@ -1,0 +1,39 @@
+{
+  "name": "@elide-showcases/financial-modeling-platform",
+  "version": "1.0.0",
+  "description": "Advanced financial modeling platform leveraging Elide's polyglot capabilities",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "demo": "elide run examples/finance-demo.ts",
+    "benchmark": "elide run benchmarks/pricing-performance.ts",
+    "test": "elide test"
+  },
+  "keywords": [
+    "elide",
+    "polyglot",
+    "finance",
+    "quantitative",
+    "derivatives",
+    "portfolio",
+    "risk-management"
+  ],
+  "dependencies": {
+    "@elide/runtime": "^1.0.0"
+  },
+  "pythonDependencies": {
+    "numpy": "^1.26.0",
+    "pandas": "^2.1.0",
+    "scipy": "^1.11.0",
+    "statsmodels": "^0.14.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "elide": ">=1.0.0"
+  },
+  "license": "MIT"
+}
