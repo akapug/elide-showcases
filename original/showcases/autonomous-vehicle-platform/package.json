@@ -1,0 +1,45 @@
+{
+  "name": "@elide/autonomous-vehicle-platform",
+  "version": "1.0.0",
+  "description": "Autonomous vehicle platform with perception, planning, control, HD mapping, and simulation - Built with Elide",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "elide run examples/av-demo.ts",
+    "demo": "elide run examples/av-demo.ts",
+    "benchmark": "elide run benchmarks/av-perf.ts",
+    "test": "bun test",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "elide",
+    "autonomous-vehicle",
+    "self-driving",
+    "perception",
+    "planning",
+    "control",
+    "computer-vision",
+    "machine-learning",
+    "opencv",
+    "pytorch",
+    "typescript",
+    "python"
+  ],
+  "dependencies": {
+    "python:cv2": "*",
+    "python:torch": "*",
+    "python:torchvision": "*",
+    "python:sklearn": "*",
+    "python:scipy": "*",
+    "python:numpy": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "author": "Elide Team",
+  "license": "MIT"
+}

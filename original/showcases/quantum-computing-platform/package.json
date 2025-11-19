@@ -1,0 +1,59 @@
+{
+  "name": "@elide/quantum-computing-platform",
+  "version": "1.0.0",
+  "description": "Comprehensive quantum computing platform demonstrating Elide polyglot TypeScript/Python integration with Qiskit",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "benchmark": "ts-node benchmarks/quantum-performance.ts",
+    "demo": "ts-node examples/quantum-demo.ts",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "keywords": [
+    "elide",
+    "quantum-computing",
+    "qiskit",
+    "polyglot",
+    "typescript",
+    "python",
+    "quantum-algorithms",
+    "grover",
+    "shor",
+    "vqe",
+    "qaoa",
+    "quantum-simulation"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "ts-node": "^10.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  },
+  "python": {
+    "dependencies": {
+      "qiskit": ">=0.45.0",
+      "qiskit-aer": ">=0.13.0",
+      "qiskit-algorithms": ">=0.3.0",
+      "qiskit-chemistry": ">=0.5.0",
+      "numpy": ">=1.24.0",
+      "scipy": ">=1.10.0",
+      "matplotlib": ">=3.7.0"
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "python": ">=3.8.0"
+  }
+}

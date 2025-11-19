@@ -1,0 +1,44 @@
+{
+  "name": "@elide-showcases/climate-simulation-platform",
+  "version": "1.0.0",
+  "description": "Advanced Climate Simulation Platform with Elide Polyglot Python Integration",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "demo": "elide run examples/climate-demo.ts",
+    "benchmark": "elide run benchmarks/simulation-performance.ts",
+    "test": "elide test"
+  },
+  "keywords": [
+    "elide",
+    "climate",
+    "simulation",
+    "polyglot",
+    "python",
+    "numpy",
+    "scipy",
+    "xarray",
+    "atmospheric-modeling",
+    "ocean-circulation",
+    "netcdf"
+  ],
+  "author": "Elide Showcases",
+  "license": "MIT",
+  "dependencies": {
+    "python:numpy": "^1.26.0",
+    "python:scipy": "^1.11.0",
+    "python:xarray": "^2023.12.0",
+    "python:netCDF4": "^1.6.5",
+    "python:pandas": "^2.1.0",
+    "python:matplotlib": "^3.8.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "@types/node": "^20.10.0"
+  },
+  "engines": {
+    "elide": ">=2.0.0"
+  }
+}

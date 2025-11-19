@@ -1,0 +1,48 @@
+{
+  "name": "@elide-showcase/e-learning-platform",
+  "version": "1.0.0",
+  "description": "Advanced E-Learning Platform powered by Elide's polyglot capabilities",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "demo": "elide run examples/elearning-demo.ts",
+    "benchmark": "elide run benchmarks/platform-performance.ts",
+    "test": "echo 'Tests would go here'",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "elide",
+    "e-learning",
+    "ai-tutoring",
+    "education",
+    "machine-learning",
+    "polyglot",
+    "transformers",
+    "computer-vision",
+    "recommendation-engine",
+    "adaptive-learning"
+  ],
+  "dependencies": {
+    "@elide/runtime": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.10.0"
+  },
+  "python": {
+    "dependencies": [
+      "transformers>=4.35.0",
+      "torch>=2.1.0",
+      "scikit-learn>=1.3.0",
+      "pandas>=2.1.0",
+      "numpy>=1.24.0",
+      "opencv-python>=4.8.0",
+      "speechrecognition>=3.10.0",
+      "scipy>=1.11.0"
+    ]
+  },
+  "author": "Elide Team",
+  "license": "MIT"
+}
