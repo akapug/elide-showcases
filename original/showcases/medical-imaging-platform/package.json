@@ -1,0 +1,56 @@
+{
+  "name": "@elide-showcases/medical-imaging-platform",
+  "version": "1.0.0",
+  "description": "Medical imaging platform with Python medical libraries in TypeScript",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "elide run src/index.ts",
+    "demo:dicom": "elide run examples/dicom-processing.ts",
+    "demo:segmentation": "elide run examples/segmentation-demo.ts",
+    "demo:diagnosis": "elide run examples/diagnosis-demo.ts",
+    "demo:visualization": "elide run examples/visualization-demo.ts",
+    "demo:pipeline": "elide run examples/full-pipeline.ts",
+    "benchmark": "elide run benchmarks/benchmark.ts",
+    "test": "elide test src/**/*.test.ts"
+  },
+  "keywords": [
+    "elide",
+    "polyglot",
+    "medical-imaging",
+    "dicom",
+    "pydicom",
+    "simpleitk",
+    "healthcare",
+    "radiology"
+  ],
+  "author": "Elide Showcases",
+  "license": "MIT",
+  "dependencies": {
+    "python:pydicom": "*",
+    "python:SimpleITK": "*",
+    "python:scikit-image": "*",
+    "python:nibabel": "*",
+    "python:numpy": "*",
+    "python:scipy": "*",
+    "python:tensorflow": "*",
+    "python:torch": "*",
+    "python:PIL": "*"
+  },
+  "elide": {
+    "python": {
+      "version": "3.11",
+      "packages": [
+        "pydicom",
+        "SimpleITK",
+        "scikit-image",
+        "nibabel",
+        "numpy",
+        "scipy",
+        "tensorflow",
+        "torch",
+        "Pillow"
+      ]
+    }
+  }
+}
