@@ -1,0 +1,30 @@
+{
+  "name": "@elide/helmet",
+  "version": "1.0.0",
+  "description": "Production-ready security headers middleware for Elide",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "keywords": [
+    "elide",
+    "helmet",
+    "security",
+    "headers",
+    "csp",
+    "xss",
+    "middleware",
+    "http",
+    "https"
+  ],
+  "author": "Elide Security Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0"
+  }
+}

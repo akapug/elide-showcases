@@ -1,0 +1,43 @@
+{
+  "name": "@elide-showcases/java-migration-tools",
+  "version": "1.0.0",
+  "description": "Tools to help migrate Java/Spring applications to Elide",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "analyze": "ts-node analyzer.ts",
+    "convert": "ts-node converter.ts",
+    "plan": "ts-node migration-plan-generator.ts",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.ts\""
+  },
+  "keywords": [
+    "elide",
+    "java",
+    "spring",
+    "migration",
+    "conversion",
+    "typescript",
+    "kotlin"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "reflect-metadata": "^0.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

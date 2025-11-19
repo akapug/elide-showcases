@@ -356,7 +356,7 @@ spec:
 npm install
 
 # Start the server
-elide run server.ts
+elide serve server.ts
 
 # The server will start on http://localhost:3000
 ```

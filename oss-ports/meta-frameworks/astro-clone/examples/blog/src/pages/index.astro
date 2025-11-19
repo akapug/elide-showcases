@@ -1,0 +1,153 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const recentPosts = posts.slice(0, 3);
+---
+
+<Layout title="Elide Astro Blog">
+  <main>
+    <section class="hero">
+      <h1>Elide Astro Blog</h1>
+      <p>Zero JavaScript by default. Lightning fast loading.</p>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="value">25ms</div>
+          <div class="label">Cold Start</div>
+        </div>
+        <div class="stat">
+          <div class="value">12KB</div>
+          <div class="label">JS Bundle</div>
+        </div>
+        <div class="stat">
+          <div class="value">100</div>
+          <div class="label">Lighthouse</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="posts">
+      <h2>Recent Posts</h2>
+      <div class="grid">
+        {recentPosts.map((post) => (
+          <article class="post-card">
+            <a href={`/blog/${post.slug}`}>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.excerpt}</p>
+              <div class="meta">
+                <span>{post.data.author}</span>
+                <time datetime={post.data.date.toISOString()}>
+                  {post.data.date.toLocaleDateString()}
+                </time>
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 4rem 0;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+    margin: 0;
+    background: linear-gradient(45deg, #ff5d01, #ff1639);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero p {
+    font-size: 1.5rem;
+    color: #666;
+    margin-top: 1rem;
+  }
+
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat .value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ff5d01;
+  }
+
+  .stat .label {
+    font-size: 0.875rem;
+    color: #999;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+  }
+
+  .posts {
+    margin-top: 4rem;
+  }
+
+  .posts h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .post-card {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .post-card a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+  }
+
+  .post-card p {
+    color: #666;
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+  }
+
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: #999;
+  }
+</style>

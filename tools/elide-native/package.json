@@ -1,0 +1,52 @@
+{
+  "name": "@elide/native",
+  "version": "1.0.0",
+  "description": "Native compilation tools for Elide - Build desktop, mobile, and CLI apps",
+  "main": "index.ts",
+  "types": "index.ts",
+  "keywords": [
+    "elide",
+    "native",
+    "compiler",
+    "desktop",
+    "mobile",
+    "cli",
+    "aot",
+    "typescript",
+    "cross-platform"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases.git",
+    "directory": "tools/elide-native"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./desktop": "./desktop/index.ts",
+    "./mobile": "./mobile/index.ts",
+    "./cli": "./cli/index.ts",
+    "./compiler": "./compiler/index.ts",
+    "./runtime": "./runtime/index.ts"
+  },
+  "files": [
+    "desktop/",
+    "mobile/",
+    "cli/",
+    "compiler/",
+    "runtime/",
+    "examples/",
+    "README.md",
+    "index.ts"
+  ],
+  "scripts": {
+    "examples:desktop": "cd examples/desktop-text-editor && npm run build",
+    "examples:mobile:ios": "cd examples/mobile-todo-app && npm run build:ios",
+    "examples:mobile:android": "cd examples/mobile-todo-app && npm run build:android",
+    "examples:cli": "cd examples/cli-file-processor && npm run build"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

@@ -81,7 +81,7 @@ This showcase implements a production-ready prompt engineering platform that pro
 
 ```bash
 # Start the service
-elide run server.ts
+elide serve server.ts
 
 # Service will start on http://localhost:8084
 ```

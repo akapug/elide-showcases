@@ -1,0 +1,19 @@
+{
+  "name": "@elide/bluebird",
+  "version": "1.0.0",
+  "description": "Bluebird promise library for Elide",
+  "main": "bluebird.ts",
+  "type": "module",
+  "keywords": ["elide", "bluebird", "promise", "async"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "bluebird",
+    "downloads": "7M/week",
+    "url": "https://www.npmjs.com/package/bluebird"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": true
+  }
+}

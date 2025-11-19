@@ -1,0 +1,9 @@
+{
+  "name": "@elide/sails-clone",
+  "version": "1.0.0",
+  "description": "MVC framework for APIs with Blueprints and ORM",
+  "main": "src/sails.ts",
+  "type": "module",
+  "keywords": ["elide", "sails", "mvc", "blueprints", "orm", "waterline"],
+  "license": "MIT"
+}

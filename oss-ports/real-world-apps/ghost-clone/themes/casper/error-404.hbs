@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="{{site.lang}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found - {{site.title}}</title>
+
+  <link rel="stylesheet" href="{{asset 'css/style.css'}}">
+
+  {{#if site.icon}}
+    <link rel="icon" href="{{site.icon}}">
+  {{/if}}
+</head>
+<body class="error-404-template">
+  {{> header}}
+
+  <main class="site-main">
+    <div class="error-content container">
+      <h1>404</h1>
+      <h2>Page Not Found</h2>
+      <p>The page you're looking for doesn't exist or has been moved.</p>
+      <a href="/" class="button">Go Home</a>
+    </div>
+  </main>
+
+  {{> footer}}
+</body>
+</html>

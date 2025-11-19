@@ -1,0 +1,20 @@
+{
+  "name": "@elide/inquirer",
+  "version": "1.0.0",
+  "description": "Inquirer prompts for Elide",
+  "main": "inquirer.ts",
+  "type": "module",
+  "keywords": ["elide", "inquirer", "prompt", "cli", "interactive"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "inquirer",
+    "downloads": "8M/week",
+    "url": "https://www.npmjs.com/package/inquirer"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": false,
+    "note": "Requires stdin/stdout support"
+  }
+}

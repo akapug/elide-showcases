@@ -1,0 +1,45 @@
+{
+  "name": "@elide/pino-clone",
+  "version": "1.0.0",
+  "description": "Pino logging library for Elide - Extremely fast, low-overhead structured logging",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "keywords": [
+    "pino",
+    "logging",
+    "logger",
+    "log",
+    "elide",
+    "fast",
+    "performance",
+    "structured-logging",
+    "json",
+    "async"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases.git",
+    "directory": "oss-ports/monitoring/pino-clone"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

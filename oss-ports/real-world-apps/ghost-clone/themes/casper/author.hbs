@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="{{site.lang}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{author.name}} - {{site.title}}</title>
+  <meta name="description" content="{{author.bio}}">
+
+  <link rel="stylesheet" href="{{asset 'css/style.css'}}">
+
+  {{#if site.icon}}
+    <link rel="icon" href="{{site.icon}}">
+  {{/if}}
+</head>
+<body class="author-template">
+  {{> header}}
+
+  <main class="site-main">
+    <div class="author-header">
+      <div class="container">
+        {{#if author.profile_image}}
+          <img src="{{author.profile_image}}" alt="{{author.name}}" class="author-avatar">
+        {{/if}}
+
+        <h1>{{author.name}}</h1>
+
+        {{#if author.bio}}
+          <p class="author-bio">{{author.bio}}</p>
+        {{/if}}
+
+        <div class="author-meta">
+          {{#if author.location}}
+            <span class="author-location">📍 {{author.location}}</span>
+          {{/if}}
+
+          {{#if author.website}}
+            <a href="{{author.website}}" target="_blank" rel="noopener">🔗 Website</a>
+          {{/if}}
+
+          <span>✍️ {{author.post_count}} {{plural author.post_count 'post' 'posts'}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      {{#if posts}}
+        <div class="post-feed">
+          {{#each posts}}
+            {{> post-card}}
+          {{/each}}
+        </div>
+
+        {{#if pagination}}
+          <nav class="pagination">
+            {{#if pagination.prev}}
+              <a href="/author/{{author.slug}}?page={{pagination.prev}}" class="pagination-prev">← Newer Posts</a>
+            {{/if}}
+
+            <span class="pagination-info">
+              Page {{pagination.page}} of {{pagination.pages}}
+            </span>
+
+            {{#if pagination.next}}
+              <a href="/author/{{author.slug}}?page={{pagination.next}}" class="pagination-next">Older Posts →</a>
+            {{/if}}
+          </nav>
+        {{/if}}
+      {{else}}
+        <div class="no-posts">
+          <h2>No posts yet</h2>
+        </div>
+      {{/if}}
+    </div>
+  </main>
+
+  {{> footer}}
+
+  <script src="{{asset 'js/main.js'}}"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+# Rust
+rust-wasm/target/
+rust-wasm/Cargo.lock
+rust-wasm/pkg/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+*.wasm
+
+# Benchmarks
+benchmark-results.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

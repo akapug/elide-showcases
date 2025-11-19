@@ -1,0 +1,56 @@
+{
+  "name": "@elide/fullstack-framework",
+  "version": "1.0.0",
+  "description": "The Rails/Next.js killer - A comprehensive full-stack framework built with Elide",
+  "type": "module",
+  "main": "./index.ts",
+  "bin": {
+    "elide-app": "./cli.ts"
+  },
+  "scripts": {
+    "dev": "elide run example.ts",
+    "build": "elide bundle index.ts --output dist/index.js",
+    "test": "elide test",
+    "format": "deno fmt",
+    "lint": "deno lint"
+  },
+  "keywords": [
+    "elide",
+    "framework",
+    "fullstack",
+    "web",
+    "api",
+    "server-components",
+    "orm",
+    "authentication",
+    "jobs",
+    "realtime",
+    "websocket",
+    "typescript"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases"
+  },
+  "engines": {
+    "elide": ">=1.0.0-beta11"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./router": "./router.ts",
+    "./server-components": "./server-components.ts",
+    "./data-layer": "./data-layer.ts",
+    "./auth": "./auth.ts",
+    "./jobs": "./jobs.ts",
+    "./realtime": "./realtime.ts",
+    "./cli": "./cli.ts"
+  },
+  "files": [
+    "*.ts",
+    "template/**",
+    "README.md",
+    "LICENSE"
+  ]
+}

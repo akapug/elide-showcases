@@ -554,7 +554,7 @@ Both Step A and Step B run concurrently, then Step C runs after both complete.
 ## Running the Orchestrator
 
 ```bash
-elide run server.ts
+elide serve server.ts
 ```
 
 The workflow orchestrator will start on `http://localhost:3000`.

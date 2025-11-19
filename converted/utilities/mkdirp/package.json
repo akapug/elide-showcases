@@ -1,0 +1,20 @@
+{
+  "name": "@elide/mkdirp",
+  "version": "1.0.0",
+  "description": "mkdirp for Elide",
+  "main": "mkdirp.ts",
+  "type": "module",
+  "keywords": ["elide", "mkdirp", "mkdir", "directory", "fs"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "mkdirp",
+    "downloads": "15M/week",
+    "url": "https://www.npmjs.com/package/mkdirp"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": false,
+    "note": "Requires Elide file system APIs"
+  }
+}

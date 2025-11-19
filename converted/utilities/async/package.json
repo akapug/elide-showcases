@@ -1,0 +1,19 @@
+{
+  "name": "@elide/async",
+  "version": "1.0.0",
+  "description": "Async utilities for Elide",
+  "main": "async.ts",
+  "type": "module",
+  "keywords": ["elide", "async", "promises", "utilities"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "async",
+    "downloads": "12M/week",
+    "url": "https://www.npmjs.com/package/async"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": true
+  }
+}

@@ -529,7 +529,7 @@ describe('UserService', () => {
 
 ```bash
 # Start server
-elide run server.ts
+elide serve server.ts
 
 # Server runs on port 50051
 ```

@@ -1,0 +1,19 @@
+{
+  "name": "@elide/colors",
+  "version": "1.0.0",
+  "description": "Colors terminal styling for Elide",
+  "main": "colors.ts",
+  "type": "module",
+  "keywords": ["elide", "colors", "terminal", "styling", "ansi"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "colors",
+    "downloads": "6M/week",
+    "url": "https://www.npmjs.com/package/colors"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": true
+  }
+}

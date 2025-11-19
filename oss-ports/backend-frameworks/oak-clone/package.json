@@ -1,0 +1,9 @@
+{
+  "name": "@elide/oak-clone",
+  "version": "1.0.0",
+  "description": "Deno-style middleware framework for Elide",
+  "main": "src/oak.ts",
+  "type": "module",
+  "keywords": ["elide", "oak", "deno", "middleware", "typescript"],
+  "license": "MIT"
+}

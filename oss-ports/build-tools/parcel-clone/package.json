@@ -1,0 +1,40 @@
+{
+  "name": "@elide/parcel-clone",
+  "version": "1.0.0",
+  "description": "Zero configuration web application bundler powered by Elide",
+  "keywords": ["elide", "parcel", "bundler", "zero-config", "hmr", "fast"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "parcel-clone": "./bin/parcel-clone.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "bin"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@elide/runtime": ">=1.0.0"
+  },
+  "dependencies": {
+    "ws": "^8.13.0",
+    "chokidar": "^3.5.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "@types/ws": "^8.5.5",
+    "tsup": "^7.1.0",
+    "typescript": "^5.1.6"
+  }
+}

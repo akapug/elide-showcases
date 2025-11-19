@@ -1,0 +1,20 @@
+{
+  "name": "@elide/bcrypt",
+  "version": "1.0.0",
+  "description": "Bcrypt password hashing for Elide",
+  "main": "bcrypt.ts",
+  "type": "module",
+  "keywords": ["elide", "bcrypt", "password", "hash", "crypto"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "bcrypt",
+    "downloads": "8M/week",
+    "url": "https://www.npmjs.com/package/bcrypt"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": false,
+    "note": "Demo only - use proper crypto for production"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "@elide/ghost-clone",
+  "version": "1.0.0",
+  "description": "Production-ready blogging platform built with Elide - A Ghost alternative",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "elide run server.js",
+    "dev": "elide run --dev server.js",
+    "migrate": "elide run cli/migrate.js",
+    "seed": "elide run cli/seed.js",
+    "build:admin": "cd admin && npm run build",
+    "build:themes": "elide run cli/build-themes.js",
+    "backup": "elide run cli/backup.js",
+    "restore": "elide run cli/restore.js",
+    "export": "elide run cli/export.js",
+    "import": "elide run cli/import.js"
+  },
+  "keywords": [
+    "elide",
+    "blog",
+    "cms",
+    "ghost",
+    "publishing",
+    "content-management"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "marked": "^11.1.1",
+    "handlebars": "^4.7.8",
+    "rss": "^1.2.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.11"
+  },
+  "engines": {
+    "elide": ">=1.0.0"
+  }
+}

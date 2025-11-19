@@ -1,0 +1,19 @@
+{
+  "name": "@elide/winston",
+  "version": "1.0.0",
+  "description": "Winston logging library for Elide",
+  "main": "winston.ts",
+  "type": "module",
+  "keywords": ["elide", "winston", "logging", "logger"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "winston",
+    "downloads": "14M/week",
+    "url": "https://www.npmjs.com/package/winston"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": true
+  }
+}

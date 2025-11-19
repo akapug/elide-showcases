@@ -1,0 +1,37 @@
+{
+  "name": "@elide/docker-compose-clone",
+  "version": "1.0.0",
+  "description": "Production-ready container orchestration tool for Elide, inspired by Docker Compose",
+  "main": "compose.ts",
+  "bin": {
+    "compose": "./compose.ts"
+  },
+  "scripts": {
+    "start": "elide run compose.ts",
+    "test": "elide test tests/**/*.test.ts",
+    "build": "gradle build",
+    "lint": "eslint compose.ts"
+  },
+  "keywords": [
+    "elide",
+    "docker-compose",
+    "containers",
+    "orchestration",
+    "devops",
+    "yaml",
+    "docker"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "yaml": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@jest/globals": "^29.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "elide": ">=1.0.0"
+  }
+}

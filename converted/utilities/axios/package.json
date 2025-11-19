@@ -1,0 +1,35 @@
+{
+  "name": "@elide/axios",
+  "version": "1.0.0",
+  "description": "Axios HTTP client for Elide - Promise-based HTTP client for all languages",
+  "main": "axios.ts",
+  "type": "module",
+  "keywords": [
+    "elide",
+    "axios",
+    "http",
+    "https",
+    "client",
+    "request",
+    "promise",
+    "polyglot",
+    "rest",
+    "api"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elide-dev/elide-showcases"
+  },
+  "npm": {
+    "original": "axios",
+    "downloads": "28M/week",
+    "url": "https://www.npmjs.com/package/axios"
+  },
+  "elide": {
+    "polyglot": true,
+    "languages": ["javascript", "typescript", "python", "ruby", "java"],
+    "ready": true
+  }
+}

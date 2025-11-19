@@ -1,0 +1,9 @@
+{
+  "name": "@elide/nestjs-clone",
+  "version": "1.0.0",
+  "description": "Enterprise framework with DI, decorators, and modules",
+  "main": "src/nestjs.ts",
+  "type": "module",
+  "keywords": ["elide", "nestjs", "dependency-injection", "decorators", "enterprise"],
+  "license": "MIT"
+}

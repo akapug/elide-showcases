@@ -1,0 +1,23 @@
+{
+  "name": "@elide/node-cron-clone",
+  "version": "1.0.0",
+  "description": "Production-ready cron job scheduler for Elide - feature-complete node-cron port",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "elide build",
+    "test": "elide test",
+    "dev": "elide dev"
+  },
+  "keywords": [
+    "elide",
+    "cron",
+    "scheduler",
+    "task",
+    "timer",
+    "periodic",
+    "scheduling"
+  ],
+  "author": "Elide Team",
+  "license": "MIT"
+}

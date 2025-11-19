@@ -1,0 +1,10 @@
+{
+  "name": "@elide/restify-clone",
+  "version": "1.0.0",
+  "description": "REST API framework for Elide with versioning, content negotiation, and throttling",
+  "main": "src/restify.ts",
+  "type": "module",
+  "keywords": ["elide", "restify", "rest", "api", "versioning", "throttling"],
+  "author": "Elide Showcases",
+  "license": "MIT"
+}

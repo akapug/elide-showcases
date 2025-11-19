@@ -1,0 +1,10 @@
+{
+  "name": "@elide/pg",
+  "version": "1.0.0",
+  "description": "Production-ready PostgreSQL driver for Elide",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": ["elide", "postgresql", "postgres", "pg", "database", "driver", "sql"],
+  "author": "Elide Team",
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@elide/mocha-clone",
+  "version": "1.0.0",
+  "description": "Feature-rich JavaScript test framework for Elide - Mocha port",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "mocha": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "elide build",
+    "test": "elide mocha",
+    "test:watch": "elide mocha --watch",
+    "test:parallel": "elide mocha --parallel"
+  },
+  "keywords": [
+    "elide",
+    "mocha",
+    "testing",
+    "test-framework",
+    "bdd",
+    "tdd",
+    "async",
+    "flexible"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^1.0.0-beta11"
+  }
+}

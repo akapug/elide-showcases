@@ -30,10 +30,10 @@ This showcase demonstrates a production-ready API Gateway that routes requests t
 
 ```bash
 # Using Elide
-elide run gateway/server.ts
+elide serve gateway/server.ts
 
 # Or execute directly
-/tmp/elide-1.0.0-beta10-linux-amd64/elide run gateway/server.ts
+/tmp/elide-1.0.0-beta10-linux-amd64/elide serve gateway/server.ts
 ```
 
 ### Run Integration Tests

@@ -39,7 +39,7 @@ finance-tracker/
 
 ```bash
 # Run the application
-elide run main.ts
+elide serve main.ts
 
 # Access at http://localhost:3000
 ```

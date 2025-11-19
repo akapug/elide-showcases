@@ -1,0 +1,33 @@
+{
+  "name": "@elide/jsonwebtoken",
+  "version": "1.0.0",
+  "description": "Production-ready JSON Web Token implementation for Elide",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "keywords": [
+    "elide",
+    "jwt",
+    "json",
+    "webtoken",
+    "token",
+    "auth",
+    "authentication",
+    "authorization",
+    "security"
+  ],
+  "author": "Elide Security Team",
+  "license": "MIT",
+  "dependencies": {
+    "crypto": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@elide/cypress-clone",
+  "version": "1.0.0",
+  "description": "Fast, easy and reliable testing for Elide - Cypress port",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "cypress": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "elide build",
+    "cypress:open": "elide cypress open",
+    "cypress:run": "elide cypress run",
+    "test": "elide cypress run"
+  },
+  "keywords": [
+    "elide",
+    "cypress",
+    "e2e",
+    "testing",
+    "browser",
+    "automation",
+    "integration-testing"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^1.0.0-beta11"
+  }
+}

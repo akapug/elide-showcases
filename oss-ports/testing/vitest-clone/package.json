@@ -1,0 +1,42 @@
+{
+  "name": "@elide/vitest-clone",
+  "version": "1.0.0",
+  "description": "Blazing fast Vite-native testing framework for Elide",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "vitest": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "elide build",
+    "test": "elide vitest",
+    "test:ui": "elide vitest --ui",
+    "test:browser": "elide vitest --browser",
+    "coverage": "elide vitest --coverage",
+    "bench": "elide vitest bench"
+  },
+  "keywords": [
+    "elide",
+    "vitest",
+    "vite",
+    "testing",
+    "test-framework",
+    "unit-testing",
+    "esm",
+    "typescript",
+    "fast",
+    "watch-mode",
+    "ui-mode"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^1.0.0-beta11"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "elide": ">=1.0.0-beta11"
+  }
+}

@@ -1,0 +1,28 @@
+<header class="site-header">
+  <div class="container">
+    <div class="site-header-content">
+      {{#if site.logo}}
+        <a class="site-logo" href="/">
+          <img src="{{site.logo}}" alt="{{site.title}}">
+        </a>
+      {{/if}}
+
+      <h1 class="site-title">
+        <a href="/">{{site.title}}</a>
+      </h1>
+
+      {{#if site.description}}
+        <p class="site-description">{{site.description}}</p>
+      {{/if}}
+    </div>
+
+    <nav class="site-nav">
+      <ul class="nav-list">
+        <li><a href="/">Home</a></li>
+        {{#each site.navigation}}
+          <li><a href="{{url}}">{{label}}</a></li>
+        {{/each}}
+      </ul>
+    </nav>
+  </div>
+</header>

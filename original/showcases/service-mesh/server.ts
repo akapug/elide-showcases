@@ -252,7 +252,7 @@ class ServiceMesh {
           const response = await fetch(url, {
             ...options,
             headers: {
-              'X-Request-ID': crypto.randomUUID(),
+              'X-Request-ID': String(crypto.randomUUID()),
               'X-Service-Mesh': 'true',
               ...options.headers
             }
@@ -354,10 +354,7 @@ const serviceMesh = new ServiceMesh();
 
 // Elide server implementation
 export default async function fetch(request: Request): Promise<Response> {
-
-
-  async fetch(request: Request): Promise<Response> {
-    const url = new URL(request.url);
+  const url = new URL(request.url);
 
     // Service registration endpoint
     if (url.pathname === '/register' && request.method === 'POST') {
@@ -430,15 +427,14 @@ export default async function fetch(request: Request): Promise<Response> {
 
 
 // Start health checks
-serviceMesh.startHealthChecks(10000);
-
-console.log('🕸️  Service Mesh running on http://localhost:3000');
-console.log('Endpoints:');
-console.log('  POST /register - Register a service instance');
-console.log('  POST /invoke - Invoke a service through the mesh');
-console.log('  GET /metrics - View service mesh metrics');
-
 if (import.meta.url.includes("server.ts")) {
+  serviceMesh.startHealthChecks(10000);
+
+  console.log('🕸️  Service Mesh running on http://localhost:3000');
+  console.log('Endpoints:');
+  console.log('  POST /register - Register a service instance');
+  console.log('  POST /invoke - Invoke a service through the mesh');
+  console.log('  GET /metrics - View service mesh metrics');
   console.log('🕸️  Service Mesh ready on port 3000');
   console.log('Features: Service Discovery | Circuit Breaker | Load Balancing');
 }

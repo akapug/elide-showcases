@@ -624,3 +624,415 @@ const cached = await redis.get('key');
 - [ ] Load test
 - [ ] Security audit
 - [ ] Performance tuning
+
+## Advanced Deployment Patterns
+
+### Blue-Green Deployment
+
+Deploy new version alongside old version for zero-downtime updates:
+
+```bash
+# Deploy green (new version)
+kubectl apply -f deployment-green.yaml
+
+# Wait for health checks
+kubectl wait --for=condition=ready pod -l version=green
+
+# Switch traffic
+kubectl patch service edge-compute -p '{"spec":{"selector":{"version":"green"}}}'
+
+# Monitor for issues
+# If OK, delete blue; if issues, rollback
+kubectl delete deployment edge-compute-blue
+```
+
+### Canary Deployment
+
+Gradually roll out new version:
+
+```yaml
+# Canary deployment with 10% traffic
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: edge-compute
+spec:
+  hosts:
+  - edge-compute
+  http:
+  - match:
+    - headers:
+        canary:
+          exact: "true"
+    route:
+    - destination:
+        host: edge-compute
+        subset: canary
+  - route:
+    - destination:
+        host: edge-compute
+        subset: stable
+      weight: 90
+    - destination:
+        host: edge-compute
+        subset: canary
+      weight: 10
+```
+
+### Multi-Region Deployment
+
+Deploy across multiple regions for global availability:
+
+```
+┌─────────────────────────────────────────┐
+│         Global Load Balancer            │
+└────┬──────────────┬────────────────┬────┘
+     │              │                │
+┌────▼────┐    ┌───▼────┐      ┌───▼────┐
+│US-EAST  │    │EU-WEST │      │AP-EAST │
+│Region   │    │Region  │      │Region  │
+└─────────┘    └────────┘      └────────┘
+```
+
+**Setup:**
+
+1. Deploy platform in each region
+2. Configure shared storage (S3, GCS)
+3. Set up global database replication
+4. Configure DNS with GeoDNS or Anycast
+5. Implement cross-region failover
+
+## CI/CD Pipeline
+
+### GitHub Actions Example
+
+```yaml
+name: Deploy Edge Compute
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Deploy to ECS
+        run: |
+          aws ecs update-service \
+            --cluster edge-compute \
+            --service edge-compute-service \
+            --force-new-deployment
+```
+
+## Container Optimization
+
+### Dockerfile Best Practices
+
+```dockerfile
+# Multi-stage build for smaller images
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+COPY . .
+RUN npm run build
+
+# Production image
+FROM node:18-alpine
+
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
+
+WORKDIR /app
+
+COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nodejs:nodejs /app/package.json ./
+
+USER nodejs
+
+EXPOSE 3000
+
+CMD ["node", "dist/platform.js"]
+```
+
+### Image Optimization
+
+```bash
+# Use specific tags
+FROM node:18.16.0-alpine
+
+# Clean up
+RUN npm prune --production && \
+    rm -rf /root/.npm /tmp/*
+
+# Minimize layers
+RUN apk add --no-cache dumb-init && \
+    npm ci --only=production && \
+    npm cache clean --force
+```
+
+## Network Configuration
+
+### CDN Integration
+
+```typescript
+// Cloudflare Workers integration
+export default {
+  async fetch(request: Request): Promise<Response> {
+    const url = new URL(request.url);
+
+    // Route to edge compute
+    const edgeResponse = await fetch(`https://edge.internal${url.pathname}`, {
+      method: request.method,
+      headers: request.headers,
+      body: request.body,
+    });
+
+    // Add caching headers
+    const response = new Response(edgeResponse.body, edgeResponse);
+    response.headers.set('Cache-Control', 'public, max-age=300');
+
+    return response;
+  },
+};
+```
+
+### DNS Configuration
+
+```
+; GeoDNS configuration
+edge.example.com.  300  IN  A      1.2.3.4     ; US
+edge.example.com.  300  IN  A      5.6.7.8     ; EU
+edge.example.com.  300  IN  AAAA   2001:db8::1 ; IPv6
+
+; Healthcheck
+_health.edge.example.com.  60  IN  TXT  "status=healthy"
+```
+
+## Database Considerations
+
+### Multi-Region Database Setup
+
+```typescript
+// DynamoDB Global Tables
+const dynamodb = new AWS.DynamoDB();
+
+await dynamodb.createGlobalTable({
+  GlobalTableName: 'edge-compute-data',
+  ReplicationGroup: [
+    { RegionName: 'us-east-1' },
+    { RegionName: 'eu-west-1' },
+    { RegionName: 'ap-northeast-1' },
+  ],
+}).promise();
+```
+
+### Read Replicas
+
+```typescript
+// PostgreSQL read replicas
+const writePool = new Pool({
+  host: 'primary.db.example.com',
+  database: 'edge_compute',
+  max: 20,
+});
+
+const readPool = new Pool({
+  host: 'replica.db.example.com',
+  database: 'edge_compute',
+  max: 50,
+});
+
+// Use write pool for mutations, read pool for queries
+async function getUser(id: string) {
+  return readPool.query('SELECT * FROM users WHERE id = $1', [id]);
+}
+```
+
+## Cost Optimization
+
+### Auto-Scaling Configuration
+
+```yaml
+# AWS Auto Scaling
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: edge-compute
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: edge-compute
+  minReplicas: 2
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 30
+```
+
+### Reserved Capacity
+
+```bash
+# Purchase reserved instances for baseline load
+aws ec2 purchase-reserved-instances-offering \
+  --reserved-instances-offering-id <offering-id> \
+  --instance-count 5
+
+# Use spot instances for burst capacity
+aws ec2 request-spot-instances \
+  --spot-price "0.05" \
+  --instance-count 10 \
+  --launch-specification file://spot-spec.json
+```
+
+## Disaster Recovery
+
+### Backup Strategy
+
+```bash
+#!/bin/bash
+# Daily backup script
+
+BACKUP_DIR="/backups/$(date +%Y%m%d)"
+mkdir -p "$BACKUP_DIR"
+
+# Backup function code
+tar -czf "$BACKUP_DIR/functions.tar.gz" /var/lib/edge-compute/functions
+
+# Backup data
+pg_dump edge_compute > "$BACKUP_DIR/database.sql"
+
+# Upload to S3
+aws s3 sync "$BACKUP_DIR" "s3://edge-compute-backups/$(date +%Y%m%d)/"
+
+# Cleanup old backups (keep 30 days)
+find /backups -type d -mtime +30 -exec rm -rf {} \;
+```
+
+### Recovery Procedure
+
+```bash
+# 1. Provision new infrastructure
+terraform apply -var="region=us-west-2"
+
+# 2. Restore from backup
+aws s3 sync "s3://edge-compute-backups/latest/" /restore/
+
+# 3. Restore database
+psql edge_compute < /restore/database.sql
+
+# 4. Restore functions
+tar -xzf /restore/functions.tar.gz -C /var/lib/edge-compute/
+
+# 5. Start services
+systemctl start edge-compute
+
+# 6. Verify health
+curl http://localhost:3000/health
+```
+
+## Compliance and Security
+
+### PCI-DSS Compliance
+
+```typescript
+// Encrypt sensitive data at rest
+const crypto = require('crypto');
+
+function encryptData(data: string, key: Buffer): string {
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+  let encrypted = cipher.update(data, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  const authTag = cipher.getAuthTag();
+  return iv.toString('hex') + ':' + authTag.toString('hex') + ':' + encrypted;
+}
+
+// Audit logging
+function auditLog(action: string, user: string, details: any) {
+  const log = {
+    timestamp: new Date().toISOString(),
+    action,
+    user,
+    details,
+    ip: getClientIP(),
+  };
+
+  // Send to SIEM
+  siem.log(JSON.stringify(log));
+}
+```
+
+### GDPR Compliance
+
+```typescript
+// Data retention policy
+async function cleanupOldData() {
+  const retentionDays = 90;
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - retentionDays);
+
+  await db.query(
+    'DELETE FROM user_logs WHERE created_at < $1',
+    [cutoffDate]
+  );
+
+  console.log('Cleaned up data older than', retentionDays, 'days');
+}
+
+// Right to erasure
+async function deleteUserData(userId: string) {
+  await db.query('DELETE FROM users WHERE id = $1', [userId]);
+  await db.query('DELETE FROM user_logs WHERE user_id = $1', [userId]);
+  await cache.deletePattern(`user:${userId}:*`);
+
+  auditLog('user_deletion', 'system', { userId });
+}
+```

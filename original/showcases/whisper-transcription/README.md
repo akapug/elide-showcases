@@ -72,7 +72,7 @@ This showcase implements a production-ready transcription service similar to Ope
 
 ```bash
 # Start the service
-elide run server.ts
+elide serve server.ts
 
 # Service will start on http://localhost:8081
 ```

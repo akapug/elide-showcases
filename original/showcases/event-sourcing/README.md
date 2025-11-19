@@ -424,7 +424,7 @@ Fast reads from denormalized projections.
 ## Running the System
 
 ```bash
-elide run server.ts
+elide serve server.ts
 ```
 
 The event sourcing system will start on `http://localhost:3000`.

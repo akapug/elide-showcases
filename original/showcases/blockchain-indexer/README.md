@@ -77,7 +77,7 @@ Query parameters:
 
 ```bash
 # Start the indexer
-elide run server.ts
+elide serve server.ts
 
 # Query transactions for an address
 curl "http://localhost:3000/api/transactions?address=0x742d35Cc6634C0532925a3b844Bc454e4438f44e&limit=10"

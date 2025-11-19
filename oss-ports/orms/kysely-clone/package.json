@@ -1,0 +1,33 @@
+{
+  "name": "@elide/kysely-clone",
+  "version": "1.0.0",
+  "description": "Type-safe SQL query builder for Elide",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "elide build",
+    "test": "elide test",
+    "dev": "elide dev",
+    "migrate": "elide run migrate"
+  },
+  "keywords": [
+    "elide",
+    "query-builder",
+    "kysely",
+    "typescript",
+    "type-safe",
+    "sql",
+    "postgresql",
+    "mysql",
+    "sqlite",
+    "mssql"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "@elide/bull-clone",
+  "version": "1.0.0",
+  "description": "Production-ready Redis-based queue system for Elide - feature-complete Bull port",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "elide build",
+    "test": "elide test",
+    "dev": "elide dev"
+  },
+  "keywords": [
+    "elide",
+    "bull",
+    "queue",
+    "job",
+    "redis",
+    "worker",
+    "task",
+    "background-jobs",
+    "data-processing"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^1.0.0"
+  },
+  "devDependencies": {
+    "@elide/test": "^1.0.0",
+    "typescript": "^5.0.0"
+  }
+}

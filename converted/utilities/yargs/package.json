@@ -1,0 +1,19 @@
+{
+  "name": "@elide/yargs",
+  "version": "1.0.0",
+  "description": "Yargs argument parser for Elide",
+  "main": "yargs.ts",
+  "type": "module",
+  "keywords": ["elide", "yargs", "args", "cli", "parser"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "yargs",
+    "downloads": "13M/week",
+    "url": "https://www.npmjs.com/package/yargs"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": true
+  }
+}

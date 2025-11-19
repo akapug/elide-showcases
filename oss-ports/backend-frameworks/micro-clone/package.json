@@ -1,0 +1,10 @@
+{
+  "name": "@elide/micro-clone",
+  "version": "1.0.0",
+  "description": "Async microservices framework for Elide",
+  "main": "src/micro.ts",
+  "type": "module",
+  "keywords": ["elide", "micro", "microservices", "async", "http"],
+  "author": "Elide Showcases",
+  "license": "MIT"
+}

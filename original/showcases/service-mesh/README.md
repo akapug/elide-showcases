@@ -134,7 +134,7 @@ Routes requests to the instance with the fewest active connections.
 ## Running the Service
 
 ```bash
-elide run server.ts
+elide serve server.ts
 ```
 
 The service mesh will start on `http://localhost:3000` with automated health checks every 10 seconds.

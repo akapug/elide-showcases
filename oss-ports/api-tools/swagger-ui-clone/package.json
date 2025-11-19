@@ -1,0 +1,32 @@
+{
+  "name": "@elide/swagger-ui-clone",
+  "version": "1.0.0",
+  "description": "Interactive OpenAPI 3.0 documentation UI with code generation",
+  "main": "src/ui/swagger-ui.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "elide run examples/basic-ui.ts",
+    "build": "elide build",
+    "test": "elide test",
+    "lint": "elide lint"
+  },
+  "keywords": [
+    "swagger",
+    "openapi",
+    "api",
+    "documentation",
+    "ui",
+    "elide",
+    "code-generation",
+    "typescript"
+  ],
+  "author": "Elide",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "typescript": "latest"
+  }
+}

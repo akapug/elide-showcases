@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.production
+config/production.json
+config/local.json
+
+# Database
+data/
+*.db
+*.db-shm
+*.db-wal
+
+# Uploads
+content/images/*
+!content/images/.gitkeep
+
+# Backups
+backups/
+
+# Logs
+logs/
+*.log
+
+# Build outputs
+admin/dist/
+admin/.vite/
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary
+tmp/
+temp/

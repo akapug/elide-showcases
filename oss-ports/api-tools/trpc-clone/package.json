@@ -1,0 +1,45 @@
+{
+  "name": "@elide/trpc-clone",
+  "version": "1.0.0",
+  "description": "End-to-end typesafe APIs with full TypeScript inference from server to client",
+  "main": "src/server/init.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "elide run examples/fullstack-example.ts",
+    "build": "elide build",
+    "test": "elide test",
+    "lint": "elide lint"
+  },
+  "keywords": [
+    "trpc",
+    "typescript",
+    "api",
+    "typesafe",
+    "rpc",
+    "elide",
+    "router",
+    "procedures",
+    "middleware",
+    "client"
+  ],
+  "author": "Elide",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "typescript": "latest"
+  },
+  "exports": {
+    ".": "./src/server/init.ts",
+    "./client": "./src/client/client.ts",
+    "./server": "./src/server/init.ts",
+    "./router": "./src/server/router.ts",
+    "./procedure": "./src/server/procedure.ts",
+    "./middleware": "./src/server/middleware.ts",
+    "./adapters/standalone": "./src/server/adapters/standalone.ts",
+    "./observable": "./src/server/observable.ts",
+    "./types": "./src/server/types.ts"
+  }
+}

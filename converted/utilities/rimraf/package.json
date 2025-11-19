@@ -1,0 +1,20 @@
+{
+  "name": "@elide/rimraf",
+  "version": "1.0.0",
+  "description": "rimraf for Elide",
+  "main": "rimraf.ts",
+  "type": "module",
+  "keywords": ["elide", "rimraf", "rm", "remove", "fs"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "rimraf",
+    "downloads": "16M/week",
+    "url": "https://www.npmjs.com/package/rimraf"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": false,
+    "note": "Requires Elide file system APIs"
+  }
+}

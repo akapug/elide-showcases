@@ -1,0 +1,35 @@
+{
+  "name": "@elide/playwright-clone",
+  "version": "1.0.0",
+  "description": "Reliable end-to-end testing for modern web apps on Elide",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "playwright": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "elide build",
+    "test": "elide playwright test",
+    "test:headed": "elide playwright test --headed",
+    "test:ui": "elide playwright test --ui",
+    "codegen": "elide playwright codegen",
+    "show-report": "elide playwright show-report"
+  },
+  "keywords": [
+    "elide",
+    "playwright",
+    "e2e",
+    "testing",
+    "automation",
+    "browser",
+    "chromium",
+    "firefox",
+    "webkit",
+    "cross-browser"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "dependencies": {
+    "@elide/runtime": "^1.0.0-beta11"
+  }
+}

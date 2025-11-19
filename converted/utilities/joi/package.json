@@ -1,0 +1,19 @@
+{
+  "name": "@elide/joi",
+  "version": "1.0.0",
+  "description": "Joi validation library for Elide",
+  "main": "joi.ts",
+  "type": "module",
+  "keywords": ["elide", "joi", "validation", "schema"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "joi",
+    "downloads": "12M/week",
+    "url": "https://www.npmjs.com/package/joi"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": true
+  }
+}

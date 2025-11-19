@@ -35,6 +35,16 @@ Not all 3,009 projects equally showcase Elide. We've systematically categorized 
 
 **These 109 elite projects fundamentally leverage what makes Elide special - things impossible or impractical on traditional runtimes.**
 
+### 🔍 **[→ Browse All 173 Showcases by Category](SHOWCASE_INDEX.md)**
+
+**Quick Links:**
+- [🌟 Featured Production-Ready Showcases](SHOWCASE_INDEX.md#-featured-showcases-production-ready)
+- [🤖 AI/ML Showcases (27)](SHOWCASE_INDEX.md#-aiml-27-showcases)
+- [📊 Data Pipeline Showcases (16)](SHOWCASE_INDEX.md#-data-pipelines-16-showcases)
+- [🌐 API & Web Services (25+)](SHOWCASE_INDEX.md#-api--web-services-25-showcases)
+- [🎯 Browse by Use Case](SHOWCASE_INDEX.md#-browse-by-use-case)
+- [📚 Browse by Difficulty](SHOWCASE_INDEX.md#-browse-by-difficulty)
+
 ### 🌐 THE Flagship: True Polyglot Integration
 - **`flask-typescript-polyglot/`** 🏆 - Python Flask + TypeScript in ONE process
   - <1ms cross-language function calls (vs seconds of HTTP/gRPC overhead)

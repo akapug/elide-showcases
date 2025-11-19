@@ -446,7 +446,7 @@ Aggregates time spent in each service for capacity planning.
 ## Running the System
 
 ```bash
-elide run server.ts
+elide serve server.ts
 ```
 
 The distributed tracing system will start on `http://localhost:3000`.

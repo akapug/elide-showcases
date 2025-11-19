@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="{{site.lang}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{post.title}} - {{site.title}}</title>
+  <meta name="description" content="{{post.meta_description}}">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{post.og_title}}">
+  <meta property="og:description" content="{{post.og_description}}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{url post.slug}}">
+  {{#if post.og_image}}
+    <meta property="og:image" content="{{post.og_image}}">
+  {{/if}}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{post.twitter_title}}">
+  <meta name="twitter:description" content="{{post.twitter_description}}">
+  {{#if post.twitter_image}}
+    <meta name="twitter:image" content="{{post.twitter_image}}">
+  {{/if}}
+
+  <link rel="stylesheet" href="{{asset 'css/style.css'}}">
+  <link rel="canonical" href="{{url post.slug}}">
+  <link rel="amphtml" href="/amp/{{post.slug}}">
+
+  {{#if site.icon}}
+    <link rel="icon" href="{{site.icon}}">
+  {{/if}}
+
+  {{{post.codeinjection_head}}}
+</head>
+<body class="post-template">
+  {{> header}}
+
+  <main class="site-main">
+    <article class="post">
+      <header class="post-header">
+        <div class="container">
+          {{#if post.tags}}
+            <div class="post-tags">
+              {{#each post.tags}}
+                <a href="/tag/{{slug}}" class="tag">{{name}}</a>
+              {{/each}}
+            </div>
+          {{/if}}
+
+          <h1 class="post-title">{{post.title}}</h1>
+
+          {{#if post.custom_excerpt}}
+            <p class="post-excerpt">{{post.custom_excerpt}}</p>
+          {{/if}}
+
+          <div class="post-meta">
+            <div class="post-author">
+              {{#if post.author.profile_image}}
+                <img src="{{post.author.profile_image}}" alt="{{post.author.name}}">
+              {{/if}}
+              <div>
+                <a href="/author/{{post.author.slug}}">{{post.author.name}}</a>
+                {{#if post.author.bio}}
+                  <p>{{post.author.bio}}</p>
+                {{/if}}
+              </div>
+            </div>
+
+            <time datetime="{{date post.published_at format='iso'}}">
+              {{date post.published_at format='long'}}
+            </time>
+          </div>
+        </div>
+      </header>
+
+      {{#if post.feature_image}}
+        <div class="post-image">
+          <img src="{{post.feature_image}}" alt="{{post.title}}">
+        </div>
+      {{/if}}
+
+      <div class="post-content container">
+        {{{post.html}}}
+      </div>
+
+      <footer class="post-footer container">
+        <div class="post-share">
+          <h4>Share this post</h4>
+          <a href="https://twitter.com/intent/tweet?text={{post.title}}&url={{url post.slug}}" target="_blank" rel="noopener">Twitter</a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{url post.slug}}" target="_blank" rel="noopener">Facebook</a>
+        </div>
+
+        {{#if post.tags}}
+          <div class="post-tags-list">
+            <h4>Tagged with</h4>
+            {{#each post.tags}}
+              <a href="/tag/{{slug}}">{{name}}</a>
+            {{/each}}
+          </div>
+        {{/if}}
+      </footer>
+    </article>
+  </main>
+
+  {{> footer}}
+
+  <script src="{{asset 'js/main.js'}}"></script>
+  {{{post.codeinjection_foot}}}
+</body>
+</html>

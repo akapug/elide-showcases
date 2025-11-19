@@ -1,0 +1,31 @@
+{
+  "name": "@elide/kubernetes-operator-clone",
+  "version": "1.0.0",
+  "description": "Production-ready Kubernetes operator framework for Elide",
+  "main": "operator.ts",
+  "scripts": {
+    "start": "elide run operator.ts",
+    "test": "elide test tests/**/*.test.ts",
+    "build": "gradle build",
+    "lint": "eslint operator.ts"
+  },
+  "keywords": [
+    "elide",
+    "kubernetes",
+    "operator",
+    "controller",
+    "crd",
+    "k8s",
+    "devops"
+  ],
+  "author": "Elide Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@jest/globals": "^29.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "elide": ">=1.0.0"
+  }
+}

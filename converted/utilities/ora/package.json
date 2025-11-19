@@ -1,0 +1,19 @@
+{
+  "name": "@elide/ora",
+  "version": "1.0.0",
+  "description": "Ora spinner for Elide",
+  "main": "ora.ts",
+  "type": "module",
+  "keywords": ["elide", "ora", "spinner", "loading", "cli"],
+  "author": "Elide Team",
+  "license": "MIT",
+  "npm": {
+    "original": "ora",
+    "downloads": "10M/week",
+    "url": "https://www.npmjs.com/package/ora"
+  },
+  "elide": {
+    "polyglot": true,
+    "ready": true
+  }
+}
