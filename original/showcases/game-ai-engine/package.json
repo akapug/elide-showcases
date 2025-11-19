@@ -1,0 +1,51 @@
+{
+  "name": "@elide-showcases/game-ai-engine",
+  "version": "1.0.0",
+  "description": "Game AI with Python ML libraries in TypeScript",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "elide run src/index.ts",
+    "demo:training": "elide run examples/train-agent.ts",
+    "demo:pathfinding": "elide run examples/pathfinding-demo.ts",
+    "demo:behavior": "elide run examples/behavior-tree-demo.ts",
+    "demo:rts": "elide run examples/rts-game-demo.ts",
+    "demo:fps": "elide run examples/fps-bot-demo.ts",
+    "benchmark": "elide run benchmarks/benchmark.ts",
+    "test": "elide test src/**/*.test.ts"
+  },
+  "keywords": [
+    "elide",
+    "polyglot",
+    "game-ai",
+    "reinforcement-learning",
+    "tensorflow",
+    "pytorch",
+    "scikit-learn",
+    "pathfinding",
+    "behavior-trees"
+  ],
+  "author": "Elide Showcases",
+  "license": "MIT",
+  "dependencies": {
+    "python:tensorflow": "*",
+    "python:torch": "*",
+    "python:sklearn": "*",
+    "python:numpy": "*",
+    "python:scipy": "*",
+    "python:gym": "*"
+  },
+  "elide": {
+    "python": {
+      "version": "3.11",
+      "packages": [
+        "tensorflow",
+        "torch",
+        "scikit-learn",
+        "numpy",
+        "scipy",
+        "gym"
+      ]
+    }
+  }
+}
